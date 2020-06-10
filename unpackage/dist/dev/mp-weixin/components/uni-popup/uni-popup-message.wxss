@@ -1,0 +1,245 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.uni-popup-message.data-v-ffc216c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.uni-popup-message .uni-popup-message-text.data-v-ffc216c2 {
+  width: 639.58rpx;
+  height: 821.52rpx;
+  background-color: #f9ba59;
+  font-size: 14px;
+  border-radius: 50rpx;
+  background-image: -webkit-linear-gradient(top, #fed353, #ea9b70);
+  background-image: linear-gradient(to bottom, #fed353, #ea9b70);
+  position: relative;
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  overflow: hidden;
+}
+.uni-popup-message .uni-popup-message-text .head.data-v-ffc216c2 {
+  box-sizing: border-box;
+  width: 80%;
+  height: 100rpx;
+  color: #822c37;
+  font-size: 40rpx;
+  font-weight: bolder;
+  text-align: center;
+  box-sizing: border-box;
+  margin-bottom: 20rpx;
+  position: relative;
+}
+.uni-popup-message .uni-popup-message-text .head .bg.data-v-ffc216c2 {
+  width: 100%;
+  height: 333rpx;
+  background-color: #fed353;
+  border-radius: 50%;
+  position: absolute;
+  top: -203rpx;
+  box-shadow: 0 8px 5px #e9a631;
+}
+.uni-popup-message .uni-popup-message-text .head .bg .tit.data-v-ffc216c2 {
+  position: absolute;
+  bottom: 49rpx;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+.uni-popup-message .uni-popup-message-text .content.data-v-ffc216c2 {
+  color: white;
+  font-size: 30rpx;
+}
+.uni-popup-message .uni-popup-message-text .btn.data-v-ffc216c2 {
+  width: 181.22rpx;
+  height: 60.66rpx;
+  text-align: center;
+  line-height: 60.66rpx;
+  background-image: -webkit-linear-gradient(top, #ef6a25, #f41c1f);
+  background-image: linear-gradient(to bottom, #ef6a25, #f41c1f);
+  border-radius: 40rpx;
+  color: #db986e;
+  font-size: 36rpx;
+  font-weight: bolder;
+  margin-top: 40rpx;
+}
+.uni-popup-message .ticket.data-v-ffc216c2 {
+  width: 537.5rpx;
+  height: 348.61rpx;
+  box-sizing: border-box;
+}
+.uni-popup-message .ticket .head .bg.data-v-ffc216c2 {
+  top: -233rpx;
+}
+.uni-popup-message .ticket .head .bg .tit.data-v-ffc216c2 {
+  bottom: 29rpx;
+  padding-top: 20rpx;
+}
+.uni-popup-message .ticket .content.data-v-ffc216c2 {
+  font-size: 40rpx;
+  color: #fff3e0;
+}
+.uni-popup-message .ticket .btn.data-v-ffc216c2 {
+  width: 181.22rpx;
+  height: 60.66rpx;
+  border-radius: 40rpx;
+  margin-top: 40rpx;
+}
+.uni-popup-message .user_msg.data-v-ffc216c2 {
+  width: 644.44rpx;
+  height: 722.22rpx;
+  padding-top: 40rpx;
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+}
+.uni-popup-message .user_msg .tit.data-v-ffc216c2 {
+  color: #7f3a35;
+  font-size: 40rpx;
+  font-weight: bolder;
+  width: 100%;
+  -webkit-box-pack: start;
+  -webkit-justify-content: start;
+          justify-content: start;
+  text-align: start;
+  height: 89rpx;
+  background-color: transparent;
+  margin-bottom: 0rpx;
+  box-sizing: border-box;
+  padding-left: 30rpx;
+}
+.uni-popup-message .user_msg .content.data-v-ffc216c2 {
+  width: 100%;
+}
+.uni-popup-message .user_msg .content .input_box.data-v-ffc216c2 {
+  height: 70rpx;
+  background-image: -webkit-linear-gradient(top, #f8c663, #e4a270);
+  background-image: linear-gradient(to bottom, #f8c663, #e4a270);
+  border-radius: 20rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: start;
+  -webkit-justify-content: start;
+          justify-content: start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  box-sizing: border-box;
+  padding-left: 20rpx;
+}
+.uni-popup-message .user_msg .content .input_box input.data-v-ffc216c2 {
+  display: inline-block;
+  height: 32.4rpx;
+  border-radius: 20rpx;
+}
+.uni-popup-message .user_msg .content .input_box image.data-v-ffc216c2 {
+  width: 33rpx;
+  height: 33rpx;
+  margin-right: 13rpx;
+}
+.uni-popup-message .user_msg .content .user_txt.data-v-ffc216c2 {
+  width: 582.63rpx;
+  height: 222.22rpx;
+  background-image: -webkit-linear-gradient(top, #fac663, #e5a172);
+  background-image: linear-gradient(to bottom, #fac663, #e5a172);
+  margin-top: 20rpx;
+  box-sizing: border-box;
+  padding: 10rpx 40rpx 10rpx;
+  border-radius: 30rpx;
+}
+.uni-popup-message .upload .content.data-v-ffc216c2 {
+  width: 214.58rpx;
+  height: 189.58rpx;
+  background-image: -webkit-linear-gradient(top, #fdc453, #f0ac65);
+  background-image: linear-gradient(to bottom, #fdc453, #f0ac65);
+  margin-top: 50rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  border-radius: 23rpx;
+}
+.uni-popup-message .upload .content .cross.data-v-ffc216c2 {
+  background: #fa452a;
+  height: 89.58rpx;
+  position: relative;
+  width: 9.88rpx;
+}
+.uni-popup-message .upload .content .cross.data-v-ffc216c2:after {
+  background-color: #fa452a;
+  content: "";
+  height: 9.88rpx;
+  left: -37.77rpx;
+  position: absolute;
+  top: 39.77rpx;
+  width: 89.58rpx;
+}
+.uni-popup-message .upload .content .con_txt.data-v-ffc216c2 {
+  color: #aa7f5c;
+  margin-top: 17rpx;
+  font-size: 27rpx;
+}
+.uni-popup-message .upload .txt_area.data-v-ffc216c2 {
+  width: 561.11rpx;
+  height: 278.47rpx;
+  background-image: -webkit-linear-gradient(top, #fdc453, #ea9b70);
+  background-image: linear-gradient(to bottom, #fdc453, #ea9b70);
+  margin-top: 20rpx;
+  border-radius: 40rpx;
+  box-sizing: border-box;
+  padding: 30rpx;
+  color: #a77142;
+}
+.uni-popup-message .game .head.data-v-ffc216c2 {
+  margin-bottom: 60rpx;
+}
+

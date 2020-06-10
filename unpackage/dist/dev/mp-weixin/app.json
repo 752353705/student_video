@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "pages/list/list",
+    "pages/index/index",
+    "pages/find/find",
+    "pages/cpt/cpt",
+    "pages/my/my",
+    "pages/reg/reg"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "大学生短视频",
+    "navigationBarBackgroundColor": "#0d0639",
+    "backgroundColor": "#F8F8F8"
+  },
+  "usingComponents": {}
+}

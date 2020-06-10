@@ -1,0 +1,36 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+		      "path" : "pages/list/list",
+		      "style" : {}
+		  },
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "大学生短视频"
+			}
+		}
+        ,{
+            "path" : "pages/find/find",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/cpt/cpt",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/my/my",
+            "style" : {}
+        }
+        ,{
+            "path" : "pages/reg/reg",
+            "style" : {}
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "大学生短视频",
+		"navigationBarBackgroundColor": "#0d0639",
+		"backgroundColor": "#F8F8F8"
+	}
+}
