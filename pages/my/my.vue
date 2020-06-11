@@ -137,7 +137,8 @@
 		},
 		onLoad(){
 			console.log('我的页面')
-			// this.$refs.popup_video.open()	
+			this.$refs.popup_video.open()	
+			// this.$refs.popup_user.open()
 		},
 		methods:{
 			// 进行弹窗的控制
