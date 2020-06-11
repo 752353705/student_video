@@ -2,12 +2,14 @@
 	<view>
 		<view class="my">
 		  <view class="head">
-		    <view class="user_img" />
+		    <view class="user_img" @click="getUserMsg">
+					<image :src=userMsg.userImg mode=""></image>
+				 </view>
 		    <view class="user_name">
-		      沈博然
+		      {{userMsg.userName || '昵称' }}
 		    </view>
 		    <view class="user_id">
-		      ID：123468789684
+		      ID：{{ '暂无' }}
 		    </view>
 		  </view>
 		
@@ -123,7 +125,8 @@
 					{icon:"../../static/my_exit.png",txt:'退出登录'}
 				],
 				tic_num:3,
-				m_active:4
+				m_active:4,
+				userMsg:''
 			};
 		},
 		components:{
@@ -137,6 +140,7 @@
 			// this.$refs.popup_video.open()	
 		},
 		methods:{
+			// 进行弹窗的控制
 			open(num){
 				if(num === 9){
 					this.$refs.popup_video.open()
@@ -144,12 +148,75 @@
 					this.$refs.popup_user.open()
 				}
 			},
-			
 			close(num){
 				this.$refs.popup_user.close()
 				this.$refs.popup_video.close()
+			},
+			// 获取用户的信息
+			getUserMsg(){
+				let _this = this
+				// 获取用户信息
+				uni.getUserInfo({
+				    // 获取信息成功
+				    success(res) {
+				        console.log('请求成功',res);
+								// 获取个人昵称、头像、ID
+								let userMsg = {
+									userName:res.userInfo.nickName,
+									userImg:res.userInfo.avatarUrl
+								}
+								
+								_this.userMsg = userMsg
+								
+								// 进行本地存储
+								uni.setStorage({
+								    key: 'userMsg',
+								    data: JSON.stringify(userMsg),
+								    success: function () {
+								        console.log('success');
+								    }
+								});
+								
+				        // 成功后进行登录,获取code
+				        uni.login({
+				          success (res) {
+				             console.log('成功登录',res);
+				            if (res.code) {
+				              //发起网络请求 请求个人信息
+				              // uni.request({
+				              //   // 请求路径
+				              //   url: 'https://test.com/onLogin',  
+				              //   // 请求参数code
+				              //   data: {
+				              //     code: res.code
+				              //   },
+				              //   method: 'GET',
+				              //   success(res){
+				              //       // 请求成功后获取openid和session_key
+				              //       console.log(res)
+				              //   }
+				              // })
+				            } else {
+				              console.log('登录失败！' + res.errMsg)
+				            }
+				          }
+				        })
+				    },
+				    fail() {
+				        console.log("获取用户信息失败");
+				    }
+				})
+				
+				// uni.login({
+				// 	provider: 'weixin',
+				//   success: function (loginRes) {
+				//     console.log('登陆成功',loginRes);
+				//   },
+				// 	fail:function (err){
+				// 		console.log('登录失败',err)
+				// 	}
+				// });
 			}
-			
 		}
 	}
 </script>
@@ -195,6 +262,11 @@
 	      height: 120rpx;
 	      background-color: white;
 	      border-radius: 50%;
+				image{
+					width: 100%;
+					height: 100%;
+					border-radius: 50%;
+				}
 	    }
 	    .user_name{
 	      margin-top: 20rpx;
