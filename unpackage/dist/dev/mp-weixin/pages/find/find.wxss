@@ -30,6 +30,18 @@
   color: #453a74;
   margin-bottom: 20rpx;
 }
+.find .serach image {
+  width: 40rpx;
+  height: 40rpx ;
+  float: right;
+  -webkit-transform: translateY(50%);
+          transform: translateY(50%);
+  margin-right: 30rpx;
+}
+.find .list {
+  box-sizing: border-box;
+  padding-bottom: 100rpx;
+}
 .find .list .list_item {
   width: 100% ;
   height: 820rpx;
@@ -68,7 +80,10 @@
 .find .list .list_item .body {
   width: 100%;
   height: 540rpx;
-  background-color: red;
+}
+.find .list .list_item .body #myVideo {
+  width: 100%;
+  height: 100%;
 }
 .find .list .list_item .foot {
   width: 100%;

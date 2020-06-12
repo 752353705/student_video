@@ -8,14 +8,17 @@
 		<!-- 表单 -->
 		<form class="form" @submit="formSubmit" @reset="formReset">          
 			<view class="phone">
-				
-				<view class="icon">图标</view>
-				<input name="phone" placeholder="手机号">
+				<view class="icon">
+					<image src="../../static/phoneNum.png" mode=""></image>
+				</view>
+				<input name="phone" placeholder="手机号" maxlength="11">
 				</input>
 			</view>
 			<view class="password">
-				<view class="icon">图标</view>
-				<input name="pw" placeholder="密码"/>
+				<view class="icon">
+					<image src="../../static/pw.png" mode=""></image>
+				</view>
+				<input name="pw" placeholder="密码" password="true" />
 			</view>
 			<view class="t_c txt">忘记密码？</view>
 			<button form-type="submit">立即登录</button>
@@ -40,6 +43,19 @@
 					// 		content: '表单数据内容：' + JSON.stringify(formdata),
 					// 		showCancel: false
 					// });
+					
+					// 进行用户填写信息判断，诱导用户进行正确的信息填写
+					if(e.detail.value.phone !== 11){
+						return  uni.showToast({
+											title: '请输入正确手机号',
+											icon: 'none',
+											duration: 2000
+										})
+					}
+					// 注意对立即登录按钮 点击进行防抖节流 处理防止用户多次点击
+					
+					//进行用户个人信息的提交
+					 
 			},
 			formReset: function(e) {
 					console.log('清空数据')
@@ -82,15 +98,26 @@
 				height: 75.69rpx;
 				display: flex;
 				justify-content: start;
+				align-items: center;
 				margin-bottom: 37rpx;
 				box-sizing: border-box;
 				padding-left: 17px;
 				padding-top: 6px;
 				background-color: #311a8e;
 				border-radius: 20rpx;
+				input{
+					width: 100%;
+					height: 100%;
+				}
 			}
 			.icon{
 				margin-right: 10rpx;
+				width: 40rpx;
+				height:40rpx;
+				image{
+					width:100%;
+					height:100%;
+				}
 			}
 			button{
 				height: 80.86rpx;

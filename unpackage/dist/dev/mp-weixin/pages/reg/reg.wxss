@@ -45,6 +45,9 @@
   -webkit-box-pack: start;
   -webkit-justify-content: start;
           justify-content: start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
   margin-bottom: 37rpx;
   box-sizing: border-box;
   padding-left: 17px;
@@ -52,8 +55,19 @@
   background-color: #311a8e;
   border-radius: 20rpx;
 }
+.reg .form .phone input,
+.reg .form .password input {
+  width: 100%;
+  height: 100%;
+}
 .reg .form .icon {
   margin-right: 10rpx;
+  width: 40rpx;
+  height: 40rpx;
+}
+.reg .form .icon image {
+  width: 100%;
+  height: 100%;
 }
 .reg .form button {
   height: 80.86rpx;

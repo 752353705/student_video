@@ -37,9 +37,10 @@
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
           flex-direction: column;
-  padding-top: 40rpx;
+  box-sizing: border-box;
+  padding-top: 64rpx;
   width: 750rpx;
-  height: 303.47rpx;
+  height: 310.47rpx;
   border: 1px solid black;
   background-image: -webkit-linear-gradient(left, #3d1c9e, #7255a5);
   background-image: linear-gradient(to right, #3d1c9e, #7255a5);
@@ -173,10 +174,13 @@
   box-sizing: border-box;
   padding-top: 25rpx;
 }
-.my .content .video_list .video_item .img {
-  background-color: red;
+.my .content .video_list .video_item .video_box {
   height: 227rpx;
   width: 100%;
+}
+.my .content .video_list .video_item .video_box #myVideo {
+  width: 100%;
+  height: 100%;
 }
 .my .content .video_list .video_item .msg {
   display: -webkit-box;

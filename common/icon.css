@@ -196,9 +196,16 @@
 }
 
 .uni-icon-plus-filled:before {
+	width: 60rpx;
+	height: 60rpx;
 	content: '\e439';
 	color: #fce945;
-	/* background-color: #11084b; */
+	background-color: #110847;
+	border-radius: 50%;
+	box-sizing: border-box;
+	padding: 26rpx;
+	padding-top: 11rpx;
+
 }
 
 .uni-icon-minus-filled:before {

@@ -1,31 +1,45 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-		      "path" : "pages/list/list",
-		      "style" : {}
-		  },
+			"path" : "pages/list/list",
+			"style" : {
+				"navigationStyle":"custom",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 200
+			}
+		},
 		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "大学生短视频"
 			}
-		}
-        ,{
-            "path" : "pages/find/find",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/cpt/cpt",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/my/my",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/reg/reg",
-            "style" : {}
-        }
+		},
+		{
+			"path" : "pages/find/find",
+			"style" : {
+				"navigationBarTitleText": "搜索作品",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 200
+			}
+		},
+		{
+			"path" : "pages/cpt/cpt",
+			"style" : {
+				"navigationBarTitleText": "合作赞助",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 200
+			}
+    },
+		{
+			"path" : "pages/my/my",
+			"style" : {
+				"navigationStyle":"custom"
+			}
+    },
+		{
+			"path" : "pages/reg/reg",
+			"style" : {}
+    }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",

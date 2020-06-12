@@ -2,21 +2,20 @@
 	<view>
 		<view class="my">
 		  <view class="head">
-		    <view class="user_img" @click="getUserMsg">
+		    <view class="user_img" @click="jump">
 					<image :src=userMsg.userImg mode=""></image>
 				 </view>
 		    <view class="user_name">
 		      {{userMsg.userName || '昵称' }}
 		    </view>
 		    <view class="user_id">
-		      ID：{{ '暂无' }}
+		      ID：{{ userMsg.user_id || '暂无' }}
 		    </view>
 		  </view>
 		
 		  <view class="content">
 		    <view class="list">
 		      <view 
-						 
 						v-for="(item,index) in list" 
 						:key="index"
 						@click="open(index)"
@@ -52,8 +51,14 @@
 		    <view class="video_list"> 
 		      <!--存在视频  循环渲染-->
 		      <view class="video_item">
-		        <view class="img">
-		          图片
+		        <view class="video_box">
+		          <!-- 视频 -->
+							<video id="myVideo" src="https://videocdn.taobao.com/oss/ali-video/d6bc4ae3eb3c866bee9903d47d1210c6/video.mp4"
+							   @error="videoErrorCallback" 
+								 :danmu-list="danmuList" 
+								 enable-danmu danmu-btn controls
+							>
+							</video>
 		        </view>
 		
 		        <view class="msg">
@@ -81,7 +86,7 @@
 		      <view class="push_video" @click="open(9)">
 						<view class="cross" />
 						<view class="txt">
-							上传图片
+							上传短视频
 						</view>
 		      </view>
 		    </view>
@@ -116,6 +121,8 @@
 	import uniPopup from '../../components/uni-popup/uni-popup.vue'
 	import uniPopupMessage from '../../components/uni-popup/uni-popup-message.vue'
 	import uniPopupDialog from '../../components/uni-popup/uni-popup-dialog.vue'
+	
+
 	export default {
 		data() {
 			return {
@@ -126,7 +133,20 @@
 				],
 				tic_num:3,
 				m_active:4,
-				userMsg:''
+				userMsg:'',
+				src: '',
+				danmuList: [{
+								text: '第 1s 出现的弹幕',
+								color: '#ff0000',
+								time: 1
+						},
+						{
+								text: '第 3s 出现的弹幕',
+								color: '#ff00ff',
+								time: 3
+						}
+				],
+				danmuValue: ''
 			};
 		},
 		components:{
@@ -153,7 +173,9 @@
 				this.$refs.popup_user.close()
 				this.$refs.popup_video.close()
 			},
-			// 获取用户的信息
+			
+			// 获取用户的信息  暂时用不到，
+			// 逻辑：跳转到手机登录页面，进行登录然后将返回的信息进行本地存储，在my 页面再次显示时，获取信息
 			getUserMsg(){
 				let _this = this
 				// 获取用户信息
@@ -166,9 +188,7 @@
 									userName:res.userInfo.nickName,
 									userImg:res.userInfo.avatarUrl
 								}
-								
 								_this.userMsg = userMsg
-								
 								// 进行本地存储
 								uni.setStorage({
 								    key: 'userMsg',
@@ -177,7 +197,6 @@
 								        console.log('success');
 								    }
 								});
-								
 				        // 成功后进行登录,获取code
 				        uni.login({
 				          success (res) {
@@ -207,17 +226,41 @@
 				        console.log("获取用户信息失败");
 				    }
 				})
-				
-				// uni.login({
-				// 	provider: 'weixin',
-				//   success: function (loginRes) {
-				//     console.log('登陆成功',loginRes);
-				//   },
-				// 	fail:function (err){
-				// 		console.log('登录失败',err)
-				// 	}
-				// });
+			},
+		
+			// 跳转到注册页
+			jump(){
+				console.log('跳转页面')
+				uni.navigateTo({
+				    url: "/pages/reg/reg"
+				});
+			},
+			
+			// 控制视频组件
+			sendDanmu: function() {
+					this.videoContext.sendDanmu({
+							text: this.danmuValue,
+							color: this.getRandomColor()
+					});
+					this.danmuValue = '';
+			},
+			videoErrorCallback: function(e) {
+				console.log('err',e.target.errMsg)
+					uni.showModal({
+							content: e.target.errMsg,
+							showCancel: false
+					})
+			},
+			getRandomColor: function() {
+					const rgb = []
+					for (let i = 0; i < 3; ++i) {
+							let color = Math.floor(Math.random() * 256).toString(16)
+							color = color.length == 1 ? '0' + color : color
+							rgb.push(color)
+					}
+					return '#' + rgb.join('')
 			}
+		
 		}
 	}
 </script>
@@ -250,10 +293,11 @@
 	    display: flex;
 	    align-items: center;
 	    flex-direction: column;
-	    padding-top: 40rpx;
+			box-sizing: border-box;
+	    padding-top: 64rpx;
 	    // 花个半圆
 	    width: 750rpx;
-	    height: 303.47rpx;
+	    height: 310.47rpx;
 	    border:1px solid black;
 	    background-image: linear-gradient(to right, #3d1c9e , #7255a5);
 	    border-radius:0 0 750rpx 750rpx ;
@@ -364,10 +408,13 @@
 	        border-radius: 20rpx;
 	        box-sizing: border-box;
 	        padding-top: 25rpx;
-	        .img{
-	          background-color: red;
+	        .video_box{
 	          height: 227rpx;
 	          width: 100%;
+						#myVideo{
+							width: 100%;
+							height: 100%;
+						}
 	        }
 	        .msg{
 	          display: flex;

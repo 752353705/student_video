@@ -3,7 +3,10 @@
 		<view class="find">
 		  <view class="serach">
 		    <span>请搜索选手ID</span>
+				<image src="../../static/search.png" mode=""></image>
 		  </view>
+			
+			
 		  <view class="list">
 				<!-- 当 进行渲染时使用 id作为key  -->
 		    <view class="list_item" v-for="(item,index) in [1,2,3,4,5,6]" :key="index">
@@ -13,15 +16,29 @@
 		        </view>
 		        <view class="user_msg">
 		          <view class="user_name">
-		            沈博然
+		            {{user_name}}
 		          </view>
 		          <view class="user_id">
-		            ID:13214816
+		            ID:{{user_id}}
 		          </view>
 		        </view>
 		      </view>
 		      <view class="body">
-		        图片
+						<!-- 展示拍摄的视频 -->
+		        <!-- 图片 -->
+						<video id="myVideo" src="https://videocdn.taobao.com/oss/ali-video/d6bc4ae3eb3c866bee9903d47d1210c6/video.mp4"
+						   @error="videoErrorCallback" 
+							 :danmu-list="danmuList" 
+							 enable-danmu danmu-btn controls="true"
+							 show-center-play-btn
+							 @play="fillScreen"
+						>
+							<!-- <cover-view class="controls">
+								<cover-image class="img"  src="../../static/head.png" />
+							</cover-view> -->
+						</video>
+						
+						
 		      </view>
 		      <view class="foot">
 		        <view class="foot_cont">
@@ -31,11 +48,11 @@
 		          <view class="left">
 								<image src="../../static/see.png" mode=""></image>
 		            <view class="see">
-									27534
+									{{see_num}}
 		            </view>
 								<image src="../../static/my_vote.png" mode=""></image>
 		            <view class="say">
-		              17928
+		              {{say_num}}
 		            </view>
 		          </view>
 		          <view class="vote"  @click="open">
@@ -69,7 +86,27 @@
 	export default {
 		data() {
 			return {
-				f_active:1
+				f_active:1,
+				// 用户信息
+				user_name:'沈博然',
+				user_id:13214816,
+				// 视频
+				src: '',
+				danmuList: [{
+								text: '第 1s 出现的弹幕',
+								color: '#ff0000',
+								time: 1
+						},
+						{
+								text: '第 3s 出现的弹幕',
+								color: '#ff00ff',
+								time: 3
+						}
+				],
+				danmuValue: '',
+				// 票数
+				see_num:27534,
+				say_num:17928
 			};
 		},
 		components:{
@@ -81,6 +118,18 @@
 		onLoad(){
 			// this.$refs.popup.open()
 		},
+		onReady: function(res) {
+			// #ifndef MP-ALIPAY
+			this.videoContext = uni.createVideoContext('myVideo')
+			// #endif
+		},
+		onPullDownRefresh(){
+			console.log('下拉刷新')
+		},
+		onReachBottom() {
+			console.log('上拉 触底 加载') //分页 请求数据
+			
+		},
 		methods:{
 			// 控制弹窗
 			open(){
@@ -88,8 +137,42 @@
 			},
 			close(){
 				this.$refs.popup.close()
-			}
+			},
 			
+			// 控制视频组件
+		 sendDanmu: function() {
+				console.log('sendDanmu')
+				this.videoContext.sendDanmu({
+						text: this.danmuValue,
+						color: this.getRandomColor()
+				});
+				this.danmuValue = '';
+			},
+			videoErrorCallback: function(e) {
+				console.log('videoErrorCallback')
+				console.log('err',e.target.errMsg)
+					uni.showModal({
+							content: e.target.errMsg,
+							showCancel: false
+					})
+			},
+			getRandomColor: function() {
+					console.log('getRandomColor')
+					const rgb = []
+					for (let i = 0; i < 3; ++i) {
+							let color = Math.floor(Math.random() * 256).toString(16)
+							color = color.length == 1 ? '0' + color : color
+							rgb.push(color)
+					}
+					return '#' + rgb.join('')
+			},
+			fillScreen(){
+				console.log('满屏显示')
+				// 获取 video 上下文 videoContext 对象
+				this.videoContext = uni.createVideoContext('myVideo');
+				// 进入全屏状态
+				this.videoContext.requestFullScreen({direction:0});
+			}
 		}
 	}
 </script>
@@ -121,8 +204,17 @@
 			line-height: 80rpx;
 			color: #453a74;
 			margin-bottom: 20rpx;
+			image{
+				width: 40rpx;
+				height:40rpx ;
+				float: right;
+				transform: translateY(50%);
+				margin-right: 30rpx;
+			}
 		}
 		.list{
+			box-sizing: border-box;
+			padding-bottom: 100rpx;
 			.list_item{
 				width:100% ;
 				height: 820rpx;
@@ -154,7 +246,10 @@
 				.body{
 					width: 100%;
 					height: 540rpx;
-					background-color: red;
+					#myVideo{
+						width: 100%;
+						height: 100%;
+					}
 				}
 				.foot{
 					width: 100%;

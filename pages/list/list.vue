@@ -18,7 +18,10 @@
 			        {{item.num}}
 			      </view>
 			      <view class="name">
-			        {{item.name}}
+							<image :src=item.src mode=""></image>
+			        <view class="">
+			        	{{item.name}}
+			        </view>
 			      </view>
 			    </view>
 			  </view>
@@ -92,9 +95,9 @@
 		data() {
 			return {
 				sum:[
-					{id:'0',name:'参赛人数',num:1020},
-					{id:'1',name:'总投票数',num:27890},
-					{id:'2',name:'总访问量',num:76587}
+					{id:'0',name:'参赛人数',num:1020,src:'../../static/people.png'},
+					{id:'1',name:'总投票数',num:27890,src:'../../static/sum.png'},
+					{id:'2',name:'总访问量',num:76587,src:'../../static/accessNum.png'}
 				],
 				i_active: 0,
 			}
@@ -119,6 +122,13 @@
 			//     uni.hideLoading();
 			// }, 2000);
 		},
+		onPullDownRefresh(){
+			console.log('下拉刷新')
+		},
+		onReachBottom() {
+			console.log('上拉 触底 加载') //分页 请求数据
+			
+		},
 		methods: {
 			// 点击列表中每一项，进行跳转到搜索作品页
 			jumpFind(e){
@@ -128,6 +138,7 @@
 				});
 			},
 			
+			// 控制弹出框
 			open(){
 				this.$refs.popup.open()
 			},
@@ -135,6 +146,9 @@
 			close(){
 				this.$refs.popup.close()
 			}
+			
+			// 触底 分页请求 选手数据
+			
 		}
 	}
 </script>
@@ -156,6 +170,7 @@
 	  box-sizing: border-box;
 	  padding: 37.5rpx;
 	  padding-top: 20rpx;
+		padding-bottom: 100rpx;
 	  .sum{
 	    width: 100%;
 	    height: 100rpx;
@@ -167,14 +182,24 @@
 	    margin-bottom: 20rpx;
 	    .item{
 	      text-align: center;
+				width: 200rpx;
 	      .num{
 	        font-weight: bolder;
 	        color: #ffe34f;
 	        font-size: 42rpx;
 	      }
 	      .name{
+					width: 100%;
 	        color: #c2bdd1;
 	        font-size: 27rpx;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					image{
+						width: 30rpx;
+						height: 30rpx;
+						margin-right: 8rpx;
+					}
 	      }
 	    }
 	  }

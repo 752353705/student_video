@@ -1,4 +1,7 @@
 {
+  "navigationBarTitleText": "合作赞助",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 200,
   "usingComponents": {
     "tabbar": "/components/tabbar"
   }

@@ -37,30 +37,26 @@
 			<view class="tit" >
 				个人资料
 			</view>
-			<view class="content">
-				<view class="input_box">
-					<image src="../../static/gender.png" mode=""></image>
-					<input type="text" value="" placeholder="姓名" />
+			
+			<form @submit="submitUserMsg" @reset="">
+				<view class="content">
+					<view class="input_box">
+						<image src="../../static/gender.png" mode=""></image>
+						<input name="name" type="text" value="" placeholder="姓名" />
+					</view>
+					<view class="input_box">
+						<image src="../../static/signature.png" mode=""></image>
+						<input name="gender" type="text" value="" placeholder="性别"/>
+					</view>
+					<view class="input_box">
+						<image src="../../static/school.png" mode=""></image>
+						<input name="school" type="text" value="" placeholder="学校"/>
+					</view>
+					<textarea name="area" class="user_txt" value="" placeholder="请输入简介" />
 				</view>
-				<view class="input_box">
-					<image src="../../static/signature.png" mode=""></image>
-					<input type="text" value="" placeholder="性别"/>
-				</view>
-				<view class="input_box">
-					<image src="../../static/school.png" mode=""></image>
-					<input type="text" value="" placeholder="学校"/>
-				</view>
-				
-				
-				<view class="user_txt">
-					请输入简介
-				</view>
-			</view>
-			<view class="btn">
-				保存
-			</view>
+				<button class="btn" form-type="submit">保存</button>
+			</form>
 		</view>
-		
 		
 		<!-- 上传作品 -->	
 		<view v-if="pop_type === 'upload'" class="uni-popup-message-text upload" :class="'uni-popup__'+[type]+'-text'">
@@ -71,18 +67,17 @@
 					</view>
 				</view>
 			</view>
-			<view class="content" >
+			
+			<view class="content" @click="getVideo" >
 				<!-- 十字图案 -->
-				<view class="cross" />
+				<view class="cross" ></view>
 				<view class="con_txt">
 					上传视频
 				</view>
-				
 			</view>
-			<view class="txt_area">
-				#输入话题
-			</view>
-			<view class="btn">
+			
+			<textarea name="area" class="txt_area" value="" placeholder="#输入话题" />
+			<view class="btn" @click="submitVideo">
 				发布
 			</view>
 		</view>
@@ -104,7 +99,7 @@
 	 * @property {String} message 消息提示文字
 	 * @property {String} duration 显示时间，设置为 0 则不会自动关闭
 	 */
-	
+	import { _postVideo } from '../../API/_post.js'
 	export default {
 		name: 'UniPopupMessage',
 		props: {
@@ -160,11 +155,31 @@
 			vote(){
 				console.log('投票')
 				uni.showToast({
-						icon:'none',
 				    title: '投票成功',
+						icon:'none',
 						position:'top',
 				    duration: 2000
 				});
+			},
+			//提交个人资料
+			submitUserMsg(e){
+				console.log('个人资料e',e.detail.value)
+			},
+			// 获取本地拍摄的作品
+			getVideo(){
+				console.log('调用接口上传视频')
+				// 调用内部接口获取拍摄的视频
+				
+				_postVideo()
+			},
+			
+			
+			// 进行作品的上传
+			submitVideo(e){
+				console.log('上传作品并发布')
+				
+				
+				
 			}
 		}
 	}
@@ -218,6 +233,7 @@
 			.content{
 				color: white;
 				font-size: 30rpx;
+				box-shadow: 8px 4px 4px #e9a631;
 			}
 			.btn{
 				width: 181.22rpx;
@@ -294,8 +310,10 @@
 					padding-left: 20rpx;
 					input{
 						display: inline-block;
-						height: 32.4rpx;
+						height: 100%;
 						border-radius: 20rpx;
+						width: 100%;
+						// background-color: red;
 					}
 					image{
 						width: 33rpx;
@@ -359,6 +377,7 @@
 				box-sizing: border-box;
 				padding: 30rpx;
 				color: #a77142;
+				box-shadow: 8px 4px 4px #e9a631;
 			}
 		}
 	

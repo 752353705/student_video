@@ -40,6 +40,27 @@
 		components:{
 			tabbar
 		},
+		onLoad() {
+			console.log('首页')
+			// this.$refs.popup.open()
+			
+			// 显示正在加载弹窗
+			// uni.showLoading({
+			//    title: '加载中'
+			// });
+			
+			// // 关闭弹窗
+			// setTimeout(function () {
+			//     uni.hideLoading();
+			// }, 2000);
+		},
+		onPullDownRefresh(){
+			console.log('下拉刷新')
+		},
+		onReachBottom() {
+			console.log('上拉 触底 加载') //分页 请求数据
+			
+		},
 	}
 </script>
 

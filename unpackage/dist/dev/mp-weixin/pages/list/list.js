@@ -106,7 +106,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uniPopup: function() {
-    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 62))
+    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 63))
   }
 }
 var render = function() {
@@ -144,7 +144,10 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var tabbar = function tabbar() {__webpack_require__.e(/*! require.ensure | components/tabbar */ "components/tabbar").then((function () {return resolve(__webpack_require__(/*! ../../components/tabbar.vue */ 71));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopup = function uniPopup() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then((function () {return resolve(__webpack_require__(/*! ../../components/uni-popup/uni-popup.vue */ 62));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopupMessage = function uniPopupMessage() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-message */ "components/uni-popup/uni-popup-message").then((function () {return resolve(__webpack_require__(/*! ../../components/uni-popup/uni-popup-message.vue */ 78));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopupDialog = function uniPopupDialog() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-dialog */ "components/uni-popup/uni-popup-dialog").then((function () {return resolve(__webpack_require__(/*! ../../components/uni-popup/uni-popup-dialog.vue */ 85));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var tabbar = function tabbar() {__webpack_require__.e(/*! require.ensure | components/tabbar */ "components/tabbar").then((function () {return resolve(__webpack_require__(/*! ../../components/tabbar.vue */ 72));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopup = function uniPopup() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then((function () {return resolve(__webpack_require__(/*! ../../components/uni-popup/uni-popup.vue */ 63));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopupMessage = function uniPopupMessage() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup-message */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup-message")]).then((function () {return resolve(__webpack_require__(/*! ../../components/uni-popup/uni-popup-message.vue */ 79));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopupDialog = function uniPopupDialog() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-dialog */ "components/uni-popup/uni-popup-dialog").then((function () {return resolve(__webpack_require__(/*! ../../components/uni-popup/uni-popup-dialog.vue */ 87));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
 
 
 
@@ -238,9 +241,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       sum: [
-      { id: '0', name: '参赛人数', num: 1020 },
-      { id: '1', name: '总投票数', num: 27890 },
-      { id: '2', name: '总访问量', num: 76587 }],
+      { id: '0', name: '参赛人数', num: 1020, src: '../../static/people.png' },
+      { id: '1', name: '总投票数', num: 27890, src: '../../static/sum.png' },
+      { id: '2', name: '总访问量', num: 76587, src: '../../static/accessNum.png' }],
 
       i_active: 0 };
 
@@ -265,6 +268,13 @@ __webpack_require__.r(__webpack_exports__);
     //     uni.hideLoading();
     // }, 2000);
   },
+  onPullDownRefresh: function onPullDownRefresh() {
+    console.log('下拉刷新');
+  },
+  onReachBottom: function onReachBottom() {
+    console.log('上拉 触底 加载'); //分页 请求数据
+
+  },
   methods: {
     // 点击列表中每一项，进行跳转到搜索作品页
     jumpFind: function jumpFind(e) {
@@ -274,13 +284,17 @@ __webpack_require__.r(__webpack_exports__);
 
     },
 
+    // 控制弹出框
     open: function open() {
       this.$refs.popup.open();
     },
 
     close: function close() {
       this.$refs.popup.close();
-    } } };exports.default = _default;
+    }
+
+    // 触底 分页请求 选手数据
+  } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

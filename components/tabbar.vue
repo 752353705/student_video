@@ -61,7 +61,7 @@
 		props:['active'],
 		data() {
 			return {
-				
+				active:0
 			};
 		},
 		components:{
@@ -79,8 +79,11 @@
 			//点击底部的图标进行跳转
 			jump(num){
 				// 根据点击进行改变active
+				if(this.active === num) return  
 				this.active = num
-				//根据 num 跳转不同页面
+				
+				
+				//当点击的和当前的页面不同时 根据 num 跳转不同页面
 				if(num === 0){
 					uni.redirectTo({
 					   url: "/pages/list/list"
@@ -189,7 +192,7 @@
 		border-radius: 50%;
 		font-size: 47px;
 		position: absolute;
-		left: 29.72rpx;
+		left: 8rpx;
 		top: -14.66rpx;
 		text-align: center;
 
