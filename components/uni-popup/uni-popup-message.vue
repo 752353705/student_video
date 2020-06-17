@@ -68,12 +68,17 @@
 				</view>
 			</view>
 			
-			<view class="content" @click="getVideo" >
+			<!-- 没有视频的时候、 -->
+			<view v-if="!video_src"  class="content" @click="getVideo" >
 				<!-- 十字图案 -->
 				<view class="cross" ></view>
 				<view class="con_txt">
 					上传视频
 				</view>
+			</view>
+			<!-- 有视频的时候，显示上传视频的第一帧 -->
+			<view v-else class="content">
+				<image src="http://tmp/touristappid.o6zAJs_XxD5O1isqaB21Mkyb3i-U.43e95KItAYYB19fa8ff106813c79fc566b1ab687d0be.jpg" mode=""></image>
 			</view>
 			
 			<textarea name="area" class="txt_area" value="" placeholder="#输入话题" />
@@ -134,7 +139,9 @@
 		},
 		inject: ['popup'],
 		data() {
-			return {}
+			return {
+				video_src:''
+			}
 		},
 		created() {
 			this.popup.childrenMsg = this
@@ -168,13 +175,41 @@
 			// 获取本地拍摄的作品
 			getVideo(){
 				console.log('调用接口上传视频')
+				let _this = this
 				// 调用内部接口获取拍摄的视频
+				//成功获取本地视频的地址之后，显示视频的第一帧
+				uni.chooseVideo({
+						// maxDuration:, //拍摄视频最长拍摄时间
+						count: 1,
+						sourceType: ['camera', 'album'],
+						success: function (res) {
+							console.log('调取获取视频接口成功res',res,res.thumbTempFilePath)
+							// 视频第一帧  图片
+							_this.video_src = res.thumbTempFilePath
+							
+							
+							uni.showToast({
+									icon:'none',
+							    title: '上传视频成功',
+							    duration: 2000
+							});
+							
+						},
+						
+						fail:function(err){
+							uni.showToast({
+									icon:'none',
+							    title: '上传视频失败',
+							    duration: 2000
+							});
+						},
+						
+				});
 				
-				_postVideo()
 			},
 			
 			
-			// 进行作品的上传
+			//当点击发布之后调取接口 进行作品的上传
 			submitVideo(e){
 				console.log('上传作品并发布')
 				
@@ -266,6 +301,7 @@
 			.content{
 				font-size: 40rpx;
 				color: #fff3e0;
+				box-shadow: none;
 			}
 			.btn{
 				width: 181.22rpx;
@@ -299,6 +335,7 @@
 			
 			.content{
 				width: 100%;
+				box-shadow: none;
 				.input_box{
 					height: 70rpx;
 					background-image: linear-gradient(to bottom, #f8c663 , #e4a270);
@@ -346,6 +383,10 @@
 				justify-content: center;
 				align-items: center;
 				border-radius: 23rpx;
+				image{
+					width: 100%;
+					height: 100%;
+				}
 				.cross {
 				  background: #fa452a;
 				  height: 89.58rpx;
@@ -385,6 +426,9 @@
 		.game{
 			.head{
 				margin-bottom: 60rpx;
+			}
+			.content{
+				box-shadow: none;
 			}
 		}
 	

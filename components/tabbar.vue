@@ -61,7 +61,7 @@
 		props:['active'],
 		data() {
 			return {
-				active:0
+				
 			};
 		},
 		components:{

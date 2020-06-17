@@ -3,7 +3,7 @@
 		<view class="find">
 		  <view class="serach">
 		    <span>请搜索选手ID</span>
-				<image src="../../static/search.png" mode=""></image>
+				<image src="/static/search.png" mode=""></image>
 		  </view>
 			
 			
@@ -26,10 +26,13 @@
 		      <view class="body">
 						<!-- 展示拍摄的视频 -->
 		        <!-- 图片 -->
-						<video id="myVideo" src="https://videocdn.taobao.com/oss/ali-video/d6bc4ae3eb3c866bee9903d47d1210c6/video.mp4"
+						<video id="myVideo" 
+							src="https://vdept.bdstatic.com/72784e496c73526a7533676b6b566a6d/3847447a79344535/46d4e9c8758751cb49c893f877e418c838dd8058ad86a0b85c64a3cf3c899dc5439424d4f82c963b71a5213255a508b5.mp4?auth_key=1592274925-0-0-df7d5895859199f09bb47de43b415708"
 						   @error="videoErrorCallback" 
 							 :danmu-list="danmuList" 
-							 enable-danmu danmu-btn controls="true"
+							 enable-danmu danmu-btn 
+							 :controls="false"
+							 :show-center-play-btn="false"
 							 show-center-play-btn
 							 @play="fillScreen"
 						>
@@ -46,11 +49,11 @@
 		        </view>
 		        <view class="foot_msg">
 		          <view class="left">
-								<image src="../../static/see.png" mode=""></image>
+								<image src="/static/see.png" mode=""></image>
 		            <view class="see">
 									{{see_num}}
 		            </view>
-								<image src="../../static/my_vote.png" mode=""></image>
+								<image src="/static/my_vote.png" mode=""></image>
 		            <view class="say">
 		              {{say_num}}
 		            </view>
@@ -68,7 +71,7 @@
 		<uni-popup class="pop" animation="false" ref="popup" type="center" mask-click="false">
 			<uni-popup-message type="success" pop_type="ticket" message="成功消息" duration="0" />
 			<view class="imgBox">
-				<image class="img" src="../../static/close.png" mode="" @click="close"></image>
+				<image class="img" src="/static/close.png" mode="" @click="close"></image>
 			</view>
 		</uni-popup>
 		
@@ -79,10 +82,6 @@
 </template>
 
 <script>
-	import tabbar from '../../components/tabbar.vue'
-	import uniPopup from '../../components/uni-popup/uni-popup.vue'
-	import uniPopupMessage from '../../components/uni-popup/uni-popup-message.vue'
-	import uniPopupDialog from '../../components/uni-popup/uni-popup-dialog.vue'
 	export default {
 		data() {
 			return {
@@ -110,10 +109,7 @@
 			};
 		},
 		components:{
-			tabbar,
-			uniPopup,
-			uniPopupMessage,
-			uniPopupDialog
+			
 		},
 		onLoad(){
 			// this.$refs.popup.open()
@@ -247,8 +243,8 @@
 					width: 100%;
 					height: 540rpx;
 					#myVideo{
-						width: 100%;
-						height: 100%;
+						width: 345.2px;
+						height: 247px;
 					}
 				}
 				.foot{

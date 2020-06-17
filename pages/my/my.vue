@@ -30,7 +30,7 @@
 		          </view>
 		        </view>
 		        <view class="right">
-		          <image v-if="index!=1" src="../../static/right.png" mode=""></image>
+		          <image v-if="index!=1" src="/static/right.png" mode=""></image>
 		          <view class="tic" v-else>
 								{{tic_num}}票
 							</view>
@@ -40,7 +40,7 @@
 		
 		    <view class="title">
 		      <view class="title_icon">
-		        <image src="../../static/my_video.png" mode=""></image>
+		        <image src="/static/my_video.png" mode=""></image>
 		      </view>
 		      <view>
 		        我的视频
@@ -53,10 +53,13 @@
 		      <view class="video_item">
 		        <view class="video_box">
 		          <!-- 视频 -->
-							<video id="myVideo" src="https://videocdn.taobao.com/oss/ali-video/d6bc4ae3eb3c866bee9903d47d1210c6/video.mp4"
-							   @error="videoErrorCallback" 
-								 :danmu-list="danmuList" 
-								 enable-danmu danmu-btn controls
+							<video id="myVideo"
+								src="https://vdept.bdstatic.com/72784e496c73526a7533676b6b566a6d/3847447a79344535/46d4e9c8758751cb49c893f877e418c838dd8058ad86a0b85c64a3cf3c899dc5439424d4f82c963b71a5213255a508b5.mp4?auth_key=1592274925-0-0-df7d5895859199f09bb47de43b415708"
+								@error="videoErrorCallback" 
+								:danmu-list="danmuList" 
+								enable-danmu danmu-btn
+								:controls="false"
+								:show-center-play-btn="false"
 							>
 							</video>
 		        </view>
@@ -64,7 +67,7 @@
 		        <view class="msg">
 		          <view class="see">
 		            <view class="see_icon">
-		              <image src="../../static/see.png" mode=""></image>
+		              <image src="/static/see.png" mode=""></image>
 		            </view>
 		            <view>
 		              27534
@@ -72,7 +75,7 @@
 		          </view>
 		          <view class="say">
 		            <view class="say_icon">
-		              <image src="../../static/my_vote.png" mode=""></image>
+		              <image src="/static/my_vote.png" mode=""></image>
 		            </view>
 		            <view>
 		              17928
@@ -98,7 +101,7 @@
 		<uni-popup class="pop" animation="false" ref="popup_user" type="center" mask-click="false">
 			<uni-popup-message type="success" pop_type="user_msg" message="成功消息" duration="0" />
 			<view class="imgBox">
-				<image class="img" src="../../static/close.png" mode="" @click="close"></image>
+				<image class="img" src="/static/close.png" mode="" @click="close"></image>
 			</view>
 		</uni-popup>
 		
@@ -107,7 +110,7 @@
 		<uni-popup class="pop" animation="false" ref="popup_video" type="center" mask-click="false">
 			<uni-popup-message type="success" pop_type="upload" message="成功消息" duration="0" />
 			<view class="imgBox">
-				<image class="img" src="../../static/close.png" mode="" @click="close"></image>
+				<image class="img" src="/static/close.png" mode="" @click="close"></image>
 			</view>
 		</uni-popup>
 		
@@ -117,47 +120,40 @@
 </template>
 
 <script>
-	import tabbar from '../../components/tabbar.vue'
-	import uniPopup from '../../components/uni-popup/uni-popup.vue'
-	import uniPopupMessage from '../../components/uni-popup/uni-popup-message.vue'
-	import uniPopupDialog from '../../components/uni-popup/uni-popup-dialog.vue'
-	
 
 	export default {
 		data() {
 			return {
 				list:[
-					{icon:"../../static/my_use.png",txt:'个人资料'},
-					{icon:"../../static/my_ticket.png",txt:'剩余票数（每日限投3票）'},
-					{icon:"../../static/my_exit.png",txt:'退出登录'}
+					{icon:"/static/my_use.png",txt:'个人资料'},
+					{icon:"/static/my_ticket.png",txt:'剩余票数（每日限投3票）'},
+					{icon:"/static/my_exit.png",txt:'退出登录'}
 				],
 				tic_num:3,
 				m_active:4,
 				userMsg:'',
 				src: '',
-				danmuList: [{
-								text: '第 1s 出现的弹幕',
-								color: '#ff0000',
-								time: 1
+				danmuList: [
+						{
+							text: '第 1s 出现的弹幕',
+							color: '#ff0000',
+							time: 1
 						},
 						{
-								text: '第 3s 出现的弹幕',
-								color: '#ff00ff',
-								time: 3
+							text: '第 3s 出现的弹幕',
+							color: '#ff00ff',
+							time: 3
 						}
 				],
 				danmuValue: ''
 			};
 		},
 		components:{
-			tabbar,
-			uniPopup,
-			uniPopupMessage,
-			uniPopupDialog
+		
 		},
 		onLoad(){
 			console.log('我的页面')
-			this.$refs.popup_video.open()	
+			// this.$refs.popup_video.open()	
 			// this.$refs.popup_user.open()
 		},
 		methods:{
@@ -412,8 +408,8 @@
 	          height: 227rpx;
 	          width: 100%;
 						#myVideo{
-							width: 100%;
-							height: 100%;
+							height: 227rpx;
+							width:314rpx;
 						}
 	        }
 	        .msg{

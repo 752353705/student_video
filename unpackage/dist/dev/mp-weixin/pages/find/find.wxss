@@ -82,8 +82,8 @@
   height: 540rpx;
 }
 .find .list .list_item .body #myVideo {
-  width: 100%;
-  height: 100%;
+  width: 345.2px;
+  height: 247px;
 }
 .find .list .list_item .foot {
   width: 100%;

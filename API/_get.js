@@ -6,23 +6,32 @@ export const _get = function(url, data, success, check_login, msg){
 	   title: '加载中'
 	});
 	
+	// 构造请求参数
+	
+	
 	//构造get请求
 	uni.request({
-		 url: 'https://www.example.com/request', //仅为示例，并非真实接口地址。
-		 data: {
-				 text: 'uni.request'
-		 },
+		 url: url, //仅为示例，并非真实接口地址。
+		 data: data,
 		 header: {
-				 'custom-header': 'hello' //自定义请求头信息
+			'content-type': 'application/json' //自定义请求头信息
 		 },
 		 success: (res) => {
-				 console.log(res.data);
+			if (res.statusCode !== 200 || typeof res.data !== 'object') {
+				if (!msg) {
+					App.showError('网络请求出错');
+				}
+				return false;
+			}
 				 
-				 
-				 
-				 
-				 // 当请求成功后弹框隐藏
-				 uni.hideLoading();
+		 
+			 // 当请求成功后弹框隐藏
+			 uni.hideLoading();
+		 },
+		 fail: () => {
+		 	uni.showLoading({
+		 	   title: '加载中'
+		 	});
 		 }
 	})
 }

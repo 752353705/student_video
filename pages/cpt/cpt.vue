@@ -1,5 +1,5 @@
 <template>
-	<view class="">
+	<view >
 		<view class="cpt">
 		  <view class="item">
 		    <view class="head">
@@ -30,7 +30,6 @@
 </template>
 
 <script>
-	import tabbar from '../../components/tabbar.vue'
 	export default {
 		data() {
 			return {
@@ -38,7 +37,7 @@
 			};
 		},
 		components:{
-			tabbar
+			
 		},
 		onLoad() {
 			console.log('首页')

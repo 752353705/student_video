@@ -179,8 +179,8 @@
   width: 100%;
 }
 .my .content .video_list .video_item .video_box #myVideo {
-  width: 100%;
-  height: 100%;
+  height: 227rpx;
+  width: 314rpx;
 }
 .my .content .video_list .video_item .msg {
   display: -webkit-box;

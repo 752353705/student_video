@@ -1,50 +1,73 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path" : "pages/list/list",
-			"style" : {
-				"navigationStyle":"custom",
-				"enablePullDownRefresh": true,
-				"onReachBottomDistance": 200
-			}
-		},
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "大学生短视频"
-			}
-		},
-		{
-			"path" : "pages/find/find",
-			"style" : {
-				"navigationBarTitleText": "搜索作品",
-				"enablePullDownRefresh": true,
-				"onReachBottomDistance": 200
-			}
-		},
-		{
-			"path" : "pages/cpt/cpt",
-			"style" : {
-				"navigationBarTitleText": "合作赞助",
-				"enablePullDownRefresh": true,
-				"onReachBottomDistance": 200
-			}
-    },
-		{
-			"path" : "pages/my/my",
-			"style" : {
-				"navigationStyle":"custom"
-			}
-    },
-		{
-			"path" : "pages/reg/reg",
-			"style" : {}
-    }
+    "pages" : [
+        //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+        {
+            "path" : "pages/list/list",
+            "style" : {
+                "navigationStyle" : "custom",
+                "enablePullDownRefresh" : true,
+                "onReachBottomDistance" : 200
+            }
+        },
+        {
+            "path" : "pages/testVideo/testVideo",
+            "style" : {}
+        },
+        {
+            "path" : "pages/index/index",
+            "style" : {
+                "navigationBarTitleText" : "大学生短视频"
+            }
+        },
+        {
+            "path" : "pages/find/find",
+            "style" : {
+                "navigationBarTitleText" : "搜索作品",
+                "enablePullDownRefresh" : true,
+                "onReachBottomDistance" : 200
+            }
+        },
+        {
+            "path" : "pages/cpt/cpt",
+            "style" : {
+                "navigationBarTitleText" : "合作赞助",
+                "enablePullDownRefresh" : true,
+                "onReachBottomDistance" : 200
+            }
+        },
+        {
+            "path" : "pages/my/my",
+            "style" : {
+                "navigationStyle" : "custom"
+            }
+        },
+        {
+            "path" : "pages/reg/reg",
+            "style" : {}
+        },
+        {
+            "path" : "pages/playVideo/playVideo",
+            "style" : {
+                "navigationStyle" : "custom",
+								"app-plus":{
+									"subNVues":[{
+											"id":"gift",
+											 "path":"pages/playVideo/gift.nvue",
+											 "style":{
+												 "position":"absolute",
+												 "bottom":"0",
+												 "height":"350px"
+											 },
+											 "type":"popup"
+										}]
+								}
+            }
+        }
     ],
-	"globalStyle": {
-		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "大学生短视频",
-		"navigationBarBackgroundColor": "#0d0639",
-		"backgroundColor": "#F8F8F8"
-	}
+    "globalStyle" : {
+        "navigationBarTextStyle" : "white",
+        "navigationBarTitleText" : "大学生短视频",
+        "navigationBarBackgroundColor" : "#0d0639",
+        "backgroundColor" : "#F8F8F8"
+    }
 }

@@ -119,6 +119,7 @@
 .uni-popup-message .ticket .content.data-v-65d2c55d {
   font-size: 40rpx;
   color: #fff3e0;
+  box-shadow: none;
 }
 .uni-popup-message .ticket .btn.data-v-65d2c55d {
   width: 181.22rpx;
@@ -150,6 +151,7 @@
 }
 .uni-popup-message .user_msg .content.data-v-65d2c55d {
   width: 100%;
+  box-shadow: none;
 }
 .uni-popup-message .user_msg .content .input_box.data-v-65d2c55d {
   height: 70rpx;
@@ -210,6 +212,10 @@
           align-items: center;
   border-radius: 23rpx;
 }
+.uni-popup-message .upload .content image.data-v-65d2c55d {
+  width: 100%;
+  height: 100%;
+}
 .uni-popup-message .upload .content .cross.data-v-65d2c55d {
   background: #fa452a;
   height: 89.58rpx;
@@ -244,5 +250,8 @@
 }
 .uni-popup-message .game .head.data-v-65d2c55d {
   margin-bottom: 60rpx;
+}
+.uni-popup-message .game .content.data-v-65d2c55d {
+  box-shadow: none;
 }
 

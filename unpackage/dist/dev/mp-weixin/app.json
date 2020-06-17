@@ -1,11 +1,13 @@
 {
   "pages": [
     "pages/list/list",
+    "pages/testVideo/testVideo",
     "pages/index/index",
     "pages/find/find",
     "pages/cpt/cpt",
     "pages/my/my",
-    "pages/reg/reg"
+    "pages/reg/reg",
+    "pages/playVideo/playVideo"
   ],
   "subPackages": [],
   "window": {
@@ -14,6 +16,13 @@
     "navigationBarBackgroundColor": "#0d0639",
     "backgroundColor": "#F8F8F8"
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap43.json"
+  "usingComponents": {
+    "tabbar": "/components/tabbar",
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "uni-popup-message": "/components/uni-popup/uni-popup-message",
+    "uni-popup-dialog": "/components/uni-popup/uni-popup-dialog",
+    "uni-popup-share": "/components/uni-popup/uni-popup-share",
+    "uni-popup-comments": "/components/uni-popup/uni-popup-comments",
+    "uni-popup-gifts": "/components/uni-popup/uni-popup-gifts"
+  }
 }

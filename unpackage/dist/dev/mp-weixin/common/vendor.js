@@ -9574,6 +9574,17 @@ internalMixin(Vue);
 
 /***/ }),
 
+/***/ 22:
+/*!*****************************************************!*\
+  !*** D:/myself/work/student_video/static/data.json ***!
+  \*****************************************************/
+/*! exports provided: list, default */
+/***/ (function(module) {
+
+module.exports = {"list":[{"id":1,"image":"https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2534506313,1688529724&fm=26&gp=0.jpg","content":"漫威大电影在美国文化输出中具有典型性，代表性和时事性。"},{"id":2,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469410&di=6bdb6526f0117380db303ac285c94974&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fpic%2Fd%2Fdc%2F0f45274990.jpg","content":"其中《X 战警》系列，《神奇四侠》系"},{"id":3,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469426&di=5707559fd718e43f330ed9f14be75a17&imgtype=0&src=http%3A%2F%2Fpic.soutu123.cn%2Felement_origin_min_pic%2F16%2F09%2F11%2F2057d54d4e4f399.jpg%2521%2Ffw%2F700%2Fquality%2F90%2Funsharp%2Ftrue%2Fcompress%2Ftrue","content":"第一季》登陆美国广播公司，宣告漫威全方位注入"},{"id":4,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469425&di=001b3485550e21458f16d7329c9e622e&imgtype=0&src=http%3A%2F%2Fhbimg.huabanimg.com%2F4b4b2b42a8a147d413c2ea2ffb7fc911b18359e4158c5-gHpSFO_fw658","content":"容过多并没有通过广电总局的审批通过，故本文不对其记性研究。），电视剧 55 集。第 14 部《美国队长第三部--内"},{"id":5,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469424&di=516a27964c81a724d3014bc51363dc23&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F39996d8ac90edaed81917fab6f103a98b26631d1180d4-KJn4HP_fw658","content":"画与漫威电影中人物设定的区别，但都未考虑到电影的制作方式"},{"id":6,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671681615&di=ea4d107c05fabc27d4f7fb7f39f557a5&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201503%2F27%2F20150327181548_LE48G.thumb.400_0.jpeg","content":"类文献中很少考虑电影与漫画的本质区别，不同的艺术载体有着不同的艺术表达方式"},{"id":7,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469436&di=7c9efbe8c2a841bb9809b14cd10e50bb&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20181114%2F03781533510447daa81b588ac75791f9.jpeg","content":"目前为止，仅有的几篇文献多以商业价值角度视"},{"id":8,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469436&di=68c7f9051bbe0d3ebb51b06314c75f19&imgtype=0&src=http%3A%2F%2F2b.zol-img.com.cn%2Fproduct%2F133_501x2000%2F223%2Fce71kpGYA23Lc.jpg","content":"字好莱坞真人版超级英雄改编电影研究》中提到新的电影热潮并不是一触而发的"},{"id":9,"image":"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1692553019,941925969&fm=26&gp=0.jpg","content":"漫威影业的超级英雄电影在 7 年内席卷全球 24.75 亿票房成为史上最卖座的系列电影，"},{"id":10,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469431&di=f93b3aa2cd955f7a25146619dcb61f69&imgtype=0&src=http%3A%2F%2F00imgmini.eastday.com%2Fmobile%2F20181114%2F20181114032555_052f60dc9edc8456b9a7ab6baa1d1043_7.jpeg","content":"《神盾局特工》在整个漫威大电影系列中只起到了辅助作用，在整个漫威大电影系列中的"},{"id":11,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469409&di=f6ed0a0960506e12af88b62e7329142d&imgtype=0&src=http%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F361b2f98c2a56a98731e84759a52170fc670db51.jpg","content":"漫威大电影在美国文化输出中具有典型性，代表性和时事性。"},{"id":12,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469410&di=6bdb6526f0117380db303ac285c94974&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fpic%2Fd%2Fdc%2F0f45274990.jpg","content":"其中《X 战警》系列，《神奇四侠》系"},{"id":13,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469426&di=5707559fd718e43f330ed9f14be75a17&imgtype=0&src=http%3A%2F%2Fpic.soutu123.cn%2Felement_origin_min_pic%2F16%2F09%2F11%2F2057d54d4e4f399.jpg%2521%2Ffw%2F700%2Fquality%2F90%2Funsharp%2Ftrue%2Fcompress%2Ftrue","content":"第一季》登陆美国广播公司，宣告漫威全方位注入"},{"id":14,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469425&di=001b3485550e21458f16d7329c9e622e&imgtype=0&src=http%3A%2F%2Fhbimg.huabanimg.com%2F4b4b2b42a8a147d413c2ea2ffb7fc911b18359e4158c5-gHpSFO_fw658","content":"容过多并没有通过广电总局的审批通过，故本文不对其记性研究。），电视剧 55 集。第 14 部《美国队长第三部--内"},{"id":15,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469424&di=516a27964c81a724d3014bc51363dc23&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F39996d8ac90edaed81917fab6f103a98b26631d1180d4-KJn4HP_fw658","content":"画与漫威电影中人物设定的区别，但都未考虑到电影的制作方式"},{"id":16,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671681615&di=ea4d107c05fabc27d4f7fb7f39f557a5&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201503%2F27%2F20150327181548_LE48G.thumb.400_0.jpeg","content":"类文献中很少考虑电影与漫画的本质区别，不同的艺术载体有着不同的艺术表达方式"},{"id":17,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469436&di=7c9efbe8c2a841bb9809b14cd10e50bb&imgtype=0&src=http%3A%2F%2F5b0988e595225.cdn.sohucs.com%2Fimages%2F20181114%2F03781533510447daa81b588ac75791f9.jpeg","content":"目前为止，仅有的几篇文献多以商业价值角度视"},{"id":18,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469436&di=68c7f9051bbe0d3ebb51b06314c75f19&imgtype=0&src=http%3A%2F%2F2b.zol-img.com.cn%2Fproduct%2F133_501x2000%2F223%2Fce71kpGYA23Lc.jpg","content":"字好莱坞真人版超级英雄改编电影研究》中提到新的电影热潮并不是一触而发的"},{"id":19,"image":"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1692553019,941925969&fm=26&gp=0.jpg","content":"漫威影业的超级英雄电影在 7 年内席卷全球 24.75 亿票房成为史上最卖座的系列电影，"},{"id":20,"image":"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583671469431&di=f93b3aa2cd955f7a25146619dcb61f69&imgtype=0&src=http%3A%2F%2F00imgmini.eastday.com%2Fmobile%2F20181114%2F20181114032555_052f60dc9edc8456b9a7ab6baa1d1043_7.jpeg","content":"《神盾局特工》在整个漫威大电影系列中只起到了辅助作用，在整个漫威大电影系列中的"}]};
+
+/***/ }),
+
 /***/ 3:
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -9616,7 +9627,7 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 68:
+/***/ 89:
 /*!******************************************************************!*\
   !*** D:/myself/work/student_video/components/uni-popup/popup.js ***!
   \******************************************************************/
@@ -9624,7 +9635,7 @@ module.exports = g;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _message = _interopRequireDefault(__webpack_require__(/*! ./message.js */ 69));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _message = _interopRequireDefault(__webpack_require__(/*! ./message.js */ 90));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 // 定义 type 类型:弹出类型：top/bottom/center
 var config = {
   // 顶部弹出
@@ -9651,7 +9662,7 @@ var config = {
 
 /***/ }),
 
-/***/ 69:
+/***/ 90:
 /*!********************************************************************!*\
   !*** D:/myself/work/student_video/components/uni-popup/message.js ***!
   \********************************************************************/
@@ -9682,7 +9693,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 /***/ }),
 
-/***/ 84:
+/***/ 98:
 /*!*************************************************!*\
   !*** D:/myself/work/student_video/API/_post.js ***!
   \*************************************************/
@@ -9690,85 +9701,35 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports._postVideo = exports._post = void 0; // 发送 post 请求
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports._postVideo = void 0; // 发送 post 请求
 
-var _post = function _post(url, data, success, check_login, msg) {
-
-  // 请求开始弹出正在加载弹框
-  uni.showLoading({
-    title: '加载中' });
-
-
-
-  //构造post请求
-  uni.request({
-    url: 'https://www.example.com/request', //仅为示例，并非真实接口地址。
-    data: {
-      text: 'uni.request' },
-
-    header: {
-      'custom-header': 'hello' //自定义请求头信息
-    },
-    success: function success(res) {
-      console.log(res.data);
-
-
-      // 当请求成功后弹框隐藏
-      uni.hideLoading();
-    } });
-
-};
-
-// 选择要上传的视频文件  并将其上传到服务器中
-exports._post = _post;var _postVideo = function _postVideo(url, data, success, check_login, msg) {
+var _postVideo = function _postVideo(url, data, success, check_login, msg) {var _this = this;
 
   // 请求开始弹出正在加载弹框
   uni.showLoading({
     title: '正在上传' });
 
 
+  // 构造请求参数
+
+
   //构造post请求
-  uni.chooseVideo({
-    // maxDuration:, //拍摄视频最长拍摄时间
-    count: 1,
-    sourceType: ['camera', 'album'],
-    success: function success(res) {
-      console.log('调取获取视频接口成功res', res);
-      // self.src = res.tempFilePath;
-      // 接口调用成功，上传视频
-      // uni.uploadFile({
-      // 	url:this.config.fileUrl,
-      // 	method:"POST",
-      // 	header:{
-      // 			'Authorization':'bearer '+ uni.getStorageSync('token')
-      // 	},
-      // 	filePath:videoFile,
-      // 	name:'file',
-      // 	success: (res) => {                    
-      // 		// let videoUrls = JSON.parse(res.data) //微信和头条支持
-      // 		let videoUrls = res.data //百度支持
-      // 		this.imagesUrlPath = this.imagesUrlPath.concat(videoUrls.result.filePath);
-      // 		this.src = videoUrls.result.filePath; //微信
-      // 		if(this.src) {
-      // 				this.itemList = ['图片']
-      // 		} else {
-      // 				this.itemList = ['图片','视频']
-      // 		}
-      // 	}
-      // })
-      // uni.hideLoading();
-      uni.showToast({
-        icon: 'none',
-        title: '上传视频成功',
-        duration: 2000 });
-
+  uni.request({
+    url: url, //仅为示例，并非真实接口地址。
+    data: data,
+    header: {
+      'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
     },
-    fail: function fail(err) {
-      uni.showToast({
-        icon: 'none',
-        title: '上传视频失败',
-        duration: 2000 });
-
+    method: 'POST',
+    // 接口调用成功
+    success: function success(res) {
+      // 判断网络状态
+      if (res.statusCode !== 200 || typeof res.data !== 'object') {
+        App.showError('网络请求出错');
+        return false;
+      }
+      console.log(res.data);
+      _this.text = 'request success';
     } });
 
 };exports._postVideo = _postVideo;
