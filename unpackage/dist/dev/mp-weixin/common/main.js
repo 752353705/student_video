@@ -7,7 +7,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(createApp) {__webpack_require__(/*! uni-pages */ 4);var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+/* WEBPACK VAR INJECTION */(function(uni, createApp) {__webpack_require__(/*! uni-pages */ 4);var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
 var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 5));
 
 
@@ -15,26 +15,49 @@ var _index = _interopRequireDefault(__webpack_require__(/*! store/index.js */ 11
 _vue.default.prototype.$store = _index.default;
 
 // 引入弹窗组件
-var tabbar = function tabbar() {__webpack_require__.e(/*! require.ensure | components/tabbar */ "components/tabbar").then((function () {return resolve(__webpack_require__(/*! ./components/tabbar.vue */ 77));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
-_vue.default.component('tabbar', tabbar);var uniPopup = function uniPopup() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup.vue */ 84));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+var tabbar = function tabbar() {__webpack_require__.e(/*! require.ensure | components/tabbar */ "components/tabbar").then((function () {return resolve(__webpack_require__(/*! ./components/tabbar.vue */ 85));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+_vue.default.component('tabbar', tabbar);var uniPopup = function uniPopup() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup.vue */ 92));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopup', uniPopup);var uniPopupMessage = function uniPopupMessage() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup-message */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup-message")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-message.vue */ 93));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+_vue.default.component('uniPopup', uniPopup);var uniPopupMessage = function uniPopupMessage() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup-message */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup-message")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-message.vue */ 101));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopupMessage', uniPopupMessage);var uniPopupDialog = function uniPopupDialog() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-dialog */ "components/uni-popup/uni-popup-dialog").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-dialog.vue */ 101));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+_vue.default.component('uniPopupMessage', uniPopupMessage);var uniPopupDialog = function uniPopupDialog() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-dialog */ "components/uni-popup/uni-popup-dialog").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-dialog.vue */ 109));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopupDialog', uniPopupDialog);var uniPopupShare = function uniPopupShare() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-share */ "components/uni-popup/uni-popup-share").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-share.vue */ 108));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+_vue.default.component('uniPopupDialog', uniPopupDialog);var uniPopupShare = function uniPopupShare() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-share */ "components/uni-popup/uni-popup-share").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-share.vue */ 116));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopupShare', uniPopupShare);var uniPopupComments = function uniPopupComments() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-comments */ "components/uni-popup/uni-popup-comments").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-comments.vue */ 115));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+_vue.default.component('uniPopupShare', uniPopupShare);var uniPopupComments = function uniPopupComments() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-comments */ "components/uni-popup/uni-popup-comments").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-comments.vue */ 123));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopupComments', uniPopupComments);var uniPopupGifts = function uniPopupGifts() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-gifts */ "components/uni-popup/uni-popup-gifts").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-gifts.vue */ 122));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+_vue.default.component('uniPopupComments', uniPopupComments);var uniPopupGifts = function uniPopupGifts() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-gifts */ "components/uni-popup/uni-popup-gifts").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-gifts.vue */ 130));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
 _vue.default.component('uniPopupGifts', uniPopupGifts);
+
+// 封装全局登录函数
+// backpage, backtype 2个参数分别代表：
+// backpage : 登录后返回的页面
+// backtype : 打开页面的类型[1 : redirectTo 2 : switchTab]
+_vue.default.prototype.checkLogin = function (backpage, backtype) {
+  // 同步获取本地数据（uid、随机码、用户名、头像）
+  var user_id = uni.getStorageSync('user_id');
+  var user_nu = uni.getStorageSync('user_nu');
+  var user_nm = uni.getStorageSync('user_nm');
+  var user_fa = uni.getStorageSync('user_fa');
+  if (user_id == '' || user_nu == '' || user_fa == '') {
+    // 使用重定向的方式跳转至登录页面
+    uni.redirectTo({ url: '../login/login?backpage=' + backpage + '&backtype=' + backtype });
+    return false;
+  }
+  // 登录成功、已经登录返回数组 [用户 id, 用户随机码, 用户昵称, 用户表情]
+  return [user_id, user_nu, user_nm, user_fa];
+};
+// 定义一个全局的请求地址
+_vue.default.prototype.apiServer = 'http://0608.cc/';
+
+
 
 
 _vue.default.config.productionTip = false;
@@ -45,7 +68,7 @@ var app = new _vue.default(_objectSpread({
 _App.default));
 
 createApp(app).$mount();
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createApp"]))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["createApp"]))
 
 /***/ }),
 /* 1 */,

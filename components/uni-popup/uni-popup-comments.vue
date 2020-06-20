@@ -5,60 +5,46 @@
 		<view class="uni-share-content">
 			<!-- 评论内容区 -->
 			<view class="uni-share-content-box">
-				<!-- <view class="uni-share-content-item" v-for="(item,index) in bottomData" :key="index" @click.stop="select(item,index)">
-					<image class="uni-share-image" :src="item.icon" mode="aspectFill"></image>
-					<text class="uni-share-text">{{item.text}}</text>
+				
+				<!-- 模拟用户的评论 -->
+				<user-comment class="user_cmt"></user-comment>
+				
+				<!-- 显示二级回复 -->
+				<!-- <view class="user_cmt_two" v-if="twoShow">
+					<view class="two_cont" v-for="(item,index) in [1,2,3]" :key="index">
+						三级
+					</view>
 				</view> -->
-				
-		<!-- 模拟用户的评论 -->
-				<view class="user_cmt">
-					<view class="user_img">
-						
-					</view>
-					<view class="content">
-						<view class="user_head">
-							用户名
-						</view>
-						<view class="user_body">
-							用户说的话
-						</view>
-						
-						<!-- 时间  回复   点赞数 -->
-						
-						<view class="user_footer">
-							<view class="time">
-								昨天22:36
-							</view>
-							<view class="reply">
-								回复
-							</view>
-							<view class="">
-								<text>1.3w</text>
-								红心
-							</view>
-						</view>
-						
-						
-					</view>
-					
-				</view>
-				
-				<!-- 展开更多回复 -->
-				<view class="" @click="showMore">
-					——  展开更多回复
-				</view>
-				
-				
 				
 			</view>
 		</view>
-		<view class="uni-share-button-box">
-			<button class="uni-share-button" @click="close">取消</button>
+		
+		
+		
+		
+		
+		
+		
+		<!-- 用户的输入评论区 -->
+		<view class="msg">
+			<image src="/static/signature.png" mode=""></image>
+			<input type="text" value="" placeholder="写评论" placeholder-style="color:white" />
 		</view>
+	
+		<!-- 取消按钮 -->
+		<view class="close">
+			<image src="../../static/cmt_close.png" mode="" @click="close"></image>
+		</view>
+		
+		
+		
+		
+		
 	</view>
 </template>
 
 <script>
+	import userComment from '../user-comment.vue'
 	export default {
 		name: 'UniPopupShare',
 		props: {
@@ -100,8 +86,12 @@
 						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-5.png',
 						name: 'more'
 					}
-				]
+				],
+				twoShow:false
 			}
+		},
+		components:{
+			userComment
 		},
 		created() {},
 		methods: {
@@ -127,12 +117,16 @@
 			 * */
 			 showMore(){
 				 console.log('显示更多')
+				 
+				 //显示二级对话框
+				 this.twoShow = true 
 			 }
 		}
 	}
 </script>
 <style lang="scss" scoped>
 	.uni-popup-share {
+		position: relative;
 		background-color: #fff;
 		height: 70%;
 		border-radius: 20rpx 20rpx 0 0;
@@ -165,10 +159,10 @@
 	
 	.uni-share-content-box {
 		/* #ifndef APP-NVUE */
-		display: flex;
+		// display: flex;
 		/* #endif */
-		flex-direction: row;
-		flex-wrap: wrap;
+		// flex-direction: row;
+		// flex-wrap: wrap;
 		width: 360px;
 	}
 	
@@ -219,35 +213,35 @@
 		border: none;
 	}
 	
-	// 设计评论区样式
-	.uni-popup-share{
-		.uni-share-content{
-			align-items: flex-start;
-			.uni-share-content-box{
-				.user_cmt{
-					width: 100%;
-					display: flex;
-					justify-content: start;
-					background-color: yellow;
-					.user_img{
-						width: 60rpx;
-						height: 60rpx;
-						background-color: red;
-						border-radius: 50%;
-						margin-right: 31rpx;
-					}
-					.content{
-						width: 100%;
-						.user_footer{
-							width: 100%;	
-							display: flex;
-							justify-content: space-between;
-						}
-					}
-				}
-			}
+	.msg {
+		width: 75%;
+		height: 80rpx;
+		box-sizing: border-box;
+		padding-left: 30rpx;
+		background-color: gray;
+		color: white;
+		margin-top: 20rpx;
+		border-radius: 30rpx;
+		display: flex;
+		justify-content: start;
+		align-items: center;
+		image {
+			width: 40rpx;
+			height: 40rpx;
+			margin-right: 20rpx;
 		}
 	}
+	
+	.close{
+		position: absolute;
+		top: 14rpx;
+		right: 19rpx;
+		image{
+			width: 60rpx;
+			height: 60rpx;
+		}
+	}
+	
 	
 </style>
 

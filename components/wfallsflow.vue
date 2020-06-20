@@ -5,7 +5,7 @@
                <image 
 									@load="handleViewRender(listIndex,index)" 
 									@error="handleViewRender(listIndex,index)" 
-									:src="item.image" mode="widthFix"
+									:src="item.image ? item.image : '/static/easyLoadimage/loading.gif'" mode="widthFix"
 									:lazy-load="true"
 									data-src="http://cdn.jirengu.com/book.jirengu.com/img/1.jpg"
 								> 
@@ -17,8 +17,6 @@
 								>
 								</easy-loadimage> -->
 									
-								
-								
 								<view class="item_foot">
 									<view class="left">
 										<view class="user_img">
@@ -121,6 +119,7 @@
 				.item{
 					margin-bottom :18rpx;
 					image{
+						display: block;
 						width :100%;
 					}
 					.item_foot{

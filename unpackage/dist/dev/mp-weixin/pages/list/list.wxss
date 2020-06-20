@@ -73,6 +73,7 @@
   height: 100%;
 }
 .listPage .cent .box .list.data-v-20139627 {
+  position: relative;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -83,6 +84,7 @@
           flex-wrap: wrap;
 }
 .listPage .cent .box .list .waterFull.data-v-20139627 {
+  position: absolute;
   width: 100%;
 }
 .listPage .pop .imgBox.data-v-20139627 {

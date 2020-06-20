@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uniPopup: function() {
-    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 84))
+    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 92))
   }
 }
 var render = function() {
@@ -288,9 +288,28 @@ var _default =
 
 
   onLoad: function onLoad() {
+    var _this = this;
     console.log('我的页面');
+    uni.getStorage({
+      key: 'userMsg',
+      success: function success(res) {
+        console.log('本地信息', res.data);
+        _this.userMsg = JSON.parse(res.data);
+      } });
+
     // this.$refs.popup_video.open()	
     // this.$refs.popup_user.open()
+  },
+  onShow: function onShow() {
+    var _this = this;
+    console.log('我的页面');
+    uni.getStorage({
+      key: 'userMsg',
+      success: function success(res) {
+        console.log('本地信息', res.data);
+        _this.userMsg = JSON.parse(res.data);
+      } });
+
   },
   methods: {
     // 进行弹窗的控制
@@ -364,7 +383,7 @@ var _default =
     jump: function jump() {
       console.log('跳转页面');
       uni.navigateTo({
-        url: "/pages/reg/reg" });
+        url: "/pages/login/login" });
 
     },
 

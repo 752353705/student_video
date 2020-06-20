@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uniPopup: function() {
-    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 84))
+    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 92))
   }
 }
 var render = function() {
@@ -265,6 +265,11 @@ var _default =
   methods: {
     // 控制弹窗
     open: function open() {
+      // 先判断用户是否一金进行了登录
+      // 如果没有则先进行登录再进行敏感操作
+      console.log('用户是否已经登录');
+
+
       this.$refs.popup.open();
     },
     close: function close() {

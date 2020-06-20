@@ -25,6 +25,7 @@
 /* 透明度 */
 /* 文章场景相关 */
 .uni-popup-share.data-v-57745fe4 {
+  position: relative;
   background-color: #fff;
   height: 70%;
   border-radius: 20rpx 20rpx 0 0;
@@ -67,15 +68,6 @@
   padding-top: 10px;
 }
 .uni-share-content-box.data-v-57745fe4 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-          flex-direction: row;
-  -webkit-flex-wrap: wrap;
-          flex-wrap: wrap;
   width: 360px;
 }
 .uni-share-content-item.data-v-57745fe4 {
@@ -130,38 +122,37 @@
   border-radius: 50px;
   border: none;
 }
-.uni-popup-share .uni-share-content.data-v-57745fe4 {
-  -webkit-box-align: start;
-  -webkit-align-items: flex-start;
-          align-items: flex-start;
-}
-.uni-popup-share .uni-share-content .uni-share-content-box .user_cmt.data-v-57745fe4 {
-  width: 100%;
+.msg.data-v-57745fe4 {
+  width: 75%;
+  height: 80rpx;
+  box-sizing: border-box;
+  padding-left: 30rpx;
+  background-color: gray;
+  color: white;
+  margin-top: 20rpx;
+  border-radius: 30rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
   -webkit-box-pack: start;
   -webkit-justify-content: start;
           justify-content: start;
-  background-color: yellow;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
 }
-.uni-popup-share .uni-share-content .uni-share-content-box .user_cmt .user_img.data-v-57745fe4 {
+.msg image.data-v-57745fe4 {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 20rpx;
+}
+.close.data-v-57745fe4 {
+  position: absolute;
+  top: 14rpx;
+  right: 19rpx;
+}
+.close image.data-v-57745fe4 {
   width: 60rpx;
   height: 60rpx;
-  background-color: red;
-  border-radius: 50%;
-  margin-right: 31rpx;
-}
-.uni-popup-share .uni-share-content .uni-share-content-box .user_cmt .content.data-v-57745fe4 {
-  width: 100%;
-}
-.uni-popup-share .uni-share-content .uni-share-content-box .user_cmt .content .user_footer.data-v-57745fe4 {
-  width: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-          justify-content: space-between;
 }
 

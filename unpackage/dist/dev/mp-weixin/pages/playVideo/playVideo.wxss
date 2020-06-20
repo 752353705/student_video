@@ -12,7 +12,6 @@
 }
 .playVideo .uni_vdplayer video {
   width: 100%;
-  height: 500rpx;
   position: absolute;
   top: 50%;
   -webkit-transform: translateY(-50%);
@@ -62,29 +61,6 @@
   height: 60rpx;
   background-color: yellow;
   border-radius: 50%;
-  margin-right: 20rpx;
-}
-.playVideo .uni_vdplayer .foot .msg {
-  width: 75%;
-  height: 80rpx;
-  box-sizing: border-box;
-  padding-left: 30rpx;
-  background-color: gray;
-  margin-top: 20rpx;
-  border-radius: 30rpx;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: start;
-  -webkit-justify-content: start;
-          justify-content: start;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-}
-.playVideo .uni_vdplayer .foot .msg image {
-  width: 40rpx;
-  height: 40rpx;
   margin-right: 20rpx;
 }
 .playVideo .uni_vdplayer .right {

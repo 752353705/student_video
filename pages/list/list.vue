@@ -36,6 +36,8 @@
 					lower-threshold="160"
 					@scrolltolower="lower"
 					@scroll="scroll"
+					
+					@touchmove="touchMove"
 				>
 					<!-- 制作瀑布流 -->
 					<wfalls-flow class="waterFull" :list="list" ref="wfalls" @finishLoad="getLoadNum"></wfalls-flow>
@@ -85,13 +87,13 @@
 			uni.showLoading({
 			   title: '加载中'
 			});
+			// this.list = list;
+			// this.$refs.wfalls.init();
 			setTimeout(()=>{
 			    this.list = list;
 			    this.$refs.wfalls.init();
 			},1000)
-			
-			
-			
+	
 		},
 		onReady() {
 			// 页面加载完毕
@@ -99,22 +101,25 @@
 			uni.hideLoading();
 			let _this = this
 			// 动态设置scroll-view区域的高度
-			 uni.getSystemInfo({
-						success(res) {
-							console.log('页面信息res',res)
-								_this.phoneHeight = res.windowHeight; //获取用户设备的高度
-								console.log(res.windowHeight);
-								// 计算组件的高度
-								let view = uni.createSelectorQuery().select('.head');
-								view.boundingClientRect(data => {
-										_this.navHeight = data.height;
-										console.log(_this.navHeight);
-										_this.scrollviewHigh =  _this.phoneHeight - _this.navHeight - 80;
-										_this.scrollviewHigh = "height:" + _this.scrollviewHigh +"px";
-										
-								}).exec();
-						}
-				});
+			uni.getSystemInfo({
+				success(res) {
+					console.log('页面信息res',res)
+						_this.phoneHeight = res.windowHeight; //获取用户设备的高度
+						console.log(res.windowHeight);
+						// 计算组件的高度
+						let view = uni.createSelectorQuery().select('.head');
+						view.boundingClientRect(data => {
+								_this.navHeight = data.height;
+								console.log(_this.navHeight);
+								_this.scrollviewHigh =  _this.phoneHeight - _this.navHeight - 80;
+								_this.scrollviewHigh = "height:" + _this.scrollviewHigh +"px";
+								
+						}).exec();
+				}
+			});
+			
+			// 给瀑布组件添加拖拽的功能
+			let full = uni.createSelectorQuery().select('.waterFull');
 			
 			
 		},
@@ -129,6 +134,11 @@
 			
 		},
 		methods: {
+			touchMove(e){
+				console.log('进行移动 e',e)
+			},
+			
+			
 			// 点击列表中每一项，进行跳转到视频播放页
 			jumpFind(e){
 				// 根据点击的id进行跳转到视频播放页面
@@ -171,8 +181,13 @@
 				},800)
 				
 			},
-			scroll(){
-				// console.log('进行滚动')
+			
+			scroll(e){
+				console.log('进行滚动 e',e)
+				//判断进行下拉加载
+				// if(){
+					
+				// }
 				
 			},
 			// 制作瀑布流
@@ -247,11 +262,13 @@
 				background-color: #0d0737;
 				width: 100%;
 				height: 100%;
-				.list{
+				.list{				
+					position: relative;
 				  display: flex;
 				  justify-content: space-between;
 				  flex-wrap: wrap;
 					.waterFull{
+						position: absolute;
 						width: 100%;
 					}
 				}

@@ -27,7 +27,7 @@
 						<!-- 展示拍摄的视频 -->
 		        <!-- 图片 -->
 						<video id="myVideo" 
-							src="https://vdept.bdstatic.com/72784e496c73526a7533676b6b566a6d/3847447a79344535/46d4e9c8758751cb49c893f877e418c838dd8058ad86a0b85c64a3cf3c899dc5439424d4f82c963b71a5213255a508b5.mp4?auth_key=1592274925-0-0-df7d5895859199f09bb47de43b415708"
+							src="https://vdept.bdstatic.com/5a6138585844754d46514c3468733979/637533556e593231/75eb2623d6c83c511ef4395708ae69a66d93062db122ada92e33d81d73ea9ee0fc16d415ea0326485d28ec69d16a17a4.mp4?auth_key=1592384591-0-0-567e854cbfaff1f2303fa8b052f0f205"
 						   @error="videoErrorCallback" 
 							 :danmu-list="danmuList" 
 							 enable-danmu danmu-btn 
@@ -129,6 +129,11 @@
 		methods:{
 			// 控制弹窗
 			open(){
+				// 先判断用户是否一金进行了登录
+				// 如果没有则先进行登录再进行敏感操作
+				console.log('用户是否已经登录')
+				
+				
 				this.$refs.popup.open()
 			},
 			close(){

@@ -106,7 +106,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uniPopup: function() {
-    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 84))
+    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 92))
   }
 }
 var render = function() {
@@ -144,7 +144,9 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(n);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var wfallsFlow = function wfallsFlow() {__webpack_require__.e(/*! require.ensure | components/wfallsflow */ "components/wfallsflow").then((function () {return resolve(__webpack_require__(/*! ../../components/wfallsflow.vue */ 129));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(n);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var wfallsFlow = function wfallsFlow() {__webpack_require__.e(/*! require.ensure | components/wfallsflow */ "components/wfallsflow").then((function () {return resolve(__webpack_require__(/*! ../../components/wfallsflow.vue */ 137));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+
+
 
 
 
@@ -231,12 +233,12 @@ var list = __webpack_require__(/*! ../../static/data.json */ 22).list;var _defau
     uni.showLoading({
       title: '加载中' });
 
+    // this.list = list;
+    // this.$refs.wfalls.init();
     setTimeout(function () {
       _this2.list = list;
       _this2.$refs.wfalls.init();
     }, 1000);
-
-
 
   },
   onReady: function onReady() {
@@ -262,6 +264,9 @@ var list = __webpack_require__(/*! ../../static/data.json */ 22).list;var _defau
       } });
 
 
+    // 给瀑布组件添加拖拽的功能
+    var full = uni.createSelectorQuery().select('.waterFull');
+
 
   },
   onPullDownRefresh: function onPullDownRefresh() {
@@ -275,6 +280,11 @@ var list = __webpack_require__(/*! ../../static/data.json */ 22).list;var _defau
 
   },
   methods: {
+    touchMove: function touchMove(e) {
+      console.log('进行移动 e', e);
+    },
+
+
     // 点击列表中每一项，进行跳转到视频播放页
     jumpFind: function jumpFind(e) {
       // 根据点击的id进行跳转到视频播放页面
@@ -317,8 +327,13 @@ var list = __webpack_require__(/*! ../../static/data.json */ 22).list;var _defau
       }, 800);
 
     },
-    scroll: function scroll() {
-      // console.log('进行滚动')
+
+    scroll: function scroll(e) {
+      console.log('进行滚动 e', e);
+      //判断进行下拉加载
+      // if(){
+
+      // }
 
     },
     // 制作瀑布流

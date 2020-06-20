@@ -3,7 +3,7 @@
 		<view class="my">
 		  <view class="head">
 		    <view class="user_img" @click="jump">
-					<image :src=userMsg.userImg mode=""></image>
+					<image :src="userMsg.userImg" mode=""></image>
 				 </view>
 		    <view class="user_name">
 		      {{userMsg.userName || '昵称' }}
@@ -152,9 +152,28 @@
 		
 		},
 		onLoad(){
+			let _this = this
 			console.log('我的页面')
+			uni.getStorage({
+			    key: 'userMsg',
+			    success: function (res) {
+			        console.log('本地信息',res.data);
+							_this.userMsg = JSON.parse(res.data)
+			    }
+			});
 			// this.$refs.popup_video.open()	
 			// this.$refs.popup_user.open()
+		},
+		onShow() {
+			let _this = this
+			console.log('我的页面')
+			uni.getStorage({
+			    key: 'userMsg',
+			    success: function (res) {
+			        console.log('本地信息',res.data);
+							_this.userMsg = JSON.parse(res.data)
+			    }
+			});
 		},
 		methods:{
 			// 进行弹窗的控制
@@ -228,7 +247,7 @@
 			jump(){
 				console.log('跳转页面')
 				uni.navigateTo({
-				    url: "/pages/reg/reg"
+				    url: "/pages/login/login"
 				});
 			},
 			

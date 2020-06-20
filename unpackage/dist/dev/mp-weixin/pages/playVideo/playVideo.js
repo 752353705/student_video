@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uniPopup: function() {
-    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 84))
+    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 92))
   }
 }
 var render = function() {
@@ -208,84 +208,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
-var timer = null;var _default =
+var timer = null;var userComment = function userComment() {__webpack_require__.e(/*! require.ensure | components/user-comment */ "components/user-comment").then((function () {return resolve(__webpack_require__(/*! ../../components/user-comment.vue */ 144));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
 {
   data: function data() {
     return {
       videoIndex: 0,
       // vlist: videoJson,//播放视频的列表组
+      vlist: [1, 2], //播放视频的列表组
       isPlay: true, //当前视频是否播放中
       clickNum: 0, //记录点击次数
       btnShow: false, //控制按钮的显示隐藏
       like: false, //判断用户是否喜欢该视频
-      show_pop: false //控制评论弹出层显示隐藏
+      show_pop: false, //控制评论弹出层显示隐藏
+      videoContextList: '' //储存所有的视频区
     };
   },
-  components: {},
-
+  components: {
+    userComment: userComment },
 
   onLoad: function onLoad(option) {
-    this.videoIndex = parseInt(option.index);
+    // 根据页面传递过来的 视频index
+    // this.videoIndex = parseInt(option.index);
     // 显示评论弹窗
     this.$refs.popupComments[0].open();
   },
   onReady: function onReady() {
-    // this.init()
-    this.videoContext = uni.createVideoContext('myVideo');
+    console.log('播放');
+    this.init();
+    this.videoContext = uni.createVideoContext('myVideo0');
+    console.log('video', this.videoContext);
     // 用户点击进入后就进行播放
     this.videoContext.play();
   },
   methods: {
-    // init() {
-    // 		this.videoContextList = []
-    // 		for(var i = 0; i < this.vlist.length; i++) {
-    // 				// this.videoContextList.push(this.$refs['myVideo' + i][0])
-    // 				this.videoContextList.push(uni.createVideoContext('myVideo' + i, this));
-    // 		}
+    init: function init() {
+      this.videoContextList = [];
+      for (var i = 0; i < this.vlist.length; i++) {
+        // this.videoContextList.push(this.$refs['myVideo' + i][0])
+        this.videoContextList.push(uni.createVideoContext('myVideo' + i, this));
+      }
 
-    // 		setTimeout(() => {
-    // 				this.play(this.videoIndex)
-    // 		}, 200)
-    // },
+      // setTimeout(() => {
+      // 		this.play(this.videoIndex)
+      // }, 200)
+    },
 
     // 滑动切换
     handleSlider: function handleSlider(e) {
@@ -305,60 +273,73 @@ var timer = null;var _default =
       this.videoIndex = curIndex;
     },
     // 播放
-    play: function play(index) {
-      console.log('播放');
-      // this.videoContextList[index].play()
-      this.videoContext.play();
-      this.isPlay = true;
-    },
-    // 暂停
-    pause: function pause() {
-      console.log('暂停');
-      // this.videoContextList[index].pause()
-      this.videoContext.pause();
-      this.isPlay = false;
-    },
-    // 控制按钮的显示隐藏
+    // play(index) {
+    // 	console.log('播放');
+    // 	this.videoContextList[index].play()
+    // 	// this.videoContext.play();
+    // 	this.isPlay = true;
+    // },
+    // // 暂停
+    // pause() {
+    // 	console.log('暂停');
+    // 	this.videoContextList[index].pause()
+    // this.videoContext.pause();
+    // 	this.isPlay = false;
+    // },
+
+    // // 进入全屏
+    // fullScreen() {
+    // 	console.log('进入全屏');
+    // 	//获取video元素
+    // 	// var query = uni.createSelectorQuery();
+    // 	// var ctx = query.select('#myVideo');
+
+    // 	// 获取 video 上下文 videoContext 对象
+    // 	this.videoContext = uni.createVideoContext('myVideo');
+    // 	// 进入全屏状态
+    // 	this.videoContext.requestFullScreen();
+    // },
+
 
     // 点击视频事件
     handleClicked: function handleClicked(index) {var _this = this;
-      console.log('点击播放');
+      console.log('点击播放第' + index + '个视频');
+      var ctx = this.videoContextList[index];
       if (timer) {
         clearTimeout(timer);
       }
-      // this.clickNum++
+      this.clickNum++;
       timer = setTimeout(function () {
         if (_this.clickNum >= 2) {
           console.log('双击视频 进入全屏');
+          ctx.requestFullScreen();
+
         } else {
           console.log('单击视频');
           _this.btnShow = true;
           if (_this.isPlay) {
             // this.pause(index)
-            _this.pause();
+            console.log('暂停');
+            // this.videoContextList[index].pause()
+            // this.videoContext.pause();
+            _this.isPlay = false;
+            ctx.pause();
           } else {
             // this.play(index)
-            _this.play();
+            ctx.play();
+            console.log('播放');
+            _this.isPlay = true;
             // 三秒只有隐藏播放按钮
             setTimeout(function () {
               _this.btnShow = false;
             }, 2000);
           }
         }
-        // this.clickNum = 0
+        _this.clickNum = 0;
       }, 300);
     },
 
-    // 进入全屏
-    fullScreen: function fullScreen() {
-      console.log('进入全屏');
-      //获取video元素
-      var query = uni.createSelectorQuery();
-      var ctx = query.select('#myVideo');
 
-      console.log('$refs', view);
-      ctx.requestFullScreen();
-    },
 
     // 喜欢
     handleIsLike: function handleIsLike(index) {
@@ -369,9 +350,10 @@ var timer = null;var _default =
     // 控制弹窗的操作
 
     // 控制送礼物的弹窗
-    sendGift: function sendGift() {
-      console.log('送礼物');
-      this.$refs.popupGifts[0].open();
+    sendGift: function sendGift(index) {
+
+      console.log('送礼物', index);
+      this.$refs.popupGifts[this.videoIndex].open();
 
       // App端
       // const subNvue=uni.getSubNVueById('gift');   //获取 
@@ -395,12 +377,18 @@ var timer = null;var _default =
     // 控制评论弹窗
     showPop: function showPop() {
       console.log('ref', this.$refs);
-      this.$refs.popupComments[0].open();
+      this.$refs.popupComments[this.videoIndex].open();
+      // 当用户打开评论窗口之后，当前视频暂停播放，关闭之后视频继续播放
+
+
     },
 
     // 控制转发弹窗
     confirmShare: function confirmShare() {
-      this.$refs.popupShare[0].open();
+      this.$refs.popupShare[this.videoIndex].open();
+      // 当打开转发窗口之后当前视频暂停，取消之后视频继续播放
+
+
     },
     /**
         * 转发时选择内容
@@ -423,6 +411,19 @@ var timer = null;var _default =
         */
     change: function change(e) {
       console.log('popup ' + e.type + ' 状态', e.show);
+
+      var ctx = this.videoContextList[this.videoIndex];
+
+      // 当弹窗消失之后自动对视频进行播放
+      if (e.show) {
+        // 当弹窗进行显示之后暂停当前视频
+        this.isPlay = true;
+        ctx.pause();
+      } else {
+        this.isPlay = false;
+        ctx.play();
+      }
+
     }
 
     // handleVideoComment() {

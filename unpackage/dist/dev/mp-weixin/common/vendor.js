@@ -1693,6 +1693,103 @@ function normalizeComponent (
 
 /***/ }),
 
+/***/ 106:
+/*!*************************************************!*\
+  !*** D:/myself/work/student_video/API/_post.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports._postVideo = exports._postUser = void 0; // 发送 post 请求
+
+// 进行登录
+var _postUser = function _postUser(url, data, success, check_login, msg) {
+
+  // 请求开始弹出正在加载弹框
+  uni.showLoading({
+    title: '正在登陆' });
+
+
+  // 构造请求参数
+
+
+  //构造post请求
+  uni.request({
+    url: _this.apiServer + 'appletsUserInfo', //用户进行提交数据的地址
+    data: {
+      openid: _this.openId,
+      avatarUrl: _this.userInfo.avatarUrl,
+      city: _this.userInfo.city,
+      country: _this.userInfo.country,
+      gender: _this.userInfo.gender,
+      language: _this.userInfo.language,
+      nickName: _this.userInfo.nickName },
+
+    method: 'POST',
+    success: function success(res) {
+      if (res.data.code != 0) {
+        uni.showToast({ title: res.data.msg, icon: 'none' });
+        return false;
+      }
+      // 用户信息写入缓存
+      uni.showToast({ title: '登录成功' });
+      uni.setStorageSync('user_id', res.data.res.u_id);
+      uni.setStorageSync('user_nm', res.data.res.u_nickName);
+      uni.setStorageSync('user_fa', res.data.res.u_avatarUrl);
+      uni.setStorageSync('user_nu', res.data.res.u_regtime);
+      // 然后跳回原页面
+      if (_this.pageOption.backtype == 1) {
+        uni.redirectTo({ url: _this.pageOption.backpage });
+      } else {
+        uni.switchTab({ url: _this.pageOption.backpage });
+      }
+    },
+    fail: function fail() {
+      uni.showToast({ title: '用户信息操作失败', icon: 'none' });
+    } });
+
+
+
+};
+
+
+
+// 上传视频
+exports._postUser = _postUser;var _postVideo = function _postVideo(url, data, success, check_login, msg) {var _this2 = this;
+
+  // 请求开始弹出正在加载弹框
+  uni.showLoading({
+    title: '正在上传' });
+
+
+  // 构造请求参数
+
+
+  //构造post请求
+  uni.request({
+    url: url, //仅为示例，并非真实接口地址。
+    data: data,
+    header: {
+      'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
+    },
+    method: 'POST',
+    // 接口调用成功
+    success: function success(res) {
+      // 判断网络状态
+      if (res.statusCode !== 200 || typeof res.data !== 'object') {
+        App.showError('网络请求出错');
+        return false;
+      }
+      console.log(res.data);
+      _this2.text = 'request success';
+    } });
+
+};exports._postVideo = _postVideo;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
 /***/ 11:
 /*!***************************************************!*\
   !*** D:/myself/work/student_video/store/index.js ***!
@@ -9627,7 +9724,7 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 89:
+/***/ 97:
 /*!******************************************************************!*\
   !*** D:/myself/work/student_video/components/uni-popup/popup.js ***!
   \******************************************************************/
@@ -9635,7 +9732,7 @@ module.exports = g;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _message = _interopRequireDefault(__webpack_require__(/*! ./message.js */ 90));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _message = _interopRequireDefault(__webpack_require__(/*! ./message.js */ 98));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 // 定义 type 类型:弹出类型：top/bottom/center
 var config = {
   // 顶部弹出
@@ -9662,7 +9759,7 @@ var config = {
 
 /***/ }),
 
-/***/ 90:
+/***/ 98:
 /*!********************************************************************!*\
   !*** D:/myself/work/student_video/components/uni-popup/message.js ***!
   \********************************************************************/
@@ -9690,50 +9787,6 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
         this.childrenMsg.close();
       }
     } } };exports.default = _default;
-
-/***/ }),
-
-/***/ 98:
-/*!*************************************************!*\
-  !*** D:/myself/work/student_video/API/_post.js ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports._postVideo = void 0; // 发送 post 请求
-
-var _postVideo = function _postVideo(url, data, success, check_login, msg) {var _this = this;
-
-  // 请求开始弹出正在加载弹框
-  uni.showLoading({
-    title: '正在上传' });
-
-
-  // 构造请求参数
-
-
-  //构造post请求
-  uni.request({
-    url: url, //仅为示例，并非真实接口地址。
-    data: data,
-    header: {
-      'content-type': 'application/x-www-form-urlencoded' //自定义请求头信息
-    },
-    method: 'POST',
-    // 接口调用成功
-    success: function success(res) {
-      // 判断网络状态
-      if (res.statusCode !== 200 || typeof res.data !== 'object') {
-        App.showError('网络请求出错');
-        return false;
-      }
-      console.log(res.data);
-      _this.text = 'request success';
-    } });
-
-};exports._postVideo = _postVideo;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ })
 
