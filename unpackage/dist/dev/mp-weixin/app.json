@@ -1,14 +1,15 @@
 {
   "pages": [
     "pages/list/list",
-    "pages/testVideo/testVideo",
     "pages/index/index",
     "pages/find/find",
     "pages/cpt/cpt",
     "pages/my/my",
     "pages/reg/reg",
     "pages/playVideo/playVideo",
-    "pages/login/login"
+    "pages/login/login",
+    "pages/author/author",
+    "pages/fansList/fansList"
   ],
   "subPackages": [],
   "window": {

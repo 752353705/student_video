@@ -54,12 +54,14 @@
 		        <view class="video_box">
 		          <!-- 视频 -->
 							<video id="myVideo"
-								src="https://vdept.bdstatic.com/72784e496c73526a7533676b6b566a6d/3847447a79344535/46d4e9c8758751cb49c893f877e418c838dd8058ad86a0b85c64a3cf3c899dc5439424d4f82c963b71a5213255a508b5.mp4?auth_key=1592274925-0-0-df7d5895859199f09bb47de43b415708"
+								src="https://f.us.sinaimg.cn/002M5hMzlx07si8OOEpy010412008ooq0E010.mp4?label=mp4_hd&template=852x480.28.0&ori=0&ps=1BThCpMKz9z2Xh&Expires=1592816448&ssig=y6E6%2Fjjumz&KID=unistore,video"
 								@error="videoErrorCallback" 
 								:danmu-list="danmuList" 
 								enable-danmu danmu-btn
 								:controls="false"
 								:show-center-play-btn="false"
+								
+								@click="goPlayVideo"
 							>
 							</video>
 		        </view>
@@ -176,12 +178,39 @@
 			});
 		},
 		methods:{
+			// 点击我的视频跳转到视频播放页
+			goPlayVideo(){
+				uni.navigateTo({
+					url: "/pages/playVideo/playVideo"
+				})
+			},
 			// 进行弹窗的控制
 			open(num){
 				if(num === 9){
+				// 显示上传视频
 					this.$refs.popup_video.open()
 				}else if(num === 0){
+					// 显示个人资料
 					this.$refs.popup_user.open()
+				}else if(num === 2){
+					// 显示退出登录
+					uni.showModal({
+						title:"提示",
+						content:"确定退出吗",
+						success:function(res){
+							if (res.confirm) {
+								console.log('用户点击确定');
+								// 用户确认退出登录，删除本地用户登录的信息
+							} else if (res.cancel) {
+								console.log('用户点击取消');
+								// 不进行操作弹出框取消即可
+								
+							}
+						},
+						fail:function() {
+							console.log('调用接口失败')
+						}
+					})
 				}
 			},
 			close(num){

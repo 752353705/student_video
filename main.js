@@ -48,6 +48,8 @@ Vue.prototype.checkLogin = function( backpage, backtype ){
 // 定义一个全局的请求地址
 Vue.prototype.apiServer = 'http://0608.cc/'
 
+// 定义全局的用户信息便于在其他页面进行用户是否进行登录的判断
+
 
 
 

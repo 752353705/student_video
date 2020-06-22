@@ -186,7 +186,19 @@
 							console.log('调取获取视频接口成功res',res,res.thumbTempFilePath)
 							// 视频第一帧  图片
 							_this.video_src = res.thumbTempFilePath
-							
+							// 获取了文件的临时路径，然后对其进行文件的上传
+							// let tempFilePath = res.tempFilePath
+							// uni.uploadFile({
+							// 	url:'',
+							// 	filePath:tempFilePath,
+							// 	name:'file',
+							// 	formData:{
+									
+							// 	},
+							// 	success:(uploadFileRes) => {
+							// 		console.log('uni上传视频 成功',uploadFileRes.data)
+							// 	}
+							// })
 							
 							uni.showToast({
 									icon:'none',

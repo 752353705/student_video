@@ -1,0 +1,1 @@
+<view><block wx:for="{{[1,2,3]}}" wx:for-item="index" wx:for-index="item"><view class="fans"><view class="left"><view class="img"></view><view class="name">粉丝</view></view><view data-event-opts="{{[['tap',[['focus',['$event']]]]]}}" class="focus" bindtap="__e">关注</view></view></block></view>

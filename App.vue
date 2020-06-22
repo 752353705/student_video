@@ -20,4 +20,8 @@
 		padding: 0;
 		margin: 0;
 	}
+	.t_c{
+		text-align: center;
+	}
+	image{will-change: transform}
 </style>

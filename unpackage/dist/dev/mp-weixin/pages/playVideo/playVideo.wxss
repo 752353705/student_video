@@ -10,6 +10,13 @@
   height: 100%;
   background-color: black;
 }
+.playVideo .uni_vdplayer .back {
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  top: 67rpx;
+  left: 30rpx;
+}
 .playVideo .uni_vdplayer video {
   width: 100%;
   position: absolute;
@@ -62,6 +69,15 @@
   background-color: yellow;
   border-radius: 50%;
   margin-right: 20rpx;
+}
+.playVideo .uni_vdplayer .foot .foot_head ._span {
+  display: inline-block;
+  background-color: red;
+  box-sizing: border-box;
+  padding: 10rpx 20rpx;
+  font-size: 20rpx;
+  border-radius: 30rpx;
+  margin-left: 20rpx;
 }
 .playVideo .uni_vdplayer .right {
   width: 100rpx;

@@ -9,10 +9,7 @@
                 "onReachBottomDistance" : 200
             }
         },
-        {
-            "path" : "pages/testVideo/testVideo",
-            "style" : {}
-        },
+       
         {
             "path" : "pages/index/index",
             "style" : {
@@ -66,6 +63,18 @@
         ,{
             "path" : "pages/login/login",
             "style" : {}
+        }
+        ,{
+            "path" : "pages/author/author",
+            "style" : {
+							
+						}
+        }
+        ,{
+            "path" : "pages/fansList/fansList",
+            "style" : {
+							"navigationBarTitleText" : "粉丝列表"
+						}
         }
     ],
     "globalStyle" : {

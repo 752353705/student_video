@@ -15,23 +15,23 @@ var _index = _interopRequireDefault(__webpack_require__(/*! store/index.js */ 11
 _vue.default.prototype.$store = _index.default;
 
 // 引入弹窗组件
-var tabbar = function tabbar() {__webpack_require__.e(/*! require.ensure | components/tabbar */ "components/tabbar").then((function () {return resolve(__webpack_require__(/*! ./components/tabbar.vue */ 85));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
-_vue.default.component('tabbar', tabbar);var uniPopup = function uniPopup() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup.vue */ 92));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+var tabbar = function tabbar() {__webpack_require__.e(/*! require.ensure | components/tabbar */ "components/tabbar").then((function () {return resolve(__webpack_require__(/*! ./components/tabbar.vue */ 87));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+_vue.default.component('tabbar', tabbar);var uniPopup = function uniPopup() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup.vue */ 94));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopup', uniPopup);var uniPopupMessage = function uniPopupMessage() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup-message */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup-message")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-message.vue */ 101));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+_vue.default.component('uniPopup', uniPopup);var uniPopupMessage = function uniPopupMessage() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup-message */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup-message")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-message.vue */ 103));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopupMessage', uniPopupMessage);var uniPopupDialog = function uniPopupDialog() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-dialog */ "components/uni-popup/uni-popup-dialog").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-dialog.vue */ 109));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+_vue.default.component('uniPopupMessage', uniPopupMessage);var uniPopupDialog = function uniPopupDialog() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-dialog */ "components/uni-popup/uni-popup-dialog").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-dialog.vue */ 111));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopupDialog', uniPopupDialog);var uniPopupShare = function uniPopupShare() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-share */ "components/uni-popup/uni-popup-share").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-share.vue */ 116));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+_vue.default.component('uniPopupDialog', uniPopupDialog);var uniPopupShare = function uniPopupShare() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-share */ "components/uni-popup/uni-popup-share").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-share.vue */ 118));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopupShare', uniPopupShare);var uniPopupComments = function uniPopupComments() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-comments */ "components/uni-popup/uni-popup-comments").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-comments.vue */ 123));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+_vue.default.component('uniPopupShare', uniPopupShare);var uniPopupComments = function uniPopupComments() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-comments */ "components/uni-popup/uni-popup-comments").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-comments.vue */ 125));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopupComments', uniPopupComments);var uniPopupGifts = function uniPopupGifts() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-gifts */ "components/uni-popup/uni-popup-gifts").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-gifts.vue */ 130));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+_vue.default.component('uniPopupComments', uniPopupComments);var uniPopupGifts = function uniPopupGifts() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-gifts */ "components/uni-popup/uni-popup-gifts").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-gifts.vue */ 132));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
 _vue.default.component('uniPopupGifts', uniPopupGifts);
@@ -56,6 +56,8 @@ _vue.default.prototype.checkLogin = function (backpage, backtype) {
 };
 // 定义一个全局的请求地址
 _vue.default.prototype.apiServer = 'http://0608.cc/';
+
+// 定义全局的用户信息便于在其他页面进行用户是否进行登录的判断
 
 
 

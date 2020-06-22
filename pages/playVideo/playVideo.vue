@@ -4,11 +4,15 @@
 			<block v-for="(item, index) in [1,2]" :key="index">
 				<swiper-item>
 					<view class="uni_vdplayer">
+						
+						<!-- 返回上一级页面的按钮 -->
+						<image class="back" @click="back" src="/static/back.png" mode=""></image>
+						
 						<video
 							:id="'myVideo' + index"
 							ref="myVideo"
 							class="player-video"
-							src="https://ugcbsy.qq.com/uwMROfz2r5zEIaQXGdGnC2dfDmafRkP9ujxgqKjuATzMrE-2/s0770vfs8a3.mp4?sdtfrom=v1010&guid=eed3e2ca50414e0e10207e559effb9d6&vkey=74147A8AD42B0DE9F8EB50B4C426D02888E3152BEF132B175940AFF07279F7612A64362BBA539CDE4349347FFE590E81376EC8C49D9D0EE0F6FB61064AF112FCD7378CC1811A0D49C27601D27A035C6AB3A0937DFF87656B8A315CABBA678174C7F33F005D831275A0210FD05781D669C8C6AE1CE6186C183EE372B8C943AEE0"
+							src="https://f.us.sinaimg.cn/002M5hMzlx07si8OOEpy010412008ooq0E010.mp4?label=mp4_hd&template=852x480.28.0&ori=0&ps=1BThCpMKz9z2Xh&Expires=1592816448&ssig=y6E6%2Fjjumz&KID=unistore,video"
 							:loop="true"
 							:show-center-play-btn="false"
 							objectFit="fill"
@@ -26,9 +30,12 @@
 							<!-- 头部 -->
 							<view class="foot_head">
 								<!-- 发布视频者的头像 -->
-								<view class="foot_head_img"></view>
+								<view class="foot_head_img" @click="goAuthor"></view>
 								<!-- 名称 -->
-								<view class="">作者名</view>
+								<view>作者名</view>
+								<!-- 立即关注 -->
+								<span @click="focusOn" v-if="focus">关注</span>
+								<span @click="focusOn" v-else>已关注</span>
 							</view>
 							<!-- 作品简介 -->
 							<view class="video_msg" style="color:white">
@@ -87,6 +94,7 @@ export default {
 			like: false ,//判断用户是否喜欢该视频
 			show_pop:false ,//控制评论弹出层显示隐藏
 			videoContextList:'' ,//储存所有的视频区
+			focus:true  //判断是否进行关注  true 未关注  false 已关注
 		};
 	},
 	components: {
@@ -96,7 +104,7 @@ export default {
 		// 根据页面传递过来的 视频index
 		// this.videoIndex = parseInt(option.index);
 		// 显示评论弹窗
-		this.$refs.popupComments[0].open()	
+		// this.$refs.popupComments[0].open()	
 	},
 	onReady() {
 		console.log('播放')
@@ -107,6 +115,41 @@ export default {
 		this.videoContext.play();
 	},
 	methods: {
+		// 返回上一页面
+		back(){
+			console.log('返回上一级页面')
+			uni.navigateBack({
+			    delta: 1
+			});
+		},
+		// 点击用户头像跳转到发布者的详情页
+		goAuthor(){
+			uni.navigateTo({
+			    url: "/pages/author/author"
+			});
+		},
+		// 判断用户是否进行关注
+		focusOn(){
+			let _this = this
+			if(this.focus){
+				// 用户未关注
+				this.focus = false
+			}else{
+				// 用户已经进行了关注，此时再进行点击表示用户是否要取消关注
+				uni.showModal({
+					content:"确认不在关注",
+					success:function(res){
+						if (res.confirm) {
+							console.log('用户点击确定');
+							_this.focus = true //用户取消关注
+						} else if (res.cancel) {
+								console.log('用户点击取消');
+						}
+					}
+				})
+				
+			}
+		},
 		init() {
 				this.videoContextList = []
 				for(var i = 0; i < this.vlist.length; i++) {
@@ -242,17 +285,13 @@ export default {
 		showPop(){
 			console.log('ref',this.$refs)
 			this.$refs.popupComments[this.videoIndex].open()		
-			// 当用户打开评论窗口之后，当前视频暂停播放，关闭之后视频继续播放
-			
-			
+			// 当用户打开评论窗口之后，当前视频暂停播放，关闭之后视频继续播放		
 		},
 		
 		// 控制转发弹窗
 		confirmShare() {
 			this.$refs.popupShare[this.videoIndex].open()
-			// 当打开转发窗口之后当前视频暂停，取消之后视频继续播放
-			
-			
+			// 当打开转发窗口之后当前视频暂停，取消之后视频继续播放		
 		},
 		/**
 		 * 转发时选择内容
@@ -315,6 +354,13 @@ export default {
 		position: relative;
 		height: 100%;
 		background-color: black;
+		.back{
+			width: 40rpx;
+			height: 40rpx;
+			position: absolute;
+			top: 67rpx;
+			left: 30rpx;
+		}
 		video {
 			width: 100%;
 			// height: 500rpx;
@@ -364,8 +410,16 @@ export default {
 					border-radius: 50%;
 					margin-right: 20rpx;
 				}
+				span{
+					display: inline-block;
+					background-color: red;
+					box-sizing: border-box;
+					padding: 10rpx 20rpx;
+					font-size: 20rpx;
+					border-radius: 30rpx;
+					margin-left: 20rpx;
+				}
 			}
-	
 		}
 		.right {
 			width: 100rpx;

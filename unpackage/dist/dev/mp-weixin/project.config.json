@@ -10,24 +10,15 @@
 		"preloadBackgroundData": false,
 		"minified": true,
 		"newFeature": true,
-		"coverView": true,
 		"autoAudits": false,
+		"coverView": true,
 		"showShadowRootInWxmlPanel": true,
 		"scopeDataCheck": false,
-		"checkInvalidKey": true,
-		"checkSiteMap": true,
-		"uploadWithSourceMap": true,
-		"babelSetting": {
-			"ignore": [],
-			"disablePlugins": [],
-			"outputPath": ""
-		},
-		"useCompilerModule": false,
-		"userConfirmedUseCompilerModuleSwitch": false
+		"useCompilerModule": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.9.2",
-	"appid": "touristappid",
+	"appid": "wx15787d9dfeab4b4a",
 	"projectname": "student_video",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
@@ -40,13 +31,56 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
+			"current": -1,
+			"list": []
+		},
+		"gamePlugin": {
 			"current": -1,
 			"list": []
 		},
 		"miniprogram": {
 			"current": -1,
-			"list": []
+			"list": [
+				{
+					"id": -1,
+					"name": "pages/playVideo/playVideo",
+					"pathName": "pages/playVideo/playVideo",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/author/author",
+					"pathName": "pages/author/author",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/fansList/fansList",
+					"pathName": "pages/fansList/fansList",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/fansList/fansList",
+					"pathName": "pages/fansList/fansList",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/login/login",
+					"pathName": "pages/login/login",
+					"scene": null
+				}
+			]
 		}
 	}
 }

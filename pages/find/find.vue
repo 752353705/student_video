@@ -27,7 +27,7 @@
 						<!-- 展示拍摄的视频 -->
 		        <!-- 图片 -->
 						<video id="myVideo" 
-							src="https://vdept.bdstatic.com/5a6138585844754d46514c3468733979/637533556e593231/75eb2623d6c83c511ef4395708ae69a66d93062db122ada92e33d81d73ea9ee0fc16d415ea0326485d28ec69d16a17a4.mp4?auth_key=1592384591-0-0-567e854cbfaff1f2303fa8b052f0f205"
+							src="https://f.us.sinaimg.cn/002M5hMzlx07si8OOEpy010412008ooq0E010.mp4?label=mp4_hd&template=852x480.28.0&ori=0&ps=1BThCpMKz9z2Xh&Expires=1592816448&ssig=y6E6%2Fjjumz&KID=unistore,video"
 						   @error="videoErrorCallback" 
 							 :danmu-list="danmuList" 
 							 enable-danmu danmu-btn 
@@ -35,6 +35,8 @@
 							 :show-center-play-btn="false"
 							 show-center-play-btn
 							 @play="fillScreen"
+							 
+							 @click="goPlayVideo"
 						>
 							<!-- <cover-view class="controls">
 								<cover-image class="img"  src="../../static/head.png" />
@@ -127,6 +129,13 @@
 			
 		},
 		methods:{
+			// 点击进入播放页面
+			goPlayVideo(){
+				uni.navigateTo({
+					url: "/pages/playVideo/playVideo"
+				})
+			},
+			
 			// 控制弹窗
 			open(){
 				// 先判断用户是否一金进行了登录
