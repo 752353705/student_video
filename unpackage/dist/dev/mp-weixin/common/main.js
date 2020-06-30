@@ -11,60 +11,68 @@
 var _App = _interopRequireDefault(__webpack_require__(/*! ./App */ 5));
 
 
-var _index = _interopRequireDefault(__webpack_require__(/*! store/index.js */ 11));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
-_vue.default.prototype.$store = _index.default;
-
-// 引入弹窗组件
-var tabbar = function tabbar() {__webpack_require__.e(/*! require.ensure | components/tabbar */ "components/tabbar").then((function () {return resolve(__webpack_require__(/*! ./components/tabbar.vue */ 87));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
-_vue.default.component('tabbar', tabbar);var uniPopup = function uniPopup() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup.vue */ 94));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+var _index = _interopRequireDefault(__webpack_require__(/*! store/index.js */ 11));
 
 
-_vue.default.component('uniPopup', uniPopup);var uniPopupMessage = function uniPopupMessage() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup-message */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup-message")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-message.vue */ 103));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopupMessage', uniPopupMessage);var uniPopupDialog = function uniPopupDialog() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-dialog */ "components/uni-popup/uni-popup-dialog").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-dialog.vue */ 111));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopupDialog', uniPopupDialog);var uniPopupShare = function uniPopupShare() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-share */ "components/uni-popup/uni-popup-share").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-share.vue */ 118));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopupShare', uniPopupShare);var uniPopupComments = function uniPopupComments() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-comments */ "components/uni-popup/uni-popup-comments").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-comments.vue */ 125));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopupComments', uniPopupComments);var uniPopupGifts = function uniPopupGifts() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-gifts */ "components/uni-popup/uni-popup-gifts").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-gifts.vue */ 132));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 
 
-_vue.default.component('uniPopupGifts', uniPopupGifts);
 
-// 封装全局登录函数
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _get2 = __webpack_require__(/*! ./API/_get.js */ 16);
+var _post2 = __webpack_require__(/*! ./API/_post.js */ 17);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}_vue.default.prototype.$store = _index.default; // 引入弹窗组件
+var tabbar = function tabbar() {__webpack_require__.e(/*! require.ensure | components/tabbar */ "components/tabbar").then((function () {return resolve(__webpack_require__(/*! ./components/tabbar.vue */ 97));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};_vue.default.component('tabbar', tabbar);var uniPopup = function uniPopup() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup.vue */ 104));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};_vue.default.component('uniPopup', uniPopup);var uniPopupMessage = function uniPopupMessage() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup-message */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup-message")]).then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-message.vue */ 113));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};_vue.default.component('uniPopupMessage', uniPopupMessage);var uniPopupDialog = function uniPopupDialog() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-dialog */ "components/uni-popup/uni-popup-dialog").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-dialog.vue */ 121));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};_vue.default.component('uniPopupDialog', uniPopupDialog);var uniPopupShare = function uniPopupShare() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-share */ "components/uni-popup/uni-popup-share").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-share.vue */ 128));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};_vue.default.component('uniPopupShare', uniPopupShare);var uniPopupComments = function uniPopupComments() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-comments */ "components/uni-popup/uni-popup-comments").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-comments.vue */ 135));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};_vue.default.component('uniPopupComments', uniPopupComments);var uniPopupGifts = function uniPopupGifts() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-gifts */ "components/uni-popup/uni-popup-gifts").then((function () {return resolve(__webpack_require__(/*! ./components/uni-popup/uni-popup-gifts.vue */ 142));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};_vue.default.component('uniPopupGifts', uniPopupGifts); // 封装全局登录函数
 // backpage, backtype 2个参数分别代表：
 // backpage : 登录后返回的页面
 // backtype : 打开页面的类型[1 : redirectTo 2 : switchTab]
-_vue.default.prototype.checkLogin = function (backpage, backtype) {
-  // 同步获取本地数据（uid、随机码、用户名、头像）
-  var user_id = uni.getStorageSync('user_id');
-  var user_nu = uni.getStorageSync('user_nu');
-  var user_nm = uni.getStorageSync('user_nm');
-  var user_fa = uni.getStorageSync('user_fa');
-  if (user_id == '' || user_nu == '' || user_fa == '') {
-    // 使用重定向的方式跳转至登录页面
-    uni.redirectTo({ url: '../login/login?backpage=' + backpage + '&backtype=' + backtype });
-    return false;
-  }
-  // 登录成功、已经登录返回数组 [用户 id, 用户随机码, 用户昵称, 用户表情]
-  return [user_id, user_nu, user_nm, user_fa];
-};
-// 定义一个全局的请求地址
-_vue.default.prototype.apiServer = 'http://0608.cc/';
-
-// 定义全局的用户信息便于在其他页面进行用户是否进行登录的判断
-
-
-
-
-_vue.default.config.productionTip = false;
-_App.default.mpType = 'app';
-
+_vue.default.prototype.checkLogin = function (backpage, backtype) {console.log('这里是check'); // 同步获取本地数据（uid、随机码、用户名、头像）
+  var user_id = uni.getStorageSync('user_id');var user_nu = uni.getStorageSync('user_nu');var user_nm = uni.getStorageSync('user_nm');var user_fa = uni.getStorageSync('user_fa');if (user_id == '' || user_nu == '' || user_fa == '') {// 使用重定向的方式跳转至登录页面
+    uni.redirectTo({ url: '../login/login?backpage=' + backpage + '&backtype=' + backtype });return false;} // 登录成功、已经登录返回数组 [用户 id, 用户随机码, 用户昵称, 用户表情]
+  return [user_id, user_nu, user_nm, user_fa];}; // 定义一个全局的请求地址头
+_vue.default.prototype.apiServer = 'http://0608.cc/'; // 将get post 请求方法挂载到vue实例上
+_vue.default.prototype._get = _get2._get;_vue.default.prototype._post = _post2._post; // 定义全局的用户信息便于在其他页面进行用户是否进行登录的判断
+_vue.default.config.productionTip = false;_App.default.mpType = 'app';
 var app = new _vue.default(_objectSpread({
   store: _index.default },
 _App.default));

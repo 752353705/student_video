@@ -1,13 +1,20 @@
 // 发送 get 请求
 export const _get = function(url, data, success, check_login, msg){
 	
+	// return '_get1111'
+	
 	// 请求开始弹出正在加载弹框
 	uni.showLoading({
 	   title: '加载中'
 	});
 	
+	let _this = this
 	// 构造请求参数
 	
+	data = data || {}
+	// wxId
+	// data.wxapp_id = App.siteInfo.uniacid;
+	 // data.token = wx.getStorageSync('token');	
 	
 	//构造get请求
 	uni.request({
@@ -23,7 +30,7 @@ export const _get = function(url, data, success, check_login, msg){
 				}
 				return false;
 			}
-				 
+			// 判断状态码
 		 
 			 // 当请求成功后弹框隐藏
 			 uni.hideLoading();

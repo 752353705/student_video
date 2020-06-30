@@ -1,14 +1,22 @@
 <template>
 	<view class="listPage">
-		<!--index.wxml-->
-		<view class="head">
-		  <image  @click="open" src="/static/head.png"></image>
+		
+		<!-- 搜索框 -->
+		<view class="serach height" @click="goSearch">
+		  <span>请搜索选手ID</span>
+			<image src="/static/search.png" mode=""></image>
 		</view>
+		
+		
+		<!--index.wxml-->
+		<!-- <view class="head height">
+		  <image  @click="open" src="/static/head.png"></image>
+		</view> -->
 		
 		<!-- 内容区 -->
 		<view class="cent">
 			<!-- 参赛 -->
-			  <view class="sum">
+			 <!-- <view class="sum height">
 			    <view 
 						class="item" 
 						v-for="(item,index) in sum" 
@@ -24,7 +32,7 @@
 			        </view>
 			      </view>
 			    </view>
-			  </view>
+			  </view> -->
 			
 			<!-- 滚动视图  参赛选手列表-->
 			<!-- :style="height:{{scrollHeight}} px" -->
@@ -73,16 +81,18 @@
 				],
 				// 参赛选手列表
 				list:[],
+				listNum:0, //进行分页请求时的页数
 				i_active: 0,
 				phoneHeight:'',
-				scrollviewHigh:''
+				scrollviewHigh:'',
+				height:0
 			}
 		},
 		components:{
 			wfallsFlow
 		},
 		onLoad() {
-			console.log('首页')
+			console.log('首页 this',this.globalData)
 			// 显示正在加载弹窗
 			uni.showLoading({
 			   title: '加载中'
@@ -100,6 +110,7 @@
 			console.log('页面加载完毕')
 			uni.hideLoading();
 			let _this = this
+			
 			// 动态设置scroll-view区域的高度
 			uni.getSystemInfo({
 				success(res) {
@@ -107,11 +118,16 @@
 						_this.phoneHeight = res.windowHeight; //获取用户设备的高度
 						console.log(res.windowHeight);
 						// 计算组件的高度
-						let view = uni.createSelectorQuery().select('.head');
+							let view = uni.createSelectorQuery().selectAll('.height');
 						view.boundingClientRect(data => {
-								_this.navHeight = data.height;
-								console.log(_this.navHeight);
-								_this.scrollviewHigh =  _this.phoneHeight - _this.navHeight - 80;
+							// 计算上方各元素的高度总和
+							data.forEach((item,index) => {
+								console.log('item',item.height)
+								_this.height += parseInt(item.height)
+							})
+							// console.log('高度 data',data,)
+							// 	console.log('高度',_this.height);
+								_this.scrollviewHigh =  _this.phoneHeight - _this.height - 80;
 								_this.scrollviewHigh = "height:" + _this.scrollviewHigh +"px";
 								
 						}).exec();
@@ -119,7 +135,7 @@
 			});
 			
 			// 给瀑布组件添加拖拽的功能
-			let full = uni.createSelectorQuery().select('.waterFull');
+			// let full = uni.createSelectorQuery().select('.waterFull');
 			
 			
 		},
@@ -134,10 +150,15 @@
 			
 		},
 		methods: {
+			// 跳转到搜搜页面
+			goSearch(){
+				uni.navigateTo({
+					url:"../find/find"
+				})
+			},
 			touchMove(e){
 				console.log('进行移动 e',e)
 			},
-			
 			
 			// 点击列表中每一项，进行跳转到视频播放页
 			jumpFind(e){
@@ -155,9 +176,7 @@
 			close(){
 				this.$refs.popup.close()
 			},
-			
 			//scrollView 区域
-			
 			lower(){
 				console.log('滚动到底部 ')
 				//进行重新请求用户的数据
@@ -179,6 +198,8 @@
 				        this.$refs.wfalls.handleViewRender();
 				    },0)
 				},800)
+				
+				// 进行真正大分页请求时，利用挂载在实例上的方法，发起请求
 				
 			},
 			
@@ -208,10 +229,31 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
+		// background-color: #f6f6f6;
+		.serach{
+			background-color: #f5f5f5;
+			border-radius: 33rpx;
+			width: 63%;
+			height: 71rpx;
+			text-align: center;
+			line-height: 71rpx;
+			color: #453a74;
+			// margin-bottom: 20rpx;
+			margin-top: 56rpx;
+			margin-left: 20rpx;
+
+			image{
+				width: 40rpx;
+				height:40rpx ;
+				float: right;
+				transform: translateY(50%);
+				margin-right: 30rpx;
+			}
+		}
 		.head{
 		  width: 100%;
 		  height: 470rpx;
-			background-color: #0d0737;
+			// background-color: #0d0737;
 		  image{
 		    width: 100%;
 		    height: 100%;
@@ -219,16 +261,16 @@
 		}
 		.cent{
 			position: relative;
-		  background-color:#0d0737;
+		  // background-color:#0d0737;
 		  width: 100%;
 			height: 100%;
 		  box-sizing: border-box;
-		  padding: 37.5rpx;
+		  padding: 11.5rpx;
 		  padding-top: 20rpx;
 		  .sum{
 		    width: 100%;
 		    height: 100rpx;
-		    background-color: #2f1b8e;
+		    // background-color: #2f1b8e;
 		    border-radius: 20rpx;
 		    display: flex;
 		    justify-content: space-evenly;
@@ -259,7 +301,7 @@
 		  }
 		  
 			.box{
-				background-color: #0d0737;
+				// background-color: #0d0737;
 				width: 100%;
 				height: 100%;
 				.list{				

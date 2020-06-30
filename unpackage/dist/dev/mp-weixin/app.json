@@ -13,9 +13,9 @@
   ],
   "subPackages": [],
   "window": {
-    "navigationBarTextStyle": "white",
+    "navigationBarTextStyle": "black",
     "navigationBarTitleText": "大学生短视频",
-    "navigationBarBackgroundColor": "#0d0639",
+    "navigationBarBackgroundColor": "#FFFFFF",
     "backgroundColor": "#F8F8F8"
   },
   "usingComponents": {
@@ -26,5 +26,6 @@
     "uni-popup-share": "/components/uni-popup/uni-popup-share",
     "uni-popup-comments": "/components/uni-popup/uni-popup-comments",
     "uni-popup-gifts": "/components/uni-popup/uni-popup-gifts"
-  }
+  },
+  "sitemapLocation": "sitemap38.json"
 }

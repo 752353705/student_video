@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="my">
-		  <view class="head">
+		  <view class="head height">
 		    <view class="user_img" @click="jump">
 					<image :src="userMsg.userImg" mode=""></image>
 				 </view>
@@ -13,13 +13,13 @@
 		    </view>
 		  </view>
 		
-		  <view class="content">
+		  <view class="content height">
 		    <view class="list">
 		      <view 
-						v-for="(item,index) in list" 
+						v-for="(item,index) in useList" 
 						:key="index"
 						@click="open(index)"
-						:class="  index!==2 ? 'list_b  list_item' : 'list_item' " 
+						class="list_item" 
 					>
 		        <view class="left">
 		          <view class="left_icon">
@@ -37,68 +37,51 @@
 		        </view>
 		      </view>
 		    </view>
-		
-		    <view class="title">
-		      <view class="title_icon">
-		        <image src="/static/my_video.png" mode=""></image>
-		      </view>
-		      <view>
-		        我的视频
-		      </view>
-		    </view>
-		
-		    <!--我的视频-->
-		    <view class="video_list"> 
-		      <!--存在视频  循环渲染-->
-		      <view class="video_item">
-		        <view class="video_box">
-		          <!-- 视频 -->
-							<video id="myVideo"
-								src="https://f.us.sinaimg.cn/002M5hMzlx07si8OOEpy010412008ooq0E010.mp4?label=mp4_hd&template=852x480.28.0&ori=0&ps=1BThCpMKz9z2Xh&Expires=1592816448&ssig=y6E6%2Fjjumz&KID=unistore,video"
-								@error="videoErrorCallback" 
-								:danmu-list="danmuList" 
-								enable-danmu danmu-btn
-								:controls="false"
-								:show-center-play-btn="false"
-								
-								@click="goPlayVideo"
-							>
-							</video>
-		        </view>
-		
-		        <view class="msg">
-		          <view class="see">
-		            <view class="see_icon">
-		              <image src="/static/see.png" mode=""></image>
-		            </view>
-		            <view>
-		              27534
-		            </view>
-		          </view>
-		          <view class="say">
-		            <view class="say_icon">
-		              <image src="/static/my_vote.png" mode=""></image>
-		            </view>
-		            <view>
-		              17928
-		            </view>
-		          </view>
-		        </view>
-		      </view>
-		      
-		
-		      <!--渲染结束 点击可以上传视频-->
-		      <view class="push_video" @click="open(9)">
-						<view class="cross" />
-						<view class="txt">
-							上传短视频
-						</view>
-		      </view>
-		    </view>
-		  </view>
-		
+			</view>
+		  
+			<!-- 分类展示 -->
+			<view class="show height">
+				<view @click="changAct(0)"  :class=" act === 0 ? 'active item' : 'item'">作品</view>
+				<view @click="changAct(1)" :class=" act === 1 ? 'active item' : 'item'">收藏</view>
+			</view>
+			
+			<!-- 分类展示 -->
+			<swiper class="swiper" 
+				:indicator-dots="false"  :autoplay="false" 
+				@change="swiperChange"
+			>
+				<swiper-item>
+					<view class="swiper-item uni-bg-red">
+						<!-- 作品展示 -->
+						<scroll-view class="list"
+							:style=scrollviewHigh
+							scroll-y="true" 
+							enable-flex="true"
+							lower-threshold="160"
+							@scrolltolower="lower"
+						>
+							<!-- 制作瀑布流 -->
+							<wfalls-flow class="waterFull" :list="list" ref="wfalls" @finishLoad="getLoadNum"></wfalls-flow>
+						</scroll-view>
+					</view>
+				</swiper-item>
+				<swiper-item>
+					<view class="swiper-item uni-bg-green">
+						<!-- 作品展示 -->
+						<scroll-view class="list"
+							:style=scrollviewHigh
+							scroll-y="true" 
+							enable-flex="true"
+							lower-threshold="160"
+							@scrolltolower="lower"
+						>
+							<!-- 制作瀑布流 -->
+							<wfalls-flow class="waterFull" :list="colList" ref="wfallsCol" @finishLoad="getLoadNum"></wfalls-flow>
+						</scroll-view>
+					</view>
+				</swiper-item>
+			</swiper>
 		</view>
-		
 		<!-- 个人资料填写的弹出框 -->
 		<uni-popup class="pop" animation="false" ref="popup_user" type="center" mask-click="false">
 			<uni-popup-message type="success" pop_type="user_msg" message="成功消息" duration="0" />
@@ -122,14 +105,22 @@
 </template>
 
 <script>
-
+	import wfallsFlow from '../../components/wfallsflow.vue'
+	const list = require('../../static/data.json').list;
 	export default {
 		data() {
 			return {
-				list:[
-					{icon:"/static/my_use.png",txt:'个人资料'},
-					{icon:"/static/my_ticket.png",txt:'剩余票数（每日限投3票）'},
-					{icon:"/static/my_exit.png",txt:'退出登录'}
+				// 个人作品以及收藏的展示
+				list:[],
+				colList:[],
+				scrollviewHigh:'',
+				height:0,
+				// 个人展示
+				act:0,
+				useList:[
+					{icon:"/static/my_use1.png",txt:'个人资料'},
+					{icon:"/static/my_ticket1.png",txt:'剩余票数（每日限投3票）'},
+					{icon:"/static/my_exit1.png",txt:'退出登录'}
 				],
 				tic_num:3,
 				m_active:4,
@@ -151,7 +142,7 @@
 			};
 		},
 		components:{
-		
+			wfallsFlow
 		},
 		onLoad(){
 			let _this = this
@@ -165,6 +156,50 @@
 			});
 			// this.$refs.popup_video.open()	
 			// this.$refs.popup_user.open()
+			uni.showLoading({
+			   title: '加载中'
+			});
+			// 渲染作品列表
+			setTimeout(()=>{
+			    this.list = list;
+			    this.colList = list;
+			    this.$refs.wfalls.init();
+			    this.$refs.wfalls.init();
+			},1000)
+			
+			// 发起数据进行请求
+			// 请求作品 以及 收藏 分别进行赋值
+			
+			
+		},
+		onReady() {
+			// 页面加载完毕
+			console.log('页面加载完毕')
+			uni.hideLoading();
+			let _this = this
+			
+			// 动态设置scroll-view区域的高度
+			uni.getSystemInfo({
+				success(res) {
+					console.log('页面信息res',res)
+						_this.phoneHeight = res.windowHeight; //获取用户设备的高度
+						console.log(res.windowHeight);
+						// 计算组件的高度
+							let view = uni.createSelectorQuery().selectAll('.height');
+						view.boundingClientRect(data => {
+							// 计算上方各元素的高度总和
+							data.forEach((item,index) => {
+								console.log('item',item.height)
+								_this.height += parseInt(item.height)
+							})
+							// console.log('高度 data',data,)
+								console.log('高度',_this.height);
+								_this.scrollviewHigh =  _this.phoneHeight - _this.height;
+								_this.scrollviewHigh = "height:" + _this.scrollviewHigh +"px";
+								
+						}).exec();
+				}
+			});
 		},
 		onShow() {
 			let _this = this
@@ -178,6 +213,66 @@
 			});
 		},
 		methods:{
+			// 切换作品以及关注
+			changAct(num){
+				this.act = num
+				if(num === 0){
+					console.log('请求作品相关的数据')
+					// 改变数据
+					//
+					
+					
+				}else{
+					console.log('请求关注方面的数据')
+					// this.swiperChange(act)
+				}
+			},
+			// 轮播图改变
+			swiperChange(e){
+				console.log('改变',e.detail)
+				if(e.detail.current === 0){
+					//显示作品页
+					this.act = 0
+					
+				}else{
+					// 显示收藏页
+					this.act = 1
+					
+					
+				}
+			},
+			// 制作瀑布流
+			getLoadNum(num){
+			    console.log('共加载了:'+num);
+			    !this.isNewRenderDone&&uni.hideLoading()
+			    this.isNewRenderDone = true
+			},	
+			//scrollView 区域
+			lower(){
+				console.log('滚动到底部 ')
+				//进行重新请求用户的数据
+				// 模拟触底刷新
+				console.log('onReachBottom');
+				// 加锁，避免在加载更多时用户频繁下拉导致的重复触发而渲染异常
+				if(!this.isNewRenderDone) return;   
+				this.isNewRenderDone = false
+				uni.showLoading({title:'正在加载更多'})
+				// 模拟分页请求 (加载更多)
+				setTimeout(()=>{
+				    const nextData = JSON.parse(JSON.stringify(this.list.slice(0,10)))
+				    this.list.push(...nextData);
+				    // this.$nextTick(()=>{
+				    //     this.$refs.wfalls.handleViewRender();
+				    // })
+				    // APP上触发不了还是setTimeout万能
+				    setTimeout(()=>{
+				        this.$refs.wfalls.handleViewRender();
+				    },0)
+				},800)
+				
+				// 进行真正大分页请求时，利用挂载在实例上的方法，发起请求
+				
+			},
 			// 点击我的视频跳转到视频播放页
 			goPlayVideo(){
 				uni.navigateTo({
@@ -324,13 +419,14 @@
 		}
 	}
 	.my{
-	  background-color: #0d0639;
+	  background-color: #f6f6f6;
 	  position: fixed;
 	  top: 0;
 	  left: 0;
 	  right: 0;
 	  bottom: 0;
 	  box-sizing: border-box;
+		color: black;
 	  .head{
 	    color: white;
 	    font-size: 30rpx;
@@ -342,7 +438,6 @@
 	    // 花个半圆
 	    width: 750rpx;
 	    height: 310.47rpx;
-	    border:1px solid black;
 	    background-image: linear-gradient(to right, #3d1c9e , #7255a5);
 	    border-radius:0 0 750rpx 750rpx ;
 			// border-radius: 0 0 25% 100% ;
@@ -368,11 +463,11 @@
 	    .list{
 	      width: 100%;
 	      height: 218rpx;
-	      background-color: #311a8e;
+	      background-color: white;
 	      border-radius: 20rpx;
 	      box-sizing: border-box;
 	      padding: 20rpx 45.83rpx;
-	      color: #c4badf;
+	      color: black;
 				
 	      .list_item{
 					position: relative;
@@ -410,22 +505,19 @@
 					
 				}
 				// 绘制0.5px的底线
-				.list_b:before{
-						content: " ";
-					  position: absolute;
-					  left: 0;
-					  bottom: 0;
-					  width: 100%;
-					  height: 1px;
-					  border-bottom: 1px solid #220c78;
-					  -webkit-transform-origin: 0 0;
-					  transform-origin: 0 0;
-					  -webkit-transform: scaleY(0.5);
-					  transform: scaleY(0.5);
-				}
+				// .list_item::after {
+				// 	content: " ";
+				// 	position: absolute;
+				// 	left: 0;
+				// 	bottom: 0;
+				// 	width: 100%;
+				// 	height: 1px;
+				// 	background: black;
+				// 	transform: scaleY(0.5);
+				// }
 			}
 	    .title{
-	      color: white;
+	      // color: white;
 	      display: flex;
 	      justify-content: start;
 				align-items: center;
@@ -448,7 +540,7 @@
 	      .video_item{
 	        width:314rpx;
 	        height:308rpx ;
-	        background-color: #311a8e;
+	        background-color: white;
 	        border-radius: 20rpx;
 	        box-sizing: border-box;
 	        padding-top: 25rpx;
@@ -467,7 +559,7 @@
 	          box-sizing: border-box;
 	          padding-left: 20rpx;
 	          margin-top: 10rpx;
-	          color: #c8bbf3;
+	          color: black;
 	          .see{
 	            margin-right: 20rpx;
 							display: flex;
@@ -506,7 +598,7 @@
 				.push_video{
 					width:314rpx;
 					height:308rpx ;
-					background-color: #311a8e;
+					background-color: white;
 					border-radius: 20rpx;
 					box-sizing: border-box;
 					padding-top: 25rpx;
@@ -532,7 +624,7 @@
 						width: 138.88rpx;
 					}
 					.txt{
-						color: #433775;
+						color: black;
 						font-size:33rpx;
 						font-weight: bolder;
 					}
@@ -541,5 +633,36 @@
 	  
 			
 		}
+		.show{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: sticky;
+			top: 0;
+			left: 0;
+			background-color: white;
+			z-index: 10;
+			
+			:nth-child(1),:nth-child(2){
+				margin-right: 30rpx;
+				
+				padding: 20rpx 20rpx;
+			}
+			.active{
+				border-bottom: 4rpx solid red;
+			}
+		}
+		
+		.swiper{
+			position: relative;
+			// background-color: green;
+			box-sizing: border-box;
+			padding: 10rpx 10rpx;
+			height: 100%;
+		}
+		.swiper-item{
+			
+		}
+		
 	}
 </style>

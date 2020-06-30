@@ -78,11 +78,12 @@
 			</view>
 			<!-- 有视频的时候，显示上传视频的第一帧 -->
 			<view v-else class="content">
-				<image src="http://tmp/touristappid.o6zAJs_XxD5O1isqaB21Mkyb3i-U.43e95KItAYYB19fa8ff106813c79fc566b1ab687d0be.jpg" mode=""></image>
+				<image src="http://tmp/touristappid.o6zAJs_XxD5O1isqaB21Mkyb3i-U.43e95KItAYYB19fa8ff106813c79fc566b1ab687d0be.jpg" mode="aspectFit"></image>
 			</view>
 			
 			<textarea name="area" class="txt_area" value="" placeholder="#输入话题" />
 			<view class="btn" @click="submitVideo">
+			<!-- <view class="btn" @click="getAddress"> -->
 				发布
 			</view>
 		</view>
@@ -105,6 +106,7 @@
 	 * @property {String} duration 显示时间，设置为 0 则不会自动关闭
 	 */
 	import { _postVideo } from '../../API/_post.js'
+	import VODUpload from '../aliyun-upload-sdk-1.0.0.min.js'
 	export default {
 		name: 'UniPopupMessage',
 		props: {
@@ -140,11 +142,134 @@
 		inject: ['popup'],
 		data() {
 			return {
-				video_src:''
+				video_src:'',
+				uploader:'',
+				videos: [],
 			}
 		},
 		created() {
 			this.popup.childrenMsg = this
+		},
+		onReady() {
+			console.log('上传组件准备好')
+			 var that = this;
+			// 构造 上传阿里的方法 
+			 var uploader = new VODUpload({
+					timeout: 60000,
+					region:  "cn-shanghai",
+					// 添加文件成功
+					addFileSuccess: function (uploadInfo) {
+							console.log("addFileSuccess" + JSON.stringify(uploadInfo))
+					},
+					// 开始上传
+					onUploadstarted: function (uploadInfo) {
+							console.log('文件开始上传...');
+							console.log("onUploadStarted:" + JSON.stringify(uploadInfo))
+
+							var url;
+							if (uploadInfo.isImage) {
+									url = "https://alivc-demo.aliyuncs.com/demo/getImageUploadAuth?imageType=default&imageExt=" + that._getSuffix(uploadInfo.url) + "&title=title&tags=tags";
+							} else {
+									url = "https://alivc-demo.aliyuncs.com/demo/getVideoUploadAuth?title=" + uploadInfo.url + "&fileName=" + uploadInfo.url + "&fileSize=" + uploadInfo.fileSize + "&description=description&coverURL=" + uploadInfo.coverUrl + "&tags=tags";
+							}
+
+							wx.request({
+									'url': url,
+									success: (res => {
+											if (res.statusCode === 200) {
+													var akInfo = res.data.data;
+													uploader.setUploadAuthAndAddress(uploadInfo, akInfo.uploadAuth, akInfo.uploadAddress, akInfo.imageId);
+											} else {
+													console.log(res)
+												uploader.stopUpload();
+											}
+									}),
+									fail: (res => {
+											// uploader.stopUpload();
+											console.log('发送请求文件上传失败',res)
+									})
+							});
+
+					},
+					// 文件上传成功
+					onUploadSucceed: function (uploadInfo) {
+							console.log(JSON.stringify(uploadInfo))
+							console.log('文件上传成功!')
+					},
+					// 文件上传失败
+					onUploadFailed: function (uploadInfo, code, message) {
+							console.log("onUploadFailed: file:" + uploadInfo.file.name + ",code:" + code + ", message:" + message)
+							console.log('文件上传失败!')
+							uploader.stopUpload();
+					},
+					// 取消文件上传
+					onUploadCanceled: function (uploadInfo, code, message) {
+							console.log(JSON.stringify(uploadInfo) + code + message)
+							console.log('文件已暂停上传!')
+							uploader.stopUpload();
+
+					},
+					// 文件上传进度，单位：字节, 可以在这个函数中拿到上传进度并显示在页面上
+					onUploadProgress: function (uploadInfo, totalSize, progress) {
+							var files;
+							if (uploadInfo.isImage) {
+									files = that.images;
+							} else {
+									files = that.videos;
+							}
+
+							files.forEach((file, idx) => {
+									if (file.url === uploadInfo.url) {
+											file.progress = progress;
+											if (uploadInfo.isImage) {
+													// that.setData({
+													// 		images: files
+													// })
+											} else {
+													that.videos = files
+											}
+									}
+							})
+
+
+							console.log(JSON.stringify(uploadInfo) + "|" + totalSize + "|" + progress)
+							// console.log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" + Math.ceil(progress * 100) + "%")
+							var progressPercent = Math.ceil(progress * 100)
+							console.log('文件上传中...' + progressPercent);
+							// $('#sts-progress').text(progressPercent)
+							// $('#status').text('文件上传中...')
+
+					},
+					// 上传凭证超时
+					onUploadTokenExpired: function (uploadInfo) {
+							// // 如果是上传方式二即根据 STSToken 实现时，从新获取STS临时账号用于恢复上传
+							// // 上传文件过大时可能在上传过程中 sts token 就会失效, 所以需要在 token 过期的回调中调用 resumeUploadWithSTSToken 方法
+							// // 这里是测试接口, 所以我直接获取了 STSToken
+							// $('#status').text('文件上传超时!')
+							//
+							// var stsUrl = 'http://demo-vod.cn-shanghai.aliyuncs.com/voddemo/CreateSecurityToken?BusinessType=vodai&TerminalType=pc&DeviceModel=iPhone9,2&UUID=67999yyuuuy&AppVersion=1.0.0'
+							// $.get(stsUrl, function (data) {
+							//     var info = data.SecurityTokenInfo
+							//     var accessKeyId = info.AccessKeyId
+							//     var accessKeySecret = info.AccessKeySecret
+							//     var secretToken = info.SecurityToken
+							//     var expiration = info.Expiration
+							//     uploader.resumeUploadWithSTSToken(accessKeyId, accessKeySecret, secretToken, expiration)
+							// }, 'json')
+					},
+					// 全部文件上传结束
+					onUploadEnd: function (uploadInfo) {
+							wx.showToast({
+									title: '上传成功',
+									icon: 'success',
+									duration: 2000
+							})
+							console.log("文件上传完毕 onUploadEnd: uploaded all the files")
+					}
+			});
+			 
+			 this.uploader = uploader
+			
 		},
 		methods: {
 			// 控制弹窗
@@ -172,9 +297,21 @@
 			submitUserMsg(e){
 				console.log('个人资料e',e.detail.value)
 			},
+			
+		 
+			
+	//上传作品
+			_getSuffix: function (filename) {
+				var pos = filename.lastIndexOf('.')
+				var suffix = ''
+				if (pos != -1) {
+						suffix = filename.substring(++pos)
+				}
+				return suffix;
+			},
 			// 获取本地拍摄的作品
 			getVideo(){
-				console.log('调用接口上传视频')
+				console.log('调用接口获取本地视频')
 				let _this = this
 				// 调用内部接口获取拍摄的视频
 				//成功获取本地视频的地址之后，显示视频的第一帧
@@ -183,7 +320,7 @@
 						count: 1,
 						sourceType: ['camera', 'album'],
 						success: function (res) {
-							console.log('调取获取视频接口成功res',res,res.thumbTempFilePath)
+							console.log('调取获取视频接口成功res',res)
 							// 视频第一帧  图片
 							_this.video_src = res.thumbTempFilePath
 							// 获取了文件的临时路径，然后对其进行文件的上传
@@ -200,11 +337,23 @@
 							// 	}
 							// })
 							
-							uni.showToast({
-									icon:'none',
-							    title: '上传视频成功',
-							    duration: 2000
-							});
+							var file = {url: res.tempFilePath, coverUrl: res.thumbTempFilePath};
+                // that.setData({
+                //     videosCount: videosCount,
+                //     videos: that.data.videos.concat(file)
+                // });
+								_this.videos = _this.videos.concat(file)
+
+                var uploader = _this.uploader;
+                var userData = '{"Vod":{}}'
+                uploader.addFile(file, null, null, null, userData)
+							
+							
+							// uni.showToast({
+							// 		icon:'none',
+							//     title: '上传视频成功',
+							//     duration: 2000
+							// });
 							
 						},
 						
@@ -218,6 +367,9 @@
 						
 				});
 				
+				
+				
+				
 			},
 			
 			
@@ -225,8 +377,12 @@
 			submitVideo(e){
 				console.log('上传作品并发布')
 				
+				// 将视频上传到阿里服务器，运用 postVideo
+				console.log('获取uploader',this.uploader)
 				
 				
+				// 点击上传
+				this.uploader.startUpload();
 			}
 		}
 	}

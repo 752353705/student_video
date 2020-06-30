@@ -8,7 +8,6 @@
   -webkit-box-align: start;
   -webkit-align-items: flex-start;
           align-items: flex-start;
-  padding: 0 24rpx;
 }
 .list-container .list.data-v-693f66ea {
   width: calc(50% - 8rpx);
@@ -57,7 +56,7 @@
 .list-container .list .item .item_foot .left .user_img.data-v-693f66ea {
   width: 40rpx;
   height: 40rpx;
-  background-color: white;
+  background-color: yellow;
   border-radius: 50%;
   margin-right: 10rpx;
 }

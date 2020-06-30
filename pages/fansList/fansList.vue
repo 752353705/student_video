@@ -1,14 +1,17 @@
 <template>
 	<view>
-		<view class="fans" v-for="(index,item) in [1,2,3]">
+		<view class="fans" v-for="(index,item) in [1,2,3]" :key="index">
 			<view class="left">
 				<view class="img">
 					
 				</view>
 				<view class="name">粉丝</view>
 			</view>
-			<view class="focus" @click="focus">
+			<view v-if="focus" class="focus" @click="focusOn">
 				关注
+			</view>
+			<view v-else class="focus" @click="focusOn">
+				已关注
 			</view>
 		</view>
 	</view>
@@ -18,13 +21,35 @@
 	export default {
 		data() {
 			return {
-				
+				focus:true
 			};
 		},
+		onLoad(options) {
+			// 渲染 粉丝列表或者关注列表
+			console.log('fans',options)
+		},
 		methods:{
-			focus(){
-				console.log('点击关注粉丝')
-			}
+			focusOn(){
+				let _this = this
+				if(this.focus){
+					// 用户未关注
+					this.focus = false
+				}else{
+					// 用户已经进行了关注，此时再进行点击表示用户是否要取消关注
+					uni.showModal({
+						content:"确认不在关注",
+						success:function(res){
+							if (res.confirm) {
+								console.log('用户点击确定');
+								_this.focus = true //用户取消关注
+							} else if (res.cancel) {
+									console.log('用户点击取消');
+							}
+						}
+					})
+					
+				}
+			},
 		}
 	}
 </script>

@@ -153,8 +153,8 @@
 	width: 60rpx;
 	height: 60rpx;
 	content: '\e439';
-	color: #fce945;
-	background-color: #110847;
+	color: red;
+	background-color: #FFFFFF;
 	border-radius: 50%;
 	box-sizing: border-box;
 	padding: 26rpx;
@@ -337,11 +337,14 @@
   height: 75.69rpx;
   width: 100%;
   bottom: 0;
-  background-color: #11084b;
+  background-color: #FFFFFF;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
   font-size: 20rpx;
+  -webkit-box-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+          justify-content: space-evenly;
 }
 .tab .tab_icon {
   width: 40rpx;
@@ -401,7 +404,7 @@
           justify-content: center;
 }
 .active {
-  color: #ffe446 !important;
+  color: red !important;
 }
 .active .uni-icon {
   color: #ffe446 !important;

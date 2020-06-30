@@ -4,10 +4,14 @@
 		<view class="uni-share-title"><text class="uni-share-title-text">{{title}}</text></view>
 		<view class="uni-share-content">
 			<!-- 评论内容区 -->
-			<view class="uni-share-content-box">
+			<scroll-view class="uni-share-content-box"
+				scroll-y="true"
+			>
 				
 				<!-- 模拟用户的评论 -->
-				<user-comment class="user_cmt"></user-comment>
+				<user-comment class="user_cmt" 
+					:msgList = "msgList" 
+				/>
 				
 				<!-- 显示二级回复 -->
 				<!-- <view class="user_cmt_two" v-if="twoShow">
@@ -16,19 +20,28 @@
 					</view>
 				</view> -->
 				
-			</view>
+			</scroll-view>
 		</view>
 		
 		
-		
-		
-		
-		
-		
 		<!-- 用户的输入评论区 -->
-		<view class="msg">
-			<image src="/static/signature.png" mode=""></image>
-			<input type="text" value="" placeholder="写评论" placeholder-style="color:white" />
+		<view class="msgBox">
+			<!-- 用户的头像 -->
+			<view class="img_user">
+				
+			</view>
+			
+			<view class="msg">
+				<image src="/static/signature.png" mode=""></image>
+				<input type="text" value="" :placeholder="replayVal" 
+					cursor-spacing = 15
+					:value="val"
+					@input="sendVal"
+				/>
+			</view>
+			
+			<!-- 发表评论按钮 -->
+			<view @click="send">发送</view>
 		</view>
 	
 		<!-- 取消按钮 -->
@@ -56,6 +69,8 @@
 		inject: ['popup'],
 		data() {
 			return {
+				//动态修改输入框中的值，进行用户之间的交流互评
+				replayVal:'写评论',
 				bottomData: [{
 						text: '微信',
 						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png',
@@ -87,7 +102,22 @@
 						name: 'more'
 					}
 				],
-				twoShow:false
+				twoShow:false,
+				val:'',
+				msgList:[{
+						name:'1',
+						talk:'',
+						time:'',
+						see:'',
+						two_cont:[
+							{name:'1-1',talk:'',time:'',see:''}
+						]
+					},
+					{name:'2',talk:'',time:'',see:''},
+					{name:'3',talk:'',time:'',see:''},
+					{name:'4',talk:'',time:'',see:''},
+					{name:'5',talk:'',time:'',see:''},
+				]
 			}
 		},
 		components:{
@@ -95,6 +125,27 @@
 		},
 		created() {},
 		methods: {
+			/**
+			 * 用户进行发表评论
+			 * */
+			 // 将评论推入列表中
+			 sendVal(e){
+				 this.val = e.detail.value; 
+			 },
+			 send(){
+				 
+				 // 当用户的评论为空时不进行发表
+				 if(this.val === '' || !this.val.trim()) return
+				 
+				 console.log('发表评论e',this.val)
+				 
+				 // 从本地存储中获取用户的个人信息，以及头像当评论时传入列表
+				 
+				 this.msgList.unshift({
+					 name:'6',talk:this.val,time:'',see:''
+				 })
+				 this.val = ''
+			 },
 			/**
 			 * 选择内容
 			 */
@@ -131,7 +182,7 @@
 		height: 70%;
 		border-radius: 20rpx 20rpx 0 0;
 		box-sizing: border-box;
-		padding: 0 40rpx 0;
+		// padding: 0 40rpx 0;
 	}
 	.uni-share-title {
 		/* #ifndef APP-NVUE */
@@ -151,7 +202,7 @@
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
-		height: 800rpx;
+		// height: 800rpx;
 		flex-direction: row;
 		justify-content: center;
 		padding-top: 10px;
@@ -164,6 +215,7 @@
 		// flex-direction: row;
 		// flex-wrap: wrap;
 		width: 360px;
+		height: 600rpx;
 	}
 	
 	.uni-share-content-item {
@@ -179,6 +231,7 @@
 	
 	.uni-share-content-item:active {
 		background-color: #f5f5f5;
+		height: 400rpx;
 	}
 	
 	.uni-share-image {
@@ -213,22 +266,38 @@
 		border: none;
 	}
 	
-	.msg {
-		width: 75%;
-		height: 80rpx;
-		box-sizing: border-box;
-		padding-left: 30rpx;
-		background-color: gray;
-		color: white;
-		margin-top: 20rpx;
-		border-radius: 30rpx;
+	// 用户书写评论
+	.msgBox{
 		display: flex;
-		justify-content: start;
 		align-items: center;
-		image {
-			width: 40rpx;
-			height: 40rpx;
+		.img_user{
+			width: 60rpx;
+			height: 60rpx;
+			background-color: yellow;
+			border-radius: 50%;
 			margin-right: 20rpx;
+			margin-left: 27rpx;
+		}
+		.msg {
+			width: 70%;
+			height: 66rpx;
+			box-sizing: border-box;
+			padding-left: 30rpx;
+			border: 1px solid gray;
+			margin-top: 20rpx;
+			margin-right: 10rpx;
+			margin-bottom: 20rpx;
+			border-radius: 30rpx;
+			display: flex;
+			justify-content: start;
+			align-items: center;
+			bottom: 20rpx;
+			
+			image {
+				width: 40rpx;
+				height: 40rpx;
+				margin-right: 20rpx;
+			}
 		}
 	}
 	

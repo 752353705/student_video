@@ -67,7 +67,8 @@
         ,{
             "path" : "pages/author/author",
             "style" : {
-							
+							"enablePullDownRefresh" : true,
+							"onReachBottomDistance" : 200
 						}
         }
         ,{
@@ -78,9 +79,9 @@
         }
     ],
     "globalStyle" : {
-        "navigationBarTextStyle" : "white",
+        "navigationBarTextStyle" : "black",
         "navigationBarTitleText" : "大学生短视频",
-        "navigationBarBackgroundColor" : "#0d0639",
+        "navigationBarBackgroundColor" : "#FFFFFF",
         "backgroundColor" : "#F8F8F8"
     }
 }

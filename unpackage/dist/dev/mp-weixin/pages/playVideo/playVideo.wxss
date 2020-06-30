@@ -63,7 +63,15 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.playVideo .uni_vdplayer .foot .foot_head .foot_head_img {
+.playVideo .uni_vdplayer .foot .foot_head .foot_head_box {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.playVideo .uni_vdplayer .foot .foot_head .foot_head_box .foot_head_img {
   width: 60rpx;
   height: 60rpx;
   background-color: yellow;

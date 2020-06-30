@@ -153,6 +153,9 @@ module.exports = {
     "marginRight": 0,
     "marginBottom": 0,
     "marginLeft": 0
+  },
+  "t_c": {
+    "textAlign": "center"
   }
 }
 

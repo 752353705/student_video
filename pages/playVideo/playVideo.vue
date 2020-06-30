@@ -1,6 +1,10 @@
 <template>
 	<view class="playVideo">
-		<swiper :indicator-dots="false" :duration="200" :vertical="true" :current="videoIndex" @change="handleSlider" style="height: 100%;">
+		<swiper 
+			:indicator-dots="false" :duration="200" :vertical="true" 
+			:current="videoIndex" @change="handleSlider" 
+			style="height: 100%;"
+		>
 			<block v-for="(item, index) in [1,2]" :key="index">
 				<swiper-item>
 					<view class="uni_vdplayer">
@@ -12,7 +16,7 @@
 							:id="'myVideo' + index"
 							ref="myVideo"
 							class="player-video"
-							src="https://f.us.sinaimg.cn/002M5hMzlx07si8OOEpy010412008ooq0E010.mp4?label=mp4_hd&template=852x480.28.0&ori=0&ps=1BThCpMKz9z2Xh&Expires=1592816448&ssig=y6E6%2Fjjumz&KID=unistore,video"
+							src="https://vdept.bdstatic.com/31336c78626d6855584b71457562436d/4a4c7969316d3733/4d5820038825dbf3ec05911aa6865cb567e80ab6440223e73243ac9d9ff43983be4b5a04dfb2342c64439b66469fceaa9bc0b6636b8deb31f9aa7c029df00561.mp4?auth_key=1592882067-0-0-3c877ebf3b8fa6b205fa5e44b29003b1"
 							:loop="true"
 							:show-center-play-btn="false"
 							objectFit="fill"
@@ -29,10 +33,12 @@
 						<view class="foot">
 							<!-- 头部 -->
 							<view class="foot_head">
-								<!-- 发布视频者的头像 -->
-								<view class="foot_head_img" @click="goAuthor"></view>
-								<!-- 名称 -->
-								<view>作者名</view>
+								<view class="foot_head_box"  @click="goAuthor">
+									<!-- 发布视频者的头像 -->
+									<view class="foot_head_img" ></view>
+									<!-- 名称 -->
+									<view>作者名</view>
+								</view>
 								<!-- 立即关注 -->
 								<span @click="focusOn" v-if="focus">关注</span>
 								<span @click="focusOn" v-else>已关注</span>
@@ -320,10 +326,10 @@ export default {
 			// 当弹窗消失之后自动对视频进行播放
 			if(e.show){
 				// 当弹窗进行显示之后暂停当前视频
-				this.isPlay = true
+				this.isPlay = false
 				ctx.pause();
 			}else{
-				this.isPlay = false
+				this.isPlay = true
 				ctx.play();
 			}
 			
@@ -403,13 +409,18 @@ export default {
 				display: flex;
 				justify-content: start;
 				align-items: center;
-				.foot_head_img {
-					width: 60rpx;
-					height: 60rpx;
-					background-color: yellow;
-					border-radius: 50%;
-					margin-right: 20rpx;
+				.foot_head_box{
+					display: flex;
+					align-items: center;
+					.foot_head_img {
+						width: 60rpx;
+						height: 60rpx;
+						background-color: yellow;
+						border-radius: 50%;
+						margin-right: 20rpx;
+					}
 				}
+				
 				span{
 					display: inline-block;
 					background-color: red;

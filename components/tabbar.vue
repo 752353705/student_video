@@ -12,19 +12,19 @@
 			<!-- 底部自定义tabber -->
 				<view :class="active == 0 ? 'item active' : 'item'" @click="jump(0)">
 					<view class="tab_icon">
-						<image v-if="active == 0" src="../static/index_active.png" mode=""></image>
-						<image v-else src="../static/index.png" mode=""></image>
+						<image v-if="active == 0" src="../static/index1_active.png" mode=""></image>
+						<image v-else src="../static/index1.png" mode=""></image>
 					</view>
 					<view>作品列表</view>
 				</view>
 				
-				<view :class="active == 1 ? 'item active' : 'item'" @click="jump(1)">
+				<!-- <view :class="active == 1 ? 'item active' : 'item'" @click="jump(1)">
 					<view class="tab_icon">
 						<image v-if=" active == 1" src="../static/find_active.png" mode=""></image>
 						<image v-else src="../static/find.png" mode=""></image>
 					</view>
 					<view>搜索作品</view>
-				</view>
+				</view> -->
 				
 				<view :class="active == 2 ? 'item-add active' : 'item-add'"  @click="pop"> 
 					<view>
@@ -32,18 +32,18 @@
 					</view>
 				</view>
 				
-				<view :class="active == 3? 'item active' : 'item'" @click="jump(3)">
+				<!-- <view :class="active == 3? 'item active' : 'item'" @click="jump(3)">
 					<view class="tab_icon">
 						<image v-if="active == 3" src="../static/cpt_active.png" mode=""></image>
 						<image v-else src="../static/cpt.png" mode=""></image>
 					</view>
 					<view>合作赞助</view>
-				</view>
+				</view> -->
 				
 				<view :class=" active == 4 ? 'item active' : 'item'" @click="jump(4)">
 					<view class="tab_icon">
-						<image v-if="active == 4" src="../static/home_active.png" mode=""></image>
-						<image v-else src="../static/home.png" mode=""></image>
+						<image v-if="active == 4" src="../static/home_active1.png" mode=""></image>
+						<image v-else src="../static/home1.png" mode=""></image>
 					</view>
 					<view>我的主页</view>
 				</view>
@@ -161,10 +161,10 @@
 		height: 75.69rpx;
 		width: 100%;
 		bottom: 0;
-		background-color: #11084b;
+		background-color: #FFFFFF;
 		display: flex;
 		font-size: 20rpx;
-		
+		justify-content: space-evenly;
 		.tab_icon{
 			width: 40rpx;
 			height: 40rpx;
@@ -215,7 +215,7 @@
 	}
 	
 	.active {
-		color: #ffe446 !important;
+		color: red !important;
 	}
 	
 	.active .uni-icon {

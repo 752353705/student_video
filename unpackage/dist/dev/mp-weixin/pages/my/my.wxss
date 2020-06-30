@@ -16,13 +16,14 @@
   margin-top: 20rpx;
 }
 .my {
-  background-color: #0d0639;
+  background-color: #f6f6f6;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   box-sizing: border-box;
+  color: black;
 }
 .my .head {
   color: white;
@@ -41,7 +42,6 @@
   padding-top: 64rpx;
   width: 750rpx;
   height: 310.47rpx;
-  border: 1px solid black;
   background-image: -webkit-linear-gradient(left, #3d1c9e, #7255a5);
   background-image: linear-gradient(to right, #3d1c9e, #7255a5);
   border-radius: 0 0 750rpx 750rpx ;
@@ -68,11 +68,11 @@
 .my .content .list {
   width: 100%;
   height: 218rpx;
-  background-color: #311a8e;
+  background-color: white;
   border-radius: 20rpx;
   box-sizing: border-box;
   padding: 20rpx 45.83rpx;
-  color: #c4badf;
+  color: black;
 }
 .my .content .list .list_item {
   position: relative;
@@ -120,21 +120,7 @@
   width: 100%;
   height: 100%;
 }
-.my .content .list .list_b:before {
-  content: " ";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 1px;
-  border-bottom: 1px solid #220c78;
-  -webkit-transform-origin: 0 0;
-  transform-origin: 0 0;
-  -webkit-transform: scaleY(0.5);
-  transform: scaleY(0.5);
-}
 .my .content .title {
-  color: white;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -169,7 +155,7 @@
 .my .content .video_list .video_item {
   width: 314rpx;
   height: 308rpx ;
-  background-color: #311a8e;
+  background-color: white;
   border-radius: 20rpx;
   box-sizing: border-box;
   padding-top: 25rpx;
@@ -193,7 +179,7 @@
   box-sizing: border-box;
   padding-left: 20rpx;
   margin-top: 10rpx;
-  color: #c8bbf3;
+  color: black;
 }
 .my .content .video_list .video_item .msg .see {
   margin-right: 20rpx;
@@ -240,7 +226,7 @@
 .my .content .video_list .push_video {
   width: 314rpx;
   height: 308rpx ;
-  background-color: #311a8e;
+  background-color: white;
   border-radius: 20rpx;
   box-sizing: border-box;
   padding-top: 25rpx;
@@ -275,8 +261,39 @@
   width: 138.88rpx;
 }
 .my .content .video_list .push_video .txt {
-  color: #433775;
+  color: black;
   font-size: 33rpx;
   font-weight: bolder;
+}
+.my .show {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: white;
+  z-index: 10;
+}
+.my .show :nth-child(1),
+.my .show :nth-child(2) {
+  margin-right: 30rpx;
+  padding: 20rpx 20rpx;
+}
+.my .show .active {
+  border-bottom: 4rpx solid red;
+}
+.my .swiper {
+  position: relative;
+  box-sizing: border-box;
+  padding: 10rpx 10rpx;
+  height: 100%;
 }
 

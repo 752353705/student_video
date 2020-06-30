@@ -7,7 +7,6 @@
 									@error="handleViewRender(listIndex,index)" 
 									:src="item.image ? item.image : '/static/easyLoadimage/loading.gif'" mode="widthFix"
 									:lazy-load="true"
-									data-src="http://cdn.jirengu.com/book.jirengu.com/img/1.jpg"
 								> 
 								</image>
 								
@@ -29,7 +28,7 @@
 									</view>
 									<view class="right">
 										<view class="icon">
-											<image src="/static/my_vote.png" mode=""></image>
+											<image src="/static/my_vote1.png" mode=""></image>
 										</view>
 										<view>
 											<!-- 票数 -->
@@ -111,7 +110,7 @@
 			display:flex;
 			justify-content:space-between;
 			align-items:flex-start;
-			padding :0 24rpx;
+			// padding :0 24rpx;
 			.list{
 				width: calc(50% - 8rpx);
 				display :flex;
@@ -138,7 +137,7 @@
 							.user_img{
 								width: 40rpx;
 								height: 40rpx;
-								background-color: white;
+								background-color: yellow;
 								border-radius: 50%;
 								margin-right: 10rpx;
 							}
