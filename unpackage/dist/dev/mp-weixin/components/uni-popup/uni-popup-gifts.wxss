@@ -24,10 +24,10 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-.uni-popup-share.data-v-1d8dfc19 {
+.uni-popup-share.data-v-66f313da {
   background-color: #fff;
 }
-.uni-share-title.data-v-1d8dfc19 {
+.uni-share-title.data-v-66f313da {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -43,12 +43,12 @@
           justify-content: center;
   height: 40px;
 }
-.uni-share-title-text.data-v-1d8dfc19 {
+.uni-share-title-text.data-v-66f313da {
   font-size: 40rpx;
   font-weight: bolder;
   color: #666;
 }
-.uni-share-content.data-v-1d8dfc19 {
+.uni-share-content.data-v-66f313da {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -61,7 +61,7 @@
           justify-content: center;
   padding-top: 10px;
 }
-.uni-share-content-box.data-v-1d8dfc19 {
+.uni-share-content-box.data-v-66f313da {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -73,7 +73,7 @@
           flex-wrap: wrap;
   width: 360px;
 }
-.uni-share-content-item.data-v-1d8dfc19 {
+.uni-share-content-item.data-v-66f313da {
   width: 90px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -90,19 +90,19 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.uni-share-content-item.data-v-1d8dfc19:active {
+.uni-share-content-item.data-v-66f313da:active {
   background-color: #f5f5f5;
 }
-.uni-share-image.data-v-1d8dfc19 {
+.uni-share-image.data-v-66f313da {
   width: 30px;
   height: 30px;
 }
-.uni-share-text.data-v-1d8dfc19 {
+.uni-share-text.data-v-66f313da {
   margin-top: 10px;
   font-size: 14px;
   color: #3B4144;
 }
-.uni-share-button-box.data-v-1d8dfc19 {
+.uni-share-button-box.data-v-66f313da {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -112,7 +112,7 @@
           flex-direction: row;
   padding: 10px 15px;
 }
-.uni-share-button.data-v-1d8dfc19 {
+.uni-share-button.data-v-66f313da {
   -webkit-box-flex: 1;
   -webkit-flex: 1;
           flex: 1;
@@ -121,7 +121,7 @@
   font-size: 16px;
   background-color: transparent;
 }
-.uni-share-button.data-v-1d8dfc19::after {
+.uni-share-button.data-v-66f313da::after {
   border-radius: 50px;
   border: none;
 }

@@ -77,6 +77,22 @@
 							"navigationBarTitleText" : "粉丝列表"
 						}
         }
+        ,{
+            "path" : "pages/tabMsg/tabMsg",
+            "style" : {
+							"navigationBarTitleText" : "消息"
+						}
+        }
+        ,{
+            "path" : "pages/chartRoom/chartRoom",
+            "style" : {
+
+						}
+        }
+        ,{
+            "path" : "pages/chat/chat",
+            "style" : {}
+        }
     ],
     "globalStyle" : {
         "navigationBarTextStyle" : "black",

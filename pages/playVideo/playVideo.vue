@@ -5,7 +5,7 @@
 			:current="videoIndex" @change="handleSlider" 
 			style="height: 100%;"
 		>
-			<block v-for="(item, index) in [1,2]" :key="index">
+			<block v-for="(item, index) in videoData" :key="index">
 				<swiper-item>
 					<view class="uni_vdplayer">
 						
@@ -16,18 +16,19 @@
 							:id="'myVideo' + index"
 							ref="myVideo"
 							class="player-video"
-							src="https://vdept.bdstatic.com/31336c78626d6855584b71457562436d/4a4c7969316d3733/4d5820038825dbf3ec05911aa6865cb567e80ab6440223e73243ac9d9ff43983be4b5a04dfb2342c64439b66469fceaa9bc0b6636b8deb31f9aa7c029df00561.mp4?auth_key=1592882067-0-0-3c877ebf3b8fa6b205fa5e44b29003b1"
+							:src="item.src"
 							:loop="true"
 							:show-center-play-btn="false"
 							objectFit="fill"
 							@click="handleClicked(index)"
+							
 						></video>
-						
+						<!-- @click="handleClicked(index)" -->
 						<!-- 中间播放按钮 -->
 						<view v-if="btnShow" class="vd-cover flexbox" @click="handleClicked(index)">
 							<!-- <text v-if="!isPlay" class="iconfont icon-bofang"></text> -->
-							<image v-if="!isPlay" src="../../static/play.png" mode=""></image>
-							<image v-else src="../../static/suspended.png" mode=""></image>
+							<image v-if="!isPlay" src="/static/play.png" mode=""></image>
+							<image v-else src="/static/suspended.png" mode=""></image>
 						</view>
 
 						<view class="foot">
@@ -88,12 +89,34 @@
 <script>
 let timer = null;
 import userComment from '../../components/user-comment.vue'
+// 引入送礼物、评论、转发弹出框
+import uniPopupShare from '../../components/uni-popup/uni-popup-share.vue'
+import uniPopupComments from '../../components/uni-popup/uni-popup-comments.vue'
+import uniPopupGifts from '../../components/uni-popup/uni-popup-gifts.vue'
 export default {
 	data() {
 		return {
+			videoData:[{
+			        src: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hellouniapp/hello-nvue-swiper-vertical-01.mp4'
+			    },
+			    {
+			        src: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hellouniapp/hello-nvue-swiper-vertical-02.mp4'
+			    },
+			    {
+			        src: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hellouniapp/hello-nvue-swiper-vertical-03.mp4'
+			    },
+			    {
+			        src: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hellouniapp/hello-nvue-swiper-vertical-01.mp4'
+			    },
+			    {
+			        src: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hellouniapp/hello-nvue-swiper-vertical-02.mp4'
+			    },
+			    {
+			        src: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hellouniapp/hello-nvue-swiper-vertical-03.mp4'
+			    }
+			],
 			videoIndex: 0,
 			// vlist: videoJson,//播放视频的列表组
-			vlist: [1,2],//播放视频的列表组
 			isPlay: true, //当前视频是否播放中
 			clickNum: 0, //记录点击次数
 			btnShow: false, //控制按钮的显示隐藏
@@ -104,7 +127,10 @@ export default {
 		};
 	},
 	components: {
-		userComment
+		userComment,
+		uniPopupShare,
+		uniPopupComments,
+		uniPopupGifts,
 	},
 	onLoad(option) {
 		// 根据页面传递过来的 视频index
@@ -113,10 +139,10 @@ export default {
 		// this.$refs.popupComments[0].open()	
 	},
 	onReady() {
-		console.log('播放')
+		console.log('播放 onReady')
 		this.init()
 		this.videoContext = uni.createVideoContext('myVideo0');
-		console.log('video',this.videoContext)
+		console.log('video onready',this.videoContext)
 		// 用户点击进入后就进行播放
 		this.videoContext.play();
 	},
@@ -158,7 +184,7 @@ export default {
 		},
 		init() {
 				this.videoContextList = []
-				for(var i = 0; i < this.vlist.length; i++) {
+				for(var i = 0; i < this.videoData.length; i++) {
 						// this.videoContextList.push(this.$refs['myVideo' + i][0])
 						this.videoContextList.push(uni.createVideoContext('myVideo' + i, this));
 				}
@@ -171,6 +197,7 @@ export default {
 		// 滑动切换
 		handleSlider(e) {
 			let curIndex = e.detail.current;
+			console.log('videoIndex',this.videoIndex)
 			if (this.videoIndex >= 0) {
 				this.videoContextList[this.videoIndex].pause();
 				this.videoContextList[this.videoIndex].seek(0);
@@ -186,19 +213,19 @@ export default {
 			this.videoIndex = curIndex;
 		},
 		// 播放
-		// play(index) {
-		// 	console.log('播放');
-		// 	this.videoContextList[index].play()
-		// 	// this.videoContext.play();
-		// 	this.isPlay = true;
-		// },
-		// // 暂停
-		// pause() {
-		// 	console.log('暂停');
-		// 	this.videoContextList[index].pause()
-			// this.videoContext.pause();
-		// 	this.isPlay = false;
-		// },
+		play() {
+			console.log('播放 play');
+			// this.videoContextList[index].play()
+			// this.videoContext.play();
+			this.isPlay = true;
+		},
+		// 暂停
+		pause(index) {
+			console.log('暂停 pause');
+			this.videoContextList[index].pause()
+			this.videoContext.pause();
+			this.isPlay = false;
+		},
 		
 		// // 进入全屏
 		// fullScreen() {
@@ -245,7 +272,7 @@ export default {
 						// 三秒只有隐藏播放按钮
 						setTimeout(() => {
 							this.btnShow = false;
-						}, 2000);
+						}, 1000);
 					}
 				}
 				this.clickNum = 0

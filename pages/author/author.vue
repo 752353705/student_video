@@ -1,7 +1,7 @@
 <template>
 	<view class="author">
 		<!-- 头部 -->
-		<view class="head">
+		<view class="head height">
 			<view class="userImg">
 				
 			</view>
@@ -35,44 +35,76 @@
 		</view>
 		
 		<!-- 作者个人资料  以及个人的描述-->
-		<view class="authorMsg">
+		<view class="authorMsg height">
 			视频作者个人资料以及个人描述
 		</view>
 		
 		<!-- 作者相关的视频 -->
 		<view class="content">
-			<view class="title">
+			<!-- <view class="title">
 				<view @click="changAct(0)"  :class=" act === 0 ? 'active item' : 'item'">作品</view>
 				<view @click="changAct(1)" :class=" act === 1 ? 'active item' : 'item'">收藏</view>
-			</view>
+			</view> -->
+			<swiperTabHead class="height" :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
+			
 			
 			<!-- 作者作品展示 -->
-			<view class="authorVideos">
-				<!-- 展示个人作品 -->
-				<wfalls-flow class="waterFull" :list="list" 
-					ref="wfalls" @finishLoad="getLoadNum"
-				>
-				</wfalls-flow>
-				
-				
-				<!-- 展示收藏 -->
-				
-				
-				
-				
+			<view class="uni-tab-bar">
+				<swiper class="swiper-box" :style=scrollviewHigh :current="tabIndex" @change="tabChange">
+					<swiper-item v-for="(items,index) in newslist" :key="index">
+						<scroll-view scroll-y class="list" 
+							:style=scrollviewHigh
+							scroll-y="true" 
+							enable-flex="true"
+							lower-threshold="160"
+							@scrolltolower="lower(index)"
+						>
+								<template v-if="items.list.length > 0">
+									<!-- 图文列表 -->
+									<block v-for="(item,index1) in items.list" :key="index">
+										<!-- 制作瀑布流 -->
+										<wfalls-flow class="waterFull" :list="list" ref="wfalls" @finishLoad="getLoadNum"></wfalls-flow>
+									</block>
+								</template>
+						</scroll-view>
+					</swiper-item>
+				</swiper>
 			</view>
 		</view>
-		
-		
 	</view>
 </template>
 
 <script>
 	import wfallsFlow from '../../components/wfallsflow.vue'
 	const list = require('../../static/data.json').list;
+	
+	// 引入tabHead 切换
+	import swiperTabHead from "../../components/swiper-tab-head.vue";
 	export default {
 		data() {
 			return {
+				//控制nav切换
+				tabIndex:0,// 选中的
+				tabBars:[
+					{ name:"作品",id:"guanzhu" },
+					{ name:"关注",id:"tuijian" },
+				],   
+				swiperheight:500,//高度
+				scrollviewHigh:'',
+				newslist:[
+				   {
+				     list:[
+				       'a'
+				       ]
+				   },
+				   {
+						 list:[
+						   'b'
+						   ]
+					 },
+				],
+				
+				height:0,
 				act:0,
 				// 作者的个人作品
 				list:[],
@@ -80,7 +112,8 @@
 			};
 		},
 		components:{
-			wfallsFlow
+			wfallsFlow,
+			swiperTabHead
 		},
 		onLoad() {
 			console.log('作者页')
@@ -92,12 +125,43 @@
 			// this.$refs.wfalls.init();
 			setTimeout(()=>{
 			    this.list = list;
-			    this.$refs.wfalls.init();
+					console.log('author',this.$refs.wfalls)
+			    this.$refs.wfalls[0].init();
+			    this.$refs.wfalls[1].init();
 			},1000)
 			
 		},
 		onReady() {
 			uni.hideLoading();
+			
+			let _this = this
+			
+			// 动态设置scroll-view区域的高度
+			uni.getSystemInfo({
+				success(res) {
+					console.log('页面信息res',res)
+						_this.phoneHeight = res.windowHeight; //获取用户设备的高度
+						console.log(res.windowHeight);
+						// 计算组件的高度
+							let view = uni.createSelectorQuery().selectAll('.height');
+						view.boundingClientRect(data => {
+							// 计算上方各元素的高度总和
+							data.forEach((item,index) => {
+								console.log('item',item.height)
+								_this.height += parseInt(item.height)
+							})
+							// console.log('高度 data',data,)
+								console.log('高度',_this.height);
+								_this.scrollviewHigh =  _this.phoneHeight - _this.height;
+								// _this.scrollviewHigh = "height:" + _this.scrollviewHigh +"px";
+								_this.scrollviewHigh = "height:" + _this.scrollviewHigh +"px";
+								
+						}).exec();
+				}
+			});
+			
+			
+			
 		},
 		onReachBottom() {
 			console.log('上拉 触底 加载') //分页 请求数据
@@ -131,7 +195,7 @@
 			},
 			
 			// 瀑布流分页请求
-			lower(){
+			lower(index){
 				console.log('滚动到底部 ')
 				//进行重新请求用户的数据
 				// 模拟触底刷新
@@ -149,7 +213,7 @@
 				    // })
 				    // APP上触发不了还是setTimeout万能
 				    setTimeout(()=>{
-				        this.$refs.wfalls.handleViewRender();
+				        this.$refs.wfalls[index].handleViewRender();
 				    },0)
 				},800)
 				
@@ -161,15 +225,13 @@
 			    this.isNewRenderDone = true
 			},
 			// 切换作品以及关注
-			changAct(num){
-				this.act = num
-				if(num === 0){
-					console.log('请求作品相关的数据')
-					
-				}else{
-					console.log('请求关注方面的数据')
-					
-				}
+			//滑动切换导航
+			tabChange(e){
+			  this.tabIndex = e.detail.current
+			},
+			//接受子组件传过来的值点击切换导航
+			tabtap(index){
+					this.tabIndex = index;
 			},
 			goFans(){
 				console.log('跳转到粉丝列表')
@@ -234,32 +296,36 @@
 		padding: 0 40rpx;
 	}
 	.content{
-		.title{
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			position: sticky;
-			top: 0;
-			left: 0;
-			background-color: white;
-			z-index: 10;
-			
-			:nth-child(1),:nth-child(2){
-				margin-right: 30rpx;
-				
-				padding: 20rpx 20rpx;
-			}
-			.active{
-				border-bottom: 4rpx solid red;
-			}
-		}
-		
-		.authorVideos{
-			width: 100%;
+		.uni-tab-bar{
 			box-sizing: border-box;
-			padding: 10rpx 11.5rpx 10rpx;
-			
+			padding: 10rpx 10rpx;
 		}
+		// .title{
+		// 	display: flex;
+		// 	justify-content: center;
+		// 	align-items: center;
+		// 	position: sticky;
+		// 	top: 0;
+		// 	left: 0;
+		// 	background-color: white;
+		// 	z-index: 10;
+			
+		// 	:nth-child(1),:nth-child(2){
+		// 		margin-right: 30rpx;
+				
+		// 		padding: 20rpx 20rpx;
+		// 	}
+		// 	.active{
+		// 		border-bottom: 4rpx solid red;
+		// 	}
+		// }
+		
+		// .authorVideos{
+		// 	width: 100%;
+		// 	box-sizing: border-box;
+		// 	padding: 10rpx 11.5rpx 10rpx;
+			
+		// }
 	}
 }
 </style>

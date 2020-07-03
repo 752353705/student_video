@@ -1,7 +1,7 @@
 <template>
 	<view v-if="showPopup" class="uni-popup" :class="[popupstyle]" @touchmove.stop.prevent="clear">
 		<uni-transition v-if="maskShow" 
-			:mode-class="['fade']" :styles="maskClass" 
+			:mode-class="['fade']" :styles="selfMask" 
 			:duration="duration" :show="showTrans"
 			@click="onTap" 
 		/>
@@ -41,6 +41,18 @@
 			uniTransition
 		},
 		props: {
+			// 自定义是否有遮罩
+			selfMask:{
+				type:Object,
+				default:{
+					'position': 'fixed',
+					'bottom': 0,
+					'top': 0,
+					'left': 0,
+					'right': 0,
+					'backgroundColor': 'rgba(0, 0, 0, 0.4)'
+				}
+			},
 			// 开启动画
 			animation: {
 				type: Boolean,
@@ -88,14 +100,6 @@
 				ani: [],
 				showPopup: false,
 				showTrans: false,
-				maskClass: {
-					'position': 'fixed',
-					'bottom': 0,
-					'top': 0,
-					'left': 0,
-					'right': 0,
-					'backgroundColor': 'rgba(0, 0, 0, 0.4)'
-				},
 				transClass: {
 					'position': 'fixed',
 					'left': 0,

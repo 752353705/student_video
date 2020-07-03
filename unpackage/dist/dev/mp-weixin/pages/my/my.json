@@ -2,6 +2,8 @@
   "navigationStyle": "custom",
   "usingComponents": {
     "uni-popup": "/components/uni-popup/uni-popup",
-    "wfalls-flow": "/components/wfallsflow"
+    "wfalls-flow": "/components/wfallsflow",
+    "swiper-tab-head": "/components/swiper-tab-head",
+    "uni-popup-usermsg": "/components/uni-popup/uni-popup-usermsg"
   }
 }

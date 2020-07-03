@@ -86,6 +86,12 @@
 			<!-- <view class="btn" @click="getAddress"> -->
 				发布
 			</view>
+			<!-- 上传进度显示 
+				当上传完毕之后，进度环消失
+			 -->
+			<cCircle v-if="showCir" class="c_circle" :size="60" :percent="percent">
+				<span slot="content" style="color: #32CDA5;">{{percent}}%</span>
+			</cCircle>
 		</view>
 		
 	</view>
@@ -145,6 +151,8 @@
 				video_src:'',
 				uploader:'',
 				videos: [],
+				showCir:false,//进度环是否显示
+				percent:0,//上传进度环的显示
 			}
 		},
 		created() {
@@ -212,6 +220,8 @@
 					// 文件上传进度，单位：字节, 可以在这个函数中拿到上传进度并显示在页面上
 					onUploadProgress: function (uploadInfo, totalSize, progress) {
 							var files;
+							// 显示进度环
+							that.showCir = true
 							if (uploadInfo.isImage) {
 									files = that.images;
 							} else {
@@ -232,10 +242,17 @@
 							})
 
 
-							console.log(JSON.stringify(uploadInfo) + "|" + totalSize + "|" + progress)
+							// console.log(JSON.stringify(uploadInfo) + "|" + totalSize + "|" + progress)
 							// console.log("onUploadProgress:file:" + uploadInfo.file.name + ", fileSize:" + totalSize + ", percent:" + Math.ceil(progress * 100) + "%")
-							var progressPercent = Math.ceil(progress * 100)
-							console.log('文件上传中...' + progressPercent);
+							// var progressPercent = Math.ceil(progress * 100)
+							// console.log('文件上传中...' + progressPercent);
+							
+							// 修改进度环中显示的上传进度
+							console.log('文件上传初试进度', progress);
+							that.percent = parseInt(progress)
+							if(that.percent == 100){
+								that.showCir = false
+							}
 							// $('#sts-progress').text(progressPercent)
 							// $('#status').text('文件上传中...')
 
@@ -405,7 +422,6 @@
 			flex-direction: column;
 			align-items: center;
 			overflow: hidden;
-			
 			.head{
 				box-sizing: border-box;
 				width: 80%;
@@ -576,7 +592,6 @@
 					font-size: 27rpx;
 				}
 			}
-			
 			.txt_area{
 				width: 561.11rpx;
 				height: 278.47rpx;
@@ -587,6 +602,14 @@
 				padding: 30rpx;
 				color: #a77142;
 				box-shadow: 8px 4px 4px #e9a631;
+			}
+			// 进度环
+			.c_circle{
+				// 绝对定位，位于视频
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
 			}
 		}
 	

@@ -12,20 +12,21 @@ Vue.component('tabbar',tabbar)
 import uniPopup from './components/uni-popup/uni-popup.vue'
 Vue.component('uniPopup',uniPopup)
 
-import uniPopupMessage from './components/uni-popup/uni-popup-message.vue'
-Vue.component('uniPopupMessage',uniPopupMessage)
+// import uniPopupMessage from './components/uni-popup/uni-popup-message.vue'
+// Vue.component('uniPopupMessage',uniPopupMessage)
 
 import uniPopupDialog from './components/uni-popup/uni-popup-dialog.vue'
 Vue.component('uniPopupDialog',uniPopupDialog)
 
-import uniPopupShare from './components/uni-popup/uni-popup-share.vue'
-Vue.component('uniPopupShare',uniPopupShare)
+// 引入上传作品组件
+import uniPopupPushvideo from './components/uni-popup/uni-popup-pushvideo.vue'
+Vue.component('uniPopupPushvideo',uniPopupPushvideo)
 
-import uniPopupComments from './components/uni-popup/uni-popup-comments.vue'
-Vue.component('uniPopupComments',uniPopupComments)
+// 引入进度环组件
+import cCircle from './components/cCircle.vue'
+Vue.component('cCircle',cCircle)
 
-import uniPopupGifts from './components/uni-popup/uni-popup-gifts.vue'
-Vue.component('uniPopupGifts',uniPopupGifts)
+
 
 // 封装全局登录函数
 // backpage, backtype 2个参数分别代表：

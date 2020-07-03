@@ -28,7 +28,7 @@ const store = new Vuex.Store({
 			}else if(num === 3){
 				console.log('3')
 				uni.navigateTo({
-				   url: "/pages/cpt/cpt"
+				   url: "/pages/tabMsg/tabMsg"
 				});
 			}else{
 				console.log('4')

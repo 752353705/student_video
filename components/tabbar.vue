@@ -4,7 +4,7 @@
 		<uni-popup class="pop" animation="false" ref="popup_video" type="center" mask-click="false">
 			<uni-popup-message type="success" pop_type="upload" message="成功消息" duration="0" />
 			<view class="imgBox">
-				<image class="img" src="../static/close.png" mode="" @click="close"></image>
+				<image class="img" src="/static/close.png" mode="" @click="close"></image>
 			</view>
 		</uni-popup>
 		
@@ -12,8 +12,8 @@
 			<!-- 底部自定义tabber -->
 				<view :class="active == 0 ? 'item active' : 'item'" @click="jump(0)">
 					<view class="tab_icon">
-						<image v-if="active == 0" src="../static/index1_active.png" mode=""></image>
-						<image v-else src="../static/index1.png" mode=""></image>
+						<image v-if="active == 0" src="/static/index1_active.png" mode=""></image>
+						<image v-else src="/static/index1.png" mode=""></image>
 					</view>
 					<view>作品列表</view>
 				</view>
@@ -32,18 +32,18 @@
 					</view>
 				</view>
 				
-				<!-- <view :class="active == 3? 'item active' : 'item'" @click="jump(3)">
+				<view :class="active == 3? 'item active' : 'item'" @click="jump(3)">
 					<view class="tab_icon">
-						<image v-if="active == 3" src="../static/cpt_active.png" mode=""></image>
-						<image v-else src="../static/cpt.png" mode=""></image>
+						<image v-if="active == 3" src="/static/tabMsg_active.png" mode=""></image>
+						<image v-else src="/static/tabMsg.png" mode=""></image>
 					</view>
-					<view>合作赞助</view>
-				</view> -->
+					<view>消息</view>
+				</view>
 				
 				<view :class=" active == 4 ? 'item active' : 'item'" @click="jump(4)">
 					<view class="tab_icon">
-						<image v-if="active == 4" src="../static/home_active1.png" mode=""></image>
-						<image v-else src="../static/home1.png" mode=""></image>
+						<image v-if="active == 4" src="/static/home_active1.png" mode=""></image>
+						<image v-else src="/static/home1.png" mode=""></image>
 					</view>
 					<view>我的主页</view>
 				</view>
@@ -99,7 +99,7 @@
 				}else if(num === 3){
 					console.log('3')
 					uni.redirectTo({
-					   url: "/pages/cpt/cpt"
+					   url: "/pages/tabMsg/tabMsg"
 					});
 				}else{
 					console.log('4')

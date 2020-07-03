@@ -1,4 +1,4 @@
-.list-container.data-v-693f66ea {
+.list-container.data-v-0450caea {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -9,7 +9,7 @@
   -webkit-align-items: flex-start;
           align-items: flex-start;
 }
-.list-container .list.data-v-693f66ea {
+.list-container .list.data-v-0450caea {
   width: calc(50% - 8rpx);
   display: -webkit-box;
   display: -webkit-flex;
@@ -19,14 +19,14 @@
   -webkit-flex-direction: column;
           flex-direction: column;
 }
-.list-container .list .item.data-v-693f66ea {
+.list-container .list .item.data-v-0450caea {
   margin-bottom: 18rpx;
 }
-.list-container .list .item image.data-v-693f66ea {
+.list-container .list .item image.data-v-0450caea {
   display: block;
   width: 100%;
 }
-.list-container .list .item .item_foot.data-v-693f66ea {
+.list-container .list .item .item_foot.data-v-0450caea {
   width: 100%;
   height: 50rpx;
   display: -webkit-box;
@@ -42,7 +42,7 @@
   color: #bebbc4;
   font-size: 24rpx;
 }
-.list-container .list .item .item_foot .left.data-v-693f66ea {
+.list-container .list .item .item_foot .left.data-v-0450caea {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -53,14 +53,14 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.list-container .list .item .item_foot .left .user_img.data-v-693f66ea {
+.list-container .list .item .item_foot .left .user_img.data-v-0450caea {
   width: 40rpx;
   height: 40rpx;
   background-color: yellow;
   border-radius: 50%;
   margin-right: 10rpx;
 }
-.list-container .list .item .item_foot .right.data-v-693f66ea {
+.list-container .list .item .item_foot .right.data-v-0450caea {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -71,11 +71,11 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.list-container .list .item .item_foot .right .icon.data-v-693f66ea {
+.list-container .list .item .item_foot .right .icon.data-v-0450caea {
   width: 30rpx;
   height: 26rpx;
 }
-.list-container .list .item .item_foot .right .icon image.data-v-693f66ea {
+.list-container .list .item .item_foot .right .icon image.data-v-0450caea {
   width: 100%;
   height: 100%;
 }

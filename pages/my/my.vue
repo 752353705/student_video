@@ -38,62 +38,47 @@
 		      </view>
 		    </view>
 			</view>
-		  
-			<!-- 分类展示 -->
-			<view class="show height">
-				<view @click="changAct(0)"  :class=" act === 0 ? 'active item' : 'item'">作品</view>
-				<view @click="changAct(1)" :class=" act === 1 ? 'active item' : 'item'">收藏</view>
+			
+			<!-- 分类展示头 -->
+			<swiperTabHead  :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
+			
+			<!-- 展示内容 -->
+			<view class="uni-tab-bar">
+				<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
+					<swiper-item v-for="(items,index) in newslist" :key="index">
+						<scroll-view scroll-y class="list" 
+							:style=scrollviewHigh
+							scroll-y="true" 
+							enable-flex="true"
+							lower-threshold="160"
+							@scrolltolower="lower(index)"
+						>
+								<template v-if="items.list.length > 0">
+									<!-- 图文列表 -->
+									<block v-for="(item,index1) in items.list" :key="index1">
+										<!-- 制作瀑布流 -->
+										<wfalls-flow class="waterFull" :list="list" :ref=" 'wfalls' " @finishLoad="getLoadNum"></wfalls-flow>
+									</block>
+								</template>
+						</scroll-view>
+					</swiper-item>
+				</swiper>
 			</view>
 			
-			<!-- 分类展示 -->
-			<swiper class="swiper" 
-				:indicator-dots="false"  :autoplay="false" 
-				@change="swiperChange"
-			>
-				<swiper-item>
-					<view class="swiper-item uni-bg-red">
-						<!-- 作品展示 -->
-						<scroll-view class="list"
-							:style=scrollviewHigh
-							scroll-y="true" 
-							enable-flex="true"
-							lower-threshold="160"
-							@scrolltolower="lower"
-						>
-							<!-- 制作瀑布流 -->
-							<wfalls-flow class="waterFull" :list="list" ref="wfalls" @finishLoad="getLoadNum"></wfalls-flow>
-						</scroll-view>
-					</view>
-				</swiper-item>
-				<swiper-item>
-					<view class="swiper-item uni-bg-green">
-						<!-- 作品展示 -->
-						<scroll-view class="list"
-							:style=scrollviewHigh
-							scroll-y="true" 
-							enable-flex="true"
-							lower-threshold="160"
-							@scrolltolower="lower"
-						>
-							<!-- 制作瀑布流 -->
-							<wfalls-flow class="waterFull" :list="colList" ref="wfallsCol" @finishLoad="getLoadNum"></wfalls-flow>
-						</scroll-view>
-					</view>
-				</swiper-item>
-			</swiper>
+			
+			
 		</view>
 		<!-- 个人资料填写的弹出框 -->
 		<uni-popup class="pop" animation="false" ref="popup_user" type="center" mask-click="false">
-			<uni-popup-message type="success" pop_type="user_msg" message="成功消息" duration="0" />
+			<uni-popup-usermsg type="success"  message="成功消息" duration="0" />
 			<view class="imgBox">
 				<image class="img" src="/static/close.png" mode="" @click="close"></image>
 			</view>
 		</uni-popup>
 		
-		
-		<!-- 上传视频的弹出框 -->
+		<!-- 上传视频的弹出框 是全局组件 -->
 		<uni-popup class="pop" animation="false" ref="popup_video" type="center" mask-click="false">
-			<uni-popup-message type="success" pop_type="upload" message="成功消息" duration="0" />
+			<uni-popup-pushvideo type="success"  message="成功消息" duration="0" />
 			<view class="imgBox">
 				<image class="img" src="/static/close.png" mode="" @click="close"></image>
 			</view>
@@ -107,9 +92,33 @@
 <script>
 	import wfallsFlow from '../../components/wfallsflow.vue'
 	const list = require('../../static/data.json').list;
+	// 上传个人资料的弹框
+	import uniPopupUsermsg from '../../components/uni-popup/uni-popup-usermsg.vue'
+	
+	// 引入tabHead 切换
+	import swiperTabHead from "../../components/swiper-tab-head.vue";
 	export default {
 		data() {
 			return {
+				//控制nav切换
+				tabIndex:0,// 选中的
+				tabBars:[
+					{ name:"作品",id:"guanzhu" },
+					{ name:"收藏",id:"tuijian" },
+				],   
+				swiperheight:500,//高度
+				newslist:[
+				   {
+				     list:[
+				       'a'
+				       ]
+				   },
+				   {
+						 list:[
+						   'b'
+						   ]
+					 },
+				],	
 				// 个人作品以及收藏的展示
 				list:[],
 				colList:[],
@@ -142,9 +151,17 @@
 			};
 		},
 		components:{
-			wfallsFlow
+			wfallsFlow,
+			swiperTabHead,
+			uniPopupUsermsg
 		},
 		onLoad(){
+			   // uni.getSystemInfo({
+			   //  success:(res)=>{
+			   //      let height = res.windowHeight-uni.upx2px(100)
+			   //      this.swiperheight = height;
+			   //  }
+			   // })
 			let _this = this
 			console.log('我的页面')
 			uni.getStorage({
@@ -162,9 +179,9 @@
 			// 渲染作品列表
 			setTimeout(()=>{
 			    this.list = list;
-			    this.colList = list;
-			    this.$refs.wfalls.init();
-			    this.$refs.wfalls.init();
+					console.log('初始化 my ref',this.$refs.wfalls0)
+			    this.$refs.wfalls[0].init();
+			    this.$refs.wfalls[1].init();
 			},1000)
 			
 			// 发起数据进行请求
@@ -213,33 +230,13 @@
 			});
 		},
 		methods:{
-			// 切换作品以及关注
-			changAct(num){
-				this.act = num
-				if(num === 0){
-					console.log('请求作品相关的数据')
-					// 改变数据
-					//
-					
-					
-				}else{
-					console.log('请求关注方面的数据')
-					// this.swiperChange(act)
-				}
+			//滑动切换导航
+			tabChange(e){
+			  this.tabIndex = e.detail.current
 			},
-			// 轮播图改变
-			swiperChange(e){
-				console.log('改变',e.detail)
-				if(e.detail.current === 0){
-					//显示作品页
-					this.act = 0
-					
-				}else{
-					// 显示收藏页
-					this.act = 1
-					
-					
-				}
+			//接受子组件传过来的值点击切换导航
+			tabtap(index){
+				this.tabIndex = index;
 			},
 			// 制作瀑布流
 			getLoadNum(num){
@@ -248,7 +245,7 @@
 			    this.isNewRenderDone = true
 			},	
 			//scrollView 区域
-			lower(){
+			lower(index){
 				console.log('滚动到底部 ')
 				//进行重新请求用户的数据
 				// 模拟触底刷新
@@ -265,8 +262,13 @@
 				    //     this.$refs.wfalls.handleViewRender();
 				    // })
 				    // APP上触发不了还是setTimeout万能
+						
+						//区分是请求哪类数据，并进行添加
+						
 				    setTimeout(()=>{
-				        this.$refs.wfalls.handleViewRender();
+							let type = 'this.$refs.wfalls' + index +'[index]'
+							console.log('请求list',type)
+				      this.$refs.wfalls[index].handleViewRender();
 				    },0)
 				},800)
 				
@@ -309,6 +311,7 @@
 				}
 			},
 			close(num){
+				// console.log('关闭')
 				this.$refs.popup_user.close()
 				this.$refs.popup_video.close()
 			},
@@ -633,35 +636,11 @@
 	  
 			
 		}
-		.show{
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			position: sticky;
-			top: 0;
-			left: 0;
-			background-color: white;
-			z-index: 10;
-			
-			:nth-child(1),:nth-child(2){
-				margin-right: 30rpx;
-				
-				padding: 20rpx 20rpx;
-			}
-			.active{
-				border-bottom: 4rpx solid red;
-			}
-		}
+	
 		
-		.swiper{
-			position: relative;
-			// background-color: green;
+		.uni-tab-bar{
 			box-sizing: border-box;
 			padding: 10rpx 10rpx;
-			height: 100%;
-		}
-		.swiper-item{
-			
 		}
 		
 	}

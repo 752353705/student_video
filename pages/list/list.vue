@@ -1,3 +1,4 @@
+	<!-- wx15787d9dfeab4b4a -->
 <template>
 	<view class="listPage">
 		
@@ -43,7 +44,6 @@
 					enable-flex="true"
 					lower-threshold="160"
 					@scrolltolower="lower"
-					@scroll="scroll"
 					
 					@touchmove="touchMove"
 				>
@@ -101,6 +101,7 @@
 			// this.$refs.wfalls.init();
 			setTimeout(()=>{
 			    this.list = list;
+					console.log('初始化list ref',this.$refs.wfalls)
 			    this.$refs.wfalls.init();
 			},1000)
 	
@@ -114,22 +115,19 @@
 			// 动态设置scroll-view区域的高度
 			uni.getSystemInfo({
 				success(res) {
-					console.log('页面信息res',res)
+					// console.log('页面信息res',res)
 						_this.phoneHeight = res.windowHeight; //获取用户设备的高度
-						console.log(res.windowHeight);
+						// console.log(res.windowHeight);
 						// 计算组件的高度
-							let view = uni.createSelectorQuery().selectAll('.height');
+						let view = uni.createSelectorQuery().selectAll('.height');
 						view.boundingClientRect(data => {
 							// 计算上方各元素的高度总和
 							data.forEach((item,index) => {
-								console.log('item',item.height)
+								// console.log('item',item.height)
 								_this.height += parseInt(item.height)
 							})
-							// console.log('高度 data',data,)
-							// 	console.log('高度',_this.height);
 								_this.scrollviewHigh =  _this.phoneHeight - _this.height - 80;
 								_this.scrollviewHigh = "height:" + _this.scrollviewHigh +"px";
-								
 						}).exec();
 				}
 			});
@@ -203,14 +201,14 @@
 				
 			},
 			
-			scroll(e){
-				console.log('进行滚动 e',e)
-				//判断进行下拉加载
-				// if(){
+			// scroll(e){
+			// 	console.log('进行滚动 e',e)
+			// 	//判断进行下拉加载
+			// 	// if(){
 					
-				// }
+			// 	// }
 				
-			},
+			// },
 			// 制作瀑布流
 			getLoadNum(num){
 			    console.log('共加载了:'+num);
@@ -229,9 +227,9 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-		// background-color: #f6f6f6;
+		background-color: #f6f6f6;
 		.serach{
-			background-color: #f5f5f5;
+			background-color: #99999d;
 			border-radius: 33rpx;
 			width: 63%;
 			height: 71rpx;
