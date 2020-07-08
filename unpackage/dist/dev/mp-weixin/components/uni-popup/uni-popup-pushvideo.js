@@ -1,6 +1,6 @@
 (global["webpackJsonp"] = global["webpackJsonp"] || []).push([["components/uni-popup/uni-popup-pushvideo"],{
 
-/***/ 142:
+/***/ 178:
 /*!*********************************************************************************!*\
   !*** D:/myself/work/student_video/components/uni-popup/uni-popup-pushvideo.vue ***!
   \*********************************************************************************/
@@ -9,10 +9,10 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _uni_popup_pushvideo_vue_vue_type_template_id_f9b63490_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./uni-popup-pushvideo.vue?vue&type=template&id=f9b63490&scoped=true& */ 143);
-/* harmony import */ var _uni_popup_pushvideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./uni-popup-pushvideo.vue?vue&type=script&lang=js& */ 145);
+/* harmony import */ var _uni_popup_pushvideo_vue_vue_type_template_id_f9b63490_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./uni-popup-pushvideo.vue?vue&type=template&id=f9b63490&scoped=true& */ 179);
+/* harmony import */ var _uni_popup_pushvideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./uni-popup-pushvideo.vue?vue&type=script&lang=js& */ 181);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _uni_popup_pushvideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _uni_popup_pushvideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _uni_popup_pushvideo_vue_vue_type_style_index_0_id_f9b63490_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./uni-popup-pushvideo.vue?vue&type=style&index=0&id=f9b63490&lang=scss&scoped=true& */ 148);
+/* harmony import */ var _uni_popup_pushvideo_vue_vue_type_style_index_0_id_f9b63490_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./uni-popup-pushvideo.vue?vue&type=style&index=0&id=f9b63490&lang=scss&scoped=true& */ 184);
 /* harmony import */ var _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 10);
 
 var renderjs
@@ -41,7 +41,7 @@ component.options.__file = "components/uni-popup/uni-popup-pushvideo.vue"
 
 /***/ }),
 
-/***/ 143:
+/***/ 179:
 /*!****************************************************************************************************************************!*\
   !*** D:/myself/work/student_video/components/uni-popup/uni-popup-pushvideo.vue?vue&type=template&id=f9b63490&scoped=true& ***!
   \****************************************************************************************************************************/
@@ -50,7 +50,7 @@ component.options.__file = "components/uni-popup/uni-popup-pushvideo.vue"
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_template_id_f9b63490_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./uni-popup-pushvideo.vue?vue&type=template&id=f9b63490&scoped=true& */ 144);
+/* harmony import */ var _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_template_id_f9b63490_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./uni-popup-pushvideo.vue?vue&type=template&id=f9b63490&scoped=true& */ 180);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_template_id_f9b63490_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_16_0_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_template_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_uni_app_loader_page_meta_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_template_id_f9b63490_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
@@ -63,7 +63,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 144:
+/***/ 180:
 /*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--16-0!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/template.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-uni-app-loader/page-meta.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/myself/work/student_video/components/uni-popup/uni-popup-pushvideo.vue?vue&type=template&id=f9b63490&scoped=true& ***!
   \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -90,7 +90,7 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ 145:
+/***/ 181:
 /*!**********************************************************************************************************!*\
   !*** D:/myself/work/student_video/components/uni-popup/uni-popup-pushvideo.vue?vue&type=script&lang=js& ***!
   \**********************************************************************************************************/
@@ -99,14 +99,14 @@ render._withStripped = true
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/babel-loader/lib!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./uni-popup-pushvideo.vue?vue&type=script&lang=js& */ 146);
+/* harmony import */ var _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/babel-loader/lib!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./uni-popup-pushvideo.vue?vue&type=script&lang=js& */ 182);
 /* harmony import */ var _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_babel_loader_lib_index_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_12_1_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_script_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ 146:
+/***/ 182:
 /*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/myself/work/student_video/components/uni-popup/uni-popup-pushvideo.vue?vue&type=script&lang=js& ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -168,8 +168,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _post = __webpack_require__(/*! ../../API/_post.js */ 17);
-var _aliyunUploadSdk100Min = _interopRequireDefault(__webpack_require__(/*! ../aliyun-upload-sdk-1.0.0.min.js */ 147));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+
+var _post = __webpack_require__(/*! ../../API/_post.js */ 39);
+var _aliyunUploadSdk100Min = _interopRequireDefault(__webpack_require__(/*! ../aliyun-upload-sdk-1.0.0.min.js */ 183));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
 //
 //
 //
@@ -220,20 +222,49 @@ var _aliyunUploadSdk100Min = _interopRequireDefault(__webpack_require__(/*! ../a
  * 	@value error 错误
  * @property {String} message 消息提示文字
  * @property {String} duration 显示时间，设置为 0 则不会自动关闭
- */var _default = { name: 'UniPopupMessage', props: { /**
-                                                       * 判断弹出框是哪一种类型
-                                                       * */pop_type: { type: String, default: '' }, /**
-                                                                                                     * 主题 success/warning/info/error	  默认 success
-                                                                                                     */type: { type: String, default: 'success' }, /**
-                                                                                                                                                    * 消息文字
-                                                                                                                                                    */message: { type: String, default: '' }, /**
-                                                                                                                                                                                               * 显示时间，设置为 0 则不会自动关闭
-                                                                                                                                                                                               */duration: { type: Number, default: 3000 } }, inject: ['popup'], data: function data() {return { video_src: '', uploader: '', videos: [], showCir: false, //进度环是否显示
-      percent: 0 //上传进度环的显示
-    };}, created: function created() {this.popup.childrenMsg = this;}, onReady: function onReady() {console.log('上传组件准备好');var that = this; // 构造 上传阿里的方法 
-    var uploader = new _aliyunUploadSdk100Min.default({ timeout: 60000, region: "cn-shanghai", // 添加文件成功
-      addFileSuccess: function addFileSuccess(uploadInfo) {console.log("addFileSuccess" + JSON.stringify(uploadInfo));}, // 开始上传
-      onUploadstarted: function onUploadstarted(uploadInfo) {console.log('文件开始上传...');console.log("onUploadStarted:" + JSON.stringify(uploadInfo));var url;if (uploadInfo.isImage) {url = "https://alivc-demo.aliyuncs.com/demo/getImageUploadAuth?imageType=default&imageExt=" + that._getSuffix(uploadInfo.url) + "&title=title&tags=tags";
+ */var _default = { name: 'UniPopupMessage', props: { // 判断 是否有上传 视频
+    video_src: { type: String, default: '' }, /**
+                                               * 判断弹出框是哪一种类型
+                                               * */pop_type: { type: String, default: '' }, /**
+                                                                                             * 主题 success/warning/info/error	  默认 success
+                                                                                             */type: { type: String, default: 'success' }, /**
+                                                                                                                                            * 消息文字
+                                                                                                                                            */message: { type: String, default: '' }, /**
+                                                                                                                                                                                       * 显示时间，设置为 0 则不会自动关闭
+                                                                                                                                                                                       */duration: { type: Number, default: 3000 } }, inject: ['popup'], data: function data() {return { // video_src:'',
+      uploader: '', videos: [], showCir: false, //进度环是否显示
+      percent: 0, //上传进度环的显示
+      areaVal: '', //文本域内的文字
+      // 测试官方的选取视频案例
+      title: 'chooseVideo', sourceTypeIndex: 2, sourceType: ['拍摄', '相册', '拍摄或相册'], src: '', cameraList: [{ value: 'back', name: '后置摄像头', checked: 'true' }, { value: 'front', name: '前置摄像头' }], cameraIndex: 0 };},
+  created: function created() {
+    this.popup.childrenMsg = this;
+  },
+  onHide: function onHide() {
+    // console.log('上传组件隐藏',this.$props)
+    // this.video_src = ''
+  },
+  onReady: function onReady() {
+    console.log('push_video 上传组件准备好');
+    var that = this;
+    // 构造 上传阿里的方法 
+    var uploader = new _aliyunUploadSdk100Min.default({
+      timeout: 60000,
+      region: "cn-shanghai",
+      // 添加文件成功
+      addFileSuccess: function addFileSuccess(uploadInfo) {
+        console.log("addFileSuccess" + JSON.stringify(uploadInfo));
+        // 显示上传视频的封面
+        // that.video_src = uploadInfo.coverUrl
+      },
+      // 开始上传
+      onUploadstarted: function onUploadstarted(uploadInfo) {
+        console.log('文件开始上传...');
+        console.log("onUploadStarted:" + JSON.stringify(uploadInfo));
+
+        var url;
+        if (uploadInfo.isImage) {
+          url = "https://alivc-demo.aliyuncs.com/demo/getImageUploadAuth?imageType=default&imageExt=" + that._getSuffix(uploadInfo.url) + "&title=title&tags=tags";
         } else {
           url = "https://alivc-demo.aliyuncs.com/demo/getVideoUploadAuth?title=" + uploadInfo.url + "&fileName=" + uploadInfo.url + "&fileSize=" + uploadInfo.fileSize + "&description=description&coverURL=" + uploadInfo.coverUrl + "&tags=tags";
         }
@@ -277,8 +308,7 @@ var _aliyunUploadSdk100Min = _interopRequireDefault(__webpack_require__(/*! ../a
       // 文件上传进度，单位：字节, 可以在这个函数中拿到上传进度并显示在页面上
       onUploadProgress: function onUploadProgress(uploadInfo, totalSize, progress) {
         var files;
-        // 显示进度环
-        that.showCir = true;
+
         if (uploadInfo.isImage) {
           files = that.images;
         } else {
@@ -339,6 +369,12 @@ var _aliyunUploadSdk100Min = _interopRequireDefault(__webpack_require__(/*! ../a
           duration: 2000 });
 
         console.log("文件上传完毕 onUploadEnd: uploaded all the files");
+        // 然后关闭弹窗 清除数据
+        that.$emit('changeVideoSrc', '');
+        that.percent = 0;
+        that.showCir = false;
+        that.areaVal = '';
+
       } });
 
 
@@ -367,68 +403,142 @@ var _aliyunUploadSdk100Min = _interopRequireDefault(__webpack_require__(/*! ../a
       return suffix;
     },
     // 获取本地拍摄的作品
-    getVideo: function getVideo() {
+    getVideo: function getVideo() {var _this3 = this;
       console.log('调用接口获取本地视频');
       var _this = this;
       // 调用内部接口获取拍摄的视频
       //成功获取本地视频的地址之后，显示视频的第一帧
       uni.chooseVideo({
-        // maxDuration:, //拍摄视频最长拍摄时间
-        count: 1,
-        sourceType: ['camera', 'album'],
+        camera: _this.cameraList[_this.cameraIndex].value,
+        sourceType: ['album'],
         success: function success(res) {
-          console.log('调取获取视频接口成功res', res);
-          // 视频第一帧  图片
-          _this.video_src = res.thumbTempFilePath;
-          // 获取了文件的临时路径，然后对其进行文件的上传
-          // let tempFilePath = res.tempFilePath
-          // uni.uploadFile({
-          // 	url:'',
-          // 	filePath:tempFilePath,
-          // 	name:'file',
-          // 	formData:{
+          // _this.video_src = res.tempFilePath
+          var video = res.tempFilePath;
+          // console.log('_this.video_src',_this.video_src)
 
-          // 	},
-          // 	success:(uploadFileRes) => {
-          // 		console.log('uni上传视频 成功',uploadFileRes.data)
-          // 	}
-          // })
-
+          // 进行模拟上传
           var file = { url: res.tempFilePath, coverUrl: res.thumbTempFilePath };
-          // that.setData({
-          //     videosCount: videosCount,
-          //     videos: that.data.videos.concat(file)
-          // });
           _this.videos = _this.videos.concat(file);
-
           var uploader = _this.uploader;
           var userData = '{"Vod":{}}';
           uploader.addFile(file, null, null, null, userData);
 
-
-          // uni.showToast({
-          // 		icon:'none',
-          //     title: '上传视频成功',
-          //     duration: 2000
-          // });
+          _this3.$emit('changeVideoSrc', video);
+          // _this.video_src = video
 
         },
-
         fail: function fail(err) {
-          uni.showToast({
-            icon: 'none',
-            title: '上传视频失败',
-            duration: 2000 });
+
+          uni.getSetting({
+            success: function success(res) {
+              var authStatus = false;
+              switch (_this.sourceTypeIndex) {
+                case 0:
+                  authStatus = res.authSetting['scope.camera'];
+                  break;
+                case 1:
+                  authStatus = res.authSetting['scope.album'];
+                  break;
+                case 2:
+                  authStatus = res.authSetting['scope.album'] && res.authSetting['scope.camera'];
+                  break;
+                default:
+                  break;}
+
+              if (!authStatus) {
+                uni.showModal({
+                  title: '授权失败',
+                  content: 'Hello uni-app需要从您的相机或相册获取视频，请在设置界面打开相关权限',
+                  success: function success(res) {
+                    if (res.confirm) {
+                      uni.openSetting();
+                    }
+                  } });
+
+              }
+            } });
+
 
         } });
 
 
-    },
+      // uni.chooseVideo({
+      // 		// maxDuration:, //拍摄视频最长拍摄时间
+      // 		count: 1,
+      // 		sourceType: ['album'],
+      // 		compressed:false,
+      // 		success: function (res) {
+      // 			console.log('调取获取视频接口成功res',res)
+      // 			// 视频第一帧  图片
+      // 			_this.video_src = res.tempFilePath
+      // 			console.log('video_src',_this.video_src)
+      // 			// 获取了文件的临时路径，然后对其进行文件的上传
+      // 			// let tempFilePath = res.tempFilePath
+      // 			// uni.uploadFile({
+      // 			// 	url:'',
+      // 			// 	filePath:tempFilePath,
+      // 			// 	name:'file',
+      // 			// 	formData:{
 
+      // 			// 	},
+      // 			// 	success:(uploadFileRes) => {
+      // 			// 		console.log('uni上传视频 成功',uploadFileRes.data)
+      // 			// 	}
+      // 			// })
+
+      // 			var file = {url: res.tempFilePath, coverUrl: res.thumbTempFilePath};
+      //             // that.setData({
+      //             //     videosCount: videosCount,
+      //             //     videos: that.data.videos.concat(file)
+      //             // });
+      // 				_this.videos = _this.videos.concat(file)
+
+      //             var uploader = _this.uploader;
+      //             var userData = '{"Vod":{}}'
+      //             uploader.addFile(file, null, null, null, userData)
+
+
+      // 			// uni.showToast({
+      // 			// 		icon:'none',
+      // 			//     title: '上传视频成功',
+      // 			//     duration: 2000
+      // 			// });
+
+      // 		},
+
+      // 		fail:function(err){
+      // 			uni.showToast({
+      // 					icon:'none',
+      // 			    title: '上传视频失败',
+      // 			    duration: 2000
+      // 			});
+      // 		},
+
+      // });
+    },
+    // 获取文本域内输入的文字
+    areaInput: function areaInput(e) {
+      console.log('文本域内容', e);
+      this.areaVal = e.detail.value;
+    },
 
     //当点击发布之后调取接口 进行作品的上传
     submitVideo: function submitVideo(e) {
-      console.log('上传作品并发布');
+      this.$emit('changeVideoSrc');
+
+      if (this.$props.video_src) {
+        //当选好作品之后 显示进度环
+        this.showCir = true;
+      } else {
+        uni.showToast({
+          title: '请选择上传作品',
+          icon: 'none' });
+
+
+        return;
+      }
+
+      console.log('上传作品并发布', this.areaVal);
 
       // 将视频上传到阿里服务器，运用 postVideo
       console.log('获取uploader', this.uploader);
@@ -441,7 +551,7 @@ var _aliyunUploadSdk100Min = _interopRequireDefault(__webpack_require__(/*! ../a
 
 /***/ }),
 
-/***/ 148:
+/***/ 184:
 /*!*******************************************************************************************************************************************!*\
   !*** D:/myself/work/student_video/components/uni-popup/uni-popup-pushvideo.vue?vue&type=style&index=0&id=f9b63490&lang=scss&scoped=true& ***!
   \*******************************************************************************************************************************************/
@@ -450,14 +560,14 @@ var _aliyunUploadSdk100Min = _interopRequireDefault(__webpack_require__(/*! ../a
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_style_index_0_id_f9b63490_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/postcss-loader/src??ref--8-oneOf-1-3!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./uni-popup-pushvideo.vue?vue&type=style&index=0&id=f9b63490&lang=scss&scoped=true& */ 149);
+/* harmony import */ var _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_style_index_0_id_f9b63490_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/postcss-loader/src??ref--8-oneOf-1-3!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!../../../../../uniapp/HBuilderX/plugins/uniapp-cli/node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!./uni-popup-pushvideo.vue?vue&type=style&index=0&id=f9b63490&lang=scss&scoped=true& */ 185);
 /* harmony import */ var _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_style_index_0_id_f9b63490_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_style_index_0_id_f9b63490_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_style_index_0_id_f9b63490_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _uniapp_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_style_index_0_id_f9b63490_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
  /* harmony default export */ __webpack_exports__["default"] = (_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_mini_css_extract_plugin_dist_loader_js_ref_8_oneOf_1_0_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_css_loader_dist_cjs_js_ref_8_oneOf_1_1_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_loaders_stylePostLoader_js_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_2_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_postcss_loader_src_index_js_ref_8_oneOf_1_3_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_sass_loader_dist_cjs_js_ref_8_oneOf_1_4_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_webpack_preprocess_loader_index_js_ref_8_oneOf_1_5_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_index_js_vue_loader_options_uniapp_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_webpack_uni_mp_loader_lib_style_js_uni_popup_pushvideo_vue_vue_type_style_index_0_id_f9b63490_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
-/***/ 149:
+/***/ 185:
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??ref--8-oneOf-1-0!./node_modules/css-loader/dist/cjs.js??ref--8-oneOf-1-1!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-2!./node_modules/postcss-loader/src??ref--8-oneOf-1-3!./node_modules/sass-loader/dist/cjs.js??ref--8-oneOf-1-4!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--8-oneOf-1-5!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!D:/myself/work/student_video/components/uni-popup/uni-popup-pushvideo.vue?vue&type=style&index=0&id=f9b63490&lang=scss&scoped=true& ***!
   \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
@@ -476,7 +586,7 @@ __webpack_require__.r(__webpack_exports__);
     'components/uni-popup/uni-popup-pushvideo-create-component',
     {
         'components/uni-popup/uni-popup-pushvideo-create-component':(function(module, exports, __webpack_require__){
-            __webpack_require__('1')['createComponent'](__webpack_require__(142))
+            __webpack_require__('1')['createComponent'](__webpack_require__(178))
         })
     },
     [['components/uni-popup/uni-popup-pushvideo-create-component']]

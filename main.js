@@ -1,6 +1,16 @@
 import Vue from 'vue'
 import App from './App'
 
+// 引入uView
+import uView from "uview-ui";
+Vue.use(uView);
+
+// 处理滚动部分下拉刷新
+import MescrollBody from "@/components/mescroll-uni/mescroll-body.vue"
+import MescrollUni from "@/components/mescroll-uni/mescroll-uni.vue"
+Vue.component('mescroll-body', MescrollBody)
+Vue.component('mescroll-uni', MescrollUni)	
+
 // 引入状态管理
 import store from 'store/index.js'
 Vue.prototype.$store = store
@@ -35,17 +45,17 @@ Vue.component('cCircle',cCircle)
 Vue.prototype.checkLogin = function( backpage, backtype ){
 		console.log('这里是check')
     // 同步获取本地数据（uid、随机码、用户名、头像）
-    var user_id = uni.getStorageSync('user_id');
-    var user_nu = uni.getStorageSync('user_nu');
-    var user_nm = uni.getStorageSync('user_nm');
+    var user_id = uni.getStorageSync('user_id'); 
+    var user_img = uni.getStorageSync('user_img'); // 用户头像
+    var user_name = uni.getStorageSync('user_name');//用户名
     var user_fa = uni.getStorageSync('user_fa');
-    if( user_id == '' || user_nu == '' || user_fa == ''){
+    if( user_id == '' || user_img == '' || user_fa == ''){
         // 使用重定向的方式跳转至登录页面
-        uni.redirectTo({url:'../login/login?backpage='+backpage+'&backtype='+backtype});
+        uni.redirectTo({url:'/login/login?backpage='+backpage+'&backtype='+backtype});
         return false;
     }
     // 登录成功、已经登录返回数组 [用户 id, 用户随机码, 用户昵称, 用户表情]
-    return [user_id, user_nu, user_nm, user_fa];
+    return [user_id, user_img, user_name, user_fa];
 }
 
 // 定义一个全局的请求地址头

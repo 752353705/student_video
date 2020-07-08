@@ -3,14 +3,28 @@
 		<!-- <view class="uni-share-title"><text class="uni-share-title-text">{{title}}</text></view> -->
 		<view class="uni-share-content">
 			<view class="uni-share-content-box">
-				<!-- 输入框 -->
-				<view class="input_box height">
+				<!-- 输入框  :style="inputBottom"-->
+				<view class="input_box height" 
+					:style="inputBottom"
+				>
 					<!-- 输入框 -->
-					<input class="uni-input"  
+					<!-- <input class="uni-input"  
 						cursor-spacing="10"
 						type="text" :value="sendVal" 
 						placeholder="发消息..."
 						@input="input"
+					/> -->
+					<input class="uni-input"
+						:focus="true"
+						cursor-spacing="10"
+						type="text" :value="sendVal" 
+						placeholder="发消息..."
+						@focus="foc"
+						@input="input"
+						@keyboardheightchange="keyWord"
+						@confirm="end" 
+						:adjust-position="false"
+						:hold-keyboard="false"	
 					/>
 					<!-- 表情选择框 -->
 					<view class="expression border" @click="showExp">
@@ -30,8 +44,21 @@
 					<text class="uni-share-text">{{item.text}}</text>
 					<text class="uni-share-text">{{item.name}}</text>
 				</view> -->
-
+					
+					
+					<!-- 表情弹框 -->
+				<!-- 	<view class="exp_box" v-if="show_exp" >
+						表情
+					</view> -->
+					<!-- 上传图片选框 -->
+					<!-- <view class="send_box" v-if="show_img">
+						图片
+					</view> -->
 			</view>
+			
+			
+			
+			
 		</view>
 		<!-- <view class="uni-share-button-box">
 			<button class="uni-share-button" @click="close">取消</button>
@@ -46,49 +73,89 @@
 			title: {
 				type: String,
 				default: '分享到'
+			},
+			// 控制input框的高度
+			inputBottom: {
+				type: String,
+				default: 'bottom:227px'
 			}
 		},
 		inject: ['popup'],
 		data() {
 			return {
-				bottomData: [{
-						// text: '微信',
-						// icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png',
-						// name: 'wx',
-						text: '甜甜圈',
-						icon: '../../static/donuts.png',
-						name: '60 H币'
-					},
-					{
-						text: '支付宝',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-8.png',
-						name: 'wx'
-					},
-					{
-						text: 'QQ',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/gird-3.png',
-						name: 'qq'
-					},
-					{
-						text: '新浪',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-1.png',
-						name: 'sina'
-					},
-					{
-						text: '百度',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-7.png',
-						name: 'copy'
-					},
-					{
-						text: '其他',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-5.png',
-						name: 'more'
-					}
-				]
+				show_exp:false,
+				show_img:false,
+				sendVal:'',
+				
+				// 控制自定义表情图片的高度
+				showHeight:''
 			}
 		},
-		created() {},
+		created() {
+			// console.log('inputBottom',this.$props.inputBottom)
+			// this.$refs.input.focus();
+		},
 		methods: {
+			// 显示表情选择框
+			showExp(){
+				console.log('显示表情小图案')
+				this.show_exp = !this.show_exp
+			},
+			// 显示选择图片框
+			showImg(){
+				console.log('显示 选择本机图片')
+				this.show_img = !this.show_img
+				// this.$refs.popupChart.open()
+			},
+			
+	// 控制输入内容 input
+			// 当进行点击发送之后
+			send(){
+				let _this = this
+				console.log('弹框中发送消息',_this.sendVal)
+				
+				// 触发父级的事件
+				this.$emit('send',_this.sendVal)
+				// 关闭弹窗
+				this.popup.close()
+				// this.inputHeight = 0
+				// // 将发送方的消息储存到 chartRight
+				// this.chartRight.push(this.sendVal)
+				// // 然后清空输入框内容
+				this.sendVal = ''
+			},
+			// 当用户进行输入
+			input(e){
+				console.log('用户输入',e.detail.value)
+				// 储存用户输入值
+				this.sendVal = e.detail.value
+			},
+			foc(){
+				console.log('聚焦')
+				// 弹出聊天框
+				// this.$refs.popupChart.open()
+			},
+			// 显示表情选择框
+			showExp(){
+				console.log('显示表情小图案')
+				this.show_exp = !this.show_exp
+			},
+			// 显示选择图片框
+			showImg(){
+				console.log('显示 选择本机图片')
+				this.show_img = !this.show_img
+				// this.$refs.popupChart.open()
+			},
+			// 监控键盘高度的变化
+			keyWord(e){
+				console.log('键盘高度变化',e.detail.height)
+				//设置键盘抬起的高度
+				this.$emit('keyWord',e.detail.height)
+			},
+			end(e){
+				console.log('点击完成时触发',e.detail)
+			},
+			
 			/**
 			 * 选择内容
 			 */
@@ -114,7 +181,7 @@
 		position: absolute;
 		z-index: 10;
 		left: 0;
-		bottom: 0;
+		bottom: 0px; //要根据键盘自定义 高度
 		width: 100%;
 		height: 105.55rpx;
 		background-color: white;
@@ -159,7 +226,16 @@
 		}
 	}
 	
-	
+	// 表情以及发送图片
+	.exp_box,.send_box{
+		position: absolute;
+		z-index: 10;
+		left: 0;
+		bottom: 0; //要根据键盘自定义 高度
+		width: 100%;
+		height: 227px;
+		background-color: yellow;
+	}
 	.uni-popup-share {
 		background-color: #fff;
 	}
@@ -183,7 +259,7 @@
 		/* #endif */
 		flex-direction: row;
 		justify-content: center;
-		padding-top: 10px;
+		// padding-top: 10px;
 	}
 	
 	.uni-share-content-box {

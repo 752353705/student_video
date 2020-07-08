@@ -6,9 +6,6 @@
   right: 0;
   bottom: 0;
 }
-.chartRoom .scroll {
-  background-color: red;
-}
 .chartRoom .scroll .chartBox {
   position: -webkit-sticky;
   position: sticky;

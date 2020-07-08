@@ -11,6 +11,12 @@
 						
 						<!-- 返回上一级页面的按钮 -->
 						<image class="back" @click="back" src="/static/back.png" mode=""></image>
+						<!-- <cover-view class="back">
+						  <navigator open-type="navigateBack">
+						    <cover-image src="/static/back.png" /> <!--填写自己的图标地址-->
+						  </navigator>
+						</cover-view> -->
+						
 						
 						<video
 							:id="'myVideo' + index"
@@ -18,6 +24,8 @@
 							class="player-video"
 							:src="item.src"
 							:loop="true"
+							:show-play-btn="false" 
+							:controls="false"
 							:show-center-play-btn="false"
 							objectFit="fill"
 							@click="handleClicked(index)"
@@ -60,11 +68,24 @@
 							<view class="like icon" @click="getLike(index)">
 								<image v-if="!like" src="/static/like.png" mode=""></image>
 								<image v-else src="/static/like_active.png" mode=""></image>
+								<view class="icon_num">177.3W</view>
 							</view>
 							<!-- 评论   点击评论显示评论弹出框-->
-							<view class="comments icon" @click="showPop(index)"><image src="/static/comments.png" mode=""></image></view>
+							<view class="comments icon" @click="showPop(index)">
+								<image src="/static/comments.png" mode=""></image>
+								<view class="icon_num">2.4W</view>
+							</view>
 							<!-- 转发 -->
-							<view class="forwarding icon" @click="confirmShare(index)"><image src="/static/forwarding.png" mode=""></image></view>
+							<!-- <view class="forwarding icon" @click="confirmShare(index)">
+								<image src="/static/weixin.png" mode=""></image>
+								<view class="icon_num">2.4W</view>
+							</view> -->
+							<view class="forwarding icon" >
+								<button type="default" open-type="share" plain="false">
+									<image src="/static/weixin.png" mode=""></image>
+									<view class="icon_num">2.4W</view>
+								</button>
+							</view>
 						</view>
 						
 					</view>
@@ -81,6 +102,8 @@
 						<uni-popup-share title="分享到" @select="select"></uni-popup-share>
 					</uni-popup>
 				</swiper-item>
+				
+				
 			</block>
 		</swiper>
 	</view>
@@ -133,6 +156,12 @@ export default {
 		uniPopupGifts,
 	},
 	onLoad(option) {
+		// 当用户进行转发的时候，根据 id 判断 给用户显示相应的视频
+		console.log('onload option',option)
+		// 根据传递过来的数据，请求相应的视频，并将其赋值到列表
+		
+		
+		
 		// 根据页面传递过来的 视频index
 		// this.videoIndex = parseInt(option.index);
 		// 显示评论弹窗
@@ -145,6 +174,20 @@ export default {
 		console.log('video onready',this.videoContext)
 		// 用户点击进入后就进行播放
 		this.videoContext.play();
+	},
+	// 触发页面的转发事件
+	onShareAppMessage:function(res){
+		console.log('playVideo 进行转发 设置转发内容')
+		if (res.from === 'button') {
+			// 来自页面内转发按钮
+			console.log('按钮进行的转发',res)
+		}
+		return {
+			// title: '自定义转发标题',
+			path: `/pages/playVideo/playVideo?video_id=${123}`,
+			imageUrl: '自定义转发图片',
+			desc:'自定义描述'
+		}
 	},
 	methods: {
 		// 返回上一页面
@@ -307,7 +350,24 @@ export default {
 			    content: `您确定赠送${e.item.text}吗`,
 			    success: function (res) {
 						if (res.confirm) {
-								console.log('用户点击确定');
+							console.log('用户点击确定',uni.getProvider,);
+							// 然后调用支付功能进行支付操作
+				// 微信小程序支付
+							uni.requestPayment({
+							    provider: 'wxpay', //服务提供商 通过uni.getProvider获取
+							    timeStamp: String(Date.now()), //时间戳
+							    nonceStr: 'A1B2C3D4E5', //随机字符串
+									// 统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=xx。
+							    package: 'prepay_id=wx20180101abcdefg',
+							    signType: 'MD5', //签名算法
+							    paySign: 'appid=wxd930ea5d5a258f4f&body=test&device_info=1000&mch_id=10000100&nonce_str=ibuaiVcKdpRxkhJA',  //签名
+							    success: function (res) {
+							        console.log('success:' + JSON.stringify(res));
+							    },
+							    fail: function (err) {
+							        console.log('fail:' + JSON.stringify(err));
+							    }
+							});
 						} else if (res.cancel) {
 								console.log('用户点击取消');
 						}
@@ -330,10 +390,12 @@ export default {
 		 * 转发时选择内容
 		 */
 		select(e, done) {
-			uni.showToast({
-				title: `您选择了第${e.index+1}项：${e.item.text}`,
-				icon: 'none'
-			})
+			// uni.showToast({
+			// 	title: `您选择了第${e.index+1}项：${e.item.text}`,
+			// 	icon: 'none'
+			// })
+		console.log('进行转发')
+			this.$refs.popupShare[this.videoIndex].open()
 			done()
 		},
 		
@@ -358,6 +420,10 @@ export default {
 			}else{
 				this.isPlay = true
 				ctx.play();
+				if(e.type == 'share'){
+					// console.log('share 类型')
+					this.isPlay = false
+				}
 			}
 			
 		},
@@ -385,6 +451,7 @@ export default {
 	bottom: 0;
 	.uni_vdplayer {
 		position: relative;
+		width: 100%;
 		height: 100%;
 		background-color: black;
 		.back{
@@ -396,10 +463,12 @@ export default {
 		}
 		video {
 			width: 100%;
-			// height: 500rpx;
-			position: absolute;
-			top: 50%;
-			transform: translateY(-50%);
+			height: 100%;
+			position: static;
+			// position: absolute;
+			// top: 1rpx;
+			// top: 50%;
+			// transform: translateY(-50%);
 		}
 		.vd-cover {
 			position: absolute;
@@ -461,16 +530,51 @@ export default {
 		}
 		.right {
 			width: 100rpx;
-			height: 335rpx;
+			height: 439rpx;
 			background-color: transparent;
 			position: absolute;
 			right: 23rpx;
-			top: 68%;
+			top: 62%;
 			display: flex;
 			flex-direction: column;
 			justify-content: space-evenly;
 			align-items: center;
+			button[type=default][plain] {
+				border: 0px solid #353535;
+				background-color: transparent;
+			}
+			button{
+				position: relative;
+				display: block;
+				
+				box-sizing: border-box;
+				font-size: 20rpx;
+				color: white;
+				text-align: center;
+				text-decoration: none;
+				line-height: 30rpx;
+				overflow: hidden;
+
+			}
+			.forwarding{
+				width: 90px;
+				/* #ifndef APP-NVUE */
+				display: flex;
+				/* #endif */
+				flex-direction: column;
+				justify-content: center;
+				// padding: 10px 0;
+				align-items: center;
+			}
 			.icon {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				color: white;
+				font-size: 20rpx;
+				.icon_num{
+					margin-top: 10rpx;
+				}
 				image {
 					width: 50rpx;
 					height: 50rpx;

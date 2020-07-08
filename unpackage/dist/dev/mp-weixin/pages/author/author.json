@@ -1,6 +1,4 @@
 {
-  "enablePullDownRefresh": true,
-  "onReachBottomDistance": 200,
   "usingComponents": {
     "wfalls-flow": "/components/wfallsflow",
     "swiper-tab-head": "/components/swiper-tab-head"

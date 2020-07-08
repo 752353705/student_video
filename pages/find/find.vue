@@ -3,10 +3,11 @@
 		<view class="find">
 		  <view class="search">
 		    <view class="left">
-		    	<input type="text" :value="val" 
+		    	<input :focus="isfocus" type="text"  
+						:value="val" :confirm-type="search"
 						placeholder="请搜索选手ID" @input="searchVal" 
-						
 						@focus="showHistory" @blur="noneHistory" 
+						@confirm="search"
 					/>
 		    	<image src="/static/search.png" mode=""></image>
 		    </view>
@@ -67,6 +68,7 @@
 	export default {
 		data() {
 			return {
+				isfocus:true,
 				f_active:1,
 				// 用户信息
 				user_name:'沈博然',
@@ -113,6 +115,12 @@
 			
 		},
 		onReady: function(res) {
+			// const query = uni.createSelectorQuery().in(this);
+			// console.log('聚焦 onReady',query.select('.inputs').focus)
+			
+			
+			
+			
 			// // #ifndef MP-ALIPAY
 			// this.videoContext = uni.createVideoContext('myVideo')
 			// // #endif
@@ -191,7 +199,8 @@
 					
 				}
 				
-				
+				// 进行搜索之后清除数据
+				this.val = ''
 				
 				
 			},
@@ -225,6 +234,7 @@
 				    setTimeout(()=>{
 				        this.$refs.wfalls.handleViewRender();
 				    },0)
+						uni.hideLoading();
 				},800)
 				
 			},
@@ -339,6 +349,7 @@
 		
 		.searchBtn{
 			color: black;
+			margin-right: 20rpx;
 		}
 	}
 	

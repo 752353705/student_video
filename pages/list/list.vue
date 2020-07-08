@@ -4,7 +4,7 @@
 		
 		<!-- 搜索框 -->
 		<view class="serach height" @click="goSearch">
-		  <span>请搜索选手ID</span>
+		  <span>搜索</span>
 			<image src="/static/search.png" mode=""></image>
 		</view>
 		
@@ -37,30 +37,50 @@
 			
 			<!-- 滚动视图  参赛选手列表-->
 			<!-- :style="height:{{scrollHeight}} px" -->
-			<view class="box">
+		<!-- 	<view class="box">
 				<scroll-view class="list"
 					:style=scrollviewHigh
 					scroll-y="true" 
+					scroll-top="20rpx"
 					enable-flex="true"
+					:throttle="false"
 					lower-threshold="160"
+					upper-threshold = "50"
 					@scrolltolower="lower"
-					
-					@touchmove="touchMove"
+					@scrolltoupper="toupper"
 				>
-					<!-- 制作瀑布流 -->
+				@touchmove="touchMove"
+					制作瀑布流
 					<wfalls-flow class="waterFull" :list="list" ref="wfalls" @finishLoad="getLoadNum"></wfalls-flow>
 				</scroll-view>
-			</view>
+			</view> -->
+			
+			<!-- 测试下拉刷新 -->
+			<mescroll-body ref="mescrollRef" @init="mescrollInit" 
+				@down="downCallback" @up="upCallback" 
+			>
+				<!-- <view v-for="data in list" :key="index"> 数据列表... </view> -->
+				<view class="box">
+						<scroll-view class="list"
+							:style=scrollviewHigh
+							scroll-y="true" 
+							scroll-top="20rpx"
+							enable-flex="true"
+							:throttle="false"
+							lower-threshold="160"
+							upper-threshold = "50"
+							@scrolltolower="lower"
+							@scrolltoupper="toupper"
+						>
+						<!-- @touchmove="touchMove"
+							制作瀑布流 -->
+							<wfalls-flow class="waterFull" :style=scrollviewHigh :list="list" ref="wfalls" @finishLoad="getLoadNum"></wfalls-flow>
+						</scroll-view>
+					</view>
+			</mescroll-body>
+			
 			
 		</view>
-		<!-- 上传作品弹出层 -->
-		<!-- <uploading></uploading> -->
-		<uni-popup class="pop" animation="false" ref="popup" type="center" mask-click="false">
-			<uni-popup-message type="success" pop_type="game" message="成功消息" duration="0" />
-			<view class="imgBox">
-				<image class="img" src="/static/close.png" mode="" @click="close"></image>
-			</view>
-		</uni-popup>
 		
 		<!-- 底部自定义tabber -->
 		<tabbar :active="i_active"></tabbar>
@@ -74,11 +94,11 @@
 		data() {
 			return {
 				// 参赛
-				sum:[
-					{id:'0',name:'参赛人数',num:1020,src:'../../static/people.png'},
-					{id:'1',name:'总投票数',num:27890,src:'../../static/sum.png'},
-					{id:'2',name:'总访问量',num:76587,src:'../../static/accessNum.png'}
-				],
+				// sum:[
+				// 	{id:'0',name:'参赛人数',num:1020,src:'../../static/people.png'},
+				// 	{id:'1',name:'总投票数',num:27890,src:'../../static/sum.png'},
+				// 	{id:'2',name:'总访问量',num:76587,src:'../../static/accessNum.png'}
+				// ],
 				// 参赛选手列表
 				list:[],
 				listNum:0, //进行分页请求时的页数
@@ -97,8 +117,13 @@
 			uni.showLoading({
 			   title: '加载中'
 			});
+			
+// 当页面加载时，就网络请求进行页面第一批数据的渲染
+			
+			
+			
 			// this.list = list;
-			// this.$refs.wfalls.init();
+			this.$refs.wfalls.init();
 			setTimeout(()=>{
 			    this.list = list;
 					console.log('初始化list ref',this.$refs.wfalls)
@@ -109,7 +134,7 @@
 		onReady() {
 			// 页面加载完毕
 			console.log('页面加载完毕')
-			uni.hideLoading();
+			
 			let _this = this
 			
 			// 动态设置scroll-view区域的高度
@@ -135,19 +160,119 @@
 			// 给瀑布组件添加拖拽的功能
 			// let full = uni.createSelectorQuery().select('.waterFull');
 			
+			uni.hideLoading();
+		},
+		// onPullDownRefresh(){
+		// 	console.log('下拉刷新')
+		// },
+		// onReachBottom() {
+		// 	console.log('上拉 触底 加载') //分页 请求数据
+		// 	// 请求下一波参赛人员数据
+		// 	// 进行模拟
+		// 	this.list.push({},{})
 			
-		},
-		onPullDownRefresh(){
-			console.log('下拉刷新')
-		},
-		onReachBottom() {
-			console.log('上拉 触底 加载') //分页 请求数据
-			// 请求下一波参赛人员数据
-			// 进行模拟
-			this.list.push({},{})
-			
-		},
+		// },
 		methods: {
+			// 控制测试的视频列表
+			/*mescroll组件初始化的回调,可获取到mescroll对象 (此处可删,mixins已默认)*/
+			mescrollInit(mescroll) {
+				this.mescroll = mescroll;
+			},
+			/*下拉刷新的回调, 有三种处理方式:*/
+			downCallback(){
+				console.log('downCallback 下拉刷新')
+				// 第1种: 请求具体接口
+				// uni.request({
+				// 	url: 'xxxx',
+				// 	success: () => {
+				// 		// 请求成功,隐藏加载状态
+				// 		this.mescroll.endSuccess()
+				// 	},
+				// 	fail: () => {
+				// 		// 请求失败,隐藏加载状态
+				// 		this.mescroll.endErr()
+				// 	}
+				// })
+				// 第2种: 下拉刷新和上拉加载调同样的接口, 那么不用第1种方式, 直接mescroll.resetUpScroll()即可
+				// this.mescroll.resetUpScroll(); // 重置列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
+				// 第3种: 下拉刷新什么也不处理, 可直接调用或者延时一会调用 mescroll.endSuccess() 结束即可
+				setTimeout(()=>{
+					this.mescroll.endSuccess()
+				},3000)
+				
+				
+				// 此处仍可以继续写其他接口请求...
+				// 调用其他方法...
+			},
+			/*上拉加载的回调*/
+			upCallback(page) {
+				console.log('upCallback 上拉加载')
+				// let pageNum = page.num; // 页码, 默认从1开始
+				// let pageSize = page.size; // 页长, 默认每页10条
+				// uni.request({
+				// 	url: 'xxxx?pageNum='+pageNum+'&pageSize='+pageSize,
+				// 	success: (data) => {
+				// 		// 接口返回的当前页数据列表 (数组)
+				// 		let curPageData = data.xxx; 
+				// 		// 接口返回的当前页数据长度 (如列表有26个数据,当前页返回8个,则curPageLen=8)
+				// 		let curPageLen = curPageData.length; 
+				// 		// 接口返回的总页数 (如列表有26个数据,每页10条,共3页; 则totalPage=3)
+				// 		let totalPage = data.xxx; 
+				// 		// 接口返回的总数据量(如列表有26个数据,每页10条,共3页; 则totalSize=26)
+				// 		let totalSize = data.xxx; 
+				// 		// 接口返回的是否有下一页 (true/false)
+				// 		let hasNext = data.xxx; 
+						
+				// 		//设置列表数据
+				// 		if(page.num == 1) this.dataList = []; //如果是第一页需手动置空列表
+				// 		this.dataList = this.dataList.concat(curPageData); //追加新数据
+						
+				// 		// 请求成功,隐藏加载状态
+				// 		//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+				// 		this.mescroll.endByPage(curPageLen, totalPage); 
+						
+				// 		//方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+				// 		//this.mescroll.endBySize(curPageLen, totalSize); 
+						
+				// 		//方法三(推荐): 您有其他方式知道是否有下一页 hasNext
+				// 		//this.mescroll.endSuccess(curPageLen, hasNext); 
+						
+				// 		//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.
+				// 		//如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据
+				// 		//如果传了hasNext,则翻到第二页即可显示无更多数据.
+				// 		//this.mescroll.endSuccess(curPageLen);
+						
+				// 		// 如果数据较复杂,可等到渲染完成之后再隐藏下拉加载状态: 如
+				// 		// 建议使用setTimeout,因为this.$nextTick某些情况某些机型不触发
+				// 		setTimeout(()=>{
+				// 			this.mescroll.endSuccess(curPageLen)
+				// 		},20)
+						
+				// 		//curPageLen必传的原因:
+				// 		// 1. 使配置的noMoreSize 和 empty生效
+				// 		// 2. 判断是否有下一页的首要依据: 
+				// 		// 	 当传的值小于page.size时(说明不满页了),则一定会认为无更多数据;
+				// 		// 	 比传入的totalPage, totalSize, hasNext具有更高的判断优先级;
+				// 		// 3. 当传的值等于page.size时(满页),才取totalPage, totalSize, hasNext判断是否有下一页
+				// 		// 传totalPage, totalSize, hasNext目的是避免方法四描述的小问题
+						
+				// 		// 提示: 您无需额外维护页码和判断显示空布局,mescroll已自动处理好.
+				// 		// 当您发现结果和预期不一样时, 建议再认真检查以上参数是否传正确
+				// 	},
+				// 	fail: () => {
+				// 		//  请求失败,隐藏加载状态
+				// 		this.mescroll.endErr()
+				// 	}
+				// })
+				
+				// 此处仍可以继续写其他接口请求...
+				// 调用其他方法...
+			},
+			
+			
+			
+			
+			
 			// 跳转到搜搜页面
 			goSearch(){
 				uni.navigateTo({
@@ -168,15 +293,18 @@
 			
 			// 控制弹出框
 			open(){
-				this.$refs.popup.open()
+				this.$refs.popup_video.open()
 			},
 			
 			close(){
-				this.$refs.popup.close()
+				this.$refs.popup_video.close()
 			},
 			//scrollView 区域
+			toupper(){
+				console.log('toupper')
+			},
 			lower(){
-				console.log('滚动到底部 ')
+				console.log('滚动到底部 lower')
 				//进行重新请求用户的数据
 				// 模拟触底刷新
 				console.log('onReachBottom');
@@ -195,6 +323,7 @@
 				    setTimeout(()=>{
 				        this.$refs.wfalls.handleViewRender();
 				    },0)
+						uni.hideLoading();
 				},800)
 				
 				// 进行真正大分页请求时，利用挂载在实例上的方法，发起请求
@@ -229,7 +358,7 @@
 		bottom: 0;
 		background-color: #f6f6f6;
 		.serach{
-			background-color: #99999d;
+			background-color: #cbcbcf;
 			border-radius: 33rpx;
 			width: 63%;
 			height: 71rpx;
@@ -309,6 +438,7 @@
 				  flex-wrap: wrap;
 					.waterFull{
 						position: absolute;
+					
 						width: 100%;
 					}
 				}

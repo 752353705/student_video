@@ -76,7 +76,27 @@ export default {
 					uni.getUserInfo({
 						provider: 'weixin',
 						success: function (infoRes) {
-							console.log('用户昵称为：', infoRes.userInfo);
+							console.log('用户信息', infoRes.userInfo);
+							
+							// 存储用户的头像
+							uni.setStorage({
+								key:'user_img',
+								data:infoRes.userInfo.avatarUrl,
+								success:function(){
+									console.log('存储用户头像成功')
+								}
+							})
+							// 存储用户名
+							uni.setStorage({
+								key:'user_name',
+								data:infoRes.userInfo.nickName,
+								success:function(){
+									console.log('存储用户名成功')
+								}
+							})
+							uni.navigateBack({
+								delta: 1
+							})
 						}
 					});
 					// 用户成功授权之后向后端进行数据请求

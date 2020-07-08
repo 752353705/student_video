@@ -1,9 +1,7 @@
 {
   "navigationStyle": "custom",
-  "enablePullDownRefresh": true,
   "onReachBottomDistance": 200,
   "usingComponents": {
-    "uni-popup": "/components/uni-popup/uni-popup",
     "wfalls-flow": "/components/wfallsflow"
   }
 }

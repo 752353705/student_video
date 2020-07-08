@@ -402,6 +402,7 @@
   -webkit-box-pack: center;
   -webkit-justify-content: center;
           justify-content: center;
+  position: relative;
 }
 .active {
   color: red !important;

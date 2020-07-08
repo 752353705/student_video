@@ -1,42 +1,35 @@
 {
+		"easycom": {
+				"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+			},
     "pages" : [
         //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
         {
             "path" : "pages/list/list",
             "style" : {
                 "navigationStyle" : "custom",
-                "enablePullDownRefresh" : true,
                 "onReachBottomDistance" : 200
-            }
-        },
-       
-        {
-            "path" : "pages/index/index",
-            "style" : {
-                "navigationBarTitleText" : "大学生短视频"
             }
         },
         {
             "path" : "pages/find/find",
             "style" : {
-                "navigationBarTitleText" : "搜索作品",
-                "enablePullDownRefresh" : true,
-                "onReachBottomDistance" : 200
+							"navigationBarTitleText" : "搜索作品",
+							"onReachBottomDistance" : 200
             }
         },
         {
             "path" : "pages/cpt/cpt",
             "style" : {
                 "navigationBarTitleText" : "合作赞助",
-                "enablePullDownRefresh" : true,
                 "onReachBottomDistance" : 200
             }
         },
         {
-            "path" : "pages/my/my",
-            "style" : {
-                "navigationStyle" : "custom"
-            }
+					"path" : "pages/my/my",
+					"style" : {
+							"navigationStyle" : "custom"
+					}
         },
         {
             "path" : "pages/reg/reg",
@@ -67,8 +60,6 @@
         ,{
             "path" : "pages/author/author",
             "style" : {
-							"enablePullDownRefresh" : true,
-							"onReachBottomDistance" : 200
 						}
         }
         ,{
@@ -98,6 +89,7 @@
         "navigationBarTextStyle" : "black",
         "navigationBarTitleText" : "大学生短视频",
         "navigationBarBackgroundColor" : "#FFFFFF",
-        "backgroundColor" : "#F8F8F8"
+        "backgroundColor" : "#F8F8F8",
+				"backgroundColorTop":"#FFFFFF"
     }
 }

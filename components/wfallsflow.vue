@@ -1,50 +1,41 @@
 <template>
 	<view class="list-container">
 		<view id="wf-list" class="list" v-for="(list,listIndex) of viewList" :key="listIndex">
-            <view class="item" v-for="(item,index) of list.list" :key="index" @click="jumpFind">
-               <image 
-									@load="handleViewRender(listIndex,index)" 
-									@error="handleViewRender(listIndex,index)" 
-									:src="item.image ? item.image : '/static/easyLoadimage/loading.gif'" mode="widthFix"
-									:lazy-load="true"
-								> 
-								</image>
-								
-								<!-- <easy-loadimage 
-									mode="widthFix" :scroll-top="scrollTop"
-								  :image-src="item.image"
-								>
-								</easy-loadimage> -->
-									
-								<view class="item_foot">
-									<view class="left">
-										<view class="user_img">
-											<!-- 头像 -->
-										</view>
-										<view class="msg">
-											<!-- 姓名 -->
-											沈博然
-										</view>
-									</view>
-									<view class="right">
-										<view class="icon">
-											<image src="/static/my_vote1.png" mode=""></image>
-										</view>
-										<view>
-											<!-- 票数 -->
-											123456
-										</view>
-									</view>
-								</view>
-								
-								
-            </view>
-        </view>
+			
+			<view class="item" v-for="(item,index) of list.list" :key="index" >
+				
+				<u-lazy-load @load="handleViewRender(listIndex,index)" 
+					@error="handleViewRender(listIndex,index)" :image="item.image"
+					@click="jumpFind">
+				</u-lazy-load>   
+				<view class="item_foot">
+					<view class="left">
+						<view class="user_img">
+							<!-- 头像 -->
+						</view>
+						<view class="msg">
+							<!-- 姓名 -->
+							沈博然
+						</view>
+					</view>
+					<view class="right">
+						<view class="icon">
+							<image src="/static/my_vote1.png" mode=""></image>
+						</view>
+						<view>
+							<!-- 票数 -->
+							123456
+						</view>
+					</view>
+				</view>
+			</view>
+			
+    </view>
 	</view>
 </template>
 
 <script>
-	import easyLoadimage from '@/components/easy-loadimage/easy-loadimage.vue'
+	// import easyLoadimage from '@/components/easy-loadimage/easy-loadimage.vue'
 	export default {
 		props:{
 			list:{
@@ -53,12 +44,15 @@
 		},
 		data() {
 			return {
+				loadingImg: '/static/loading.png',
 				viewList:[{list:[]},{list:[]}],  //展示到视图的列表数据
 				everyNum:2,
 				scrollTop:0, //懒加载时滚动的距离  动态生成
 			}
 		},
-		components:{easyLoadimage},
+		components:{
+			
+		},
 		methods: {
 			init(){
 				this.viewList = [{list:[]},{list:[]}];
@@ -91,6 +85,7 @@
 				}).exec()
 			},
 			jumpFind(e){
+				console.log('瀑布流跳转')
 				// 根据点击的id进行跳转到视频播放页面
 				uni.navigateTo({
 					url: "/pages/playVideo/playVideo"
@@ -117,6 +112,7 @@
 				flex-direction :column;
 				.item{
 					margin-bottom :18rpx;
+					// height: 200px;
 					image{
 						display: block;
 						width :100%;

@@ -28,7 +28,7 @@
 					<view v-if="!focus" class="focusBtn t_c" @click="focusOn">关注</view>
 					<view v-else class="focusBtn t_c" @click="focusOn">已关注</view>
 					
-					<image src="../../static/msg.png" mode=""></image>
+					<image src="../../static/msg.png" mode="" @click="goChart"></image>
 				</view>
 			</view>
 			
@@ -50,15 +50,12 @@
 			
 			<!-- 作者作品展示 -->
 			<view class="uni-tab-bar">
-				<swiper class="swiper-box" :style=scrollviewHigh :current="tabIndex" @change="tabChange">
-					<swiper-item v-for="(items,index) in newslist" :key="index">
-						<scroll-view scroll-y class="list" 
-							:style=scrollviewHigh
-							scroll-y="true" 
-							enable-flex="true"
-							lower-threshold="160"
-							@scrolltolower="lower(index)"
-						>
+				<!-- :style=scrollviewHigh -->
+				<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback">
+					<swiper class="swiper-box"  :current="tabIndex" @change="tabChange">
+						<swiper-item style="height: 500px;" class="swiper-item" v-for="(items,index) in newslist" :key="index">
+							<scroll-view scroll-y class="list" :style=scrollviewHigh scroll-y="true" enable-flex="true" lower-threshold="160"
+							 @scrolltolower="lower(index)">
 								<template v-if="items.list.length > 0">
 									<!-- 图文列表 -->
 									<block v-for="(item,index1) in items.list" :key="index">
@@ -66,16 +63,19 @@
 										<wfalls-flow class="waterFull" :list="list" ref="wfalls" @finishLoad="getLoadNum"></wfalls-flow>
 									</block>
 								</template>
-						</scroll-view>
-					</swiper-item>
-				</swiper>
+							</scroll-view>
+						</swiper-item>				
+					</swiper>
+				</mescroll-body>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	
 	import wfallsFlow from '../../components/wfallsflow.vue'
+	import goodList from '../../components/good-list.vue'
 	const list = require('../../static/data.json').list;
 	
 	// 引入tabHead 切换
@@ -83,6 +83,12 @@
 	export default {
 		data() {
 			return {
+				// 测试
+				goods: [], // 数据列表
+				isGoodsEdit: false,  // 是否加载编辑后的数据
+				
+				
+				
 				//控制nav切换
 				tabIndex:0,// 选中的
 				tabBars:[
@@ -171,6 +177,50 @@
 			this.lower()
 		},
 		methods:{
+			// 控制测试的视频列表
+			/*mescroll组件初始化的回调,可获取到mescroll对象 (此处可删,mixins已默认)*/
+			mescrollInit(mescroll) {
+				this.mescroll = mescroll;
+			},
+			/*下拉刷新的回调, 有三种处理方式:*/
+			downCallback(){
+				console.log('downCallback 下拉刷新 1')
+				// this.mescroll.endSuccess()
+				// 第1种: 请求具体接口
+				// uni.request({
+				// 	url: 'xxxx',
+				// 	success: () => {
+				// 		// 请求成功,隐藏加载状态
+				// 		this.mescroll.endSuccess()
+				// 	},
+				// 	fail: () => {
+				// 		// 请求失败,隐藏加载状态
+				// 		this.mescroll.endErr()
+				// 	}
+				// })
+				// 第2种: 下拉刷新和上拉加载调同样的接口, 那么不用第1种方式, 直接mescroll.resetUpScroll()即可
+				// this.mescroll.resetUpScroll(); // 重置列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
+				// 第3种: 下拉刷新什么也不处理, 可直接调用或者延时一会调用 mescroll.endSuccess() 结束即可
+				setTimeout(()=>{
+					this.mescroll.endSuccess()
+				},3000)
+				
+				console.log('downCallback 下拉刷新 2')
+				// 此处仍可以继续写其他接口请求...
+				// 调用其他方法...
+			},
+			
+			
+			
+			
+			
+			
+			// 点击聊天图标，跳转到聊天室
+			goChart(){
+				uni.navigateTo({
+					url:`/pages/chartRoom/chartRoom`
+				})
+			},
 			// 判断当前用户是否对其进行了关注
 			focusOn(){
 				let _this = this 
@@ -215,6 +265,7 @@
 				    setTimeout(()=>{
 				        this.$refs.wfalls[index].handleViewRender();
 				    },0)
+						uni.hideLoading();
 				},800)
 				
 			},
@@ -291,7 +342,7 @@
 	.authorMsg{
 		width: 100%;
 		height: 100rpx;
-		background-color: green;
+		// background-color: green;
 		box-sizing: border-box;
 		padding: 0 40rpx;
 	}
@@ -300,25 +351,34 @@
 			box-sizing: border-box;
 			padding: 10rpx 10rpx;
 		}
-		// .title{
-		// 	display: flex;
-		// 	justify-content: center;
-		// 	align-items: center;
-		// 	position: sticky;
-		// 	top: 0;
-		// 	left: 0;
-		// 	background-color: white;
-		// 	z-index: 10;
-			
-		// 	:nth-child(1),:nth-child(2){
-		// 		margin-right: 30rpx;
+		.swiper-box{
+			width: 100%;
+			height: 800px; // 这个要写成动态的
+			// background-color: red;
+			.swiper-item{
+				// height: 600px !important;
 				
-		// 		padding: 20rpx 20rpx;
-		// 	}
-		// 	.active{
-		// 		border-bottom: 4rpx solid red;
-		// 	}
-		// }
+			}
+		}
+		.title{
+			// display: flex;
+			// justify-content: center;
+			// align-items: center;
+			// position: sticky;
+			// top: 0;
+			// left: 0;
+			// // background-color: white;
+			// z-index: 10;
+			
+			// :nth-child(1),:nth-child(2){
+			// 	margin-right: 30rpx;
+				
+			// 	padding: 20rpx 20rpx;
+			// }
+			// .active{
+			// 	border-bottom: 4rpx solid red;
+			// }
+		}
 		
 		// .authorVideos{
 		// 	width: 100%;

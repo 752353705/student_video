@@ -5,10 +5,22 @@
 		</view>
 		<view class="uni-share-content">
 			<view class="uni-share-content-box">
-				<view class="uni-share-content-item" v-for="(item, index) in bottomData" :key="index" @click.stop="select(item, index)">
-					<image class="uni-share-image" :src="item.icon" mode="aspectFill"></image>
-					<text class="uni-share-text">{{ item.text }}</text>
-				</view>
+				
+				<!-- <view class="uni-share-content-item" v-for="(item, index) in bottomData" :key="index" @click.stop="select(item, index)">
+					<button type="default" open-type="share" plain="false"	 >
+						<image class="uni-share-image" :src="item.icon" mode="aspectFill"></image>
+						<text class="uni-share-text">{{ item.text }}</text>
+					</button>
+				</view> -->
+				
+					<button type="default" open-type="share" plain="false" class="uni-share-content-item" 
+						v-for="(item, index) in bottomData" :key="index" @click.stop="select(item, index)"
+						@touchstart="setId"
+					>
+						<image class="uni-share-image" :src="item.icon" mode="aspectFill"></image>
+						<text class="uni-share-text">{{ item.text }}</text>
+					</button>
+				
 			</view>
 		</view>
 		<view class="uni-share-button-box"><button class="uni-share-button" @click="close">取消</button></view>
@@ -29,7 +41,7 @@ export default {
 		return {
 			bottomData: [
 				{
-					text: '微信',
+					text: 'weixin',
 					icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png',
 					name: 'wx'
 				},
@@ -38,11 +50,11 @@ export default {
 				// 	icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-8.png',
 				// 	name: 'wx'
 				// },
-				{
-					text: 'QQ',
-					icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/gird-3.png',
-					name: 'qq'
-				},
+				// {
+				// 	text: 'QQ',
+				// 	icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/gird-3.png',
+				// 	name: 'qq'
+				// },
 				// {
 				// 	text: '新浪',
 				// 	icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-1.png',
@@ -53,16 +65,24 @@ export default {
 				// 	icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-7.png',
 				// 	name: 'copy'
 				// },
-				{
-					text: '其他',
-					icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-5.png',
-					name: 'more'
-				}
+				// {
+				// 	text: '其他',
+				// 	icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-5.png',
+				// 	name: 'more'
+				// }
 			]
 		};
 	},
 	created() {},
 	methods: {
+		
+		/**
+		 * 控制进行分享时的图片
+		 * */
+		 setId(){
+			 // console.log('进行分享 uni-popup-share')
+		 },
+		 
 		/**
 		 * 选择内容
 		 */
@@ -111,7 +131,7 @@ export default {
 	display: flex;
 	/* #endif */
 	flex-direction: row;
-	justify-content: center;
+	// justify-content: center;
 	padding-top: 10px;
 }
 
@@ -119,9 +139,14 @@ export default {
 	/* #ifndef APP-NVUE */
 	display: flex;
 	/* #endif */
-	flex-direction: row;
-	flex-wrap: wrap;
-	width: 360px;
+	// flex-direction: row;
+	// flex-wrap: wrap;
+	justify-content: flex-start;
+	// width: 360px;
+}
+button[type=default][plain] {
+	border: 0px solid #353535;
+	background-color: transparent;
 }
 
 .uni-share-content-item {
@@ -131,7 +156,7 @@ export default {
 	/* #endif */
 	flex-direction: column;
 	justify-content: center;
-	padding: 10px 0;
+	// padding: 10px 0;
 	align-items: center;
 }
 
@@ -145,7 +170,7 @@ export default {
 }
 
 .uni-share-text {
-	margin-top: 10px;
+	// margin-top: 10px;
 	font-size: 14px;
 	color: #3b4144;
 }

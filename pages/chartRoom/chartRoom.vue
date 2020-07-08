@@ -28,19 +28,24 @@
 		
 		<!-- 输入框 -->
 		<view class="input_box height"
-			:style=inputBottom
+			:style="inputBottom"
 		>
 			<!-- 输入框 -->
 			<input class="uni-input"  
 				cursor-spacing="10"
 				type="text" :value="sendVal" 
 				placeholder="发消息..."
+				@focus="foc"
+				@blur="blur"
 				@input="input"
 				@keyboardheightchange="keyWord"
 				@confirm="end" 
 				:adjust-position="false"
 				:hold-keyboard="false"	
 			/>
+		<!-- 	<view class="uni-input input" @click="foc">
+				发信息...
+			</view> -->
 			<!-- 表情选择框 -->
 			<view class="expression border" @click="showExp">
 				<image src="../../static/chartExpress.png" mode="aspectFit"></image>
@@ -56,15 +61,18 @@
 		</view>
 		
 		<!-- 显示选择图片 和 表情  -->
-		<view class="choose">
+	<!-- 	<view class="choose">
 			图片和表情
-		</view>
+		</view> -->
 		
 		
 		
 		<!-- 弹出框 用户点击添加按钮 可以从相册选取图片 -->
 		<!-- <uni-popup :selfMask="selfMask" ref="popupChart" type="share" @change="change">
-			<uni-popup-chart title="评论" @select="select"></uni-popup-chart>
+			<uni-popup-chart :inputBottom="inputBottom" title="评论" 
+				@select="select" @send="send" 
+				@keyWord="keyWord"
+			/>
 		</uni-popup> -->
 		
 	</view>
@@ -79,8 +87,8 @@
 				// 判断是否显示表情和发送本机图片
 				show_exp:false,
 				show_img:false,
-				
 				sendVal:'',
+				
 				chartLeft:[],
 				chartRight:[],
 				scrollviewHigh:'',//滚动区域的高度
@@ -132,17 +140,36 @@
 			// 当进行点击发送之后
 			send(){
 				console.log('发送消息',this.sendVal)
+				
 				this.inputHeight = 0
 				// 将发送方的消息储存到 chartRight
 				this.chartRight.push(this.sendVal)
 				// 然后清空输入框内容
 				this.sendVal = ''
+				// 高度降下
+				this.inputBottom = "bottom:" + 0 + 'px'
 			},
 			// 当用户进行输入
 			input(e){
 				console.log('用户输入',e.detail.value)
 				// 储存用户输入值
 				this.sendVal = e.detail.value
+			},
+			
+	// 调控底部自定义的表情选框
+			// input框聚焦
+			foc(e){
+				console.log('chart 聚焦')
+				//设置键盘抬起的高度
+				console.log('e',e.detail.height)
+				this.inputBottom = "bottom:" + e.detail.height + 'px'
+				// 弹出聊天框
+				// this.$refs.popupChart.open()
+			},
+			blur(){
+				// 点击页面小键盘关闭，输入框高度调整
+				this.inputBottom = "bottom:" + 0 + 'px'
+				this.sendVal = ''
 			},
 			// 显示表情选择框
 			showExp(){
@@ -158,9 +185,8 @@
 			// 监控键盘高度的变化
 			keyWord(e){
 				console.log('键盘高度变化',e.detail.height)
-				//设置键盘抬起的高度
 				this.inputBottom = "bottom:" + e.detail.height + 'px'
-				this.showHeight = "height:" + e.detail.height + 'px'
+				// this.showHeight = "height:" + val + 'px'
 			},
 			end(e){
 				console.log('点击完成时触发',e.detail)
@@ -199,7 +225,7 @@
 		right: 0;
 		bottom: 0;
 		.scroll{
-			background-color: red;
+			// background-color: red;
 			.chartBox{
 				position: sticky;
 				top: 0;
@@ -271,6 +297,8 @@
 				padding-left: 20rpx;
 				overflow:visible ;
 				position: relative;
+				// display: flex;
+				// align-items: center;
 			}
 			input::before {
 				content: " ";

@@ -1,6 +1,5 @@
 {
   "navigationBarTitleText": "搜索作品",
-  "enablePullDownRefresh": true,
   "onReachBottomDistance": 200,
   "usingComponents": {
     "uni-popup": "/components/uni-popup/uni-popup",

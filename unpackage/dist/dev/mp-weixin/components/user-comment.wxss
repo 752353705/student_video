@@ -29,9 +29,19 @@
           justify-content: space-between;
 }
 .user_cmt .content .user_footer .right {
+  position: absolute;
+  top: 10rpx;
+  right: 10rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
@@ -39,9 +49,6 @@
 .user_cmt .content .user_footer .right image {
   width: 40rpx;
   height: 40rpx;
-}
-.user_cmt .content .two .replay {
-  color: blue;
 }
 .user_cmt .content .two .two_cmt .two_content::after {
   content: " ";

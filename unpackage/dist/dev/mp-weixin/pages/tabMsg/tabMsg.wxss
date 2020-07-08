@@ -7,7 +7,7 @@
   bottom: 0;
   box-sizing: border-box;
 }
-.tabMsg .head {
+.tabMsg .tab_head {
   background-color: white;
   display: -webkit-box;
   display: -webkit-flex;
@@ -21,7 +21,7 @@
   position: relative;
   padding: 40rpx 10rpx;
 }
-.tabMsg .head .head_item {
+.tabMsg .tab_head .head_item {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -36,11 +36,11 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.tabMsg .head .head_item image {
+.tabMsg .tab_head .head_item image {
   width: 80rpx;
   height: 80rpx;
 }
-.tabMsg .head .head_item .msg {
+.tabMsg .tab_head .head_item .msg {
   margin-top: 20rpx;
 }
 .tabMsg .head::after {

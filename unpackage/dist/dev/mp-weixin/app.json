@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/list/list",
-    "pages/index/index",
     "pages/find/find",
     "pages/cpt/cpt",
     "pages/my/my",
@@ -19,14 +18,17 @@
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "大学生短视频",
     "navigationBarBackgroundColor": "#FFFFFF",
-    "backgroundColor": "#F8F8F8"
+    "backgroundColor": "#F8F8F8",
+    "backgroundColorTop": "#FFFFFF"
   },
   "usingComponents": {
+    "mescroll-body": "/components/mescroll-uni/mescroll-body",
+    "mescroll-uni": "/components/mescroll-uni/mescroll-uni",
     "tabbar": "/components/tabbar",
     "uni-popup": "/components/uni-popup/uni-popup",
     "uni-popup-dialog": "/components/uni-popup/uni-popup-dialog",
     "uni-popup-pushvideo": "/components/uni-popup/uni-popup-pushvideo",
     "c-circle": "/components/cCircle"
   },
-  "sitemapLocation": "sitemap75.json"
+  "sitemapLocation": "sitemap97.json"
 }

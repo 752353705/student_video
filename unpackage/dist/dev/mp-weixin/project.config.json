@@ -57,8 +57,15 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "pages/chat/chat",
-					"pathName": "pages/chat/chat",
+					"name": "pages/author/author",
+					"pathName": "pages/author/author",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/my/my",
+					"pathName": "pages/my/my",
 					"scene": null
 				}
 			]

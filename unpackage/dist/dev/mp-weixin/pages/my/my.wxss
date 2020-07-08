@@ -63,6 +63,7 @@
 .my .content {
   box-sizing: border-box;
   padding: 40rpx;
+  padding-bottom: 10rpx;
   font-size: 30rpx;
 }
 .my .content .list {
@@ -72,7 +73,7 @@
   border-radius: 20rpx;
   box-sizing: border-box;
   padding: 20rpx 45.83rpx;
-  color: black;
+  color: #707070;
 }
 .my .content .list .list_item {
   position: relative;

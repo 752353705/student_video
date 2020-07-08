@@ -1,6 +1,6 @@
 <template>
 	<view class="tabMsg"> 
-		<view class="head">
+		<view class="tab_head">
 			<view class="head_item" v-for="(item,index) in headMsg " 
 				:key="index" @click="goDetail(index)"
 			>
@@ -20,6 +20,7 @@
 						<view class="time">15:03</view>
 					</view>
 					<view class="con_msg">消息展示消息展示消息展示消息展示消息展示消息展示消息展示消息展示消息展示消息展示消息展示消息展示</view>
+					<u-badge count="10" size='mini' :offset=off />
 				</view>
 			</view>
 			
@@ -34,6 +35,8 @@
 	export default {
 		data() {
 			return {
+				// 控制显示未读消息数
+				off:[40,0],
 				headMsg:[
 					{icon:'/static/tabMsee.png',msg:'赞和收藏'},
 					{icon:'/static/tabMsee.png',msg:'新增关注'},
@@ -76,7 +79,7 @@
 	right: 0;
 	bottom: 0;
 	box-sizing: border-box;
-	.head{
+	.tab_head{
 		background-color: white;
 		display: flex;
 		justify-content: space-evenly;

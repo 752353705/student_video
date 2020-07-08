@@ -1,6 +1,9 @@
 <template>
     <view class="uni-tab-bar">
-        <scroll-view class="uni-swiper-tab" scroll-x="true" @scroll="scroll" scroll-left="120">
+        <scroll-view class="uni-swiper-tab tab" scroll-x="true" 
+					@scroll="scroll" scroll-left="120"
+					enable-flex="true"
+				>
             <block v-for="(tab,index) in tabBars" :key="tab.id" :style="scrollStyle">
                 <view 
 									class="swiper-tab-list" 
@@ -42,23 +45,41 @@
 
 <style lang="less">
 	.uni-swiper-tab{
+		width: 100%;
 		border-bottom: 1rpx solid #EEEEEE;
-		text-align: center;
+		// text-align: center;
+		justify-content: space-evenly;
+		
+		height: 70rpx;
+		line-height: 50rpx;
   }
+	.tab{
+		display: flex;
+		justify-content: space-evenly;
+	}
 	.swiper-tab-list{
 		color: #969696;
 		font-weight: bold;
 		display: inline-block;
-		margin-left: 30rpx;
+		text-align: center;
+		// margin-left: 30rpx;
+		
+	}
+	.uni-tab-bar{
+		position: sticky;
+		top: 0;
+		left: 0;
+		background-color: white;
+		z-index: 10;
 	}
 	.uni-tab-bar .active{
-			color: #343434;
+			color: red;
 	}
 	.active .swiper-tab-line{
-			border-bottom: 9rpx solid #FEDE33;
+			border-bottom: 1rpx solid red;
 			width: 70rpx;
 			margin: auto;
-			border-top: 6rpx solid #FEDE33;
+			border-top: 6rpx solid red;
 			border-radius: 20rpx;
 	}
 </style>

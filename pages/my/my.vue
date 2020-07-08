@@ -3,10 +3,10 @@
 		<view class="my">
 		  <view class="head height">
 		    <view class="user_img" @click="jump">
-					<image :src="userMsg.userImg" mode=""></image>
+					<image :src="user_img" mode=""></image>
 				 </view>
 		    <view class="user_name">
-		      {{userMsg.userName || '昵称' }}
+		      {{user_name || '昵称' }}
 		    </view>
 		    <view class="user_id">
 		      ID：{{ userMsg.user_id || '暂无' }}
@@ -44,29 +44,23 @@
 			
 			<!-- 展示内容 -->
 			<view class="uni-tab-bar">
-				<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
-					<swiper-item v-for="(items,index) in newslist" :key="index">
-						<scroll-view scroll-y class="list" 
-							:style=scrollviewHigh
-							scroll-y="true" 
-							enable-flex="true"
-							lower-threshold="160"
-							@scrolltolower="lower(index)"
-						>
+				<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" >
+					<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
+						<swiper-item style="height: 500px;" class="swiper-item" v-for="(items,index) in newslist" :key="index">
+							<scroll-view scroll-y class="list" :style=scrollviewHigh scroll-y="true" enable-flex="true" lower-threshold="160"
+							 @scrolltolower="lower(index)">
 								<template v-if="items.list.length > 0">
 									<!-- 图文列表 -->
-									<block v-for="(item,index1) in items.list" :key="index1">
+									<block v-for="(item,index1) in items.list" :key="index">
 										<!-- 制作瀑布流 -->
-										<wfalls-flow class="waterFull" :list="list" :ref=" 'wfalls' " @finishLoad="getLoadNum"></wfalls-flow>
+										<wfalls-flow class="waterFull" :list="list" ref="wfalls" @finishLoad="getLoadNum"></wfalls-flow>
 									</block>
 								</template>
-						</scroll-view>
-					</swiper-item>
-				</swiper>
+							</scroll-view>
+						</swiper-item>				
+					</swiper>
+				</mescroll-body>
 			</view>
-			
-			
-			
 		</view>
 		<!-- 个人资料填写的弹出框 -->
 		<uni-popup class="pop" animation="false" ref="popup_user" type="center" mask-click="false">
@@ -77,12 +71,12 @@
 		</uni-popup>
 		
 		<!-- 上传视频的弹出框 是全局组件 -->
-		<uni-popup class="pop" animation="false" ref="popup_video" type="center" mask-click="false">
+	<!-- 	<uni-popup class="pop" animation="false" ref="popup_video" type="center" mask-click="false">
 			<uni-popup-pushvideo type="success"  message="成功消息" duration="0" />
 			<view class="imgBox">
 				<image class="img" src="/static/close.png" mode="" @click="close"></image>
 			</view>
-		</uni-popup>
+		</uni-popup> -->
 		
 		<!-- 底部导航栏 -->
 		<tabbar :active="m_active"></tabbar>
@@ -133,7 +127,11 @@
 				],
 				tic_num:3,
 				m_active:4,
-				userMsg:'',
+				
+				// 用户信息显示
+				user_img:'', //用户头像
+				user_name:'',//用户名
+				
 				src: '',
 				danmuList: [
 						{
@@ -220,16 +218,94 @@
 		},
 		onShow() {
 			let _this = this
-			console.log('我的页面')
+			console.log('onshow')
+			// 获取用户名
 			uni.getStorage({
-			    key: 'userMsg',
+			    key: 'user_name',
 			    success: function (res) {
 			        console.log('本地信息',res.data);
-							_this.userMsg = JSON.parse(res.data)
+							_this.user_name = res.data
+			    }
+			});
+			// 获取头像
+			uni.getStorage({
+			    key: 'user_img',
+			    success: function (res) {
+			        console.log('本地信息',res.data);
+							_this.user_img = res.data
 			    }
 			});
 		},
 		methods:{
+			// 控制测试的视频列表
+			/*mescroll组件初始化的回调,可获取到mescroll对象 (此处可删,mixins已默认)*/
+			mescrollInit(mescroll) {
+				this.mescroll = mescroll;
+			},
+			/*下拉刷新的回调, 有三种处理方式:*/
+			downCallback(){
+				console.log('downCallback 下拉刷新 1')
+				// this.mescroll.endSuccess()
+				// 第1种: 请求具体接口
+				// uni.request({
+				// 	url: 'xxxx',
+				// 	success: () => {
+				// 		// 请求成功,隐藏加载状态
+				// 		this.mescroll.endSuccess()
+				// 	},
+				// 	fail: () => {
+				// 		// 请求失败,隐藏加载状态
+				// 		this.mescroll.endErr()
+				// 	}
+				// })
+				// 第2种: 下拉刷新和上拉加载调同样的接口, 那么不用第1种方式, 直接mescroll.resetUpScroll()即可
+				// this.mescroll.resetUpScroll(); // 重置列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
+				// 第3种: 下拉刷新什么也不处理, 可直接调用或者延时一会调用 mescroll.endSuccess() 结束即可
+				setTimeout(()=>{
+					this.mescroll.endSuccess()
+				},3000)
+				
+				console.log('downCallback 下拉刷新 2')
+				// 此处仍可以继续写其他接口请求...
+				// 调用其他方法...
+			},
+			/*上拉加载的回调: 其中page.num:当前页 从1开始, page.size:每页数据条数,默认10 */
+			upCallback(page) {
+				console.log('上拉加载')
+				//联网加载数据
+			// 	apiGoods(page.num, page.size, this.isGoodsEdit).then(curPageData=>{
+			// 		//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+			// 		//mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+			
+			// 		//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+			// 		//this.mescroll.endByPage(curPageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
+			
+			// 		//方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+			// 		//this.mescroll.endBySize(curPageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
+			
+			// 		//方法三(推荐): 您有其他方式知道是否有下一页 hasNext
+			// 		//this.mescroll.endSuccess(curPageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
+			
+			// 		//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据
+			// 		this.mescroll.endSuccess(curPageData.length);
+			
+			// 		//设置列表数据
+			// 		if(page.num == 1) this.goods = []; //如果是第一页需手动制空列表
+			// 		this.goods=this.goods.concat(curPageData); //追加新数据
+			// 	}).catch(()=>{
+			// 		//联网失败, 结束加载
+			// 		this.mescroll.endErr();
+			// 	})
+			},
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			//滑动切换导航
 			tabChange(e){
 			  this.tabIndex = e.detail.current
@@ -270,6 +346,7 @@
 							console.log('请求list',type)
 				      this.$refs.wfalls[index].handleViewRender();
 				    },0)
+						uni.hideLoading();
 				},800)
 				
 				// 进行真正大分页请求时，利用挂载在实例上的方法，发起请求
@@ -462,6 +539,7 @@
 	  .content{
 	    box-sizing: border-box;
 	    padding: 40rpx;
+			padding-bottom: 10rpx;
 			font-size: 30rpx;
 	    .list{
 	      width: 100%;
@@ -470,7 +548,7 @@
 	      border-radius: 20rpx;
 	      box-sizing: border-box;
 	      padding: 20rpx 45.83rpx;
-	      color: black;
+	      color: #707070;
 				
 	      .list_item{
 					position: relative;

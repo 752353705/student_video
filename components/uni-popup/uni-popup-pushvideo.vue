@@ -2,7 +2,7 @@
 	<view class="uni-popup-message">
 		<!-- 上传作品 -->	
 		<view  class="uni-popup-message-text upload" >
-			<view class="head">
+			<view class="uni_head">
 				<view class="bg" >
 					<view class="tit" >
 						上传作品
@@ -20,10 +20,11 @@
 			</view>
 			<!-- 有视频的时候，显示上传视频的第一帧 -->
 			<view v-else class="content">
-				<image :src="video_src" mode="aspectFit"></image>
+				<!-- <image :src="video_src" mode="aspectFit"></image> -->
+				<video :src="video_src" class="video"></video>
 			</view>
 			
-			<textarea name="area" class="txt_area" value="" placeholder="#输入话题" />
+			<textarea :show-confirm-bar="false" name="area" :value="areaVal" class="txt_area" @input='areaInput' placeholder="#输入话题" />
 			<view class="btn" @click="submitVideo">
 			<!-- <view class="btn" @click="getAddress"> -->
 				发布
@@ -57,6 +58,11 @@
 	export default {
 		name: 'UniPopupMessage',
 		props: {
+			// 判断 是否有上传 视频
+			video_src:{
+				type:String,
+				default:''
+			},
 			/**
 			 * 判断弹出框是哪一种类型
 			 * */
@@ -89,18 +95,41 @@
 		inject: ['popup'],
 		data() {
 			return {
-				video_src:'',
+				// video_src:'',
 				uploader:'',
 				videos: [],
 				showCir:false,//进度环是否显示
 				percent:0,//上传进度环的显示
+				
+				areaVal:'',//文本域内的文字
+				
+				// 测试官方的选取视频案例
+				title: 'chooseVideo',
+				sourceTypeIndex: 2,
+				sourceType: ['拍摄', '相册', '拍摄或相册'],
+				src: '',
+				cameraList: [{
+						value: 'back',
+						name: '后置摄像头',
+						checked: 'true'
+					},
+					{
+						value: 'front',
+						name: '前置摄像头'
+					},
+				],
+				cameraIndex: 0
 			}
 		},
 		created() {
 			this.popup.childrenMsg = this
 		},
+		onHide() {
+			// console.log('上传组件隐藏',this.$props)
+			// this.video_src = ''
+		},
 		onReady() {
-			console.log('上传组件准备好')
+			console.log('push_video 上传组件准备好')
 			 var that = this;
 			// 构造 上传阿里的方法 
 			 var uploader = new VODUpload({
@@ -109,6 +138,8 @@
 					// 添加文件成功
 					addFileSuccess: function (uploadInfo) {
 							console.log("addFileSuccess" + JSON.stringify(uploadInfo))
+							// 显示上传视频的封面
+							// that.video_src = uploadInfo.coverUrl
 					},
 					// 开始上传
 					onUploadstarted: function (uploadInfo) {
@@ -161,8 +192,7 @@
 					// 文件上传进度，单位：字节, 可以在这个函数中拿到上传进度并显示在页面上
 					onUploadProgress: function (uploadInfo, totalSize, progress) {
 							var files;
-							// 显示进度环
-							that.showCir = true
+							
 							if (uploadInfo.isImage) {
 									files = that.images;
 							} else {
@@ -223,6 +253,12 @@
 									duration: 2000
 							})
 							console.log("文件上传完毕 onUploadEnd: uploaded all the files")
+							// 然后关闭弹窗 清除数据
+							that.$emit('changeVideoSrc','')
+							that.percent = 0
+							that.showCir = false
+							that.areaVal =''
+							
 					}
 			});
 			 
@@ -257,62 +293,136 @@
 				// 调用内部接口获取拍摄的视频
 				//成功获取本地视频的地址之后，显示视频的第一帧
 				uni.chooseVideo({
-						// maxDuration:, //拍摄视频最长拍摄时间
-						count: 1,
-						sourceType: ['camera', 'album'],
-						success: function (res) {
-							console.log('调取获取视频接口成功res',res)
-							// 视频第一帧  图片
-							_this.video_src = res.thumbTempFilePath
-							// 获取了文件的临时路径，然后对其进行文件的上传
-							// let tempFilePath = res.tempFilePath
-							// uni.uploadFile({
-							// 	url:'',
-							// 	filePath:tempFilePath,
-							// 	name:'file',
-							// 	formData:{
+					camera: _this.cameraList[_this.cameraIndex].value,
+					sourceType: ['album'],
+					success: (res) => {
+						// _this.video_src = res.tempFilePath
+						let video = res.tempFilePath
+						// console.log('_this.video_src',_this.video_src)
+				
+						// 进行模拟上传
+						var file = {url: res.tempFilePath, coverUrl: res.thumbTempFilePath};
+						_this.videos = _this.videos.concat(file)
+						var uploader = _this.uploader;
+						var userData = '{"Vod":{}}'
+						uploader.addFile(file, null, null, null, userData)
+						
+						this.$emit('changeVideoSrc',video)
+						// _this.video_src = video
+							
+					},
+					fail: (err) => {
+						// #ifdef MP
+						uni.getSetting({
+							success: (res) => {
+								let authStatus = false;
+								switch (_this.sourceTypeIndex) {
+									case 0:
+										authStatus = res.authSetting['scope.camera'];
+										break;
+									case 1:
+										authStatus = res.authSetting['scope.album'];
+										break;
+									case 2:
+										authStatus = res.authSetting['scope.album'] && res.authSetting['scope.camera'];
+										break;
+									default:
+										break;
+								}
+								if (!authStatus) {
+									uni.showModal({
+										title: '授权失败',
+										content: 'Hello uni-app需要从您的相机或相册获取视频，请在设置界面打开相关权限',
+										success: (res) => {
+											if (res.confirm) {
+												uni.openSetting()
+											}
+										}
+									})
+								}
+							}
+						})
+						// #endif
+					}
+				})
+				
+				// uni.chooseVideo({
+				// 		// maxDuration:, //拍摄视频最长拍摄时间
+				// 		count: 1,
+				// 		sourceType: ['album'],
+				// 		compressed:false,
+				// 		success: function (res) {
+				// 			console.log('调取获取视频接口成功res',res)
+				// 			// 视频第一帧  图片
+				// 			_this.video_src = res.tempFilePath
+				// 			console.log('video_src',_this.video_src)
+				// 			// 获取了文件的临时路径，然后对其进行文件的上传
+				// 			// let tempFilePath = res.tempFilePath
+				// 			// uni.uploadFile({
+				// 			// 	url:'',
+				// 			// 	filePath:tempFilePath,
+				// 			// 	name:'file',
+				// 			// 	formData:{
 									
-							// 	},
-							// 	success:(uploadFileRes) => {
-							// 		console.log('uni上传视频 成功',uploadFileRes.data)
-							// 	}
-							// })
+				// 			// 	},
+				// 			// 	success:(uploadFileRes) => {
+				// 			// 		console.log('uni上传视频 成功',uploadFileRes.data)
+				// 			// 	}
+				// 			// })
 							
-							var file = {url: res.tempFilePath, coverUrl: res.thumbTempFilePath};
-                // that.setData({
-                //     videosCount: videosCount,
-                //     videos: that.data.videos.concat(file)
-                // });
-								_this.videos = _this.videos.concat(file)
+				// 			var file = {url: res.tempFilePath, coverUrl: res.thumbTempFilePath};
+    //             // that.setData({
+    //             //     videosCount: videosCount,
+    //             //     videos: that.data.videos.concat(file)
+    //             // });
+				// 				_this.videos = _this.videos.concat(file)
 
-                var uploader = _this.uploader;
-                var userData = '{"Vod":{}}'
-                uploader.addFile(file, null, null, null, userData)
+    //             var uploader = _this.uploader;
+    //             var userData = '{"Vod":{}}'
+    //             uploader.addFile(file, null, null, null, userData)
 							
 							
-							// uni.showToast({
-							// 		icon:'none',
-							//     title: '上传视频成功',
-							//     duration: 2000
-							// });
+				// 			// uni.showToast({
+				// 			// 		icon:'none',
+				// 			//     title: '上传视频成功',
+				// 			//     duration: 2000
+				// 			// });
 							
-						},
+				// 		},
 						
-						fail:function(err){
-							uni.showToast({
-									icon:'none',
-							    title: '上传视频失败',
-							    duration: 2000
-							});
-						},
+				// 		fail:function(err){
+				// 			uni.showToast({
+				// 					icon:'none',
+				// 			    title: '上传视频失败',
+				// 			    duration: 2000
+				// 			});
+				// 		},
 						
-				});
+				// });
 			},
-			
+			// 获取文本域内输入的文字
+			areaInput(e){
+				console.log('文本域内容',e)
+				this.areaVal = e.detail.value
+			},
 			
 			//当点击发布之后调取接口 进行作品的上传
 			submitVideo(e){
-				console.log('上传作品并发布')
+				this.$emit('changeVideoSrc')
+				
+				if(this.$props.video_src){
+					//当选好作品之后 显示进度环
+					this.showCir = true
+				}else{
+					uni.showToast({
+						title:'请选择上传作品',
+						icon:'none'
+						
+					})
+					return
+				}
+				
+				console.log('上传作品并发布',this.areaVal)
 				
 				// 将视频上传到阿里服务器，运用 postVideo
 				console.log('获取uploader',this.uploader)
@@ -342,7 +452,7 @@
 			flex-direction: column;
 			align-items: center;
 			overflow: hidden;
-			.head{
+			.uni_head{
 				box-sizing: border-box;
 				width: 80%;
 				height: 100rpx;
@@ -373,6 +483,9 @@
 				color: white;
 				font-size: 30rpx;
 				box-shadow: 8px 4px 4px #e9a631;
+				.video{
+					width: 100%;
+				}
 			}
 			.btn{
 				width: 181.22rpx;

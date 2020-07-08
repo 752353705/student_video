@@ -63,6 +63,8 @@
   -webkit-box-pack: center;
   -webkit-justify-content: center;
           justify-content: center;
+  box-sizing: border-box;
+  padding: 0 20rpx;
   padding-top: 10px;
 }
 .uni-share-content-box.data-v-40e5d6a6 {

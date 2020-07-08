@@ -1,8 +1,12 @@
 <template>
 	<view>
 		<!-- 上传视频的弹出框 -->
-		<uni-popup class="pop" animation="false" ref="popup_video" type="center" mask-click="false">
-			<uni-popup-message type="success" pop_type="upload" message="成功消息" duration="0" />
+		<uni-popup class="pop" animation="false" ref="popup_video" 
+			type="center" mask-click="false"
+			
+			@change="change"
+		>
+			<uni-popup-pushvideo :video_src="video_src" @changeVideoSrc = "changeVideo"  duration="0" />
 			<view class="imgBox">
 				<image class="img" src="/static/close.png" mode="" @click="close"></image>
 			</view>
@@ -38,6 +42,8 @@
 						<image v-else src="/static/tabMsg.png" mode=""></image>
 					</view>
 					<view>消息</view>
+					<!-- 用于显示未阅读的消息数量 -->
+					<u-badge count="10" size='mini' :offset=off />
 				</view>
 				
 				<view :class=" active == 4 ? 'item active' : 'item'" @click="jump(4)">
@@ -55,18 +61,18 @@
 
 <script>
 	import uniPopup from './uni-popup/uni-popup.vue'
-	import uniPopupMessage from './uni-popup/uni-popup-message.vue'
 	import uniPopupDialog from './uni-popup/uni-popup-dialog.vue'
 	export default {
 		props:['active'],
 		data() {
 			return {
+				off:[-2,12],
 				
+				video_src:''
 			};
 		},
 		components:{
 			uniPopup,
-			uniPopupMessage,
 			uniPopupDialog
 		},
 		onLoad() {
@@ -76,6 +82,11 @@
 			
 		},
 		methods:{
+			// 修改传递过去的 上传视频的值
+			changeVideo(val){
+				console.log('修改video_src')
+				this.video_src = val
+			},
 			//点击底部的图标进行跳转
 			jump(num){
 				// 根据点击进行改变active
@@ -117,7 +128,24 @@
 			
 			close(num){
 				this.$refs.popup_video.close()
-			}
+			},
+			
+			// 监控弹窗的显示隐藏
+			/**
+			 * popup 状态发生变化触发
+			 * @param {Object} e
+			 */
+			change(e) {
+				console.log('popup tabbar' + e.type + ' 状态', e.show)
+				if(!e.show){
+					// 弹窗关闭
+					console.log('上传视频弹窗隐藏')
+					this.video_src = ''
+					
+				}
+				
+				
+			},
 		}
 	}
 </script>
@@ -212,6 +240,7 @@
 		align-items: center;
 		flex-direction: column;
 		justify-content: center;
+		position: relative;
 	}
 	
 	.active {

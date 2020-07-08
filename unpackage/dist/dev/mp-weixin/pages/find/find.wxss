@@ -59,6 +59,7 @@
 }
 .find .search .searchBtn {
   color: black;
+  margin-right: 20rpx;
 }
 .find .his_box {
   position: absolute;

@@ -58,7 +58,7 @@
           align-items: center;
   overflow: hidden;
 }
-.uni-popup-message .uni-popup-message-text .head.data-v-f9b63490 {
+.uni-popup-message .uni-popup-message-text .uni_head.data-v-f9b63490 {
   box-sizing: border-box;
   width: 80%;
   height: 100rpx;
@@ -70,7 +70,7 @@
   margin-bottom: 20rpx;
   position: relative;
 }
-.uni-popup-message .uni-popup-message-text .head .bg.data-v-f9b63490 {
+.uni-popup-message .uni-popup-message-text .uni_head .bg.data-v-f9b63490 {
   width: 100%;
   height: 333rpx;
   background-color: #fed353;
@@ -79,7 +79,7 @@
   top: -203rpx;
   box-shadow: 0 8px 5px #e9a631;
 }
-.uni-popup-message .uni-popup-message-text .head .bg .tit.data-v-f9b63490 {
+.uni-popup-message .uni-popup-message-text .uni_head .bg .tit.data-v-f9b63490 {
   position: absolute;
   bottom: 49rpx;
   left: 50%;
@@ -90,6 +90,9 @@
   color: white;
   font-size: 30rpx;
   box-shadow: 8px 4px 4px #e9a631;
+}
+.uni-popup-message .uni-popup-message-text .content .video.data-v-f9b63490 {
+  width: 100%;
 }
 .uni-popup-message .uni-popup-message-text .btn.data-v-f9b63490 {
   width: 181.22rpx;

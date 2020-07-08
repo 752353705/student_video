@@ -19,11 +19,11 @@
 							</view>
 						</view>
 						<view class="right" :id=" 'right' + index " @click="seeActive(index)">
-							<text>{{item.see || '1.3w'}}</text>
 							<!-- 未关注 -->
 							<image class="img" v-if="!see_active" src="../static/cmt_num.png" mode=""></image>
 							<!-- 关注 -->
 							<image class="actImg" v-else src="../static/like_active.png" mode=""></image>
+							<view>{{item.see || '1.3w'}}</view>
 						</view>
 						
 					</view>
@@ -66,7 +66,8 @@
 				</view>
 		</view>
 		
-		
+		<!-- 没有更多 -->
+		<u-divider>暂无更多</u-divider>
 	</view>
 </template>
 
@@ -156,6 +157,7 @@
 		}
 		.content{
 			// background-color: yellow;
+			position: relative;
 			width: 86%;
 			// 底部0.5px 的底线
 			position:relative;
@@ -165,7 +167,12 @@
 				display: flex;
 				justify-content: space-between;
 				.right{
+					position: absolute;
+					top: 10rpx;
+					right: 10rpx;
 					display: flex;
+					flex-direction: column;
+					justify-content: center;
 					align-items: center;
 					image{
 						width: 40rpx;
@@ -175,7 +182,7 @@
 			}
 			.two{
 				.replay{
-					color: blue;
+					// color: blue;
 				}
 				.two_cmt{
 					.two_content::after{
