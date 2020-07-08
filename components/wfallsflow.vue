@@ -20,7 +20,7 @@
 					</view>
 					<view class="right">
 						<view class="icon">
-							<image src="/static/my_vote1.png" mode=""></image>
+							<image src="/static/my_vote.png" mode=""></image>
 						</view>
 						<view>
 							<!-- 票数 -->
@@ -144,7 +144,8 @@
 							align-items: center;
 							.icon{
 								width: 30rpx;
-								height: 26rpx;
+								height: 30rpx;
+								margin-right: 6rpx;
 								image{
 									width: 100%;
 									height: 100%;

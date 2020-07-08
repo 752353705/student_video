@@ -45,6 +45,10 @@
 				t_active: 3,
 			};
 		},
+		onLoad() {
+			console.log('显示')
+			uni.hideHomeButton()
+		},
 		methods:{
 			// 点击头部进入详情页
 			goDetail(index){

@@ -11,7 +11,8 @@
     "pages/fansList/fansList",
     "pages/tabMsg/tabMsg",
     "pages/chartRoom/chartRoom",
-    "pages/chat/chat"
+    "pages/chat/chat",
+    "pages/shop/shop"
   ],
   "subPackages": [],
   "window": {
@@ -30,5 +31,5 @@
     "uni-popup-pushvideo": "/components/uni-popup/uni-popup-pushvideo",
     "c-circle": "/components/cCircle"
   },
-  "sitemapLocation": "sitemap97.json"
+  "sitemapLocation": "sitemap69.json"
 }

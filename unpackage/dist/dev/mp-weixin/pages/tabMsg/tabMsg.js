@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uBadge: function() {
-    return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-badge/u-badge */ "node-modules/uview-ui/components/u-badge/u-badge").then(__webpack_require__.bind(null, /*! uview-ui/components/u-badge/u-badge.vue */ 247))
+    return __webpack_require__.e(/*! import() | node-modules/uview-ui/components/u-badge/u-badge */ "node-modules/uview-ui/components/u-badge/u-badge").then(__webpack_require__.bind(null, /*! uview-ui/components/u-badge/u-badge.vue */ 260))
   }
 }
 var render = function() {
@@ -180,6 +180,10 @@ var _default =
 
       t_active: 3 };
 
+  },
+  onLoad: function onLoad() {
+    console.log('显示');
+    uni.hideHomeButton();
   },
   methods: {
     // 点击头部进入详情页

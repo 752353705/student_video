@@ -28,7 +28,7 @@
 		<view class="msgBox">
 			<!-- 用户的头像 -->
 			<view class="img_user">
-				
+				<image :src="userImg" mode=""></image>
 			</view>
 			
 			<view class="msg">
@@ -69,6 +69,8 @@
 		inject: ['popup'],
 		data() {
 			return {
+				// 用户头像
+				userImg:'',
 				//动态修改输入框中的值，进行用户之间的交流互评
 				replayVal:'写评论',
 				twoShow:false,
@@ -92,7 +94,21 @@
 		components:{
 			userComment
 		},
-		created() {},
+		created() {
+			// console.log('创建 评论')
+			
+		},
+		mounted() {
+			let _this = this
+			// console.log('挂载')
+			uni.getStorage({
+			    key: 'user_img',
+			    success: function (res) {
+			        // console.log('赋值 user_img',res);
+							_this.userImg = res.data
+			    }
+			});
+		},
 		methods: {
 			/**
 			 * 用户进行发表评论
@@ -248,6 +264,11 @@
 			border-radius: 50%;
 			margin-right: 20rpx;
 			margin-left: 27rpx;
+			overflow: hidden;
+			image{
+				width: 100%;
+				height: 100%;
+			}
 		}
 		.msg {
 			width: 70%;

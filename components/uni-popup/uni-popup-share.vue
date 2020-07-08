@@ -41,7 +41,7 @@ export default {
 		return {
 			bottomData: [
 				{
-					text: 'weixin',
+					text: '微信',
 					icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png',
 					name: 'wx'
 				},
@@ -65,11 +65,11 @@ export default {
 				// 	icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-7.png',
 				// 	name: 'copy'
 				// },
-				// {
-				// 	text: '其他',
-				// 	icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-5.png',
-				// 	name: 'more'
-				// }
+				{
+					text: '其他',
+					icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-5.png',
+					name: 'more'
+				}
 			]
 		};
 	},

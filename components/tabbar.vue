@@ -22,13 +22,13 @@
 					<view>作品列表</view>
 				</view>
 				
-				<!-- <view :class="active == 1 ? 'item active' : 'item'" @click="jump(1)">
+				<view :class="active == 1 ? 'item active' : 'item'" @click="jump(1)">
 					<view class="tab_icon">
-						<image v-if=" active == 1" src="../static/find_active.png" mode=""></image>
-						<image v-else src="../static/find.png" mode=""></image>
+						<image v-if=" active == 1" src="/static/shop_active.png" mode=""></image>
+						<image v-else src="/static/shop.png" mode=""></image>
 					</view>
-					<view>搜索作品</view>
-				</view> -->
+					<view>商城</view>
+				</view>
 				
 				<view :class="active == 2 ? 'item-add active' : 'item-add'"  @click="pop"> 
 					<view>
@@ -100,8 +100,9 @@
 					   url: "/pages/list/list"
 					});
 				}else if(num === 1){
+					console.log('1')
 					uni.redirectTo({
-					   url: "/pages/find/find"
+					   url: "/pages/shop/shop"
 					});
 				}else if(num === 2){
 					uni.redirectTo({

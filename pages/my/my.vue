@@ -44,7 +44,7 @@
 			
 			<!-- 展示内容 -->
 			<view class="uni-tab-bar">
-				<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" >
+				<mescroll-body  ref="mescrollRef" @init="mescrollInit" @down="downCallback" >
 					<swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" @change="tabChange">
 						<swiper-item style="height: 500px;" class="swiper-item" v-for="(items,index) in newslist" :key="index">
 							<scroll-view scroll-y class="list" :style=scrollviewHigh scroll-y="true" enable-flex="true" lower-threshold="160"
@@ -52,8 +52,10 @@
 								<template v-if="items.list.length > 0">
 									<!-- 图文列表 -->
 									<block v-for="(item,index1) in items.list" :key="index">
+										<!-- 没有相应作品 -->
+										<mescroll-empty v-if="list.length ==0"></mescroll-empty>
 										<!-- 制作瀑布流 -->
-										<wfalls-flow class="waterFull" :list="list" ref="wfalls" @finishLoad="getLoadNum"></wfalls-flow>
+										<wfalls-flow v-else class="waterFull" :list="list" ref="wfalls0" @finishLoad="getLoadNum"></wfalls-flow>
 									</block>
 								</template>
 							</scroll-view>
@@ -61,6 +63,8 @@
 					</swiper>
 				</mescroll-body>
 			</view>
+			
+			
 		</view>
 		<!-- 个人资料填写的弹出框 -->
 		<uni-popup class="pop" animation="false" ref="popup_user" type="center" mask-click="false">
@@ -84,6 +88,9 @@
 </template>
 
 <script>
+	import MescrollEmpty from '@/components/mescroll-uni/components/mescroll-empty.vue';
+	
+	
 	import wfallsFlow from '../../components/wfallsflow.vue'
 	const list = require('../../static/data.json').list;
 	// 上传个人资料的弹框
@@ -121,8 +128,8 @@
 				// 个人展示
 				act:0,
 				useList:[
-					{icon:"/static/my_use1.png",txt:'个人资料'},
-					{icon:"/static/my_ticket1.png",txt:'剩余票数（每日限投3票）'},
+					{icon:"/static/my_use.png",txt:'个人资料'},
+					{icon:"/static/my_ticket.png",txt:'剩余票数（每日限投3票）'},
 					{icon:"/static/my_exit1.png",txt:'退出登录'}
 				],
 				tic_num:3,
@@ -151,6 +158,7 @@
 		components:{
 			wfallsFlow,
 			swiperTabHead,
+			MescrollEmpty,
 			uniPopupUsermsg
 		},
 		onLoad(){
@@ -176,11 +184,11 @@
 			});
 			// 渲染作品列表
 			setTimeout(()=>{
-			    this.list = list;
-					console.log('初始化 my ref',this.$refs.wfalls0)
-			    this.$refs.wfalls[0].init();
-			    this.$refs.wfalls[1].init();
-			},1000)
+			    // this.list = list;
+					// console.log('初始化 my ref',this.$refs.wfalls)
+			  //   this.$refs.wfalls[0].init();
+			  //   this.$refs.wfalls[1].init();
+			},3000)
 			
 			// 发起数据进行请求
 			// 请求作品 以及 收藏 分别进行赋值

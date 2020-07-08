@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uniPopup: function() {
-    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 162))
+    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 168))
   }
 }
 var render = function() {
@@ -246,7 +246,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-var timer = null;var userComment = function userComment() {__webpack_require__.e(/*! require.ensure | components/user-comment */ "components/user-comment").then((function () {return resolve(__webpack_require__(/*! ../../components/user-comment.vue */ 212));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopupShare = function uniPopupShare() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-share */ "components/uni-popup/uni-popup-share").then((function () {return resolve(__webpack_require__(/*! ../../components/uni-popup/uni-popup-share.vue */ 219));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopupComments = function uniPopupComments() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-comments */ "components/uni-popup/uni-popup-comments").then((function () {return resolve(__webpack_require__(/*! ../../components/uni-popup/uni-popup-comments.vue */ 226));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopupGifts = function uniPopupGifts() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-gifts */ "components/uni-popup/uni-popup-gifts").then((function () {return resolve(__webpack_require__(/*! ../../components/uni-popup/uni-popup-gifts.vue */ 233));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var timer = null;var userComment = function userComment() {__webpack_require__.e(/*! require.ensure | components/user-comment */ "components/user-comment").then((function () {return resolve(__webpack_require__(/*! ../../components/user-comment.vue */ 225));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopupShare = function uniPopupShare() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-share */ "components/uni-popup/uni-popup-share").then((function () {return resolve(__webpack_require__(/*! ../../components/uni-popup/uni-popup-share.vue */ 232));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopupComments = function uniPopupComments() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-comments */ "components/uni-popup/uni-popup-comments").then((function () {return resolve(__webpack_require__(/*! ../../components/uni-popup/uni-popup-comments.vue */ 239));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var uniPopupGifts = function uniPopupGifts() {__webpack_require__.e(/*! require.ensure | components/uni-popup/uni-popup-gifts */ "components/uni-popup/uni-popup-gifts").then((function () {return resolve(__webpack_require__(/*! ../../components/uni-popup/uni-popup-gifts.vue */ 246));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -320,10 +320,10 @@ var timer = null;var userComment = function userComment() {__webpack_require__.e
     }
     return {
       // title: '自定义转发标题',
-      path: "/pages/playVideo/playVideo?video_id=".concat(123),
-      imageUrl: '自定义转发图片',
-      desc: '自定义描述' };
-
+      path: "/pages/playVideo/playVideo?video_id=".concat(123)
+      // imageUrl: '自定义转发图片',
+      // desc:'自定义描述'
+    };
   },
   methods: {
     // 返回上一页面

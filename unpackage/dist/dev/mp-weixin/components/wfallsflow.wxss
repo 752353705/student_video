@@ -73,7 +73,8 @@
 }
 .list-container .list .item .item_foot .right .icon.data-v-0450caea {
   width: 30rpx;
-  height: 26rpx;
+  height: 30rpx;
+  margin-right: 6rpx;
 }
 .list-container .list .item .item_foot .right .icon image.data-v-0450caea {
   width: 100%;

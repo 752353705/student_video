@@ -94,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components = {
   uniPopup: function() {
-    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 162))
+    return Promise.all(/*! import() | components/uni-popup/uni-popup */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup")]).then(__webpack_require__.bind(null, /*! @/components/uni-popup/uni-popup.vue */ 168))
   }
 }
 var render = function() {
@@ -134,7 +134,14 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(n);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var wfallsFlow = function wfallsFlow() {__webpack_require__.e(/*! require.ensure | components/wfallsflow */ "components/wfallsflow").then((function () {return resolve(__webpack_require__(/*! ../../components/wfallsflow.vue */ 191));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(n);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}var MescrollEmpty = function MescrollEmpty() {Promise.all(/*! require.ensure | components/mescroll-uni/components/mescroll-empty */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/mescroll-uni/components/mescroll-empty")]).then((function () {return resolve(__webpack_require__(/*! @/components/mescroll-uni/components/mescroll-empty.vue */ 204));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var wfallsFlow = function wfallsFlow() {__webpack_require__.e(/*! require.ensure | components/wfallsflow */ "components/wfallsflow").then((function () {return resolve(__webpack_require__(/*! ../../components/wfallsflow.vue */ 197));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+
+
+
+
+
+
+
 
 
 
@@ -223,7 +230,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var list = __webpack_require__(/*! ../../static/data.json */ 46).list;
 // 上传个人资料的弹框
-var uniPopupUsermsg = function uniPopupUsermsg() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup-usermsg */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup-usermsg")]).then((function () {return resolve(__webpack_require__(/*! ../../components/uni-popup/uni-popup-usermsg.vue */ 198));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab-head */ "components/swiper-tab-head").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab-head.vue */ 205));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+var uniPopupUsermsg = function uniPopupUsermsg() {Promise.all(/*! require.ensure | components/uni-popup/uni-popup-usermsg */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/uni-popup/uni-popup-usermsg")]).then((function () {return resolve(__webpack_require__(/*! ../../components/uni-popup/uni-popup-usermsg.vue */ 211));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var swiperTabHead = function swiperTabHead() {__webpack_require__.e(/*! require.ensure | components/swiper-tab-head */ "components/swiper-tab-head").then((function () {return resolve(__webpack_require__(/*! ../../components/swiper-tab-head.vue */ 218));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
 
 
 
@@ -257,8 +264,8 @@ var uniPopupUsermsg = function uniPopupUsermsg() {Promise.all(/*! require.ensure
       // 个人展示
       act: 0,
       useList: [
-      { icon: "/static/my_use1.png", txt: '个人资料' },
-      { icon: "/static/my_ticket1.png", txt: '剩余票数（每日限投3票）' },
+      { icon: "/static/my_use.png", txt: '个人资料' },
+      { icon: "/static/my_ticket.png", txt: '剩余票数（每日限投3票）' },
       { icon: "/static/my_exit1.png", txt: '退出登录' }],
 
       tic_num: 3,
@@ -287,9 +294,10 @@ var uniPopupUsermsg = function uniPopupUsermsg() {Promise.all(/*! require.ensure
   components: {
     wfallsFlow: wfallsFlow,
     swiperTabHead: swiperTabHead,
+    MescrollEmpty: MescrollEmpty,
     uniPopupUsermsg: uniPopupUsermsg },
 
-  onLoad: function onLoad() {var _this2 = this;
+  onLoad: function onLoad() {
     // uni.getSystemInfo({
     //  success:(res)=>{
     //      let height = res.windowHeight-uni.upx2px(100)
@@ -312,11 +320,11 @@ var uniPopupUsermsg = function uniPopupUsermsg() {Promise.all(/*! require.ensure
 
     // 渲染作品列表
     setTimeout(function () {
-      _this2.list = list;
-      console.log('初始化 my ref', _this2.$refs.wfalls0);
-      _this2.$refs.wfalls[0].init();
-      _this2.$refs.wfalls[1].init();
-    }, 1000);
+      // this.list = list;
+      // console.log('初始化 my ref',this.$refs.wfalls)
+      //   this.$refs.wfalls[0].init();
+      //   this.$refs.wfalls[1].init();
+    }, 3000);
 
     // 发起数据进行请求
     // 请求作品 以及 收藏 分别进行赋值
@@ -379,7 +387,7 @@ var uniPopupUsermsg = function uniPopupUsermsg() {Promise.all(/*! require.ensure
       this.mescroll = mescroll;
     },
     /*下拉刷新的回调, 有三种处理方式:*/
-    downCallback: function downCallback() {var _this3 = this;
+    downCallback: function downCallback() {var _this2 = this;
       console.log('downCallback 下拉刷新 1');
       // this.mescroll.endSuccess()
       // 第1种: 请求具体接口
@@ -398,7 +406,7 @@ var uniPopupUsermsg = function uniPopupUsermsg() {Promise.all(/*! require.ensure
       // this.mescroll.resetUpScroll(); // 重置列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
       // 第3种: 下拉刷新什么也不处理, 可直接调用或者延时一会调用 mescroll.endSuccess() 结束即可
       setTimeout(function () {
-        _this3.mescroll.endSuccess();
+        _this2.mescroll.endSuccess();
       }, 3000);
 
       console.log('downCallback 下拉刷新 2');
@@ -457,7 +465,7 @@ var uniPopupUsermsg = function uniPopupUsermsg() {Promise.all(/*! require.ensure
       this.isNewRenderDone = true;
     },
     //scrollView 区域
-    lower: function lower(index) {var _this4 = this;
+    lower: function lower(index) {var _this3 = this;
       console.log('滚动到底部 ');
       //进行重新请求用户的数据
       // 模拟触底刷新
@@ -467,9 +475,9 @@ var uniPopupUsermsg = function uniPopupUsermsg() {Promise.all(/*! require.ensure
       this.isNewRenderDone = false;
       uni.showLoading({ title: '正在加载更多' });
       // 模拟分页请求 (加载更多)
-      setTimeout(function () {var _this4$list;
-        var nextData = JSON.parse(JSON.stringify(_this4.list.slice(0, 10)));
-        (_this4$list = _this4.list).push.apply(_this4$list, _toConsumableArray(nextData));
+      setTimeout(function () {var _this3$list;
+        var nextData = JSON.parse(JSON.stringify(_this3.list.slice(0, 10)));
+        (_this3$list = _this3.list).push.apply(_this3$list, _toConsumableArray(nextData));
         // this.$nextTick(()=>{
         //     this.$refs.wfalls.handleViewRender();
         // })
@@ -480,7 +488,7 @@ var uniPopupUsermsg = function uniPopupUsermsg() {Promise.all(/*! require.ensure
         setTimeout(function () {
           var type = 'this.$refs.wfalls' + index + '[index]';
           console.log('请求list', type);
-          _this4.$refs.wfalls[index].handleViewRender();
+          _this3.$refs.wfalls[index].handleViewRender();
         }, 0);
         uni.hideLoading();
       }, 800);

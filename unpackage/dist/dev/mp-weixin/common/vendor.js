@@ -1696,6 +1696,608 @@ function normalizeComponent (
 
 /***/ }),
 
+/***/ 103:
+/*!*******************************************************************************!*\
+  !*** D:/myself/work/student_video/components/mescroll-uni/mescroll-mixins.js ***!
+  \*******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // mescroll-body 和 mescroll-uni 通用
+
+// import MescrollUni from "./mescroll-uni.vue";
+// import MescrollBody from "./mescroll-body.vue";
+
+var MescrollMixin = {
+  // components: { // 非H5端无法通过mixin注册组件, 只能在main.js中注册全局组件或具体界面中注册
+  // 	MescrollUni,
+  // 	MescrollBody
+  // },
+  data: function data() {
+    return {
+      mescroll: null //mescroll实例对象
+    };
+  },
+  // 注册系统自带的下拉刷新 (配置down.native为true时生效, 还需在pages配置enablePullDownRefresh:true;详请参考mescroll-native的案例)
+  onPullDownRefresh: function onPullDownRefresh() {
+    this.mescroll && this.mescroll.onPullDownRefresh();
+  },
+  // 注册列表滚动事件,用于判定在顶部可下拉刷新,在指定位置可显示隐藏回到顶部按钮 (此方法为页面生命周期,无法在子组件中触发, 仅在mescroll-body生效)
+  onPageScroll: function onPageScroll(e) {
+    this.mescroll && this.mescroll.onPageScroll(e);
+  },
+  // 注册滚动到底部的事件,用于上拉加载 (此方法为页面生命周期,无法在子组件中触发, 仅在mescroll-body生效)
+  onReachBottom: function onReachBottom() {
+    this.mescroll && this.mescroll.onReachBottom();
+  },
+  methods: {
+    // mescroll组件初始化的回调,可获取到mescroll对象
+    mescrollInit: function mescrollInit(mescroll) {
+      this.mescroll = mescroll;
+      this.mescrollInitByRef(); // 兼容字节跳动小程序
+    },
+    // 以ref的方式初始化mescroll对象 (兼容字节跳动小程序: http://www.mescroll.com/qa.html?v=20200107#q26)
+    mescrollInitByRef: function mescrollInitByRef() {
+      if (!this.mescroll || !this.mescroll.resetUpScroll) {
+        var mescrollRef = this.$refs.mescrollRef;
+        if (mescrollRef) this.mescroll = mescrollRef.mescroll;
+      }
+    },
+    // 下拉刷新的回调 (mixin默认resetUpScroll)
+    downCallback: function downCallback() {var _this = this;
+      if (this.mescroll.optUp.use) {
+        this.mescroll.resetUpScroll();
+      } else {
+        setTimeout(function () {
+          _this.mescroll.endSuccess();
+        }, 500);
+      }
+    },
+    // 上拉加载的回调
+    upCallback: function upCallback() {var _this2 = this;
+      // mixin默认延时500自动结束加载
+      setTimeout(function () {
+        _this2.mescroll.endErr();
+      }, 500);
+    } },
+
+  mounted: function mounted() {
+    this.mescrollInitByRef(); // 兼容字节跳动小程序, 避免未设置@init或@init此时未能取到ref的情况
+  } };var _default =
+
+
+
+MescrollMixin;exports.default = _default;
+
+/***/ }),
+
+/***/ 104:
+/*!************************************************!*\
+  !*** D:/myself/work/student_video/API/mock.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.apiNewList = apiNewList;exports.apiGoods = apiGoods;exports.apiSearch = apiSearch;exports.apiWeiboList = apiWeiboList;exports.apiMsgList = apiMsgList;
+
+
+
+
+
+
+var _goods = _interopRequireDefault(__webpack_require__(/*! ./goods.js */ 105));
+var _goodsEdit = _interopRequireDefault(__webpack_require__(/*! ./goods-edit.js */ 106));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} /*
+                                                                                                                                                                  本地模拟接口请求, 仅demo演示用.
+                                                                                                                                                                  实际项目以您服务器接口返回的数据为准,无需本地处理分页.
+                                                                                                                                                                  请参考官方写法: http://www.mescroll.com/uni.html?v=20200210#tagUpCallback
+                                                                                                                                                                  * */ // 模拟数据
+// 获取新闻列表
+function apiNewList(pageNum, pageSize) {return new Promise(function (resolute, reject) {//延时一秒,模拟联网
+    setTimeout(function () {try {
+        var list = [];
+        if (!pageNum) {
+          //模拟下拉刷新返回的数据
+          var id = new Date().getTime();
+          var newObj = {
+            id: id,
+            title: "【新增新闻" + id + "】 标题",
+            content: "新增新闻的内容" };
+
+          list.push(newObj);
+        } else {
+          //模拟上拉加载返回的数据
+          for (var i = 0; i < pageSize; i++) {
+            var upIndex = (pageNum - 1) * pageSize + i + 1;
+            var _newObj = {
+              id: upIndex,
+              title: "【新闻" + upIndex + "】 标题标题标题标题标题",
+              content: "内容内容内容内容内容内容内容内容内容" };
+
+            list.push(_newObj);
+          }
+          console.log("page.num=" + pageNum + ", page.size=" + pageSize + ", curPageData.length=" + list.length);
+        }
+        //模拟接口请求成功
+        resolute(list);
+      } catch (e) {
+        //模拟接口请求失败
+        reject(e);
+      }
+    }, 1000);
+  });
+}
+
+// 获取商品列表数据
+function apiGoods(pageNum, pageSize, isGoodsEdit) {
+  return new Promise(function (resolute, reject) {
+    //延时一秒,模拟联网
+    setTimeout(function () {
+      try {
+        var data = isGoodsEdit ? _goodsEdit.default : _goods.default;
+        //模拟分页数据
+        var list = [];
+        for (var i = (pageNum - 1) * pageSize; i < pageNum * pageSize; i++) {
+          if (i == data.length) break;
+          list.push(data[i]);
+        }
+        //模拟接口请求成功
+        console.log("page.num=" + pageNum + ", page.size=" + pageSize + ", curPageData.length=" + list.length);
+        resolute(list);
+      } catch (e) {
+        //模拟接口请求失败
+        reject(e);
+      }
+    }, 1000);
+  });
+}
+
+// 搜索商品
+function apiSearch(pageNum, pageSize, keyword) {
+  return new Promise(function (resolute, reject) {
+    //延时一秒,模拟联网
+    setTimeout(function () {
+      try {
+        // 模拟搜索
+        var list = [];
+        if (!keyword || keyword == "全部") {
+          // 模拟搜索全部商品
+          for (var i = (pageNum - 1) * pageSize; i < pageNum * pageSize; i++) {
+            if (i === _goods.default.length) break;
+            list.push(_goods.default[i]);
+          }
+        } else {
+          // 模拟关键词搜索
+          if (keyword == "母婴") keyword = "婴"; // 为这个关键词展示多几条数据
+          for (var _i = 0; _i < _goods.default.length; _i++) {
+            if (_goods.default[_i].pdName.indexOf(keyword) !== -1) {
+              list.push(_goods.default[_i]);
+            }
+          }
+        }
+        //模拟接口请求成功
+        console.log("page.num=" + pageNum + ", page.size=" + pageSize + ", curPageData.length=" + list.length + ", keyword=" + keyword);
+        resolute(list);
+      } catch (e) {
+        //模拟接口请求失败
+        reject(e);
+      }
+    }, 1000);
+  });
+}
+
+// 获取微博列表
+function apiWeiboList(pageNum, pageSize) {
+  return new Promise(function (resolute, reject) {
+    //延时2秒,模拟联网
+    setTimeout(function () {
+      try {
+        var list = [];
+        if (!pageNum) {
+          //此处模拟下拉刷新返回的数据
+          var id = new Date().getTime();
+          var newObj = { id: id, title: "【新增微博" + id + "】 新增微博", content: "新增微博的内容,新增微博的内容" };
+          list.push(newObj);
+        } else {
+          //此处模拟上拉加载返回的数据
+          for (var i = 0; i < pageSize; i++) {
+            var upIndex = (pageNum - 1) * pageSize + i + 1;
+            var _newObj2 = { id: upIndex, title: "【微博" + upIndex + "】 标题标题标题标题标题标题", content: "内容内容内容内容内容内容内容内容内容内容" };
+            list.push(_newObj2);
+          }
+          console.log("page.num=" + pageNum + ", page.size=" + pageSize + ", curPageData.length=" + list.length);
+        }
+        //模拟接口请求成功
+        resolute(list);
+      } catch (e) {
+        //模拟接口请求失败
+        reject(e);
+      }
+    }, 2000);
+  });
+}
+
+
+// 获取消息列表(共5页消息)
+function apiMsgList(pageNum, pageSize) {
+  return new Promise(function (resolute, reject) {
+    //延时一秒,模拟联网
+    setTimeout(function () {
+      try {
+        var list = [];
+        //模拟下拉加载更多记录
+        for (var i = 0; i < pageSize; i++) {
+          var msgId = (pageNum - 1) * pageSize + i + 1;
+          var newObj = {
+            id: msgId,
+            title: "【消息" + msgId + "】",
+            content: "内容: 下拉获取聊天记录" };
+
+          // 此处模拟只有5页的消息 (第5页只有3条)
+          if (pageNum >= 5 && i >= 3) {} else {
+            list.unshift(newObj);
+          }
+        }
+        console.log("page.num=" + pageNum + ", page.size=" + pageSize + ", curPageData.length=" + list.length);
+        //模拟接口请求成功
+        resolute(list);
+      } catch (e) {
+        //模拟接口请求失败
+        reject(e);
+      }
+    }, 1000);
+  });
+}
+
+/***/ }),
+
+/***/ 105:
+/*!*************************************************!*\
+  !*** D:/myself/work/student_video/API/goods.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = [{
+  "id": "1",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd1.jpg",
+  "pdName": "【1】  六罐装荷兰美素佳儿金装2段900g",
+  "pdPrice": 1149.00,
+  "pdSold": 648 },
+{
+  "id": "2",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd2.jpg",
+  "pdName": "【2】  韩国Amore爱茉莉红吕洗发水套装修复受损发质",
+  "pdPrice": 89.00,
+  "pdSold": 128 },
+{
+  "id": "3",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd3.jpg",
+  "pdName": "【3】  Friso美素佳儿 金装婴儿配方奶粉3段900g",
+  "pdPrice": 195.00,
+  "pdSold": 968 },
+{
+  "id": "4",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd4.jpg",
+  "pdName": "【4】  Fisher pdPrice费雪 费雪三轮儿童滑行车",
+  "pdPrice": 299.00,
+  "pdSold": 85 },
+{
+  "id": "5",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd5.jpg",
+  "pdName": "【5】  Babylee巴布力 实木婴儿床 雷卡拉130*70cm",
+  "pdPrice": 1889.00,
+  "pdSold": 18 },
+{
+  "id": "6",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd6.jpg",
+  "pdName": "【6】  Pigeon贝亲 独立三层奶粉盒 送小罐奶粉1段200g",
+  "pdPrice": 70.00,
+  "pdSold": 658 },
+{
+  "id": "7",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd7.jpg",
+  "pdName": "【7】 TTBOO兔兔小布 肩纽扣套装",
+  "pdPrice": 268.00,
+  "pdSold": 128 },
+{
+  "id": "8",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd8.jpg",
+  "pdName": "【8】  Nuna璐拉 婴儿布里奇果精纯嫩肤沐浴露婴儿精纯芦荟胶",
+  "pdPrice": 140.00,
+  "pdSold": 366 },
+{
+  "id": "9",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd9.jpg",
+  "pdName": "【9】  illuma启赋 奶粉3段900g",
+  "pdPrice": 252.00,
+  "pdSold": 98 },
+{
+  "id": "10",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd10.jpg",
+  "pdName": "【10】  Abbott雅培乳蛋白部分水解婴儿配方奶粉3段820g",
+  "pdPrice": 89.00,
+  "pdSold": 128 },
+{
+  "id": "11",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd11.jpg",
+  "pdName": "【11】  韩蜜 酷炫唇蜜（礼盒套装）2.8g*4",
+  "pdPrice": 179.00,
+  "pdSold": 35 },
+{
+  "id": "12",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd12.jpg",
+  "pdName": "【12】  保税区直发【3包装】日本Merries花王纸尿裤NB90",
+  "pdPrice": 289.00,
+  "pdSold": 1928 },
+{
+  "id": "13",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd13.jpg",
+  "pdName": "【13】  Comotomo可么多么 硅胶奶瓶（0-3月奶嘴）150ml绿色",
+  "pdPrice": 203.00,
+  "pdSold": 87 },
+{
+  "id": "14",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd14.jpg",
+  "pdName": "【14】  香港直邮德国瑞德露Rival de Loop芦荟精华安瓶",
+  "pdPrice": 152.00,
+  "pdSold": 61 },
+{
+  "id": "15",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd15.jpg",
+  "pdName": "【15】  保税区直发药师堂尊马油香草味温和保湿无刺激面霜",
+  "pdPrice": 269.00,
+  "pdSold": 73 },
+{
+  "id": "16",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd16.jpg",
+  "pdName": "【16】  香港直邮日本Spatreatment眼膜保湿去细纹法令纹",
+  "pdPrice": 219.00,
+  "pdSold": 13 },
+{
+  "id": "17",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd17.jpg",
+  "pdName": "【17】  韩国MEDIHEALNMF可莱丝针剂睡眠面膜",
+  "pdPrice": 81.00,
+  "pdSold": 128 },
+{
+  "id": "18",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd18.jpg",
+  "pdName": "【18】  DHC蝶翠诗橄榄蜂蜜滋养洗脸手工皂90g",
+  "pdPrice": 123.00,
+  "pdSold": 77 },
+{
+  "id": "19",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd19.jpg",
+  "pdName": "【19】  日本资生堂CPB肌肤之钥新版隔离霜 清爽型 30ml",
+  "pdPrice": 429.00,
+  "pdSold": 36 },
+{
+  "id": "20",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd20.jpg",
+  "pdName": "【20】 Heinz亨氏 婴儿面条优加面条全素套餐组合3口味3盒",
+  "pdPrice": 39.00,
+  "pdSold": 61 },
+{
+  "id": "21",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd21.jpg",
+  "pdName": "【21】  Heinz亨氏 乐维滋果汁泥组合5口味15袋",
+  "pdPrice": 69.00,
+  "pdSold": 55 },
+{
+  "id": "22",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd22.jpg",
+  "pdName": "【22】  保税区直发澳大利亚Swisse高浓度蔓越莓胶囊30粒",
+  "pdPrice": 271.00,
+  "pdSold": 19 },
+{
+  "id": "23",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd23.jpg",
+  "pdName": "【23】  挪威Nordic Naturals小鱼婴幼儿鱼油DHA滴剂",
+  "pdPrice": 102.00,
+  "pdSold": 125 },
+{
+  "id": "24",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd24.jpg",
+  "pdName": "【24】  澳大利亚Bio island DHA for Pregnancy海藻油DHA",
+  "pdPrice": 289.00,
+  "pdSold": 28 },
+{
+  "id": "25",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd25.jpg",
+  "pdName": "【25】  澳大利亚Fatblaster Coconut Detox椰子水",
+  "pdPrice": 152.00,
+  "pdSold": 17 },
+{
+  "id": "26",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd26.jpg",
+  "pdName": "【26】  Suitsky舒比奇 高护极薄舒爽纸尿片尿不湿XL60",
+  "pdPrice": 99.00,
+  "pdSold": 181 },
+{
+  "id": "27",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd27.jpg",
+  "pdName": "【27】  英国JUST SOAP手工皂 玫瑰天竺葵蛋糕皂",
+  "pdPrice": 72.00,
+  "pdSold": 66 },
+{
+  "id": "28",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd28.jpg",
+  "pdName": "【28】  德国NUK 多色婴幼儿带盖学饮杯",
+  "pdPrice": 92.00,
+  "pdSold": 138 }];exports.default = _default;
+
+/***/ }),
+
+/***/ 106:
+/*!******************************************************!*\
+  !*** D:/myself/work/student_video/API/goods-edit.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = [{
+  "id": "3",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd3.jpg",
+  "pdName": "【3】 美素佳儿Friso婴儿配方奶粉3段 ( 商品【1】【2】 已删除 )",
+  "pdPrice": 195.00,
+  "pdSold": 968 },
+{
+  "id": "4",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd4.jpg",
+  "pdName": "【4】  Fisher pdPrice费雪 费雪三轮儿童滑行车",
+  "pdPrice": 298.00,
+  "pdSold": 65 },
+{
+  "id": "5",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd5.jpg",
+  "pdName": "【5】  Babylee巴布力 实木婴儿床 雷卡拉130*70cm",
+  "pdPrice": 1789.00,
+  "pdSold": 20 },
+{
+  "id": "6",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd6.jpg",
+  "pdName": "【6】  Pigeon贝亲 独立三层奶粉盒 送小罐奶粉1段200g",
+  "pdPrice": 70.00,
+  "pdSold": 658 },
+{
+  "id": "7",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd7.jpg",
+  "pdName": "【7】 TTBOO兔兔小布 肩纽扣套装",
+  "pdPrice": 268.00,
+  "pdSold": 128 },
+{
+  "id": "8",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd8.jpg",
+  "pdName": "【8】  Nuna璐拉 婴儿布里奇果精纯嫩肤沐浴露婴儿精纯芦荟胶",
+  "pdPrice": 140.00,
+  "pdSold": 366 },
+{
+  "id": "9",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd9.jpg",
+  "pdName": "【9】  illuma启赋 奶粉3段900g",
+  "pdPrice": 252.00,
+  "pdSold": 98 },
+{
+  "id": "10",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd10.jpg",
+  "pdName": "【10】  Abbott雅培乳蛋白部分水解婴儿配方奶粉3段820g",
+  "pdPrice": 89.00,
+  "pdSold": 128 },
+{
+  "id": "11",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd11.jpg",
+  "pdName": "【11】  韩蜜 酷炫唇蜜（礼盒套装）2.8g*4",
+  "pdPrice": 179.00,
+  "pdSold": 35 },
+{
+  "id": "12",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd12.jpg",
+  "pdName": "【12】  保税区直发【3包装】日本Merries花王纸尿裤NB90",
+  "pdPrice": 289.00,
+  "pdSold": 1928 },
+{
+  "id": "13",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd13.jpg",
+  "pdName": "【13】  Comotomo可么多么 硅胶奶瓶（0-3月奶嘴）150ml绿色",
+  "pdPrice": 203.00,
+  "pdSold": 87 },
+{
+  "id": "14",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd14.jpg",
+  "pdName": "【14】  香港直邮德国瑞德露Rival de Loop芦荟精华安瓶",
+  "pdPrice": 152.00,
+  "pdSold": 61 },
+{
+  "id": "15",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd15.jpg",
+  "pdName": "【15】  保税区直发药师堂尊马油香草味温和保湿无刺激面霜",
+  "pdPrice": 269.00,
+  "pdSold": 73 },
+{
+  "id": "16",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd16.jpg",
+  "pdName": "【16】  香港直邮日本Spatreatment眼膜保湿去细纹法令纹",
+  "pdPrice": 219.00,
+  "pdSold": 13 },
+{
+  "id": "17",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd17.jpg",
+  "pdName": "【17】  韩国MEDIHEALNMF可莱丝针剂睡眠面膜",
+  "pdPrice": 81.00,
+  "pdSold": 128 },
+{
+  "id": "18",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd18.jpg",
+  "pdName": "【18】  DHC蝶翠诗橄榄蜂蜜滋养洗脸手工皂90g",
+  "pdPrice": 123.00,
+  "pdSold": 77 },
+{
+  "id": "19",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd19.jpg",
+  "pdName": "【19】  日本资生堂CPB肌肤之钥新版隔离霜 清爽型 30ml",
+  "pdPrice": 429.00,
+  "pdSold": 36 },
+{
+  "id": "20",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd20.jpg",
+  "pdName": "【20】 Heinz亨氏 婴儿面条优加面条全素套餐组合3口味3盒",
+  "pdPrice": 39.00,
+  "pdSold": 61 },
+{
+  "id": "21",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd21.jpg",
+  "pdName": "【21】  Heinz亨氏 乐维滋果汁泥组合5口味15袋",
+  "pdPrice": 69.00,
+  "pdSold": 55 },
+{
+  "id": "22",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd22.jpg",
+  "pdName": "【22】  保税区直发澳大利亚Swisse高浓度蔓越莓胶囊30粒",
+  "pdPrice": 271.00,
+  "pdSold": 19 },
+{
+  "id": "23",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd23.jpg",
+  "pdName": "【23】  挪威Nordic Naturals小鱼婴幼儿鱼油DHA滴剂",
+  "pdPrice": 102.00,
+  "pdSold": 125 },
+{
+  "id": "24",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd24.jpg",
+  "pdName": "【24】  澳大利亚Bio island DHA for Pregnancy海藻油DHA",
+  "pdPrice": 289.00,
+  "pdSold": 28 },
+{
+  "id": "25",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd25.jpg",
+  "pdName": "【25】  澳大利亚Fatblaster Coconut Detox椰子水",
+  "pdPrice": 152.00,
+  "pdSold": 17 },
+{
+  "id": "26",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd26.jpg",
+  "pdName": "【26】  Suitsky舒比奇 高护极薄舒爽纸尿片尿不湿XL60",
+  "pdPrice": 99.00,
+  "pdSold": 181 },
+{
+  "id": "27",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd27.jpg",
+  "pdName": "【27】  英国JUST SOAP手工皂 玫瑰天竺葵蛋糕皂",
+  "pdPrice": 72.00,
+  "pdSold": 66 },
+{
+  "id": "28",
+  "pdImg": "http://www.mescroll.com/demo/res/img/pd28.jpg",
+  "pdName": "【28】  德国NUK 多色婴幼儿带盖学饮杯",
+  "pdPrice": 92.00,
+  "pdSold": 138 }];exports.default = _default;
+
+/***/ }),
+
 /***/ 11:
 /*!*******************************************************************!*\
   !*** D:/myself/work/student_video/node_modules/uview-ui/index.js ***!
@@ -2085,7 +2687,41 @@ deepMerge;exports.default = _default;
 
 /***/ }),
 
-/***/ 144:
+/***/ 15:
+/*!*************************************************************************************!*\
+  !*** D:/myself/work/student_video/node_modules/uview-ui/libs/function/deepClone.js ***!
+  \*************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 判断arr是否为一个数组，返回一个bool值
+function isArray(arr) {
+  return Object.prototype.toString.call(arr) === '[object Array]';
+}
+
+// 深度克隆
+function deepClone(obj) {
+  // 对常见的“非”值，直接返回原来值
+  if ([null, undefined, NaN, false].includes(obj)) return obj;
+  if (typeof obj !== "object" && typeof obj !== 'function') {
+    //原始类型直接返回
+    return obj;
+  }
+  var o = isArray(obj) ? [] : {};
+  for (var i in obj) {
+    if (obj.hasOwnProperty(i)) {
+      o[i] = typeof obj[i] === "object" ? deepClone(obj[i]) : obj[i];
+    }
+  }
+  return o;
+}var _default =
+
+deepClone;exports.default = _default;
+
+/***/ }),
+
+/***/ 150:
 /*!****************************************************************************!*\
   !*** D:/myself/work/student_video/components/mescroll-uni/mescroll-uni.js ***!
   \****************************************************************************/
@@ -2959,7 +3595,7 @@ MeScroll.prototype.setBounce = function (isBounce) {
 
 /***/ }),
 
-/***/ 145:
+/***/ 151:
 /*!***********************************************************************************!*\
   !*** D:/myself/work/student_video/components/mescroll-uni/mescroll-uni-option.js ***!
   \***********************************************************************************/
@@ -3001,40 +3637,6 @@ var GlobalOption = {
 
 
 GlobalOption;exports.default = _default;
-
-/***/ }),
-
-/***/ 15:
-/*!*************************************************************************************!*\
-  !*** D:/myself/work/student_video/node_modules/uview-ui/libs/function/deepClone.js ***!
-  \*************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; // 判断arr是否为一个数组，返回一个bool值
-function isArray(arr) {
-  return Object.prototype.toString.call(arr) === '[object Array]';
-}
-
-// 深度克隆
-function deepClone(obj) {
-  // 对常见的“非”值，直接返回原来值
-  if ([null, undefined, NaN, false].includes(obj)) return obj;
-  if (typeof obj !== "object" && typeof obj !== 'function') {
-    //原始类型直接返回
-    return obj;
-  }
-  var o = isArray(obj) ? [] : {};
-  for (var i in obj) {
-    if (obj.hasOwnProperty(i)) {
-      o[i] = typeof obj[i] === "object" ? deepClone(obj[i]) : obj[i];
-    }
-  }
-  return o;
-}var _default =
-
-deepClone;exports.default = _default;
 
 /***/ }),
 
@@ -3223,72 +3825,6 @@ function empty(value) {
 
 /***/ }),
 
-/***/ 167:
-/*!******************************************************************!*\
-  !*** D:/myself/work/student_video/components/uni-popup/popup.js ***!
-  \******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _message = _interopRequireDefault(__webpack_require__(/*! ./message.js */ 168));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-// 定义 type 类型:弹出类型：top/bottom/center
-var config = {
-  // 顶部弹出
-  top: 'top',
-  // 底部弹出
-  bottom: 'bottom',
-  // 居中弹出
-  center: 'center',
-  // 消息提示
-  message: 'top',
-  // 对话框
-  dialog: 'center',
-  // 分享
-  share: 'bottom' };var _default =
-
-
-{
-  data: function data() {
-    return {
-      config: config };
-
-  },
-  mixins: [_message.default] };exports.default = _default;
-
-/***/ }),
-
-/***/ 168:
-/*!********************************************************************!*\
-  !*** D:/myself/work/student_video/components/uni-popup/message.js ***!
-  \********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
-  created: function created() {
-    if (this.type === 'message') {
-      // 不显示遮罩
-      this.maskShow = false;
-      // 获取子组件对象
-      this.childrenMsg = null;
-    }
-  },
-  methods: {
-    customOpen: function customOpen() {
-      if (this.childrenMsg) {
-        this.childrenMsg.open();
-      }
-    },
-    customClose: function customClose() {
-      if (this.childrenMsg) {
-        this.childrenMsg.close();
-      }
-    } } };exports.default = _default;
-
-/***/ }),
-
 /***/ 17:
 /*!***************************************************************************************!*\
   !*** D:/myself/work/student_video/node_modules/uview-ui/libs/function/queryParams.js ***!
@@ -3355,6 +3891,72 @@ function queryParams() {var data = arguments.length > 0 && arguments[0] !== unde
 }var _default =
 
 queryParams;exports.default = _default;
+
+/***/ }),
+
+/***/ 173:
+/*!******************************************************************!*\
+  !*** D:/myself/work/student_video/components/uni-popup/popup.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _message = _interopRequireDefault(__webpack_require__(/*! ./message.js */ 174));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+// 定义 type 类型:弹出类型：top/bottom/center
+var config = {
+  // 顶部弹出
+  top: 'top',
+  // 底部弹出
+  bottom: 'bottom',
+  // 居中弹出
+  center: 'center',
+  // 消息提示
+  message: 'top',
+  // 对话框
+  dialog: 'center',
+  // 分享
+  share: 'bottom' };var _default =
+
+
+{
+  data: function data() {
+    return {
+      config: config };
+
+  },
+  mixins: [_message.default] };exports.default = _default;
+
+/***/ }),
+
+/***/ 174:
+/*!********************************************************************!*\
+  !*** D:/myself/work/student_video/components/uni-popup/message.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
+  created: function created() {
+    if (this.type === 'message') {
+      // 不显示遮罩
+      this.maskShow = false;
+      // 获取子组件对象
+      this.childrenMsg = null;
+    }
+  },
+  methods: {
+    customOpen: function customOpen() {
+      if (this.childrenMsg) {
+        this.childrenMsg.open();
+      }
+    },
+    customClose: function customClose() {
+      if (this.childrenMsg) {
+        this.childrenMsg.close();
+      }
+    } } };exports.default = _default;
 
 /***/ }),
 
@@ -3455,7 +4057,7 @@ route;exports.default = _default;
 
 /***/ }),
 
-/***/ 183:
+/***/ 189:
 /*!******************************************************************************!*\
   !*** D:/myself/work/student_video/components/aliyun-upload-sdk-1.0.0.min.js ***!
   \******************************************************************************/
@@ -10115,7 +10717,7 @@ var store = new _vuex.default.Store({
 
       } else if (num === 1) {
         uni.redirectTo({
-          url: "/pages/find/find" });
+          url: "/pages/shop/shop" });
 
       } else if (num === 2) {
         uni.navigateTo({

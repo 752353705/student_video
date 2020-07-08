@@ -41,21 +41,19 @@
 		
 		<!-- 作者相关的视频 -->
 		<view class="content">
-			<!-- <view class="title">
-				<view @click="changAct(0)"  :class=" act === 0 ? 'active item' : 'item'">作品</view>
-				<view @click="changAct(1)" :class=" act === 1 ? 'active item' : 'item'">收藏</view>
-			</view> -->
 			<swiperTabHead class="height" :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
-			
 			
 			<!-- 作者作品展示 -->
 			<view class="uni-tab-bar">
-				<!-- :style=scrollviewHigh -->
-				<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback">
-					<swiper class="swiper-box"  :current="tabIndex" @change="tabChange">
-						<swiper-item style="height: 500px;" class="swiper-item" v-for="(items,index) in newslist" :key="index">
-							<scroll-view scroll-y class="list" :style=scrollviewHigh scroll-y="true" enable-flex="true" lower-threshold="160"
-							 @scrolltolower="lower(index)">
+				<swiper class="swiper-box" :style=scrollviewHigh :current="tabIndex" @change="tabChange">
+					<swiper-item v-for="(items,index) in newslist" :key="index">
+						<scroll-view scroll-y class="list" 
+							:style=scrollviewHigh
+							scroll-y="true" 
+							enable-flex="true"
+							lower-threshold="160"
+							@scrolltolower="lower(index)"
+						>
 								<template v-if="items.list.length > 0">
 									<!-- 图文列表 -->
 									<block v-for="(item,index1) in items.list" :key="index">
@@ -63,24 +61,51 @@
 										<wfalls-flow class="waterFull" :list="list" ref="wfalls" @finishLoad="getLoadNum"></wfalls-flow>
 									</block>
 								</template>
-							</scroll-view>
-						</swiper-item>				
-					</swiper>
-				</mescroll-body>
+						</scroll-view>
+					</swiper-item>
+				</swiper>
 			</view>
+			
+			
+			
+			<!-- 作者作品展示 残次品 -->
+			<!-- <view class="uni-tab-bar">
+				<swiper class="swiper-box" :style=scrollviewHigh  :current="tabIndex" @change="tabChange">
+					<swiper-item class="swiper-item" v-for="(items,index) in newslist" :key="index">
+					<mescroll-empty v-if="list.length==0"></mescroll-empty>
+					<mescroll-uni v-else ref="mescrollRef" @init="mescrollInit" @down="downCallback" :down="downOption" :up="upOption">
+						<block v-for="(item,index1) in items.list" :key="index">
+						
+							<wfalls-flow class="waterFull" :list="list" ref="wfalls" @finishLoad="getLoadNum"></wfalls-flow>
+						</block>
+					</mescroll-uni>
+					</swiper-item>
+				</swiper>
+			
+			</view> -->
+			
+			
+			
 		</view>
 	</view>
 </template>
 
 <script>
+	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
+	import MescrollEmpty from '@/components/mescroll-uni/components/mescroll-empty.vue';
+	
+	import {apiGoods} from "@/API/mock.js"
+	import goodList from '../../components/good-list.vue'
+	
+	
 	
 	import wfallsFlow from '../../components/wfallsflow.vue'
-	import goodList from '../../components/good-list.vue'
 	const list = require('../../static/data.json').list;
 	
 	// 引入tabHead 切换
 	import swiperTabHead from "../../components/swiper-tab-head.vue";
 	export default {
+		mixins: [MescrollMixin], // 使用mixin
 		data() {
 			return {
 				// 测试
@@ -114,11 +139,14 @@
 				act:0,
 				// 作者的个人作品
 				list:[],
+				list_test:[],
 				focus:false
 			};
 		},
 		components:{
 			wfallsFlow,
+			MescrollEmpty,
+			goodList,
 			swiperTabHead
 		},
 		onLoad() {
@@ -209,7 +237,34 @@
 				// 此处仍可以继续写其他接口请求...
 				// 调用其他方法...
 			},
+			/*上拉加载的回调*/
+			/*上拉加载的回调: 其中page.num:当前页 从1开始, page.size:每页数据条数,默认10 */
+			upCallback(page) {
+				//联网加载数据
+				apiGoods(page.num, page.size, this.isGoodsEdit).then(curPageData=>{
+					//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+					//mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
 			
+					//方法一(推荐): 后台接口有返回列表的总页数 totalPage
+					//this.mescroll.endByPage(curPageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
+			
+					//方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+					//this.mescroll.endBySize(curPageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
+			
+					//方法三(推荐): 您有其他方式知道是否有下一页 hasNext
+					//this.mescroll.endSuccess(curPageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
+			
+					//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据
+					this.mescroll.endSuccess(curPageData.length);
+			
+					//设置列表数据
+					if(page.num == 1) this.goods = []; //如果是第一页需手动制空列表
+					this.goods=this.goods.concat(curPageData); //追加新数据
+				}).catch(()=>{
+					//联网失败, 结束加载
+					this.mescroll.endErr();
+				})
+			},
 			
 			
 			
@@ -296,6 +351,8 @@
 </script>
 
 <style lang="less">
+	
+	
 .author{
 	width: 100%;
 	height: 69.44rpx;

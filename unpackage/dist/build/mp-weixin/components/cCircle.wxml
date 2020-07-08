@@ -1,0 +1,1 @@
+<view><view style="{{(cBox)}}"><block wx:if="{{!slot}}"><text>{{animationPercent+"%"}}</text></block><block wx:if="{{slot}}"><view style="{{(slotStyle)}}"><slot name="content"></slot></view></block><view style="{{(faStyle)}}"><view style="{{(leftBox)}}"><view style="{{(leftStyle)}}"></view></view><view style="{{(rithStyle)}}"></view></view></view></view>

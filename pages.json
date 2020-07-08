@@ -84,6 +84,12 @@
             "path" : "pages/chat/chat",
             "style" : {}
         }
+        ,{
+            "path" : "pages/shop/shop",
+            "style" : {
+							"navigationBarTitleText" : "大学生商城"
+						}
+        }
     ],
     "globalStyle" : {
         "navigationBarTextStyle" : "black",

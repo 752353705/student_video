@@ -19,7 +19,7 @@ const store = new Vuex.Store({
 				});
 			}else if(num === 1){
 				uni.redirectTo({
-				   url: "/pages/find/find"
+				   url: "/pages/shop/shop"
 				});
 			}else if(num === 2){
 				uni.navigateTo({

@@ -76,16 +76,16 @@
 								<view class="icon_num">2.4W</view>
 							</view>
 							<!-- 转发 -->
-							<!-- <view class="forwarding icon" @click="confirmShare(index)">
-								<image src="/static/weixin.png" mode=""></image>
+							<view class="forwarding icon" @click="confirmShare(index)">
+								<image src="/static/forwarding.png" mode=""></image>
 								<view class="icon_num">2.4W</view>
-							</view> -->
-							<view class="forwarding icon" >
+							</view>
+					<!-- 		<view class="forwarding icon" >
 								<button type="default" open-type="share" plain="false">
 									<image src="/static/weixin.png" mode=""></image>
 									<view class="icon_num">2.4W</view>
 								</button>
-							</view>
+							</view> -->
 						</view>
 						
 					</view>
@@ -185,8 +185,8 @@ export default {
 		return {
 			// title: '自定义转发标题',
 			path: `/pages/playVideo/playVideo?video_id=${123}`,
-			imageUrl: '自定义转发图片',
-			desc:'自定义描述'
+			// imageUrl: '自定义转发图片',
+			// desc:'自定义描述'
 		}
 	},
 	methods: {

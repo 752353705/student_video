@@ -27,7 +27,7 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "",
-	"appid": "touristappid",
+	"appid": "wx15787d9dfeab4b4a",
 	"projectname": "student_video",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
@@ -59,13 +59,6 @@
 					"id": -1,
 					"name": "pages/author/author",
 					"pathName": "pages/author/author",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/my/my",
-					"pathName": "pages/my/my",
 					"scene": null
 				}
 			]
