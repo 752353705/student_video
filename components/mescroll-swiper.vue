@@ -4,7 +4,11 @@
 		<me-tabs v-model="tabIndex" :tabs="tabs" :fixed="true" :tab-width="130"></me-tabs>
 		<swiper  :style="{height: height}" :current="tabIndex" @change="swiperChange">
 			<swiper-item  v-for="(tab,i) in tabs" :key="i">
-				<mescroll-item :i="i" :index="tabIndex"  :tabs="tabs" :mescrollBot="" ></mescroll-item>
+				<mescroll-item :i="i" :index="tabIndex"  :tabs="tabs" :mescrollBot="" >
+					<!-- <slot name="pushVideo">
+						上传视频
+					</slot> -->
+				</mescroll-item>
 			</swiper-item>
 		</swiper>
 	</view>

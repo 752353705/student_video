@@ -67,7 +67,7 @@
 	}
 	.uni-tab-bar{
 		box-sizing: border-box;
-		padding: 10rpx 10rpx;
+		// padding: 10rpx 10rpx;
 		position: sticky;
 		top: 0;
 		left: 0;

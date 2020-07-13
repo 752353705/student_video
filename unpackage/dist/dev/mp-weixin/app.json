@@ -68,6 +68,5 @@
     "uni-popup-dialog": "/components/uni-popup/uni-popup-dialog",
     "uni-popup-pushvideo": "/components/uni-popup/uni-popup-pushvideo",
     "c-circle": "/components/cCircle"
-  },
-  "sitemapLocation": "sitemap15.json"
+  }
 }

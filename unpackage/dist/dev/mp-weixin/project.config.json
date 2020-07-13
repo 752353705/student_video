@@ -4,33 +4,12 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": false,
-		"es6": true,
-		"postcss": true,
-		"preloadBackgroundData": false,
-		"minified": true,
-		"newFeature": true,
-		"coverView": true,
-		"autoAudits": false,
-		"showShadowRootInWxmlPanel": true,
-		"scopeDataCheck": false,
-		"checkInvalidKey": true,
-		"checkSiteMap": true,
-		"uploadWithSourceMap": true,
-		"babelSetting": {
-			"ignore": [],
-			"disablePlugins": [],
-			"outputPath": ""
-		},
-		"useCompilerModule": false,
-		"userConfirmedUseCompilerModuleSwitch": false
+		"urlCheck": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "",
 	"appid": "wx15787d9dfeab4b4a",
 	"projectname": "student_video",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -55,13 +34,6 @@
 		"miniprogram": {
 			"current": -1,
 			"list": [
-				{
-					"id": -1,
-					"name": "pages/playVideo/playVideo",
-					"pathName": "pages/playVideo/playVideo",
-					"query": "",
-					"scene": null
-				},
 				{
 					"id": -1,
 					"name": "pages/publish/publish",

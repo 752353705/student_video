@@ -9,8 +9,25 @@
 		<mescroll-empty v-if="goods.length === 0" ></mescroll-empty>
 		<block v-else>
 			<wfalls-flow v-if="i === 0" style="{height:400px}" :list="goods" ></wfalls-flow>
-			<view v-else>上传作品</view>
+			
+			<block v-else>
+				<!--渲染结束 点击可以上传视频-->
+				<view class="push_video" @click="open()">
+					<view class="cross" />
+						<view class="txt">上传短视频</view>
+					</view>
+				</view>
+				
+			</block>
+			<!-- <solt></solt> -->
 		</block>
+		
+		<!-- 上传弹框 -->
+		<uni-popup class="pop" animation="false" ref="popup_video" type="center" mask-click="false">
+			<uni-popup-message type="success" pop_type="upload" message="成功消息" duration="0" />
+			<view class="imgBox"><image class="img" src="/static/close.png" mode="" @click="close"></image></view>
+		</uni-popup>
+		
 	</mescroll-uni>
 </template>
 
@@ -81,6 +98,14 @@
 			
 		},
 		methods: {
+			// 显示上传视频
+			open(){
+				this.$refs.popup_video.open();
+			},
+			close(num) {
+				// this.$refs.popup_user.close();
+				this.$refs.popup_video.close();
+			},
 			/*下拉刷新的回调 */
 			downCallback() {
 				// 这里加载你想下拉刷新的数据, 比如刷新轮播数据
@@ -118,3 +143,53 @@
 		}
 	}
 </script>
+
+<style lang="less">
+	.pop {
+		.imgBox {
+			width: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			.img {
+				width: 62.5rpx;
+				height: 62.5rpx;
+				margin-top: 20rpx;
+			}
+		}
+	}
+	.push_video {
+		width: 314rpx;
+		height: 308rpx;
+		background-color: #d8d3d1;
+		border-radius: 20rpx;
+		box-sizing: border-box;
+		padding-top: 25rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		// 绘制十字
+		.cross {
+			background: #f0eaf0;
+			height: 138.88rpx;
+			position: relative;
+			width: 14rpx;
+			margin-bottom: 20rpx;
+		}
+		.cross:after {
+			background-color: #f0eaf0;
+			content: '';
+			height: 14rpx;
+			left: -59.77rpx;
+			position: absolute;
+			top: 60.77rpx;
+			width: 138.88rpx;
+		}
+		.txt {
+			color: #616060;
+			font-size: 33rpx;
+			font-weight: bolder;
+		}
+	}
+</style>

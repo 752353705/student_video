@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "mescroll-uni": "/components/mescroll-uni/mescroll-uni",
+    "uni-popup": "/components/uni-popup/uni-popup",
     "mescroll-empty": "/components/mescroll-uni/components/mescroll-empty",
     "good-list": "/components/good-list",
     "wfalls-flow": "/components/wfallsflow"
