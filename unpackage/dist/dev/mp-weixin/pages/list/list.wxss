@@ -1,29 +1,99 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*数据列表*/
+.pd-list{
+	background-color: #fff;
+}
+.pd-li{
+	position: relative;
+	height: 160rpx;
+	padding: 20rpx 16rpx 20rpx 240rpx;
+	border-bottom: 1rpx solid #eee;
+}
+.pd-li .pd-img{
+	position: absolute !important; /*编译到H5,在mescroll-more的案例中需加上!important,解决tab切换过快定位失效的问题*/
+	left: 36rpx;
+	top: 20rpx;
+	width: 160rpx;
+	height: 160rpx;
+}
+.pd-li .pd-name{
+	font-size: 26rpx;
+	line-height: 40rpx;
+	height: 80rpx;
+	margin-bottom: 20rpx;
+	overflow: hidden;
+}
+.pd-li .pd-price{
+	font-size: 26rpx;
+	color: red;
+}
+.pd-li .pd-sold{
+	font-size: 24rpx;
+	margin-left: 16rpx;
+	color: gray;
+}
+
 .listPage.data-v-7d5e07c6 {
-  position: fixed;
+  box-sizing: border-box;
+  padding: 0rpx 10rpx 0;
+}
+.listPage .searchBox.data-v-7d5e07c6 {
+  width: 100%;
+  height: 80rpx;
+  background-color: white;
+  padding: 20rpx 0;
+  position: -webkit-sticky;
+  position: sticky;
+  z-index: 10;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #f6f6f6;
 }
-.listPage .serach.data-v-7d5e07c6 {
+.listPage .searchBox .serach.data-v-7d5e07c6 {
   background-color: #cbcbcf;
   border-radius: 33rpx;
-  width: 63%;
-  height: 71rpx;
+  width: 100%;
+  height: 100%;
   text-align: center;
-  line-height: 71rpx;
   color: #453a74;
-  margin-top: 56rpx;
-  margin-left: 20rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
 }
-.listPage .serach image.data-v-7d5e07c6 {
+.listPage .searchBox .serach image.data-v-7d5e07c6 {
   width: 40rpx;
   height: 40rpx ;
-  float: right;
-  -webkit-transform: translateY(50%);
-          transform: translateY(50%);
-  margin-right: 30rpx;
+  margin-right: 13rpx;
 }
 .listPage .head.data-v-7d5e07c6 {
   width: 100%;
@@ -83,25 +153,6 @@
   width: 30rpx;
   height: 30rpx;
   margin-right: 8rpx;
-}
-.listPage .cent .box.data-v-7d5e07c6 {
-  width: 100%;
-  height: 100%;
-}
-.listPage .cent .box .list.data-v-7d5e07c6 {
-  position: relative;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-          justify-content: space-between;
-  -webkit-flex-wrap: wrap;
-          flex-wrap: wrap;
-}
-.listPage .cent .box .list .waterFull.data-v-7d5e07c6 {
-  position: absolute;
-  width: 100%;
 }
 .listPage .pop .imgBox.data-v-7d5e07c6 {
   width: 100%;

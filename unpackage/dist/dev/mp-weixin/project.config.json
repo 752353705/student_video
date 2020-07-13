@@ -57,8 +57,15 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "pages/author/author",
-					"pathName": "pages/author/author",
+					"name": "pages/playVideo/playVideo",
+					"pathName": "pages/playVideo/playVideo",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/publish/publish",
+					"pathName": "pages/publish/publish",
 					"scene": null
 				}
 			]

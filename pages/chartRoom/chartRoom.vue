@@ -17,7 +17,10 @@
 						<!-- 发送消息显示 -->
 						<view class="right_msg">{{item}}</view>
 						<!-- 发送方头像 -->
-						<view class="right_userimg"></view>
+						<view class="right_userimg">
+							<image :src="userImg" mode=""></image>
+						</view>
+						
 					</view>
 				</view>
 			</mescroll-body>
@@ -81,6 +84,9 @@
 	export default {
 		data() {
 			return {
+				// 聊天发送方头像
+				userImg:'',
+				
 				// 判断是否显示表情和发送本机图片
 				show_exp:false,
 				show_img:false,
@@ -112,6 +118,17 @@
 			// 聊天室，导航栏改变成 聊天对象的名称
 			uni.setNavigationBarTitle({
 			    title: '小明'
+			});
+			
+			// 获取发送方的头像
+			let _this = this
+			// console.log('挂载')
+			uni.getStorage({
+			    key: 'user_img',
+			    success: function (res) {
+			        // console.log('赋值 user_img',res);
+							_this.userImg = res.data
+			    }
 			});
 		},
 		onReady() {
@@ -354,6 +371,7 @@
 						height: 80rpx;
 						background-color: yellow;
 						border-radius: 50%;
+						overflow: hidden;
 					}
 				}
 				.chart_left{

@@ -1,7 +1,7 @@
 {
-  "navigationStyle": "custom",
-  "onReachBottomDistance": 200,
+  "navigationBarTitleText": "作品列表",
   "usingComponents": {
+    "mescroll-empty": "/components/mescroll-uni/components/mescroll-empty",
     "wfalls-flow": "/components/wfallsflow"
   }
 }

@@ -2,13 +2,11 @@
 	<view class="container">
 		
 		<view class="wechatapp login">
-			<!-- <image class="app-img" :src="userInfo.avatarUrl" mode=""></image> -->
 			<open-data class="app-img" type="userAvatarUrl"></open-data>
 			<open-data class="app-title" type="userNickName"></open-data>
 		</view>
 
 		<!-- 如果没有进行登录 -->
-		<!-- <view v-if="login"> -->
 			<view class="auth-title">该程序将获得以下授权：</view>
 			<view class="auth-subtitle">·获得您的公开信息（昵称、头像等）</view>
 			<view class="control">
@@ -20,7 +18,6 @@
 					微信登录
 				</button>
 			</view>
-		<!-- </view> -->
 		
 	</view>
 </template>
@@ -56,47 +53,46 @@ export default {
 		login(e) {
 			console.log('登录e',e)
 			let _this = this;
-			// if (e.detail.errMsg !== 'getUserInfo:ok') {
-			// 	return false;
-			// }
+			if (e.detail.errMsg !== 'getUserInfo:ok') {
+				console.log('e.detail.errMsg !== getUserInfo:ok')
+				return false;
+			}
 			// 将用户信息进行本地存储
 			// wx.setStorageSync('avatar', e.detail.userInfo.avatarUrl);
 			// wx.setStorageSync('nickName', e.detail.userInfo.nickName);
 			
-			// 0. 显示加载的效果
-			// uni.showLoading({
-			// 	title: '登录中...'
-			// });
+			//  显示加载的效果
+			uni.showLoading({
+				title: '登录中...'
+			});
 		
-			// 1. wx 获取登录用户 code
+			// wx 获取登录用户 code
 			uni.login({
 				provider: 'weixin',
 				success: loginRes => {
+					// 获取用户的  code
+					console.log('login获取code',loginRes.code);
+					
 					// 获取用户信息
 					uni.getUserInfo({
 						provider: 'weixin',
 						success: function (infoRes) {
 							console.log('用户信息', infoRes.userInfo);
-							
 							// 存储用户的头像
-							uni.setStorage({
-								key:'user_img',
-								data:infoRes.userInfo.avatarUrl,
-								success:function(){
-									console.log('存储用户头像成功')
-								}
-							})
+							uni.setStorageSync('user_img',infoRes.userInfo.avatarUrl)
 							// 存储用户名
-							uni.setStorage({
-								key:'user_name',
-								data:infoRes.userInfo.nickName,
-								success:function(){
-									console.log('存储用户名成功')
-								}
-							})
+							uni.setStorageSync('user_name',infoRes.userInfo.nickName)
+							//隐藏正在加载
+							uni.hideLoading()
+							
+							
+							
 							uni.navigateBack({
 								delta: 1
 							})
+						},
+						fail:function(err){
+							console.log('获取用户信息失败 err',err)
 						}
 					});
 					// 用户成功授权之后向后端进行数据请求
@@ -162,94 +158,10 @@ export default {
 			});
 			return false;
 		},
-		getSetting(){
-			// 判断用户是否授权了
-			// 如果已经进行授权了，可以直接调用getUserInfo 获取头像昵称，不会弹框
-			uni.getSetting({
-			   success(res) {
-			      console.log('用户授权',res.authSetting['scope.userInfo'])
-						if (res.authSetting['scope.userInfo']) {
-						  // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-						  wx.getUserInfo({
-						    success: res => {
-						      // 可以将 res 发送给后台解码出 unionId
-									console.log('授权 res',res.userInfo.avatarUrl)
-									// 本地储存用户头像
-						      // this.globalData.userInfo = res.userInfo
-									
-						      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-						      // 所以此处加入 callback 以防止这种情况
-									
-						      // if (this.userInfoReadyCallback) {
-						      //   this.userInfoReadyCallback(res)
-						      // }
-						    }
-						  })
-						}else{
-							// 用户未进行授权
-							console.log('用户未进行授权')
-						}
-			   }
-			})
-		},
-		// 第一授权获取用户信息 ===》按钮触发
-		wxGetUserInfo() {
-			// console.log('登录服务提供商',uni.getProvider)
-			let _this = this;
-			// 1.获取用户的信息
-			uni.getUserInfo({
-				provider: 'weixin',
-				success: infoRes => {
-					console.log('获取用户信息 getUserInfo',infoRes);
-					_this.userInfo = infoRes.userInfo;
-					// 2.提交数据到后台、写入数据库
-					uni.request({
-						url: _this.apiServer + 'appletsUserInfo',  //用户进行提交数据的地址
-						data: {
-							openid: _this.openId,
-							avatarUrl: _this.userInfo.avatarUrl,
-							city: _this.userInfo.city,
-							country: _this.userInfo.country,
-							gender: _this.userInfo.gender,
-							language: _this.userInfo.language,
-							nickName: _this.userInfo.nickName
-						},
-						method: 'POST',
-						success: res => {
-							if (res.data.code != 0) {
-								uni.showToast({ title: res.data.msg, icon: 'none' });
-								return false;
-							}
-							// 用户信息写入缓存
-							uni.showToast({ title: '登录成功' });
-							uni.setStorageSync('user_id', res.data.res.u_id);
-							uni.setStorageSync('user_nm', res.data.res.u_nickName);
-							uni.setStorageSync('user_fa', res.data.res.u_avatarUrl);
-							uni.setStorageSync('user_nu', res.data.res.u_regtime);
-							// 然后跳回原页面
-							if (_this.pageOption.backtype == 1) {
-								uni.redirectTo({ url: _this.pageOption.backpage });
-							} else {
-								uni.switchTab({ url: _this.pageOption.backpage });
-							}
-						},
-						fail: () => {
-							uni.showToast({ title: '用户信息操作失败', icon: 'none' });
-						}
-					});
-				},
-				fail: () => {
-					uni.showToast({ title: '获取用户信息失败', icon: 'none' });
-				}
-			});
-			return false;
-		},
 	},
 	
 	onLoad() {
 		console.log('加载')
-		// this.login()
-		// this.getSetting()
 	}
 
 };

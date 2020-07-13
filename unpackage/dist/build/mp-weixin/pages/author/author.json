@@ -1,8 +1,0 @@
-{
-  "usingComponents": {
-    "wfalls-flow": "/components/wfallsflow",
-    "mescroll-empty": "/components/mescroll-uni/components/mescroll-empty",
-    "good-list": "/components/good-list",
-    "swiper-tab-head": "/components/swiper-tab-head"
-  }
-}

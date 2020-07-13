@@ -1,1 +1,0 @@
-<view>商城<tabbar vue-id="73adca00-1" active="{{s_active}}" bind:__l="__l"></tabbar></view>

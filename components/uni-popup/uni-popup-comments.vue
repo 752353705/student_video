@@ -2,27 +2,17 @@
 <template>
 	<view class="uni-popup-share">
 		<view class="uni-share-title"><text class="uni-share-title-text">{{title}}</text></view>
-		<view class="uni-share-content">
-			<!-- 评论内容区 -->
-			<scroll-view class="uni-share-content-box"
-				scroll-y="true"
-			>
-				
-				<!-- 模拟用户的评论 -->
-				<user-comment class="user_cmt" 
-					:msgList = "msgList" 
-				/>
-				
-				<!-- 显示二级回复 -->
-				<!-- <view class="user_cmt_two" v-if="twoShow">
-					<view class="two_cont" v-for="(item,index) in [1,2,3]" :key="index">
-						三级
-					</view>
-				</view> -->
-				
-			</scroll-view>
+		<view class="uni-share-content" style="height: 300px;">
+			<!-- 评论内容区 
+				采用 mescroll 进行 评论区的渲染
+			-->
+			<mescroll-uni class="mescroll" ref="mescrollRef" top="50" bottom="100" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption" :up="upOption" >
+				<mescroll-empty v-if="msgList.length === 0" ></mescroll-empty>
+				<user-comment v-else class="user_cmt" :msgList="msgList" />
+			</mescroll-uni>
+			
+			
 		</view>
-		
 		
 		<!-- 用户的输入评论区 -->
 		<view class="msgBox">
@@ -57,8 +47,13 @@
 </template>
 
 <script>
+	// 引入mescroll-mixins.js
+	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
+	import MescrollEmpty from '@/components/mescroll-uni/components/mescroll-empty.vue';
+	
 	import userComment from '../user-comment.vue'
 	export default {
+		mixins: [MescrollMixin], // 使用mixin
 		name: 'UniPopupShare',
 		props: {
 			title: {
@@ -92,6 +87,7 @@
 			}
 		},
 		components:{
+			MescrollEmpty,
 			userComment
 		},
 		created() {
@@ -110,6 +106,27 @@
 			});
 		},
 		methods: {
+			/**
+			 * 控制mescroll 进行操作
+			 * */
+			/*下拉刷新的回调*/
+			downCallback(){
+				// 与 mescroll-body 的处理方式一致 > 
+				console.log('下拉刷新')
+				setTimeout(()=>{
+					this.mescroll.endSuccess()
+				},3000)
+			},
+			/*上拉加载的回调*/
+			upCallback(page) {
+				// 与 mescroll-body 的处理方式一致 > 
+				console.log('上拉刷新')
+				setTimeout(()=>{
+					this.mescroll.endSuccess();
+				},3000)
+			},
+			 
+			 
 			/**
 			 * 用户进行发表评论
 			 * */
@@ -168,6 +185,7 @@
 		border-radius: 20rpx 20rpx 0 0;
 		box-sizing: border-box;
 		// padding: 0 40rpx 0;
+		position: relative;
 	}
 	.uni-share-title {
 		/* #ifndef APP-NVUE */
@@ -176,7 +194,14 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
+		width: 100%;
 		height: 40px;
+		position: absolute;
+		opacity: 1;
+		z-index: 10;
+		background-color: white;
+		border: none;
+		border-radius: 20rpx 20rpx 0 0;
 	}
 	.uni-share-title-text {
 		font-size: 35rpx;
@@ -195,68 +220,15 @@
 		padding-top: 10px;
 	}
 	
-	.uni-share-content-box {
-		/* #ifndef APP-NVUE */
-		// display: flex;
-		/* #endif */
-		// flex-direction: row;
-		// flex-wrap: wrap;
-		width: 360px;
-		height: 600rpx;
-	}
-	
-	.uni-share-content-item {
-		width: 90px;
-		/* #ifndef APP-NVUE */
-		display: flex;
-		/* #endif */
-		flex-direction: column;
-		justify-content: center;
-		padding: 10px 0;
-		align-items: center;
-	}
-	
-	.uni-share-content-item:active {
-		background-color: #f5f5f5;
-		height: 400rpx;
-	}
-	
-	.uni-share-image {
-		width: 30px;
-		height: 30px;
-	}
-	
-	.uni-share-text {
-		margin-top: 10px;
-		font-size: 14px;
-		color: #3B4144;
-	}
-	
-	.uni-share-button-box {
-		/* #ifndef APP-NVUE */
-		display: flex;
-		/* #endif */
-		flex-direction: row;
-		padding: 10px 15px;
-	}
-	
-	.uni-share-button {
-		flex: 1;
-		border-radius: 50px;
-		color: #666;
-		font-size: 16px;
-		background-color: transparent;
-	}
-	
-	.uni-share-button::after {
-		border-radius: 50px;
-		border: none;
-	}
-	
 	// 用户书写评论
 	.msgBox{
 		display: flex;
 		align-items: center;
+		background-color: white;
+		z-index: 10;
+		position: sticky;
+		bottom: 0;
+		left: 0;
 		.img_user{
 			width: 60rpx;
 			height: 60rpx;
@@ -297,6 +269,7 @@
 		position: absolute;
 		top: 14rpx;
 		right: 19rpx;
+		z-index: 11;
 		image{
 			width: 60rpx;
 			height: 60rpx;

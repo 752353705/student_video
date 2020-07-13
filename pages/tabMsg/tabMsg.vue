@@ -20,14 +20,12 @@
 						<view class="time">15:03</view>
 					</view>
 					<view class="con_msg">消息展示消息展示消息展示消息展示消息展示消息展示消息展示消息展示消息展示消息展示消息展示消息展示</view>
-					<u-badge count="10" size='mini' :offset=off />
+					<u-badge count="10" :offset=off size='mini'  />
 				</view>
 			</view>
 			
 		</view>
 		
-		<!-- 底部导航栏 -->
-		<tabbar :active="t_active"></tabbar>
 	</view>
 </template>
 
@@ -42,7 +40,6 @@
 					{icon:'/static/tabMsee.png',msg:'新增关注'},
 					{icon:'/static/tabMsee.png',msg:'评论和@'},
 				],
-				t_active: 3,
 			};
 		},
 		onLoad() {

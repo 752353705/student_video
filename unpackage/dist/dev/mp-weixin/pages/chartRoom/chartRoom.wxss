@@ -38,6 +38,7 @@
   height: 80rpx;
   background-color: yellow;
   border-radius: 50%;
+  overflow: hidden;
 }
 .chartRoom .scroll .chartBox .chart_left {
   width: 100%;

@@ -49,7 +49,7 @@
 		border-bottom: 1rpx solid #EEEEEE;
 		// text-align: center;
 		justify-content: space-evenly;
-		
+		margin-bottom: 10rpx;
 		height: 70rpx;
 		line-height: 50rpx;
   }
@@ -66,11 +66,13 @@
 		
 	}
 	.uni-tab-bar{
+		box-sizing: border-box;
+		padding: 10rpx 10rpx;
 		position: sticky;
 		top: 0;
 		left: 0;
-		background-color: white;
 		z-index: 10;
+		background-color: white;
 	}
 	.uni-tab-bar .active{
 			color: red;

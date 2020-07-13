@@ -7,28 +7,19 @@
         {
             "path" : "pages/list/list",
             "style" : {
-                "navigationStyle" : "custom",
-                "onReachBottomDistance" : 200
+							"navigationBarTitleText" : "作品列表"
             }
         },
         {
             "path" : "pages/find/find",
             "style" : {
-							"navigationBarTitleText" : "搜索作品",
-							"onReachBottomDistance" : 200
-            }
-        },
-        {
-            "path" : "pages/cpt/cpt",
-            "style" : {
-                "navigationBarTitleText" : "合作赞助",
-                "onReachBottomDistance" : 200
+							"navigationBarTitleText" : "搜索作品"
             }
         },
         {
 					"path" : "pages/my/my",
 					"style" : {
-							"navigationStyle" : "custom"
+						"navigationBarTitleText" : "我的"
 					}
         },
         {
@@ -90,6 +81,14 @@
 							"navigationBarTitleText" : "大学生商城"
 						}
         }
+        ,{
+            "path" : "pages/findList/findList",
+            "style" : {}
+        },
+				{
+				    "path" : "pages/publish/publish",
+				    "style" : {}
+				}
     ],
     "globalStyle" : {
         "navigationBarTextStyle" : "black",
@@ -97,5 +96,42 @@
         "navigationBarBackgroundColor" : "#FFFFFF",
         "backgroundColor" : "#F8F8F8",
 				"backgroundColorTop":"#FFFFFF"
-    }
+    },
+		"tabBar": {
+			"borderStyle": "black",
+			"backgroundColor": "#fdfdfd",
+			"color": "black",
+			"selectedColor": "#f33e54",
+			"list": [{
+					"pagePath": "pages/list/list",
+					"iconPath": "/static/index.png",
+					"selectedIconPath": "/static/index_active.png",
+					"text": "作品列表"
+				},
+				{
+					"pagePath": "pages/shop/shop",
+					"iconPath": "/static/shop.png",
+					"selectedIconPath": "/static/shop_active.png",
+					"text": "商城"
+				},
+				{
+					"pagePath": "pages/publish/publish",
+					"iconPath": "/static/add.png",
+					"selectedIconPath": "/static/add_active.png",
+					"text": "发布"
+				},
+				{
+					"pagePath": "pages/tabMsg/tabMsg",
+					"iconPath": "/static/tabMsg.png",
+					"selectedIconPath": "/static/tabMsg_active.png",
+					"text": "消息"
+				},
+				{
+					"pagePath": "pages/my/my",
+					"iconPath": "static/home.png",
+					"selectedIconPath": "static/home_active.png",
+					"text": "我的"
+				}
+			]
+		}
 }

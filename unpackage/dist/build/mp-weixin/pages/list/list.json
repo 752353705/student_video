@@ -1,7 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "onReachBottomDistance": 200,
-  "usingComponents": {
-    "wfalls-flow": "/components/wfallsflow"
-  }
-}

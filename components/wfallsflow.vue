@@ -93,9 +93,13 @@
 			},
 		},
 		mounted() {
+			console.log('瀑布流组件进行挂载 list',this.$props.list)
 			if(this.list.length){
 					this.init()
 			}
+		},
+		onReady() {
+			console.log('瀑布流组件onready list',this.$props.list)
 		}
 	}
 </script>

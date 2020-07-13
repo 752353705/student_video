@@ -22,8 +22,7 @@
   right: 0;
   bottom: 0;
   box-sizing: border-box;
-  padding: 33rpx 11.5rpx 0;
-  color: white;
+  padding: 33rpx 30rpx 0;
 }
 .find .search {
   color: black;
@@ -44,7 +43,7 @@
   width: 85%;
 }
 .find .search .left input {
-  width: 70%;
+  width: 89%;
   height: 70rpx;
   display: inline-block;
 }
@@ -62,16 +61,24 @@
   margin-right: 20rpx;
 }
 .find .his_box {
-  position: absolute;
-  z-index: 10;
   width: 100%;
-  background-color: gray;
-  opacity: 0.8;
-  border-radius: 0 0 50rpx 50rpx;
   color: black;
 }
-.find .his_box .title {
-  font-size: 29rpx;
+.find .his_box .his_head {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.find .his_box .his_head .title {
+  font-size: 30rpx;
+  font-weight: bolder;
+  margin-bottom: 20rpx;
   margin-top: 20rpx;
 }
 .find .his_box .his_list {
@@ -91,9 +98,23 @@
 .find .his_box .his_list .his_item {
   padding: 9rpx;
   border-radius: 20rpx;
-  border: 1rpx solid white;
-  margin-left: 19rpx;
-  margin-top: 34rpx;
-  margin-right: 19rpx;
+  border: 1rpx solid #f6f6f6;
+}
+.find .hot_title {
+  font-size: 30rpx;
+  font-weight: bolder;
+  margin-bottom: 20rpx;
+}
+.find .hot_box {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
+.find .hot_box .hot_cont {
+  width: 49%;
+  margin-bottom: 20rpx;
+  color: black;
 }
 

@@ -5,7 +5,8 @@
 * */
 
 // 模拟数据
-import goods from "./goods.js";
+// import goods from "./goods.js";
+const goods = require('../static/data.json').list;
 import goodsEdit from "./goods-edit.js";
 
 // 获取新闻列表

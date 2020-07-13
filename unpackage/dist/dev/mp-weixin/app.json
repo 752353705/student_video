@@ -2,7 +2,6 @@
   "pages": [
     "pages/list/list",
     "pages/find/find",
-    "pages/cpt/cpt",
     "pages/my/my",
     "pages/reg/reg",
     "pages/playVideo/playVideo",
@@ -12,7 +11,9 @@
     "pages/tabMsg/tabMsg",
     "pages/chartRoom/chartRoom",
     "pages/chat/chat",
-    "pages/shop/shop"
+    "pages/shop/shop",
+    "pages/findList/findList",
+    "pages/publish/publish"
   ],
   "subPackages": [],
   "window": {
@@ -22,14 +23,51 @@
     "backgroundColor": "#F8F8F8",
     "backgroundColorTop": "#FFFFFF"
   },
+  "tabBar": {
+    "borderStyle": "black",
+    "backgroundColor": "#fdfdfd",
+    "color": "black",
+    "selectedColor": "#f33e54",
+    "list": [
+      {
+        "pagePath": "pages/list/list",
+        "iconPath": "/static/index.png",
+        "selectedIconPath": "/static/index_active.png",
+        "text": "作品列表"
+      },
+      {
+        "pagePath": "pages/shop/shop",
+        "iconPath": "/static/shop.png",
+        "selectedIconPath": "/static/shop_active.png",
+        "text": "商城"
+      },
+      {
+        "pagePath": "pages/publish/publish",
+        "iconPath": "/static/add.png",
+        "selectedIconPath": "/static/add_active.png",
+        "text": "发布"
+      },
+      {
+        "pagePath": "pages/tabMsg/tabMsg",
+        "iconPath": "/static/tabMsg.png",
+        "selectedIconPath": "/static/tabMsg_active.png",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "iconPath": "static/home.png",
+        "selectedIconPath": "static/home_active.png",
+        "text": "我的"
+      }
+    ]
+  },
   "usingComponents": {
     "mescroll-body": "/components/mescroll-uni/mescroll-body",
     "mescroll-uni": "/components/mescroll-uni/mescroll-uni",
-    "tabbar": "/components/tabbar",
     "uni-popup": "/components/uni-popup/uni-popup",
     "uni-popup-dialog": "/components/uni-popup/uni-popup-dialog",
     "uni-popup-pushvideo": "/components/uni-popup/uni-popup-pushvideo",
     "c-circle": "/components/cCircle"
   },
-  "sitemapLocation": "sitemap69.json"
+  "sitemapLocation": "sitemap15.json"
 }

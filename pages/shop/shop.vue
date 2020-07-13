@@ -4,8 +4,6 @@
 		
 		
 		
-		<!-- 底部自定义tabber -->
-		<tabbar :active="s_active"></tabbar>
 	</view>
 </template>
 
@@ -13,7 +11,7 @@
 	export default {
 		data() {
 			return {
-				s_active:1
+				
 			};
 		},
 		onLoad() {

@@ -67,7 +67,7 @@
 		</view>
 		
 		<!-- 没有更多 -->
-		<u-divider>暂无更多</u-divider>
+		<!-- <u-divider>暂无更多</u-divider> -->
 	</view>
 </template>
 
@@ -147,7 +147,7 @@
 	.user_cmt{
 		display: flex;
 		justify-content: start;
-		padding: 20rpx 0;
+		padding: 32rpx 20rpx;
 		.user_img{
 			width: 60rpx;
 			height: 60rpx;

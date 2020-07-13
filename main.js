@@ -11,14 +11,6 @@ import MescrollUni from "@/components/mescroll-uni/mescroll-uni.vue"
 Vue.component('mescroll-body', MescrollBody)
 Vue.component('mescroll-uni', MescrollUni)	
 
-// 引入状态管理
-import store from 'store/index.js'
-Vue.prototype.$store = store
-
-// 引入弹窗组件
-import tabbar from './components/tabbar.vue'
-Vue.component('tabbar',tabbar)
-
 import uniPopup from './components/uni-popup/uni-popup.vue'
 Vue.component('uniPopup',uniPopup)
 
@@ -76,7 +68,6 @@ Vue.config.productionTip = false
 App.mpType = 'app'
 
 const app = new Vue({
-		store,
     ...App
 })
 app.$mount()

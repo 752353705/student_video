@@ -38,7 +38,10 @@
 							<image v-if="!isPlay" src="/static/play.png" mode=""></image>
 							<image v-else src="/static/suspended.png" mode=""></image>
 						</view>
-
+						
+						<!-- 返回上一级页面的按钮 -->
+						<image class="back" @click="back" src="/static/back.png" mode=""></image>
+						
 						<view class="foot">
 							<!-- 头部 -->
 							<view class="foot_head">
@@ -294,8 +297,16 @@ export default {
 			this.clickNum++
 			timer = setTimeout(() => {
 				if (this.clickNum >= 2) {
-					console.log('双击视频 进入全屏');
-					ctx.requestFullScreen()
+					// console.log('双击视频 进入全屏');
+					console.log('双击视频 点亮红心');
+					this.like = true
+					
+// 并且要显示 红心的动画效果
+					
+					
+					
+					
+					// ctx.requestFullScreen()
 					
 				} else {
 					console.log('单击视频');

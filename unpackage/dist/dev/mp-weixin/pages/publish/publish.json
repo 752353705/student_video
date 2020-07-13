@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "swiper-tab-head": "/components/swiper-tab-head",
+    "mescroll-item": "/components/mescroll-swiper-item"
+  }
+}

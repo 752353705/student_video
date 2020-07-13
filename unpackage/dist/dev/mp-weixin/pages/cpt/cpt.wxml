@@ -1,1 +1,0 @@
-<view><view class="cpt"><view class="item"><view class="head"><view class="left"></view><view class="right"><view class="title">保定市兆丰食品有限公司</view><view class="des">介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍</view></view></view><view class="img">图片</view></view></view><tabbar vue-id="aba3d320-1" active="{{c_active}}" bind:__l="__l"></tabbar></view>

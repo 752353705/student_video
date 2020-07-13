@@ -1,10 +1,9 @@
 {
-  "navigationStyle": "custom",
+  "navigationBarTitleText": "我的",
   "usingComponents": {
     "uni-popup": "/components/uni-popup/uni-popup",
-    "wfalls-flow": "/components/wfallsflow",
     "swiper-tab-head": "/components/swiper-tab-head",
-    "mescroll-empty": "/components/mescroll-uni/components/mescroll-empty",
+    "mescroll-item": "/components/mescroll-swiper-item",
     "uni-popup-usermsg": "/components/uni-popup/uni-popup-usermsg"
   }
 }

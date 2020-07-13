@@ -1,8 +1,4 @@
 {
   "navigationBarTitleText": "搜索作品",
-  "onReachBottomDistance": 200,
-  "usingComponents": {
-    "uni-popup": "/components/uni-popup/uni-popup",
-    "wfalls-flow": "/components/wfallsflow"
-  }
+  "usingComponents": {}
 }

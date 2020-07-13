@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "u-divider": "/node-modules/uview-ui/components/u-divider/u-divider"
-  },
-  "component": true
-}
