@@ -5,6 +5,7 @@
     "user-comment": "/components/user-comment",
     "uni-popup-share": "/components/uni-popup/uni-popup-share",
     "uni-popup-comments": "/components/uni-popup/uni-popup-comments",
-    "uni-popup-gifts": "/components/uni-popup/uni-popup-gifts"
+    "uni-popup-gifts": "/components/uni-popup/uni-popup-gifts",
+    "qrcode-poster": "/components/zhangyu-qrcode-poster/zhangyu-qrcode-poster"
   }
 }

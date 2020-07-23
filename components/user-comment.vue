@@ -1,59 +1,66 @@
 <template>
 	<view>
 		
-		<view class="user_cmt" v-for="(item,index) in msgList" :key="index">
+		<view class="user_cmt" v-for="(item,index) in msgList" :key="item.id">
 			<!-- 用户的评论 -->
-				<view class="user_img" @click="goAuthor"></view>
+				<view class="user_img" @click="goAuthor">
+					<image :src="item.avatarUrl" mode=""></image>
+				</view>
 				<view class="content">
 					<view class="user_head" @click="goAuthor">
-						{{item.name || '用户名'}}
+						{{item.userName || '用户名'}}
 					</view>
-					<view class="user_body" @click="reply">
-						{{item.talk || '用户说的话'}}
+					<view class="user_body" @click="reply(index,index2)">
+						{{item.content || '用户说的话'}}
 					</view>
 					<!-- 时间  回复   点赞数 -->
 					<view class="user_footer">
 						<view class="left">
 							<view class="time">
-								{{item.time || '昨天22:36'}}
+								{{item.createTime || '昨天22:36'}}
+								<view style="display: inline-block;margin-left: 10rpx;"   @click="reply(index,index2)">回复</view>
 							</view>
 						</view>
-						<view class="right" :id=" 'right' + index " @click="seeActive(index)">
-							<!-- 未关注 -->
-							<image class="img" v-if="!see_active" src="../static/cmt_num.png" mode=""></image>
-							<!-- 关注 -->
-							<image class="actImg" v-else src="../static/like_active.png" mode=""></image>
-							<view>{{item.see || '1.3w'}}</view>
+						<view class="right" :id=" 'right' + index "  @click="seeActive(item.id,index)">
+							<!-- 未点赞 -->
+							<image class="img" v-if="!item.liked" src="../static/zan.png" mode=""></image>
+							<!-- 点赞 -->
+							<image class="actImg" v-else src="../static/zan_active.png" mode=""></image>
+							<view>{{item.praseCount || ''}}</view>
 						</view>
 						
 					</view>
 					
 					<!-- 判断是否有二级回复 -->
-					<view class="two" v-if="item.two_cont" @click="showMore">
-						<view class="replay" v-if="!showTwoMsg" @click="showTwo">—展开更多回复</view>
-						<view v-if="showTwoMsg" class="user_cmt two_cmt" v-for="(item2,index2) in item.two_cont" :key="index">
+					<view class="two" v-if="item.replyList.length !== 0" >
+						<!-- <view class="replay" v-if="!showTwoMsg" @click="showTwo">—展开更多回复 {{item.replyList.length}} </view> -->
+						<view class="user_cmt two_cmt" v-for="(item2,index2) in item.replyList" :key="index">
 							<!-- 用户的评论 -->
-								<view class="user_img" @click="goAuthor"></view>
+								<view class="user_img" @click="goAuthor">
+									<image :src="item2.img" mode=""></image>
+								</view>
 								<view class="content two_content">
 									<view class="user_head" @click="goAuthor">
 										{{item2.name || '用户名'}}
 									</view>
-									<view class="user_body" @click="reply">
-										{{item2.talk || '用户说的话'}}
+									<view class="user_body" @click="reply(index,index2)">
+										{{item2.content || '用户说的话'}}
 									</view>
 									<!-- 时间  回复   点赞数 -->
 									<view class="user_footer">
 										<view class="left">
 											<view class="time">
-												{{item2.time || '昨天22:36'}}
+												{{item2.createTime || '昨天22:36'}}
+												<view style="display: inline-block;margin-left: 10rpx;" @click="reply(index,index2)">回复</view>
 											</view>
 										</view>
-										<view class="right" @click="seeActive">
-											<text>{{item2.see || '1.3w'}}</text>
+										<view class="right" @click="replaySec(index,index2)">
+											
 											<!-- 未关注 -->
-											<image v-if="!see_active" src="../static/cmt_num.png" mode=""></image>
+											<image v-if="!item2.liked" src="../static/zan.png" mode=""></image>
 											<!-- 关注 -->
-											<image v-else src="../static/like_active.png" mode=""></image>
+											<image v-else src="../static/zan_active.png" mode=""></image>
+											<text>{{item2.praseCount || ''}}</text>
 										</view>
 										
 									</view>
@@ -76,13 +83,16 @@
 		props:{
 			msgList:{
 				type:Array, //实际请求获取的用户评论数据
-			}	
+			}
 		},
 		data() {
 			return {
 				see_active:false,
 				showTwoMsg:false
 			};
+		},
+		created() {
+			console.log('user-comment  ==> msgList',this.$props.msgList)
 		},
 		components: {
 			
@@ -97,37 +107,63 @@
 			//跳转到作者页
 			goAuthor(){
 				uni.navigateTo({
-				    url: "/pages/author/author"
+				   url: "/pages/author/author"
 				});
 			},
-			reply(){
-				console.log('进行回复')
+			reply(index,index2){
+				console.log('user-comment 进行 评论回复',index,index2)
 				// 当进行回复时，要获取进行回复的对象
 				// 改变input中的提示
-				
-				
+				// console.log('回复' + e.currentTarget.dataset.name)
+				this.$emit('reply',index,index2)
 				
 				// 然后将回复的评论放到二级评论中
 				
 				
 				
 			},
-			seeActive(index){
-				console.log('点击的关注',index)
-				//然后根据被点击的第几个元素使其进行变化
-				const query = uni.createSelectorQuery();
-				console.log('获取节点',query.select(`#right`+ index))
+			seeActive(id,index){
+				console.log('对评论进行点赞')
 				
-				query.select(`#right`+ index).fields({
-					properties:['display']
-				},data => {
-					console.log('data',data)
-				}).exec()
+				// 如果当前已经对其进行了点赞 则不在发起请求
+				if(this.$props.msgList[index].liked){
+					return 
+				}
 				
-				this.see_active = !this.see_active
+				let _this = this
+				this._post("comment/likeComment",{
+					"commentId":id
+				},function(res){
+					console.log('进行评论点赞')
+					
+					// 对列表中显示的数据进行修改 应当调用父级的方法对其进行修改
+					_this.$emit('changeMsgList',index)
+				})
 				
 				
+			},
+			replaySec(index,index2){
+				let _this = this
+				console.log('对回复进行点赞 id ===>',index,index2)
+				// 获取回复点赞中 点击的目标 commentReplyId
+				console.log('点击的目标 commentReplyId',this.$props.msgList[index].replyList[index2])
 				
+				// 先改变本地的点赞情况
+				// this.$props.msgList[index].replyList[index2].liked = true
+				// this.$props.msgList[index].replyList[index2].praseCount ++
+				
+				// 如果当前回复已经进行了点赞，则不再触发点赞请求
+				if( this.$props.msgList[index].replyList[index2].liked) return
+				
+				
+				this._post("comment/likeCommentReply",{
+					"commentReplyId":_this.$props.msgList[index].replyList[index2].id
+				},function(res){
+					console.log('对评论回复 进行 点赞')
+					// 请求成功后修改列表数据
+					_this.$emit('changeMsgList',index,index2)
+					
+				})
 				
 			},
 			/**
@@ -144,6 +180,7 @@
 </script>
 
 <style lang="less">
+	
 	.user_cmt{
 		display: flex;
 		justify-content: start;
@@ -151,9 +188,14 @@
 		.user_img{
 			width: 60rpx;
 			height: 60rpx;
-			background-color: red;
+			// background-color: red;
 			border-radius: 50%;
 			margin-right: 31rpx;
+			overflow: hidden;
+			image{
+				width: 100%;
+				height: 100%;
+			}
 		}
 		.content{
 			// background-color: yellow;
@@ -174,10 +216,10 @@
 					flex-direction: column;
 					justify-content: center;
 					align-items: center;
-					image{
-						width: 40rpx;
-						height: 40rpx;
-					}
+				}
+				image{
+					width: 40rpx;
+					height: 40rpx;
 				}
 			}
 			.two{

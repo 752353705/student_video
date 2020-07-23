@@ -3,29 +3,68 @@
 	swiper中的transfrom会使fixed失效,此时用height="100%"固定高度; 
 	swiper中无法触发mescroll-mixins.js的onPageScroll和onReachBottom方法,只能用mescroll-uni,不能用mescroll-body
 	-->
-	 <mescroll-uni ref="mescrollRef" @init="mescrollInit" height="100%" top="60" :bottom="mescrollBot" :down="downOption" @down="downCallback" :up="upOption" @up="upCallback" @emptyclick="emptyClick">
+	<mescroll-uni ref="mescrollRef" @init="mescrollInit" height="100%" top="60" :bottom="mescrollBot" 
+		:down="downOption" @down="downCallback" :up="upOption" @up="upCallback" @emptyclick="emptyClick"
+	>
 		<!-- 数据列表 -->
 		<!-- <good-list :list="goods"></good-list> -->
-		<mescroll-empty v-if="goods.length === 0" ></mescroll-empty>
-		<block v-else>
-			<wfalls-flow v-if="i === 0" style="{height:400px}" :list="goods" ></wfalls-flow>
-			
+		
+		<!-- 普通界面 -->
+		<block v-if="showType == 0">
+			<mescroll-empty v-if="goods.length === 0"></mescroll-empty>
 			<block v-else>
-				<!--渲染结束 点击可以上传视频-->
-				<view class="push_video" @click="open()">
-					<view class="cross" />
-						<view class="txt">上传短视频</view>
-					</view>
-				</view>
-				
+				<wfalls-flow style="{height:400px}" :list="goods"></wfalls-flow>
 			</block>
-			<!-- <solt></solt> -->
 		</block>
 		
-		<!-- 上传弹框 -->
-		<uni-popup class="pop" animation="false" ref="popup_video" type="center" mask-click="false">
-			<uni-popup-message type="success" pop_type="upload" message="成功消息" duration="0" />
-			<view class="imgBox"><image class="img" src="/static/close.png" mode="" @click="close"></image></view>
+		<!-- 上传视频界面  -->
+		<block v-if="showType == 1" >
+			<mescroll-empty v-if="goods.length === 0" ></mescroll-empty>
+			<block v-else>
+				<wfalls-flow v-if="i === 0" style="{height:400px}" :list="goods" ></wfalls-flow>
+				
+				<view class="box" v-else>
+					<!--渲染结束 点击可以上传视频-->
+					<view class="push_video" @click="open(1)">
+							<view class="cross"> </view>
+							<view class="txt">上传短视频</view>
+					</view>
+					
+					<view class="push_img" @click="open(0)">
+						<view class="cross"></view>
+						<view class="txt">上传图文</view>
+					</view>
+					
+				</view>
+				<!-- <solt></solt> -->
+			</block>
+			
+			
+			
+			
+		</block>
+		
+		
+		<!-- 上传视频的弹出框 -->
+		<uni-popup class="pop" animation="false" ref="popup_video" 
+			type="center" mask-click="false"
+			@change="change"
+		>
+			<uni-popup-pushvideo :video_src="video_src" @changeVideoSrc = "changeVideo"  @clear="clear" duration="0" />
+			<view class="imgBox">
+				<image class="img" src="/static/close.png" mode="" @click="close(1)"></image>
+			</view>
+		</uni-popup>
+		
+		<!-- 上传图片的弹出框 -->
+		<uni-popup class="pop" animation="false" ref="popup_img"
+			type="center" mask-click="false"
+			@change="change"
+		>
+			<uni-popup-pushimg :video_src="video_src" @changeVideoSrc = "changeVideo" @clear="clear" duration="0" />
+			<view class="imgBox">
+				<image class="img" src="/static/close.png" mode="" @click="close(0)"></image>
+			</view>
 		</uni-popup>
 		
 	</mescroll-uni>
@@ -51,6 +90,7 @@
 		},
 		data() {
 			return {
+				video_src:'',
 				downOption:{
 					auto:false, // 不自动加载 (mixin已处理第一个tab触发downCallback)
 				},
@@ -70,6 +110,7 @@
 			}
 		},
 		props:{
+			showType:Number,
 			i: Number, // 每个tab页的专属下标 (除了支付宝小程序必须在这里定义, 其他平台都可不用写, 因为已在MescrollMoreItemMixin定义)
 			// 自定义显示 上拉加载时 距离页面底部的 位置
 			mescrollBot:{
@@ -95,17 +136,50 @@
 			}
 		},
 		onLoad() {
-			
+
 		},
 		methods: {
 			// 显示上传视频
-			open(){
-				this.$refs.popup_video.open();
+			open(num){
+				if(num == 0){
+					// 打开上传图片的弹框
+					this.$refs.popup_img.open();
+				}else if(num == 1){
+					// 打开上传视频的弹框
+					this.$refs.popup_video.open();
+					
+				}
 			},
 			close(num) {
 				// this.$refs.popup_user.close();
-				this.$refs.popup_video.close();
+				if(num == 0){
+					// 关闭上传图片的弹框
+					this.$refs.popup_img.close();
+				}else if(num == 1){
+					// 关闭上传视频的弹框
+					this.$refs.popup_video.close();
+					
+				}
 			},
+			change(e) {
+				console.log('popup tabbar' + e.type + ' 状态', e.show)
+				if(!e.show){
+					// 弹窗关闭
+					console.log('上传视频弹窗隐藏')
+					this.video_src = ''
+					
+					this.images = []
+				}
+			},
+			changeVideo(val){
+				console.log('修改video_src')
+				this.video_src = val
+			},
+			// 清空当前的视频
+			clear(){
+				this.video_src = ''
+			},
+			
 			/*下拉刷新的回调 */
 			downCallback() {
 				// 这里加载你想下拉刷新的数据, 比如刷新轮播数据
@@ -158,38 +232,46 @@
 			}
 		}
 	}
-	.push_video {
-		width: 314rpx;
-		height: 308rpx;
-		background-color: #d8d3d1;
-		border-radius: 20rpx;
-		box-sizing: border-box;
-		padding-top: 25rpx;
+	
+	.box{
 		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-		// 绘制十字
-		.cross {
-			background: #f0eaf0;
-			height: 138.88rpx;
-			position: relative;
-			width: 14rpx;
-			margin-bottom: 20rpx;
-		}
-		.cross:after {
-			background-color: #f0eaf0;
-			content: '';
-			height: 14rpx;
-			left: -59.77rpx;
-			position: absolute;
-			top: 60.77rpx;
-			width: 138.88rpx;
-		}
-		.txt {
-			color: #616060;
-			font-size: 33rpx;
-			font-weight: bolder;
+		justify-content: space-evenly;
+		.push_video,.push_img{
+			width: 314rpx;
+			height: 308rpx;
+			background-color: #d8d3d1;
+			border-radius: 20rpx;
+			box-sizing: border-box;
+			padding-top: 25rpx;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			// 绘制十字
+			.cross {
+				background: #f0eaf0;
+				height: 138.88rpx;
+				position: relative;
+				width: 14rpx;
+				margin-bottom: 20rpx;
+			}
+			.cross:after {
+				background-color: #f0eaf0;
+				content: '';
+				height: 14rpx;
+				left: -59.77rpx;
+				position: absolute;
+				top: 60.77rpx;
+				width: 138.88rpx;
+			}
+			.txt {
+				color: #616060;
+				font-size: 33rpx;
+				font-weight: bolder;
+			}
 		}
 	}
+	
+	
+	
 </style>

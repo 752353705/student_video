@@ -7,9 +7,10 @@
 		
 		<swiper :style="{height:swiper_height}" :current="tabIndex" @change="tabChange">
 			<swiper-item style="box-sizing: border-box;padding: 0 10rpx;" v-for="(tab,i) in tabBars" :key="i">
-				<mescroll-item :waterFullHeight="swiper_height" :i="i" :index="tabIndex" :tabs="tabBars"></mescroll-item>
+				<mescroll-item :showType="showType" :waterFullHeight="swiper_height" :i="i" :index="tabIndex" :tabs="tabBars"></mescroll-item>
 			</swiper-item>
 		</swiper>
+
 	</view>
 </template>
 
@@ -22,6 +23,7 @@
 	export default {
 		data() {
 			return {
+				showType:1,
 				swiper_height: "", // 需要固定swiper的高度
 				tabIndex: 0, // 当前tab的下标
 				tabBars:[

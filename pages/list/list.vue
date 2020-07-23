@@ -1,4 +1,4 @@
-	<!-- wx15787d9dfeab4b4a -->
+	<!-- wxd568924fb2698a50 -->
 <template>
 	<view class="listPage">
 		<!-- 搜索框 -->
@@ -9,8 +9,12 @@
 			</view>
 		</view>
 		
-		<!-- 瀑布流 -->
-		<view  :style="{height:mescroll_height}" >
+		<!-- 视频分类 -->
+		<swiperTabHead  :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" :top="top"></swiperTabHead>
+		
+		
+		<!-- 瀑布流 :style="{height:mescroll_height}"  -->
+		<view>
 			<mescroll-body ref="mescrollRef" @init="mescrollInit"
 				@down="downCallback" @up="upCallback" 
 			>
@@ -27,6 +31,9 @@
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import MescrollEmpty from '@/components/mescroll-uni/components/mescroll-empty.vue';
 	import {apiSearch} from "@/API/mock.js"
+	// 引入tabHead 切换
+	import swiperTabHead from "@/components/swiper-tab-head.vue";
+	
 	
 	const list = require('@/static/data.json').list;
 	import wfallsFlow from '../../components/wfallsflow.vue'
@@ -35,30 +42,54 @@
 		mixins: [MescrollMixin], // 使用mixin
 		data() {
 			return {
+				top:"142rpx",
 				// 参赛选手列表
 				goods:[],
 				mescroll_height:'',
+				//控制nav切换
+				tabIndex:0,// 选中的
+				tabBars:[
+					{ name:"推荐",id:"guanzhu" },
+					{ name:"直播",id:"guanzhu" },
+					{ name:"大赛",id:"tuijian" },
+					{ name:"游戏",id:"tuijian" },
+					{ name:"美女",id:"tuijian" },
+				], 
 			}
 		},
 		components:{
 			MescrollEmpty,
-			wfallsFlow
+			wfallsFlow,
+			swiperTabHead,
 		},
 		onLoad() {
 			this.mescroll_height = uni.getSystemInfoSync().windowHeight + 'px'
 			console.log('首页 this',this.globalData)
-			// 显示正在加载弹窗
-			uni.showLoading({
-			   title: '加载中'
-			});
-			
+			// 进行网络请求，请求视频列表的数据
+			// this._get('index.php', {
+			// 	's':'/api/cat/getcat',
+			// 	'type':10,
+			// 	'wxapp_id':10001,
+			// 	'applets':25,
+			// 	'token':'b1bc77e3a876681a02c130b8adf5ee25'
+			// }, function (result) {
+			// 	console.log('模拟请求 result',result)
+			// });
 		},
 		onReady() {
 			// 页面加载完毕
 			console.log('页面加载完毕')
-			uni.hideLoading();
+			// uni.hideLoading();
 		},
 		methods: {
+			//滑动切换导航
+			tabChange(e){
+			  this.tabIndex = e.detail.current
+			},
+			//接受子组件传过来的值点击切换导航
+			tabtap(index){
+				this.tabIndex = index;
+			},
 			// 控制测试的视频列表
 			/*mescroll组件初始化的回调,可获取到mescroll对象 (此处可删,mixins已默认)*/
 			mescrollInit(mescroll) {
@@ -117,30 +148,30 @@
 					url:"../find/find"
 				})
 			},
-			touchMove(e){
-				console.log('进行移动 e',e)
-			},
+			// touchMove(e){
+			// 	console.log('进行移动 e',e)
+			// },
 			
 			// 点击列表中每一项，进行跳转到视频播放页
-			jumpFind(e){
-				// 根据点击的id进行跳转到视频播放页面
-				uni.navigateTo({
-					url: "/pages/playVideo/playVideo"
-				});
-			},
+			// jumpFind(e){
+			// 	// 根据点击的id进行跳转到视频播放页面
+			// 	uni.navigateTo({
+			// 		url: "/pages/playVideo/playVideo"
+			// 	});
+			// },
 			
 			// 控制弹出框
-			open(){
-				this.$refs.popup_video.open()
-			},
+			// open(){
+			// 	this.$refs.popup_video.open()
+			// },
 			
-			close(){
-				this.$refs.popup_video.close()
-			},
+			// close(){
+			// 	this.$refs.popup_video.close()
+			// },
 			//scrollView 区域
-			toupper(){
-				console.log('toupper')
-			},
+			// toupper(){
+			// 	console.log('toupper')
+			// },
 		}
 	}
 </script>
@@ -151,19 +182,17 @@
 		padding: 0rpx 10rpx 0;
 		.searchBox{
 			width: 100%;
-			height: 80rpx;
+			height: 77rpx;
 			background-color: white;
-			padding: 20rpx 0;
+			padding: 50rpx 0 20rpx 0;
 			position: sticky;
 			z-index: 10;
 			top: 0;
 			left: 0;
-			
 			.serach{
-				
 				background-color: #cbcbcf;
 				border-radius: 33rpx;
-				width: 100%;
+				width: 69%;
 				height: 100%;
 				text-align: center;
 				color: #453a74;

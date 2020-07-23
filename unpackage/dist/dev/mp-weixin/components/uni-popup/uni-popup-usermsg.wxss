@@ -103,6 +103,7 @@
   font-size: 36rpx;
   font-weight: bolder;
   margin-top: 40rpx;
+  margin: 20rpx auto;
 }
 .uni-popup-message .user_msg.data-v-0d86d5a6 {
   width: 644.44rpx;

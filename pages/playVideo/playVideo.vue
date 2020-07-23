@@ -11,13 +11,8 @@
 						
 						<!-- 返回上一级页面的按钮 -->
 						<image class="back" @click="back" src="/static/back.png" mode=""></image>
-						<!-- <cover-view class="back">
-						  <navigator open-type="navigateBack">
-						    <cover-image src="/static/back.png" /> <!--填写自己的图标地址-->
-						  </navigator>
-						</cover-view> -->
 						
-						
+							<!-- :style=" {'width':videoW ,'height': videoH}" -->
 						<video
 							:id="'myVideo' + index"
 							ref="myVideo"
@@ -25,15 +20,15 @@
 							:src="item.src"
 							:loop="true"
 							:show-play-btn="false" 
-							:controls="false"
 							:show-center-play-btn="false"
-							objectFit="fill"
+							:objectFit="cover"
 							@click="handleClicked(index)"
 							
 						></video>
+						<!-- danmu-btn :danmu-list="danmu" -->
 						<!-- @click="handleClicked(index)" -->
 						<!-- 中间播放按钮 -->
-						<view v-if="btnShow" class="vd-cover flexbox" @click="handleClicked(index)">
+						<view v-if="btnShow" class="vd-cover flexbox" @click="handleClicked(index)" >
 							<!-- <text v-if="!isPlay" class="iconfont icon-bofang"></text> -->
 							<image v-if="!isPlay" src="/static/play.png" mode=""></image>
 							<image v-else src="/static/suspended.png" mode=""></image>
@@ -76,7 +71,7 @@
 							<!-- 评论   点击评论显示评论弹出框-->
 							<view class="comments icon" @click="showPop(index)">
 								<image src="/static/comments.png" mode=""></image>
-								<view class="icon_num">2.4W</view>
+								<view class="icon_num">{{commentsNum}}</view>
 							</view>
 							<!-- 转发 -->
 							<view class="forwarding icon" @click="confirmShare(index)">
@@ -92,13 +87,22 @@
 						</view>
 						
 					</view>
+					
+					<!-- 生成海报图 -->
+					<qrcode-poster ref="poster" title="海报标题"
+						subTitle="海报副标题" 
+						price="10"
+						@close = "close(index)"
+						>
+					</qrcode-poster>
+					
 					<!-- 送礼物弹出框 -->
 					<uni-popup ref="popupGifts" type="share" @change="change">
 						<uni-popup-gifts title="礼物" @select="selectgift"></uni-popup-gifts>
 					</uni-popup>
 					<!-- 评论弹出框 -->
 					<uni-popup ref="popupComments" type="share" @change="change">
-						<uni-popup-comments title="评论" @select="select"></uni-popup-comments>
+						<uni-popup-comments @changeCommentsNum="changeCommentsNum" title="评论" :videoId="videoId"  @select="select" ></uni-popup-comments>
 					</uni-popup>
 					<!-- 转发弹出框 -->
 					<uni-popup ref="popupShare" type="share" @change="change">
@@ -114,34 +118,22 @@
 
 <script>
 let timer = null;
-import userComment from '../../components/user-comment.vue'
+// 生成海报图进行转发
+import QrcodePoster from "@/components/zhangyu-qrcode-poster/zhangyu-qrcode-poster.vue"
 // 引入送礼物、评论、转发弹出框
+import userComment from '../../components/user-comment.vue'
 import uniPopupShare from '../../components/uni-popup/uni-popup-share.vue'
 import uniPopupComments from '../../components/uni-popup/uni-popup-comments.vue'
 import uniPopupGifts from '../../components/uni-popup/uni-popup-gifts.vue'
 export default {
 	data() {
 		return {
-			videoData:[{
-			        src: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hellouniapp/hello-nvue-swiper-vertical-01.mp4'
-			    },
-			    {
-			        src: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hellouniapp/hello-nvue-swiper-vertical-02.mp4'
-			    },
-			    {
-			        src: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hellouniapp/hello-nvue-swiper-vertical-03.mp4'
-			    },
-			    {
-			        src: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hellouniapp/hello-nvue-swiper-vertical-01.mp4'
-			    },
-			    {
-			        src: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hellouniapp/hello-nvue-swiper-vertical-02.mp4'
-			    },
-			    {
-			        src: 'https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hellouniapp/hello-nvue-swiper-vertical-03.mp4'
-			    }
-			],
+			// img:'https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2534506313,1688529724&fm=26&gp=0.jpg',
+			videoId:'',//播放视频的Id
+			videoData:[],
 			videoIndex: 0,
+			videoW:'',
+			videoH:'',
 			// vlist: videoJson,//播放视频的列表组
 			isPlay: true, //当前视频是否播放中
 			clickNum: 0, //记录点击次数
@@ -149,7 +141,18 @@ export default {
 			like: false ,//判断用户是否喜欢该视频
 			show_pop:false ,//控制评论弹出层显示隐藏
 			videoContextList:'' ,//储存所有的视频区
-			focus:true  //判断是否进行关注  true 未关注  false 已关注
+			focus:true,  //判断是否进行关注  true 未关注  false 已关注
+			commentsNum:'',
+			danmu:[{
+						text: '第 1s 出现的弹幕',
+						color: '#ff0000',
+						time: 1,
+						top:10
+					},{
+						text: '第 3s 出现的弹幕',
+						color: '#ff00ff',
+						time: 1
+					}],
 		};
 	},
 	components: {
@@ -157,48 +160,123 @@ export default {
 		uniPopupShare,
 		uniPopupComments,
 		uniPopupGifts,
+		QrcodePoster
 	},
 	onLoad(option) {
-		// 当用户进行转发的时候，根据 id 判断 给用户显示相应的视频
-		console.log('onload option',option)
-		// 根据传递过来的数据，请求相应的视频，并将其赋值到列表
+		console.log('onload 进行加载 获取视频的 videoId ==》 ',option.videoId)
+		
+		// 在这里获取用户在首页点击进来的 视屏ID 用于发起请求，获取视频
+		this.videoId = option.videoId || '842c376a462548f187d8c37df8f2eab7'
+		let _this = this
 		
 		
+		// 用于显示分享到朋友圈
+		uni.showShareMenu({
+			withShareTicket: true,
+			menus: ['shareAppMessage', 'shareTimeline']
+		})
 		
-		// 根据页面传递过来的 视频index
-		// this.videoIndex = parseInt(option.index);
-		// 显示评论弹窗
-		// this.$refs.popupComments[0].open()	
+		// 获取手机屏幕大小
+		// uni.getSystemInfo({
+		// 	success: function (res) {
+		// 		console.log('获取手机屏幕大小',res.windowHeight,res.windowWidth)
+		// 		_this.videoH = res.windowHeight + 'px'
+		// 		_this.videoW = res.windowWidth + 'px'
+		// 	}
+		// });
+		
+	},
+	onShow() {
+		// this.videoId = "842c376a462548f187d8c37df8f2eab7"
+		let _this = this
+				// 当用户进行转发的时候，根据 id 判断 给用户显示相应的视频
+				// 根据传递过来的数据，请求相应的视频，并将其赋值到列表
+				
+				// 根据页面传递过来的 视频index
+				// this.videoIndex = parseInt(option.index);
+				// 显示评论弹窗
+				// this.$refs.popupComments[0].open()	
+				// this.videoData = [{src:'https://outin-f59d57597eae11ea9e5100163e1c35d5.oss-cn-shanghai.aliyuncs.com/842c376a462548f187d8c37df8f2eab7/c09881cd47414f8cadbd94b9a0f1641a-7f95544d379950865b7adbe384980872-fd.mp4?Expires=1595387276&OSSAccessKeyId=LTAI4FfD63zoqnm6ckiBFfXZ&Signature=12mN%2B0M4E%2FqK3rXNUNHa1wrtwWE%3D'}]
+				// 	_this.init()
+		// 根据页面点击后传递过来的videoID，进行播放
+				this._post("vod/getPlayInfo",{
+					"videoId":_this.videoId
+				},function(res){
+					console.log('获取进行播放的视频 res ===>', res)
+					
+					// 将返回的视频播放地址 进行赋值  而后播放
+					_this.videoData = [{src:res.data.playUrlList[0]}]
+					_this.init()
+					
+				})
 	},
 	onReady() {
-		console.log('播放 onReady')
-		this.init()
-		this.videoContext = uni.createVideoContext('myVideo0');
+		// console.log('播放 onReady')
+		
+		// this.videoContext = uni.createVideoContext('myVideo0');
 		console.log('video onready',this.videoContext)
 		// 用户点击进入后就进行播放
-		this.videoContext.play();
+		// this.videoContext.play();
+		
+		// 刷新页面
+		
+		
 	},
+	
 	// 触发页面的转发事件
 	onShareAppMessage:function(res){
 		console.log('playVideo 进行转发 设置转发内容')
+		
+	
+		
 		if (res.from === 'button') {
 			// 来自页面内转发按钮
 			console.log('按钮进行的转发',res)
 		}
 		return {
-			// title: '自定义转发标题',
-			path: `/pages/playVideo/playVideo?video_id=${123}`,
-			// imageUrl: '自定义转发图片',
-			// desc:'自定义描述'
+			title: '转发到好友和群聊',
+			path: '/pages/playVideo/playVideo?videoId=842c376a462548f187d8c37df8f2eab7',
+			imageUrl: '自定义转发图片',
+			desc:'自定义描述'
 		}
 	},
+	// 触发页面中的分享到朋友圈的功能
+	onShareTimeline:function(){
+		console.log('playVideo 进行转发 到朋友圈')
+		if (res.from === 'button') {
+			// 来自页面内转发按钮
+			console.log('按钮进行的朋友圈转发',res)
+		}
+		return {
+			title: '自定义转发标题',
+			query: `videoId=842c376a462548f187d8c37df8f2eab7`,
+			// imageUrl:'https://dss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1906469856,4113625838&fm=26&gp=0.jpg'
+		}
+	},
+	
+	
+	
 	methods: {
+		// 当海报图生成之后，关闭分享弹窗
+		close(index){
+			console.log('海报图生成 关闭分享弹窗 this.$refs.popupShare ===>',this.$refs.popupShare)
+			this.$refs.popupShare[index].close()
+		},
+		
+		// 控制页面评论数的改变
+		changeCommentsNum(num){
+			this.commentsNum = num
+		},
+		
 		// 返回上一页面
 		back(){
 			console.log('返回上一级页面')
-			uni.navigateBack({
-			    delta: 1
-			});
+			
+			// 直接跳转到作品列表
+			uni.switchTab({
+				url:"/pages/list/list"
+			})
+			
 		},
 		// 点击用户头像跳转到发布者的详情页
 		goAuthor(){
@@ -234,10 +312,12 @@ export default {
 						// this.videoContextList.push(this.$refs['myVideo' + i][0])
 						this.videoContextList.push(uni.createVideoContext('myVideo' + i, this));
 				}
+				console.log('init初始化 获取视频内容列表this.videoContextList ===> ',this.videoContextList)
 				
-				// setTimeout(() => {
-				// 		this.play(this.videoIndex)
-				// }, 200)
+				// 将第一个视频进行播放
+				this.videoContextList[0].play()
+				// 按钮状态为播放
+				this.isPlay = true
 		},
 
 		// 滑动切换
@@ -273,20 +353,6 @@ export default {
 			this.isPlay = false;
 		},
 		
-		// // 进入全屏
-		// fullScreen() {
-		// 	console.log('进入全屏');
-		// 	//获取video元素
-		// 	// var query = uni.createSelectorQuery();
-		// 	// var ctx = query.select('#myVideo');
-			
-		// 	// 获取 video 上下文 videoContext 对象
-		// 	this.videoContext = uni.createVideoContext('myVideo');
-		// 	// 进入全屏状态
-		// 	this.videoContext.requestFullScreen();
-		// },
-		
-
 		// 点击视频事件
 		handleClicked(index) {
 			console.log('点击播放第' +  index + '个视频');
@@ -332,8 +398,6 @@ export default {
 				this.clickNum = 0
 			}, 300);
 		},
-
-
 
 		// 喜欢
 		handleIsLike(index) {
@@ -387,7 +451,7 @@ export default {
 		},
 		// 控制评论弹窗
 		showPop(){
-			console.log('ref',this.$refs)
+			console.log('评论窗口 ref',this.$refs.popupComments)
 			this.$refs.popupComments[this.videoIndex].open()		
 			// 当用户打开评论窗口之后，当前视频暂停播放，关闭之后视频继续播放		
 		},
@@ -397,6 +461,14 @@ export default {
 			this.$refs.popupShare[this.videoIndex].open()
 			// 当打开转发窗口之后当前视频暂停，取消之后视频继续播放		
 		},
+		//分享海报
+		sharePoster(){
+			//获取带参数二维码
+			this.is_show_model = false
+			
+			// 将要在海报图中进行绘制的二维码传送过去
+			this.$refs.poster[0].showCanvas('https://oss.zhangyubk.com/cmqrcode.jpg')
+		},
 		/**
 		 * 转发时选择内容
 		 */
@@ -405,9 +477,12 @@ export default {
 			// 	title: `您选择了第${e.index+1}项：${e.item.text}`,
 			// 	icon: 'none'
 			// })
-		console.log('进行转发')
-			this.$refs.popupShare[this.videoIndex].open()
-			done()
+			console.log('进行转发 生成海报图分享')
+			// 生成海报图进行分享
+			this.sharePoster()
+			
+			
+			
 		},
 		
 		// 点击红心喜欢该视频
@@ -423,18 +498,22 @@ export default {
 			
 			let ctx = this.videoContextList[this.videoIndex]
 			
+			console.log('获取视频播放 videoContextList',this.videoContextList)
+			
 			// 当弹窗消失之后自动对视频进行播放
 			if(e.show){
 				// 当弹窗进行显示之后暂停当前视频
 				this.isPlay = false
+				console.log('弹窗显示 暂停视频 isPlay ==》',this.isPlay)
 				ctx.pause();
 			}else{
 				this.isPlay = true
 				ctx.play();
-				if(e.type == 'share'){
-					// console.log('share 类型')
-					this.isPlay = false
-				}
+				console.log('弹窗隐藏 播放视频 isPlay ==》',this.isPlay)
+				// if(e.type == 'share'){
+				// 	// console.log('share 类型')
+				// 	this.isPlay = false
+				// }
 			}
 			
 		},
@@ -455,6 +534,8 @@ export default {
 
 <style lang="less">
 .playVideo {
+	// width: 100%;
+	// height: 100%;
 	position: fixed;
 	top: 0;
 	left: 0;

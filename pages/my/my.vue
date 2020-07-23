@@ -1,17 +1,42 @@
 <template>
 	<view>
 		<view class="my">
-		  <view class="head height">
-		    <view class="user_img" @click="jump">
+			<view class="head height">
+				<view class="userImg" @click="jump">
 					<image :src="user_img" mode=""></image>
-				 </view>
-		    <view class="user_name">
-		      {{user_name || '昵称' }}
-		    </view>
-		    <view class="user_id">
-		      ID：{{ userMsg.user_id || '暂无' }}
-		    </view>
-		  </view>
+				</view>
+				<view class="right">
+					
+					<view class="right_uname" >
+						<view class="user_name" @click="jump">
+							{{user_name || '昵称' }}
+						</view>
+						<button v-if="!user_phone" type="default" hover-class="none" open-type="getPhoneNumber" @getphonenumber="decryptPhoneNumber">绑定手机号</button>
+						<view v-else style="color:#838383 ;" >已绑定</view>
+						<view v-else class="user_phone">15930245253</view>
+					</view>
+					
+					<view class="box">
+						<!-- 关注 -->
+						<view class="focus t_c" @click="goFans">
+							<view class="">1</view>
+							<view class="">关注</view>
+						</view>
+						<!-- 粉丝 -->
+						<view class="fans t_c" @click="goFans">
+							<view class="">1.6万</view>
+							<view class="">粉丝</view>
+						</view>
+						<!-- 获赞与收藏 -->
+						<view class="collection t_c">
+							<view class="">24.3万</view>
+							<view class="">获赞与收藏</view>
+						</view>
+					</view>
+					
+					
+				</view>
+			</view>
 		
 		  <view class="content height">
 		    <view class="list">
@@ -96,6 +121,7 @@
 				// 用户信息显示
 				user_img:'', //用户头像
 				user_name:'',//用户名
+				user_phone:'' //用户手机
 			};
 		},
 		components:{
@@ -120,13 +146,44 @@
 			uni.hideLoading();
 		},
 		onShow() {
-			console.log('onshow')
 			// 获取用户名
 			this.user_name = uni.getStorageSync('user_name')
 			// 获取头像
-			this.user_img = uni.getStorageSync('user_img')
+			this.user_img = uni.getStorageSync('user_img') || '/static/avatarUrl.png'
+			// 获取用户手机
+			this.user_phone = uni.getStorageSync('user_phone')
+			// console.log('my界面  onshow',uni.getStorageSync('user_name'))
 		},
 		methods:{
+			// 获取用户的手机号进行手机绑定
+			decryptPhoneNumber(res){
+				let _this = this
+				// console.log('绑定手机号 encryptedData ==> ',res.detail.encryptedData)
+				// console.log('绑定手机号 iv ==> ',res.detail.iv)
+				
+				// 进行手机号绑定
+				this._post("auth/bindPhone",{
+					"encryptedData":res.detail.encryptedData,
+					"iv":res.detail.iv
+				},function(res){
+					console.log('绑定手机号 res',res);
+					
+					// 结果成功，将页面中的绑定手机号显示为用户手机，并加以保密 ***
+						// 绑定手机号成功，进行本地存储
+						wx.setStorageSync('user_phone', res.data.phone);
+						_this.user_phone = res.data.phone
+				})
+				
+				
+			},
+			// 跳转查看关注、粉丝
+			goFans(){
+				console.log('跳转到粉丝列表')
+				// 当进行跳转的时候将，作者的关注列表以及粉丝列表传递过去
+				uni.navigateTo({
+					url:`/pages/fansList/fansList?list=${3}`
+				})
+			},
 			//滑动切换导航
 			tabChange(e){
 			  this.tabIndex = e.detail.current
@@ -164,14 +221,15 @@
 						success:function(res){
 							if (res.confirm) {
 								console.log('用户点击确定');
-								// 用户确认退出登录，删除本地用户登录的信息
-									// 删除内部的值
+								// 发起 退出请求
+								_this._post("auth/logout",{},function(res){
+									console.log('用户进行退出操作',res);
+									// 如果返回成功，清除本地缓存，并跳转到首页
+									uni.clearStorageSync()
 									_this.user_name = ''
 									_this.user_img = ''
-									// 删除本地缓存
-									uni.removeStorageSync('user_name')
-									uni.removeStorageSync('user_img')
-								
+									
+								})
 							} else if (res.cancel) {
 								console.log('用户点击取消');
 								// 不进行操作弹出框取消即可
@@ -187,63 +245,8 @@
 			close(num){
 				// console.log('关闭')
 				this.$refs.popup_user.close()
-				this.$refs.popup_video.close()
+				// this.$refs.popup_video.close()
 			},
-			
-			// 获取用户的信息  暂时用不到，
-			// 逻辑：跳转到手机登录页面，进行登录然后将返回的信息进行本地存储，在my 页面再次显示时，获取信息
-			getUserMsg(){
-				let _this = this
-				// 获取用户信息
-				uni.getUserInfo({
-				    // 获取信息成功
-				    success(res) {
-				        console.log('请求成功',res);
-								// 获取个人昵称、头像、ID
-								let userMsg = {
-									userName:res.userInfo.nickName,
-									userImg:res.userInfo.avatarUrl
-								}
-								_this.userMsg = userMsg
-								// 进行本地存储
-								uni.setStorage({
-								    key: 'userMsg',
-								    data: JSON.stringify(userMsg),
-								    success: function () {
-								        console.log('success');
-								    }
-								});
-				        // 成功后进行登录,获取code
-				        uni.login({
-				          success (res) {
-				             console.log('成功登录',res);
-				            if (res.code) {
-				              //发起网络请求 请求个人信息
-				              // uni.request({
-				              //   // 请求路径
-				              //   url: 'https://test.com/onLogin',  
-				              //   // 请求参数code
-				              //   data: {
-				              //     code: res.code
-				              //   },
-				              //   method: 'GET',
-				              //   success(res){
-				              //       // 请求成功后获取openid和session_key
-				              //       console.log(res)
-				              //   }
-				              // })
-				            } else {
-				              console.log('登录失败！' + res.errMsg)
-				            }
-				          }
-				        })
-				    },
-				    fail() {
-				        console.log("获取用户信息失败");
-				    }
-				})
-			},
-		
 			// 跳转到注册页
 			jump(){
 				console.log('跳转页面')
@@ -256,9 +259,6 @@
 </script>
 
 <style lang="less">
-	
-	
-	
 	.pop{
 		.imgBox{
 			width: 100%;
@@ -272,42 +272,76 @@
 			}
 		}
 	}
+	
+	// button
+	button{
+		height: 61.86rpx;
+		width: 122.13rpx;
+		line-height: 79.13rpx;
+		color: white;
+		border-radius: 40rpx;
+		overflow: hidden;
+		margin: 0;
+		font-size: 11px;
+		padding: 0;
+		text-align: end;
+		color:#838383 ;
+	}
+	button::after{
+		border: none;
+	}
 	.my{
 	  background-color: #f6f6f6;
 	  box-sizing: border-box;
 		color: black;
-	  .head{
-	    color: white;
-	    font-size: 30rpx;
-	    display: flex;
-	    align-items: center;
-	    flex-direction: column;
+		.head{
+			display: flex;
 			box-sizing: border-box;
-	    padding-top: 64rpx;
-	    // 花个半圆
-	    width: 750rpx;
-	    height: 310.47rpx;
-	    background-image: linear-gradient(to right, #3d1c9e , #7255a5);
-	    border-radius:0 0 750rpx 750rpx ;
-	    .user_img{
-	      width: 120rpx;
-	      height: 120rpx;
-	      background-color: white;
-	      border-radius: 50%;
+			padding: 20rpx 40rpx;
+			.userImg{
+				width: 150rpx;
+				height: 150rpx;
+				border-radius: 50%;
+				overflow: hidden;
 				image{
 					width: 100%;
 					height: 100%;
-					border-radius: 50%;
 				}
-	    }
-	    .user_name{
-	      margin-top: 20rpx;
-	    }
-	  }
+			}
+			.right{
+				width: 77%;
+				margin-left: 30rpx;
+				.box{
+					width: 70%;
+					font-size: 28rpx;
+					display: flex;
+					margin-top: 10rpx;
+					justify-content: space-evenly;
+					align-items: center;
+					color: #5e5e5e;
+				}
+				.right_uname{
+					margin-left: 20rpx;
+					display: flex;
+					align-items: flex-end;
+					.user_name{
+						margin-right: 20rpx;
+						font-size: 41rpx;
+						font-weight: bolder;
+						color: #838383;
+					}
+					.user_phone{
+						color: #838383;
+					}
+				}
+			}
+		}
+		
+		
+		// 内容区样式
 	  .content{
 	    box-sizing: border-box;
-	    padding: 40rpx;
-			padding-bottom: 10rpx;
+	    padding: 0 40rpx 10rpx;
 			font-size: 30rpx;
 	    .list{
 	      width: 100%;

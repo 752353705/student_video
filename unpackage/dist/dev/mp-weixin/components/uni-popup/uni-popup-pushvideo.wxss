@@ -90,9 +90,17 @@
   color: white;
   font-size: 30rpx;
   box-shadow: 8px 4px 4px #e9a631;
+  position: relative;
 }
 .uni-popup-message .uni-popup-message-text .content .video.data-v-f9b63490 {
   width: 100%;
+}
+.uni-popup-message .uni-popup-message-text .content .img.data-v-f9b63490 {
+  position: absolute;
+  width: 40rpx;
+  height: 40rpx;
+  top: -12rpx;
+  right: -10rpx;
 }
 .uni-popup-message .uni-popup-message-text .btn.data-v-f9b63490 {
   width: 181.22rpx;

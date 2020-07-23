@@ -15,50 +15,84 @@
   height: 62.5rpx;
   margin-top: 20rpx;
 }
+button {
+  height: 61.86rpx;
+  width: 122.13rpx;
+  line-height: 79.13rpx;
+  color: white;
+  border-radius: 40rpx;
+  overflow: hidden;
+  margin: 0;
+  font-size: 11px;
+  padding: 0;
+  text-align: end;
+  color: #838383;
+}
+button::after {
+  border: none;
+}
 .my {
   background-color: #f6f6f6;
   box-sizing: border-box;
   color: black;
 }
 .my .head {
-  color: white;
-  font-size: 30rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
+  box-sizing: border-box;
+  padding: 20rpx 40rpx;
+}
+.my .head .userImg {
+  width: 150rpx;
+  height: 150rpx;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.my .head .userImg image {
+  width: 100%;
+  height: 100%;
+}
+.my .head .right {
+  width: 77%;
+  margin-left: 30rpx;
+}
+.my .head .right .box {
+  width: 70%;
+  font-size: 28rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  margin-top: 10rpx;
+  -webkit-box-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+          justify-content: space-evenly;
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-          flex-direction: column;
-  box-sizing: border-box;
-  padding-top: 64rpx;
-  width: 750rpx;
-  height: 310.47rpx;
-  background-image: -webkit-linear-gradient(left, #3d1c9e, #7255a5);
-  background-image: linear-gradient(to right, #3d1c9e, #7255a5);
-  border-radius: 0 0 750rpx 750rpx ;
+  color: #5e5e5e;
 }
-.my .head .user_img {
-  width: 120rpx;
-  height: 120rpx;
-  background-color: white;
-  border-radius: 50%;
+.my .head .right .right_uname {
+  margin-left: 20rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: end;
+  -webkit-align-items: flex-end;
+          align-items: flex-end;
 }
-.my .head .user_img image {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+.my .head .right .right_uname .user_name {
+  margin-right: 20rpx;
+  font-size: 41rpx;
+  font-weight: bolder;
+  color: #838383;
 }
-.my .head .user_name {
-  margin-top: 20rpx;
+.my .head .right .right_uname .user_phone {
+  color: #838383;
 }
 .my .content {
   box-sizing: border-box;
-  padding: 40rpx;
-  padding-bottom: 10rpx;
+  padding: 0 40rpx 10rpx;
   font-size: 30rpx;
 }
 .my .content .list {

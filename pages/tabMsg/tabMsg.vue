@@ -36,9 +36,9 @@
 				// 控制显示未读消息数
 				off:[40,0],
 				headMsg:[
-					{icon:'/static/tabMsee.png',msg:'赞和收藏'},
+					{icon:'/static/tabMlike.png',msg:'赞和收藏'},
 					{icon:'/static/tabMsee.png',msg:'新增关注'},
-					{icon:'/static/tabMsee.png',msg:'评论和@'},
+					{icon:'/static/tabMtalk.png',msg:'评论和@'},
 				],
 			};
 		},

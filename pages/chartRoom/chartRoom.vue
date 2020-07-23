@@ -1,51 +1,53 @@
 <template>
 	<view class="chartRoom">
 		<!-- 用户信息交流区域 采用scrollView区域渲染 -->
-		
-			<mescroll-body class="scroll" ref="mescrollRef"  @init="mescrollInit" @down="downCallback">
+		<!-- <scroll-view scroll-y="true" 
+			:style=scrollviewHigh
+			class="scroll"
+		> -->  
+		<!-- bottom="50%" -->
+		<mescroll-body class="scroll" ref="mescrollRef"  @init="mescrollInit" :down="downOption" @down="downCallback" :up="upOption">
+			<view v-if="isEnd" class="msg-end">没有更多消息了</view>
+			<view class="chartBox">
 				<!-- 接收方 在左侧显示 -->
-				<view :style=scrollviewHigh  class="chartBox">
-					<view class="chart_left" v-for="(item,index) in chartLeft" :key="index">
-						<!-- 接收方头像 -->
-						<view class="left_userimg"></view>
-						<!-- 接收消息显示 -->
-						<view class="left_msg">{{item}}</view>
+				<view class="chart_left" v-for="(item,index) in chartLeft" :key="index" >
+					<!-- 接收方头像 -->
+					<view class="left_userimg">
+						<image src="" mode=""></image>
 					</view>
-					
-					<!-- 发送方 在右侧显示 -->
-					<view class="chart_right" v-for="(item,index) in chartRight" :key="index">
-						<!-- 发送消息显示 -->
-						<view class="right_msg">{{item}}</view>
-						<!-- 发送方头像 -->
-						<view class="right_userimg">
-							<image :src="userImg" mode=""></image>
-						</view>
-						
+					<!-- 接收消息显示 -->
+					<view class="left_msg">{{item}}</view>
+				</view>
+				
+				<!-- 发送方 在右侧显示 -->
+				<view class="chart_right" v-for="(item,index) in chartRight" :key="item.id">
+					<!-- 发送消息显示 -->
+					<view class="right_msg">{{item.title}}</view>
+					<!-- 发送方头像 -->
+					<view class="right_userimg">
+						<image :src="rightUserImg" mode=""></image>
 					</view>
 				</view>
-			</mescroll-body>
+			</view>
+		</mescroll-body>
+		<!-- </scroll-view> -->
 	
 		
 		<!-- 输入框 -->
 		<view class="input_box height"
-			:style="inputBottom"
+			:style=inputBottom
 		>
 			<!-- 输入框 -->
 			<input class="uni-input"  
 				cursor-spacing="10"
 				type="text" :value="sendVal" 
 				placeholder="发消息..."
-				@focus="foc"
-				@blur="blur"
 				@input="input"
 				@keyboardheightchange="keyWord"
 				@confirm="end" 
 				:adjust-position="false"
 				:hold-keyboard="false"	
 			/>
-		<!-- 	<view class="uni-input input" @click="foc">
-				发信息...
-			</view> -->
 			<!-- 表情选择框 -->
 			<view class="expression border" @click="showExp">
 				<image src="../../static/chartExpress.png" mode="aspectFit"></image>
@@ -60,6 +62,7 @@
 			</view>
 		</view>
 		
+		
 		<!-- 显示选择图片 和 表情  -->
 	<!-- 	<view class="choose">
 			图片和表情
@@ -69,29 +72,29 @@
 		
 		<!-- 弹出框 用户点击添加按钮 可以从相册选取图片 -->
 		<!-- <uni-popup :selfMask="selfMask" ref="popupChart" type="share" @change="change">
-			<uni-popup-chart :inputBottom="inputBottom" title="评论" 
-				@select="select" @send="send" 
-				@keyWord="keyWord"
-			/>
+			<uni-popup-chart title="评论" @select="select"></uni-popup-chart>
 		</uni-popup> -->
 		
 	</view>
 </template>
 
 <script>
+	import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
+	import { apiMsgList } from '@/API/mock.js';
 	// 导入 发送图片的弹框
-	import uniPopupChart from '../../components/uni-popup/uni-popup-chart.vue'
+	// import uniPopupChart from '../../components/uni-popup/uni-popup-chart.vue'
 	export default {
+		mixins: [MescrollMixin],
 		data() {
 			return {
-				// 聊天发送方头像
-				userImg:'',
-				
 				// 判断是否显示表情和发送本机图片
 				show_exp:false,
 				show_img:false,
-				sendVal:'',
+				// 用户的头像
+				rightUserImg:'',
 				
+				
+				sendVal:'',
 				chartLeft:[],
 				chartRight:[],
 				scrollviewHigh:'',//滚动区域的高度
@@ -107,11 +110,29 @@
 				// 控制input框的高度
 				inputBottom:'',
 				// 控制自定义表情图片的高度
-				showHeight:''
+				showHeight:'',
+				
+				
+				// 滚动组件
+				downOption: {
+					autoShowLoading: true, // 显示下拉刷新的进度条
+					minAngle: 70, // 增大触发下拉刷新的角度
+					textColor: '#000000' // 下拉刷新的文本颜色
+				},
+				upOption: {
+					use: false, // 禁止上拉
+					toTop: {
+						src: '' // 不显示回到顶部按钮
+					}
+				},
+				pageNum: 1, // 页码
+				pageSize: 10, // 页长
+				isEnd: false, // 是否无消息
+				msgList: [],
 			};
 		},
 		components:{
-			uniPopupChart
+			// uniPopupChart
 		},
 		onLoad() {
 			// this.$refs.popupChart.open()
@@ -121,15 +142,8 @@
 			});
 			
 			// 获取发送方的头像
-			let _this = this
-			// console.log('挂载')
-			uni.getStorage({
-			    key: 'user_img',
-			    success: function (res) {
-			        // console.log('赋值 user_img',res);
-							_this.userImg = res.data
-			    }
-			});
+			this.rightUserImg = uni.getStorageSync('user_img')
+			
 		},
 		onReady() {
 			let _this = this
@@ -151,147 +165,78 @@
 			});
 		},
 		methods:{
-			// 处理mescroll 上拉加载下拉刷新
-			// 控制测试的视频列表
-			/*mescroll组件初始化的回调,可获取到mescroll对象 (此处可删,mixins已默认)*/
-			mescrollInit(mescroll) {
-				this.mescroll = mescroll;
+			/*下拉刷新的回调 */
+			downCallback() {
+				// 在这里发起网络请求，用于获取聊天记录
+				console.log('进行下拉请求，请求原先的聊天记录');
+			
+				//联网加载数据
+				apiMsgList(this.pageNum, this.pageSize)
+					.then(data => {
+						console.log('下拉请求的数据 data ==》',data)
+						// 需自行维护页码
+						this.pageNum++;
+						// 先隐藏下拉刷新的状态
+						this.mescroll.endSuccess();
+						// 不满一页,说明已经无更多消息 (建议根据您实际接口返回的总页码数,总消息量,是否有消息的字段来判断)
+						if (data.length < this.pageSize) {
+							this.isEnd = true; // 标记已无更多消息
+							this.mescroll.lockDownScroll(true); // 锁定下拉
+						}
+						// 生成VIEW_ID,大写,避免污染源数据
+						data.forEach(val => {
+							val.VIEW_ID = 'msg' + val.id; // 不以数字开头
+						});
+			
+						// 获取当前最顶部的VIEW_ID (注意是写在data.concat前面)
+						let topMsg = this.msgList[0];
+			
+						//设置列表数据
+						console.log("下拉获取数据 data",data,"this.msgList")
+						// 判断是那个用户的消息，将其放入相应的列表
+						this.chartRight = data.concat(this.chartRight); // 注意不是this.msgList.concat
+			
+						// 控制聊天的消息界面的滚动
+						// this.$nextTick(() => {
+						// 	if (this.pageNum <= 2) {
+						// 		// 第一页直接滚动到底部 ( this.pageNum已在前面加1 )
+						// 		this.mescroll.scrollTo(99999, 0);
+						// 	} else if (topMsg) {
+						// 		// 保持顶部消息的位置
+						// 		let view = uni.createSelectorQuery().select('#' + topMsg.VIEW_ID);
+						// 		view
+						// 			.boundingClientRect(v => {
+						// 				console.log('节点离页面顶部的距离=' + v.top);
+						// 				this.mescroll.scrollTo(v.top - 100, 0); // 减去上偏移量100
+						// 			})
+						// 			.exec();
+						// 	}
+						// });
+						
+						
+						
+					})
+					.catch(() => {
+						this.pageNum--; // 联网失败,必须回减页码
+						this.mescroll.endErr(); // 隐藏下拉刷新的状态
+					});
 			},
-			/*下拉刷新的回调, 有三种处理方式:*/
-			downCallback(){
-				console.log('downCallback 下拉刷新')
-				// this.mescroll.endSuccess()
-				// 第1种: 请求具体接口
-				// uni.request({
-				// 	url: 'xxxx',
-				// 	success: () => {
-				// 		// 请求成功,隐藏加载状态
-				// 		this.mescroll.endSuccess()
-				// 	},
-				// 	fail: () => {
-				// 		// 请求失败,隐藏加载状态
-				// 		this.mescroll.endErr()
-				// 	}
-				// })
-				// 第2种: 下拉刷新和上拉加载调同样的接口, 那么不用第1种方式, 直接mescroll.resetUpScroll()即可
-				// this.mescroll.resetUpScroll(); // 重置列表为第一页 (自动执行 page.num=1, 再触发upCallback方法 )
-				// 第3种: 下拉刷新什么也不处理, 可直接调用或者延时一会调用 mescroll.endSuccess() 结束即可
-				setTimeout(()=>{
-					this.mescroll.endSuccess()
-				},3000)
-				
-				
-				// 此处仍可以继续写其他接口请求...
-				// 调用其他方法...
-			},
-			/*上拉加载的回调*/
-			upCallback(page) {
-				console.log('upCallback 上拉加载')
-				// let pageNum = page.num; // 页码, 默认从1开始
-				// let pageSize = page.size; // 页长, 默认每页10条
-				// uni.request({
-				// 	url: 'xxxx?pageNum='+pageNum+'&pageSize='+pageSize,
-				// 	success: (data) => {
-				// 		// 接口返回的当前页数据列表 (数组)
-				// 		let curPageData = data.xxx; 
-				// 		// 接口返回的当前页数据长度 (如列表有26个数据,当前页返回8个,则curPageLen=8)
-				// 		let curPageLen = curPageData.length; 
-				// 		// 接口返回的总页数 (如列表有26个数据,每页10条,共3页; 则totalPage=3)
-				// 		let totalPage = data.xxx; 
-				// 		// 接口返回的总数据量(如列表有26个数据,每页10条,共3页; 则totalSize=26)
-				// 		let totalSize = data.xxx; 
-				// 		// 接口返回的是否有下一页 (true/false)
-				// 		let hasNext = data.xxx; 
-						
-				// 		//设置列表数据
-				// 		if(page.num == 1) this.dataList = []; //如果是第一页需手动置空列表
-				// 		this.dataList = this.dataList.concat(curPageData); //追加新数据
-						
-				// 		// 请求成功,隐藏加载状态
-				// 		//方法一(推荐): 后台接口有返回列表的总页数 totalPage
-				// 		this.mescroll.endByPage(curPageLen, totalPage); 
-						
-				// 		//方法二(推荐): 后台接口有返回列表的总数据量 totalSize
-				// 		//this.mescroll.endBySize(curPageLen, totalSize); 
-						
-				// 		//方法三(推荐): 您有其他方式知道是否有下一页 hasNext
-				// 		//this.mescroll.endSuccess(curPageLen, hasNext); 
-						
-				// 		//方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.
-				// 		//如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据
-				// 		//如果传了hasNext,则翻到第二页即可显示无更多数据.
-				// 		//this.mescroll.endSuccess(curPageLen);
-						
-				// 		// 如果数据较复杂,可等到渲染完成之后再隐藏下拉加载状态: 如
-				// 		// 建议使用setTimeout,因为this.$nextTick某些情况某些机型不触发
-				// 		setTimeout(()=>{
-				// 			this.mescroll.endSuccess(curPageLen)
-				// 		},20)
-						
-				// 		//curPageLen必传的原因:
-				// 		// 1. 使配置的noMoreSize 和 empty生效
-				// 		// 2. 判断是否有下一页的首要依据: 
-				// 		// 	 当传的值小于page.size时(说明不满页了),则一定会认为无更多数据;
-				// 		// 	 比传入的totalPage, totalSize, hasNext具有更高的判断优先级;
-				// 		// 3. 当传的值等于page.size时(满页),才取totalPage, totalSize, hasNext判断是否有下一页
-				// 		// 传totalPage, totalSize, hasNext目的是避免方法四描述的小问题
-						
-				// 		// 提示: 您无需额外维护页码和判断显示空布局,mescroll已自动处理好.
-				// 		// 当您发现结果和预期不一样时, 建议再认真检查以上参数是否传正确
-				// 	},
-				// 	fail: () => {
-				// 		//  请求失败,隐藏加载状态
-				// 		this.mescroll.endErr()
-				// 	}
-				// })
-				
-				// 此处仍可以继续写其他接口请求...
-				// 调用其他方法...
-			},
-			
-			
-			
-			
 			
 			
 			// 当进行点击发送之后
 			send(){
-				// console.log('发送消息',this.sendVal)
-				
-				this.inputHeight = 0
-				// console.log('储存',this.sendVal)
+				console.log('发送消息',this.sendVal)
+				this.inputBottom = 0
 				// 将发送方的消息储存到 chartRight
 				this.chartRight.push(this.sendVal)
-				// console.log('储存后 chartRight',this.chartRight)
 				// 然后清空输入框内容
 				this.sendVal = ''
-				// 高度降下
-				this.inputBottom = "bottom:" + 0 + 'px'
 			},
 			// 当用户进行输入
 			input(e){
-				// console.log('用户输入',e.detail.value)
+				console.log('用户输入',e.detail.value)
 				// 储存用户输入值
 				this.sendVal = e.detail.value
-				
-				// console.log('输入完',this.sendVal)
-			},
-			
-	// 调控底部自定义的表情选框
-			// input框聚焦
-			foc(e){
-				// console.log('chart 聚焦')
-				//设置键盘抬起的高度
-				console.log('e',e.detail.height)
-				this.inputBottom = "bottom:" + e.detail.height + 'px'
-				// 弹出聊天框
-				// this.$refs.popupChart.open()
-			},
-			blur(){
-				// console.log('失焦')
-				// 点击页面小键盘关闭，输入框高度调整
-				this.inputBottom = "bottom:" + 0 + 'px'
-				// this.sendVal = ''
 			},
 			// 显示表情选择框
 			showExp(){
@@ -307,8 +252,9 @@
 			// 监控键盘高度的变化
 			keyWord(e){
 				console.log('键盘高度变化',e.detail.height)
+				//设置键盘抬起的高度
 				this.inputBottom = "bottom:" + e.detail.height + 'px'
-				// this.showHeight = "height:" + val + 'px'
+				this.showHeight = "height:" + e.detail.height + 'px'
 			},
 			end(e){
 				console.log('点击完成时触发',e.detail)
@@ -340,14 +286,14 @@
 
 <style lang="less">
 	.chartRoom{
-		background-color: #f6f6f6;
-		position: fixed;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
+		// background-color: #f6f6f6;
+		// position: fixed;
+		// top: 0;
+		// left: 0;
+		// right: 0;
+		// bottom: 0;
 		.scroll{
-			// background-color: red;
+			background-color: red;
 			.chartBox{
 				position: sticky;
 				top: 0;
@@ -420,8 +366,6 @@
 				padding-left: 20rpx;
 				overflow:visible ;
 				position: relative;
-				// display: flex;
-				// align-items: center;
 			}
 			input::before {
 				content: " ";
@@ -452,13 +396,13 @@
 		}
 		
 		
-		.choose{
-			position: absolute;
-			bottom: 0;
-			width: 100%;
-			height: 227px;
-			background-color: yellow;
-		}
+		// .choose{
+		// 	position: absolute;
+		// 	bottom: 0;
+		// 	width: 100%;
+		// 	height: 227px;
+		// 	background-color: yellow;
+		// }
 		
 		// 表情选择框
 		// .send_user_expression{

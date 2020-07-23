@@ -157,7 +157,6 @@
 			height: 150rpx;
 			background-color: yellow;
 			border-radius: 50%;
-			
 		}
 		.right{
 			width: 77%;

@@ -1,0 +1,51 @@
+.shop {
+  box-sizing: border-box;
+  padding: 0 20rpx;
+}
+.shop .searchBox {
+  width: 100%;
+  height: 80rpx;
+  background-color: white;
+  padding: 20rpx 0;
+  position: -webkit-sticky;
+  position: sticky;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.shop .searchBox .serach {
+  background-color: #cbcbcf;
+  border-radius: 33rpx;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  color: #453a74;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
+.shop .searchBox .serach image {
+  width: 40rpx;
+  height: 40rpx ;
+  margin-right: 13rpx;
+}
+.shop .searchBox .tab_fenlei {
+  margin-left: 18rpx;
+}
+.shop .searchBox .tab_fenlei image {
+  width: 48rpx;
+  height: 48rpx;
+}
+

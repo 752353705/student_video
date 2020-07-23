@@ -1,7 +1,8 @@
 {
-  "navigationBarTitleText": "作品列表",
+  "navigationStyle": "custom",
   "usingComponents": {
     "mescroll-empty": "/components/mescroll-uni/components/mescroll-empty",
-    "wfalls-flow": "/components/wfallsflow"
+    "wfalls-flow": "/components/wfallsflow",
+    "swiper-tab-head": "/components/swiper-tab-head"
   }
 }

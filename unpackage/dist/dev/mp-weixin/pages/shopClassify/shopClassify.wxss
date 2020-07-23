@@ -1,0 +1,64 @@
+/* 搜索框 */
+.index-search-box {
+  padding: 13rpx 13rpx 18rpx 13rpx;
+}
+.index-search-box .index-search {
+  border-bottom: 0;
+  background: #f7f7f7;
+  border-radius: 50rpx;
+  overflow: hidden;
+  position: relative;
+  font-size: 28rpx;
+  color: #4a4a4a;
+  box-sizing: border-box;
+  line-height: 64rpx;
+  text-align: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.content {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.content .left_scroll {
+  width: 154rpx;
+  height: 840rpx;
+  background-color: #F7F7F7;
+}
+.content .left_scroll .type-nav {
+  width: 154rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+}
+.content .left_scroll .act {
+  background: #fff;
+  color: #ff495e;
+  border-right: none;
+  font-size: 28rpx;
+}
+.content .right_scroll {
+  height: 920rpx;
+}
+.content .right_scroll .shop_item {
+  float: left;
+  height: 231rpx;
+  width: 195rpx;
+  text-align: center;
+}
+.content .right_scroll .shop_item .img {
+  padding: 13rpx 10rpx 4rpx 10rpx;
+}
+.content .right_scroll .shop_item .img image {
+  width: 100%;
+  height: 150rpx;
+}
+

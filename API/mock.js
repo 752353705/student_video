@@ -74,6 +74,7 @@ export function apiGoods(pageNum, pageSize, isGoodsEdit) {
 
 // 搜索商品
 export function apiSearch(pageNum, pageSize, keyword) {
+	console.log('搜索商品  上拉发送请求')
 	return new Promise((resolute, reject)=>{
 		//延时一秒,模拟联网
 		setTimeout(()=> {

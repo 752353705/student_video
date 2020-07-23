@@ -64,9 +64,9 @@
 }
 .listPage .searchBox.data-v-7d5e07c6 {
   width: 100%;
-  height: 80rpx;
+  height: 77rpx;
   background-color: white;
-  padding: 20rpx 0;
+  padding: 50rpx 0 20rpx 0;
   position: -webkit-sticky;
   position: sticky;
   z-index: 10;
@@ -76,7 +76,7 @@
 .listPage .searchBox .serach.data-v-7d5e07c6 {
   background-color: #cbcbcf;
   border-radius: 33rpx;
-  width: 100%;
+  width: 69%;
   height: 100%;
   text-align: center;
   color: #453a74;

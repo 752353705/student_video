@@ -93,14 +93,14 @@
 			// 用户点击小键盘上的 回车按钮 也会触发
 			search(e){
 				let _this = this
-				// console.log('进行搜索记录 ',e)
+				console.log('进行搜索记录 ',this.val !== '' && this.val.trim())
 				//判断是点击历史记录来进行搜索的还是通过输入来进行的
 				if(e.target.dataset.val){
 					console.log('点击的历史记录',e.target.dataset.val)
 					// 进行页面的挑战 传递参数
-					// uni.navigateTo({
-					// 	url:"/pages/findList/findList"
-					// })
+					uni.navigateTo({
+						url:`/pages/findList/findList?kw=${e.target.dataset.val}`
+					})
 					
 					
 				}else if(this.val !== '' && this.val.trim()){
@@ -122,17 +122,11 @@
 					})
 					
 					// 进行页面的挑战 传递参数
-					// uni.navigateTo({
-					// 	url:"/pages/findList/findList"
-					// })
+					uni.navigateTo({
+						url:"/pages/findList/findList"
+					})
 					
 				}
-				
-				// 进行页面的跳转
-				uni.navigateTo({
-					url:"/pages/findList/findList"
-				})
-				
 			},
 		}
 	}

@@ -4,12 +4,24 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": false
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"preloadBackgroundData": false,
+		"minified": true,
+		"newFeature": true,
+		"autoAudits": false,
+		"coverView": true,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
+		"useCompilerModule": true
 	},
 	"compileType": "miniprogram",
 	"libVersion": "",
-	"appid": "wx15787d9dfeab4b4a",
+	"appid": "wxd568924fb2698a50",
 	"projectname": "student_video",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,

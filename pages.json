@@ -7,7 +7,9 @@
         {
             "path" : "pages/list/list",
             "style" : {
-							"navigationBarTitleText" : "作品列表"
+							"navigationStyle" : "custom"
+							// "navigationBarTitleText" : "作品列表"
+							
             }
         },
         {
@@ -24,7 +26,9 @@
         },
         {
             "path" : "pages/reg/reg",
-            "style" : {}
+            "style" : {
+							"navigationBarTitleText" : "账号登录"
+						}
         },
         {
             "path" : "pages/playVideo/playVideo",
@@ -46,7 +50,9 @@
         }
         ,{
             "path" : "pages/login/login",
-            "style" : {}
+            "style" : {
+							"navigationBarTitleText" : "登录"
+						}
         }
         ,{
             "path" : "pages/author/author",
@@ -89,6 +95,24 @@
 				    "path" : "pages/publish/publish",
 				    "style" : {}
 				}
+        ,{
+            "path" : "pages/seekWord/seekWord",
+            "style" : {
+							"navigationBarTitleText" : "密码重置"
+						}
+        }
+        ,{
+            "path" : "pages/signIn/signIn",
+            "style" : {
+							"navigationBarTitleText" : "注册"
+						}
+        }
+        ,{
+            "path" : "pages/shopClassify/shopClassify",
+            "style" : {
+							"navigationBarTitleText" : "分类"
+						}
+        }
     ],
     "globalStyle" : {
         "navigationBarTextStyle" : "black",

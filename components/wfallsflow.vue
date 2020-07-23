@@ -4,10 +4,19 @@
 			
 			<view class="item" v-for="(item,index) of list.list" :key="index" >
 				
+				<!-- 视频封面 -->
 				<u-lazy-load @load="handleViewRender(listIndex,index)" 
 					@error="handleViewRender(listIndex,index)" :image="item.image"
-					@click="jumpFind">
+					@click="jumpVideo(videoId)">
 				</u-lazy-load>   
+				
+				<!-- 上传视频的简单的简介 -->
+				<view class="introduction">
+					 介视频简介视频简介视频简介视频简介视频简介视频简介
+				</view>
+				
+				
+				<!-- 用户的 头像以及点赞数 -->
 				<view class="item_foot">
 					<view class="left">
 						<view class="user_img">
@@ -28,8 +37,8 @@
 						</view>
 					</view>
 				</view>
+				
 			</view>
-			
     </view>
 	</view>
 </template>
@@ -84,11 +93,11 @@
 						// })
 				}).exec()
 			},
-			jumpFind(e){
+			jumpVideo(videoId){
 				console.log('瀑布流跳转')
-				// 根据点击的id进行跳转到视频播放页面
+				// 根据点击的id进行跳转到视频播放页面  用来传递每一个视频的 videoId
 				uni.navigateTo({
-					url: "/pages/playVideo/playVideo"
+					url: "/pages/playVideo/playVideo?videoId=" + '842c376a462548f187d8c37df8f2eab7'
 				});
 			},
 		},
@@ -121,11 +130,33 @@
 						display: block;
 						width :100%;
 					}
+					
+					// 上传视频的 用户简介
+					.introduction{
+						width: 100%;
+						height: 90rpx;
+						box-sizing: border-box;
+						padding: 10rpx 20rpx;
+						line-height: 43rpx;
+						// 首行缩进
+						// text-indent: 2em;
+						// 最多两行，超出省略号显示
+						display:-webkit-box;
+						overflow:hidden;
+						text-overflow:ellipsis;
+						word-break: break-all;
+						-webkit-box-orient:vertical;
+						-webkit-line-clamp:2;
+					}
+					
+					// 上传视频的 用户个人信息
 					.item_foot{
 					  width: 100%;
 					  height: 50rpx;
 					  display: flex;
-					  justify-content:space-evenly;
+					  justify-content:space-between;
+						box-sizing: border-box;
+						padding: 0rpx 20rpx;
 					  align-items: center;
 					  margin-top: 15rpx;
 					  color: #bebbc4;

@@ -20,7 +20,7 @@
   color: #333;
 }
 .container .wechatapp.login {
-  padding: 212rpx 0 68rpx;
+  padding: 87rpx 0 68rpx;
   margin-bottom: 100rpx;
   border-bottom: 0.5rpx solid #dfdfdf;
 }
@@ -52,11 +52,19 @@
   color: #9b9b9b;
   background: #ededed;
 }
-.btn.login {
+.btn.login_wei {
+  margin-top: 83rpx;
   margin-right: 0;
   color: white;
   border: none;
   background: #f83f20;
+}
+.btn.login_phone {
+  margin-top: 72rpx;
+  margin-right: 0;
+  color: white;
+  border: none;
+  background: #838180;
 }
 .btn.login::after {
   display: none;
@@ -73,5 +81,4 @@
   line-height: 1;
   color: #999;
 }
-/* invite */
 

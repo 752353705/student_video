@@ -1,0 +1,112 @@
+.seekWord {
+  color: black;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.seekWord .act {
+  background-image: -webkit-linear-gradient(left, #421ea2, #7352ad);
+  background-image: linear-gradient(to right, #421ea2, #7352ad);
+}
+.seekWord .form {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  margin-top: 180rpx;
+}
+.seekWord .form .input_box {
+  position: relative;
+  width: 638.19rpx;
+  height: 75.69rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: start;
+  -webkit-justify-content: start;
+          justify-content: start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  margin-bottom: 37rpx;
+  box-sizing: border-box;
+  padding-top: 6px;
+}
+.seekWord .form .input_box input {
+  width: 100%;
+  height: 100%;
+}
+.seekWord .form .input_box::after {
+  content: " ";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: #d6d6d6;
+  -webkit-transform: scaleY(0.5);
+          transform: scaleY(0.5);
+}
+.seekWord .form .verification {
+  width: 638.19rpx;
+  border: none;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+}
+.seekWord .form .verification .ver_num {
+  width: 200rpx;
+  position: relative;
+}
+.seekWord .form .verification .ver_num::after {
+  content: " ";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: #d6d6d6;
+  -webkit-transform: scaleY(0.5);
+          transform: scaleY(0.5);
+}
+.seekWord .form .verification .getNum {
+  width: 200rpx;
+  font-size: 32rpx;
+  background-color: #999ca1;
+  box-sizing: border-box;
+  padding: 10rpx 20rpx;
+  border-radius: 30rpx;
+  text-align: center;
+}
+.seekWord .form image {
+  margin-right: 10rpx;
+  width: 40rpx;
+  height: 40rpx;
+}
+.seekWord .form button {
+  height: 80.86rpx;
+  width: 320.13rpx;
+  line-height: 79.13rpx;
+  background-color: gray;
+  color: white;
+  border-radius: 40rpx;
+  overflow: hidden;
+  margin: 106rpx auto;
+}
+.seekWord .form button.act {
+  background-image: -webkit-linear-gradient(left, #421ea2, #7352ad);
+  background-image: linear-gradient(to right, #421ea2, #7352ad);
+}
+

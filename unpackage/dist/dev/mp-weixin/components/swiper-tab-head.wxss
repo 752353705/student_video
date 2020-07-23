@@ -1,6 +1,5 @@
 .uni-swiper-tab {
   width: 100%;
-  border-bottom: 1rpx solid #EEEEEE;
   -webkit-box-pack: space-evenly;
   -webkit-justify-content: space-evenly;
           justify-content: space-evenly;
@@ -26,7 +25,6 @@
   box-sizing: border-box;
   position: -webkit-sticky;
   position: sticky;
-  top: 0;
   left: 0;
   z-index: 10;
   background-color: white;

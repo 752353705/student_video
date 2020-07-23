@@ -1,5 +1,5 @@
 <template>
-    <view class="uni-tab-bar">
+    <view class="uni-tab-bar" :style="{'top':top}">
         <scroll-view class="uni-swiper-tab tab" scroll-x="true" 
 					@scroll="scroll" scroll-left="120"
 					enable-flex="true"
@@ -22,16 +22,21 @@
 <script>
 	export default {
 	        props:{
-	            tabBars:Array,
-	            tabIndex:Number,
-	            scrollStyle:{
-	                type:String,
-	                default:""
-	            },
-	            scrollItemStyle:{
-	                type:String,
-	                default:""
-	            }
+						// 粘性定位 top
+						top:{
+							type:String,
+							default:'0'
+						},
+						tabBars:Array,
+						tabIndex:Number,
+						scrollStyle:{
+							type:String,
+							default:""
+						},
+						scrollItemStyle:{
+							type:String,
+							default:""
+						}
 	        },
 	        methods:{
 	            //点击切换导航
@@ -46,7 +51,7 @@
 <style lang="less">
 	.uni-swiper-tab{
 		width: 100%;
-		border-bottom: 1rpx solid #EEEEEE;
+		// border-bottom: 1rpx solid #EEEEEE;
 		// text-align: center;
 		justify-content: space-evenly;
 		margin-bottom: 10rpx;
@@ -69,7 +74,6 @@
 		box-sizing: border-box;
 		// padding: 10rpx 10rpx;
 		position: sticky;
-		top: 0;
 		left: 0;
 		z-index: 10;
 		background-color: white;

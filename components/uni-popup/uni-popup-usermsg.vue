@@ -172,6 +172,7 @@
 				font-size: 36rpx;
 				font-weight: bolder;
 				margin-top: 40rpx;
+				margin: 20rpx auto;
 			}
 		}
 		// 个人资料的弹窗样式
