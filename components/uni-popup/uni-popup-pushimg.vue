@@ -1,32 +1,41 @@
 <template>
 	<view class="uni-popup-message">
+		<!-- 当前可以进行选择的图片个数 -->
+		<view class="shownum">
+			<text>{{count}}/9</text>
+		</view>
+		
 		<!-- 上传作品 -->	
 		<view  class="uni-popup-message-text upload" >
 			<view class="uni_head">
 				<view class="bg" >
 					<view class="tit" >
-						上传作品
+						上传图文
 					</view>
 				</view>
 			</view>
-			
-		
 			
 	<!-- 显示选择 -->
 			<view class="img_box">
+				<!-- 展示选中的图片  -->
 				<!-- 展示选中的图片 -->
-				<view class="content" v-for="(item,index) in images" :key="index">
-					<image :src="item.url" mode="aspectFit"></image>
-					<image class="img" @click="clear(index)"  src="../../static/close_video.png" mode=""></image>
-				</view>
-				<view  class="content" @click="getImg" >
-					<!-- 十字图案 -->
-					<view class="cross" ></view>
-					<view class="con_txt">
-						上传图片
+				<scroll-view  class="scroll-imgcont" scroll-x="true">
+					<view class="cont_box" :style="{width:contboxwidth}">
+						<view class="content" v-for="(item,index) in images" :key="index">
+							<image :src="item.url" mode="aspectFit"></image>
+							<image class="img" @click="clear(index)" src="../../static/close_video.png" mode=""></image>
+						</view>
+						<view v-if=" !(images.length > 8)" class="content" @click="getImg">
+							<!-- 十字图案 -->
+							<view class="cross"></view>
+							<view class="con_txt">
+								上传图片
+							</view>
+						</view>
 					</view>
-				</view>
+				</scroll-view>
 			</view>
+			<!-- <u-upload ref="uUpload" @on-uploaded="onUploaded" :action="action" :auto-upload="false" ></u-upload> -->
 
 			<textarea :show-confirm-bar="false" name="area" :value="areaVal" class="txt_area" @input='areaInput' placeholder="#输入话题" />
 			<view class="btn" @click="submitVideo">
@@ -99,17 +108,21 @@
 		inject: ['popup'],
 		data() {
 			return {
+				// 控制滚动区域距离左侧的距离
+				// scrollleft:'100rpx',
+				// 控制上传图片时 内容盒子的宽度 使其自由滚动
+				contboxwidth:'600rpx',
+				
 				// 进行上传图片的操作
 				options: {},
 				files: [],
 				images: [],
-				count: 9, // 最多可以选择的图片张数
+				count: 0, // 最多可以选择的图片张数
 				videos: [],
-				videosCount: 9, // 最多可以选择的视频数
 				
-				
-				
-				
+				// 测试上传
+				// action: 'http://www.example.com/upload',
+				filesArr: [],
 				
 				// video_src:'',
 				uploader:'',
@@ -273,6 +286,19 @@
 			
 		},
 		methods: {
+			// 测试上传
+			submit() {
+				this.$refs.uUpload.upload();
+			},
+			onUploaded(lists) {
+				this.filesArr = lists;
+			},
+			
+			// 控制滚动区域 向左进行滚动
+			
+			
+			
+			
 			// 删除当前作品
 			clear(index){
 				console.log('删除当前作品')
@@ -282,7 +308,21 @@
 				
 				// 操作数组删除选定的一项
 				this.images.splice(index,1)
-				
+				// 修改当前 可以进行选择的图片
+				this.count = this.images.length
+				if( this.count >= 2){
+					// 当选中的图片个数大于 2 之后，加宽滚动区域的宽
+					console.log('选中图片大于等于2,进行加宽')
+					this.contboxwidth = 600 + (this.count + 1) * 130 + 'rpx'
+					// 并且 滚动列表 向 做滚动
+					
+					
+					
+				}else{
+					// 当选中的图片小于 之后 页面的 宽度进行改变
+					console.log('选中图片不大于2')
+					this.contboxwidth = 600 + 'rpx'
+				}
 				console.log('删除操作之后的作品列表 ==》',this.images)
 			},
 			
@@ -308,7 +348,11 @@
 			},
 			// 获取本地拍摄的作品
 			getImg(){
-				console.log('调用接口获取本地视频')
+				console.log('调用接口获取本地图片')
+				
+				
+				
+				
 				// 调用内部接口获取拍摄的视频
 				//成功获取本地视频的地址之后，显示视频的第一帧
 				var that = this;
@@ -320,17 +364,34 @@
 				    success: function (res) {
 				
 				        var length = res.tempFilePaths.length; // 获取本次选择图片的数量
-				        count -= length;
+								// console.log('选取图片的数量 length==》',length)
+				        that.count += length;
+								// console.log('还可以选择选取图片的数量 count==》',that.count)
+								// 判断当前获取了几张图片然后动态的改变 contboxwidth滚动区域的宽，并且使其向右滚动
+								if( that.count >= 2){
+									// 当选中的图片个数大于 2 之后，加宽滚动区域的宽
+									console.log('选中图片大于等于2,进行加宽')
+									that.contboxwidth = 600 + (that.count + 1) * 130 + 'rpx'
+									// 并且 滚动列表 向 做滚动
+									
+									
+									
+								}else{
+									// 当选中的图片小于 之后 页面的 宽度进行改变
+									console.log('选中图片不大于2')
+									
+								}
+								
 				        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
 								
 								
-								console.log('获取图片',res)
+								// console.log('获取图片',res)
 								
 				        res.tempFilePaths.forEach(item => {
 				            that.images = that.images.concat({'url': item})
 				        });
 								
-								console.log('获取图片',that.images)
+								// console.log('获取图片',that.images)
 				        // that.setData({
 				        //     count: count,
 				        //     images: that.data.images
@@ -343,6 +404,11 @@
 				        })
 				    }
 				})
+				
+				
+				// console.log('当前的图片个数 count ===》',that.count)
+				
+				
 			},
 			// 获取文本域内输入的文字
 			areaInput(e){
@@ -386,6 +452,22 @@
 		flex-direction: column;
 		align-items: center;
 		overflow: auto;
+		position: relative;
+		// 显示还能够选择多少张图片
+		.shownum{
+			position: absolute;
+			top:68rpx;
+			right: 27rpx;
+			// background-color: red;
+			z-index: 50;
+			width: 65rpx;
+			height: 40rpx;
+			text-align: center;
+			line-height: 40rpx;
+			// background-image: linear-gradient(to bottom, #fed353 , #ea5c1a);
+			border-radius: 16rpx;
+		}
+		
 		.uni-popup-message-text{
 			width: 639.58rpx;
 			height: 821.52rpx;
@@ -399,6 +481,11 @@
 			flex-direction: column;
 			align-items: center;
 			overflow: hidden;
+			
+			
+			
+			// 上传作品的样式
+			// 头部
 			.uni_head{
 				box-sizing: border-box;
 				width: 80%;
@@ -426,25 +513,97 @@
 					}
 				}
 			}
+			
+			
 			.img_box{
 				width: 100%;
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: space-evenly;
-				.content{
-					color: white;
-					font-size: 30rpx;
-					box-shadow: 8px 4px 4px #e9a631;
-					position: relative;
-					.img{
-						position: absolute;
-						width: 40rpx;
-						height: 40rpx;
-						top: -14rpx;
-						right: -16rpx;
+				
+				.scroll-imgcont{
+					// box-sizing: border-box;
+					// background-color: red;
+					// padding-top: 50rpx;
+					height: 217.58rpx;
+					// white-space: nowrap;
+					// flex-wrap: nowrap;
+					// display: flex;
+					// align-items: center;
+					// position: relative;
+					.cont_box{
+						// width:1000rpx;
+						display:flex;
+						align-items: center;
+						justify-content: start;
+						.content{
+							// margin: auto;
+							margin-top: 50rpx;
+							color: white;
+							font-size: 30rpx;
+							box-shadow: 8px 4px 4px #e9a631;
+							position: relative;
+							// top: 50%;
+							// left: 200rpx;
+							// transform: translateY(-50%);
+							
+							width: 195.58rpx;
+							height: 164.58rpx;
+							background-image: linear-gradient(to bottom, #fdc453 , #f0ac65);
+							text-align: center;
+							margin-left: 20rpx;
+							// display: inline-block;
+							display: flex;
+							
+							flex-direction: column;
+							justify-content: center;
+							align-items: center;
+							border-radius: 23rpx;
+							
+							image{
+								width: 100%;
+								height: 100%;
+							}
+							
+							// 上传的十字图案
+							.cross {
+							  background: #fa452a;
+							  height: 89.58rpx;
+							  position: relative;
+							  width: 9.88rpx;
+							}
+							.cross:after {
+								 background-color: #fa452a;
+								 content: "";
+								 height: 9.88rpx;
+								 left: -37.77rpx;
+								 position: absolute;
+								 top: 39.77rpx;
+								 width: 89.58rpx;
+							}
+							.con_txt{
+								color: #aa7f5c;
+								margin-top: 17rpx;
+								font-size: 27rpx;
+							}
+							.img{
+								position: absolute;
+								width: 40rpx;
+								height: 40rpx;
+								top: 3rpx;
+								right: -16rpx;
+							}
+						}
+					}
+					
+					.contimg{
+						display: inline-block;
 					}
 				}
+				
+				
 			}
+			
 			
 			.btn{
 				width: 181.22rpx;
@@ -458,45 +617,7 @@
 				font-weight: bolder;
 				margin-top: 40rpx;
 			}
-		}
-		// 上传作品的弹出框
-		.upload{
-			.content{
-				width: 195.58rpx;
-				height: 164.58rpx;
-				background-image: linear-gradient(to bottom, #fdc453 , #f0ac65);
-				margin-top: 50rpx;
-				margin-left: 10rpx;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				border-radius: 23rpx;
-				image{
-					width: 100%;
-					height: 100%;
-				}
-				.cross {
-				  background: #fa452a;
-				  height: 89.58rpx;
-				  position: relative;
-				  width: 9.88rpx;
-				}
-				.cross:after {
-				 background-color: #fa452a;
-				 content: "";
-				 height: 9.88rpx;
-				 left: -37.77rpx;
-				 position: absolute;
-				 top: 39.77rpx;
-				 width: 89.58rpx;
-				}
-				.con_txt{
-					color: #aa7f5c;
-					margin-top: 17rpx;
-					font-size: 27rpx;
-				}
-			}
+			// 上传作品说些内容区
 			.txt_area{
 				width: 561.11rpx;
 				height: 278.47rpx;

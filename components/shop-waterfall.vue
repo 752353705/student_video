@@ -4,32 +4,44 @@
 			
 			<view class="item" v-for="(item,index) of list.list" :key="index" >
 				
+				<!-- 商品图片 -->
 				<u-lazy-load @load="handleViewRender(listIndex,index)" 
 					@error="handleViewRender(listIndex,index)" :image="item.image"
 					@click="jumpVideo(videoId)">
 				</u-lazy-load>   
-				<view class="item_foot">
-					<view class="left">
-						<view class="user_img">
-							<!-- 头像 -->
-						</view>
-						<view class="msg">
-							<!-- 姓名 -->
-							沈博然
-						</view>
+				
+				<!-- 商品的简介 -->
+				<view class="shop">
+					<!-- 商品名称 -->
+					<!-- <view class="shop_tit">
+						意大利 时尚休闲
+					</view> -->
+					
+					<!-- 商品简介 -->
+					<view class="shop_detail">
+						{{item.title}}
+						<!-- 限时购限时购限时购限时购限时购限时购限时购限时购限时购 -->
 					</view>
-					<view class="right">
-						<view class="icon">
-							<image src="/static/my_vote.png" mode=""></image>
-						</view>
-						<view>
-							<!-- 票数 -->
-							123456
-						</view>
+					
+					<!-- 商品中底部的价格，限时购 -->
+					<view class="item_foot">
+							<view class="price">
+								<!-- 姓名 -->
+								￥{{item.price}}
+							</view>
+							<!-- <view class="icon">
+								<image src="/static/my_vote.png" mode=""></image>
+							</view> -->
+							<view class="label">
+								<!-- 票数 -->
+								限时购
+							</view>
 					</view>
 				</view>
+				
+				
+				
 			</view>
-			
     </view>
 	</view>
 </template>
@@ -88,7 +100,7 @@
 				console.log('瀑布流跳转')
 				// 根据点击的id进行跳转到视频播放页面  用来传递每一个视频的 videoId
 				uni.navigateTo({
-					url: "/pages/playVideo/playVideo?videoId=" + '842c376a462548f187d8c37df8f2eab7'
+					url: "/pages/shopdetail/shopdetail?shopid=2"
 				});
 			},
 		},
@@ -115,48 +127,56 @@
 				display :flex;
 				flex-direction :column;
 				.item{
-					margin-bottom :18rpx;
-					// height: 200px;
-					image{
-						display: block;
-						width :100%;
-					}
-					.item_foot{
-					  width: 100%;
-					  height: 50rpx;
-					  display: flex;
-					  justify-content:space-evenly;
-					  align-items: center;
-					  margin-top: 15rpx;
-					  color: #bebbc4;
-					  font-size: 24rpx;
-						.left{
-							display: flex;
-							justify-content: space-evenly;
-							align-items: center;
-							.user_img{
-								width: 40rpx;
-								height: 40rpx;
-								background-color: yellow;
-								border-radius: 50%;
-								margin-right: 10rpx;
+					// 商品的样式
+					.shop{
+						box-sizing: border-box;
+						padding: 9rpx 10rpx 10rpx 10rpx;
+						// 商品 名称
+						.shop_tit{
+							font-size: 30rpx;
+							color: block;
+							font-weight: 550;
+						}
+						// 商品简介
+						// 最多两行
+						.shop_detail{
+							overflow:hidden;
+							text-overflow:ellipsis;
+							display:-webkit-box;
+							-webkit-line-clamp:2;
+							-webkit-box-orient:vertical;
+						}
+						image{
+							display: block;
+							width :100%;
+						}
+						.item_foot{
+						  width: 100%;
+						  height: 50rpx;
+						  // display: flex;
+						  // justify-content:space-evenly;
+						  // align-items: center;
+						  margin-top: 15rpx;
+						  color: #bebbc4;
+						  font-size: 24rpx;
+							.price{
+								font-size: 30rpx;
+								color:#ff2e42 ;
+								display: inline-block;
+							}
+							.label{
+								color: white;
+								display: inline-block;
+								margin-left: 22rpx;
+								background-color: #ff2246;
+								border-radius: 10rpx;
+								box-sizing: border-box;
+								padding:2rpx 12rpx 5rpx;
 							}
 						}
-						.right{
-							display: flex;
-							justify-content: space-evenly;
-							align-items: center;
-							.icon{
-								width: 30rpx;
-								height: 30rpx;
-								margin-right: 6rpx;
-								image{
-									width: 100%;
-									height: 100%;
-								}
-							}
-						}
 					}
+					
+					
 				}
 			}
 		}

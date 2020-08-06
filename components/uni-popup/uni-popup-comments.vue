@@ -9,8 +9,10 @@
 			<mescroll-uni class="mescroll" ref="mescrollRef" top="50" bottom="100" @init="mescrollInit" 
 				@down="downCallback" @up="upCallback" :down="downOption" :up="upOption" 
 			>
-				<mescroll-empty v-if="msgList.length === 0" ></mescroll-empty>
-				<user-comment v-else class="user_cmt" @reply="reply" @changeMsgList="changeMsgList"  :msgList="msgList" />
+				<!-- <mescroll-empty v-if="msgList.length === 0" ></mescroll-empty> -->
+				<user-comment  class="user_cmt" @reply="reply" @changeMsgList="changeMsgList"  
+					:msgList="msgList"  :threereplayname="threereplayname"
+					/>
 			</mescroll-uni>
 			
 			
@@ -28,6 +30,7 @@
 				<input type="text" value="" :placeholder="replayVal" 
 					cursor-spacing = 15
 					:value="val"
+					:focus="inputfocus"
 					@input="sendVal"
 				/>
 			</view>
@@ -66,21 +69,13 @@
 		inject: ['popup'],
 		data() {
 			return {
+				// 输入框是否聚焦
+				inputfocus:false,
 				// 上拉加载
 				upOption: {
 					toTop: {
 						src: '' // 不显示回到顶部按钮
 					},
-					// auto:false
-					// empty: {
-					// 	use : true ,
-					// 	icon : null ,
-					// 	tip : "暂无相关数据",
-					// 	btnText : "",
-					// 	fixed: false,
-					// 	top: "100rpx",
-					// 	zIndex: 99
-					// },
 				},
 				// 下拉刷新
 				downOption:{
@@ -94,6 +89,8 @@
 				sendStyle:true, //默认是 对视频进行评论
 				commentId:'',//进行评论回复的ID
 				replayIndex:'',//进行评论的 在msgList中的index
+				// 当进行三级评论时，储存评论的用户名
+				threereplayname:'回复 旭东：',
 				
 				twoShow:false,
 				val:'',
@@ -107,7 +104,7 @@
 		},
 		created() {
 			console.log('创建 uni-popup-comments')
-		
+			console.log('当前的时间 data==>', new Date())
 		},
 		mounted() {
 			let _this = this
@@ -125,12 +122,28 @@
 			changeMsgList(index,index2){
 				if(index2 == undefined){
 					// 当对视频评论进行 点赞
-					this.msgList[index].liked = true
-					this.msgList[index].praseCount ++
+					if(this.msgList[index].liked){
+						// 已经进行了点赞 则现在是取消点赞
+						this.msgList[index].liked = false
+						this.msgList[index].praseCount --
+						
+					}else{
+						this.msgList[index].liked = true
+						this.msgList[index].praseCount ++
+					}
+					
 				}else{
 					// 当对回复进行点赞
-					this.msgList[index].replyList[index2].liked = true
-					this.msgList[index].replyList[index2].praseCount ++
+					if(this.msgList[index].replyList[index2].liked){
+						// 回复已经进行了点赞
+						this.msgList[index].replyList[index2].liked = false
+						this.msgList[index].replyList[index2].praseCount --
+					}else{
+						// 还未点赞
+						this.msgList[index].replyList[index2].liked = true
+						this.msgList[index].replyList[index2].praseCount ++
+					}
+					
 				}
 			},
 			
@@ -161,7 +174,7 @@
 					
 					// 获取用户评论的条数
 					// 将评论数传递给播放页
-					_this.$emit('changeCommentsNum',res.data.total)
+					// _this.$emit('changeCommentsNum',res.data.total)
 				})
 				
 			},
@@ -198,7 +211,7 @@
 					// 进行数组之间的拼接 如果请求回的内容相同 ，则不进行拼接
 					if( JSON.stringify(_this.msgList) == JSON.stringify(res.data.list))  return false
 					_this.msgList = _this.msgList.concat(res.data.list)
-					console.log('请求下一页拼接后的数组 _this.msgList ===》',_this.msgList)
+					// console.log('请求下一页拼接后的数组 _this.msgList ===》',_this.msgList)
 					
 					
 					
@@ -230,7 +243,8 @@
 								"videoId":_this.$props.videoId,//视频ID
 								"content":_this.val,
 							},function(res){
-								console.log('发表评论 res==>',res)
+								console.log('发表评论成功 res==>',res)
+								
 								
 								// 发表言论成功后，修改列表的距离
 								_this.msgList.unshift({
@@ -242,6 +256,11 @@
 								})
 								
 								_this.val = ''
+								
+								// 添加了言论之后，修改当前的 评论数量
+								_this.$emit('changeCommentsNum')
+								
+								
 							})
 				}else{
 					// 进行评论的回复
@@ -254,11 +273,14 @@
 							
 							// 对评论列表进行修改，
 							_this.msgList[_this.replayIndex].replyList.unshift({
-								content:_this.val
-								
+								content:_this.val,
+								avatarUrl:uni.getStorageSync("user_img"),
+								userName:uni.getStorageSync("user_name"),
+								createTime:'',
+								praseCount:''
 							})
 							
-							
+							console.log('评论的回复 msgList ==》',_this.msgList)
 							_this.val = ''
 						})
 				}
@@ -269,30 +291,35 @@
 			reply(index,index2){
 				// 传递 要评论对象的 用户名
 				
-				console.log('父级中 reply')
+				// console.log('父级中 reply')
 				
 				if(index2 == undefined){
-					console.log('对视频评论进行回复')
+					// console.log('对视频评论进行回复')
 					// 对视频评论进行回复
 					
 					// 修改输入框中的值
-					this.replayVal = '回复' + this.msgList[index].userName
+					this.replayVal = '回复 @' + this.msgList[index].userName
 					this.commentId = this.msgList[index].id
 					this.sendStyle = false
 					
 					// 修改评论的序号
 					this.replayIndex = index
 					
+					// 拉起输入框，进行聚焦
+					this.inputfocus = true
+					
 				}else{
 					// 对 二级评论机型回复
-					console.log('进行二级回复',this.msgList[index])
-					// this.replayVal = '回复' + this.msgList[index].replyList[index2].id
-					this.replayVal = '进行二级回复' 
+					console.log('进行二级回复',this.msgList[index].replyList[index2])
+					this.replayVal = '回复 @' + this.msgList[index].replyList[index2].userName  //用于显示进行二级回复的用户名 
+					// this.replayVal = '回复 @' + "旭东"  //用于显示进行二级回复的用户名 
 					
 					this.commentId = this.msgList[index].id
 					this.sendStyle = false
 					
 					this.replayIndex = index
+					
+					this.inputfocus = true
 				}
 				
 				

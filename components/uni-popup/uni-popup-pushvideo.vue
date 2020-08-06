@@ -5,7 +5,7 @@
 			<view class="uni_head">
 				<view class="bg" >
 					<view class="tit" >
-						上传作品
+						上传短视频
 					</view>
 				</view>
 			</view>
@@ -162,6 +162,9 @@
 								console.log('进行上传1')
 									// var akInfo = res.data.data;
 									uploader.setUploadAuthAndAddress(uploadInfo, res.data.uploadAuth, res.data.uploadAddress, res.data.videoId);
+									
+									that.showCir = true
+									
 								console.log('进行上传2')
 							} else {
 								// console.log('上传视频失败',res)
@@ -180,7 +183,7 @@
 							// 发送post请求，发送videoId，与描述
 							that._post("vod/add",{
 								"videoId":uploadInfo.videoId,
-								"conversation":"上传视频描述"
+								"conversation":that.areaVal
 							},function(res){
 								console.log('添加视频videoID与conversation',res)
 								
@@ -234,9 +237,9 @@
 							// 修改进度环中显示的上传进度
 							console.log('文件上传初试进度', progress);
 							that.percent = parseInt(progress)
-							if(that.percent == 100){
-								that.showCir = false
-							}
+							// if(that.percent == 100){
+								
+							// }
 							// $('#sts-progress').text(progressPercent)
 							// $('#status').text('文件上传中...')
 
@@ -261,6 +264,7 @@
 					},
 					// 全部文件上传结束
 					onUploadEnd: function (uploadInfo) {
+							that.showCir = false
 							uni.showToast({
 									title: '上传成功',
 									icon: 'success',
@@ -423,7 +427,7 @@
 			},
 			// 获取文本域内输入的文字
 			areaInput(e){
-				console.log('文本域内容',e.detail.value)
+				// console.log('文本域内容',e.detail.value)
 				this.areaVal = e.detail.value
 			},
 			
@@ -433,10 +437,10 @@
 				
 				this.$emit('changeVideoSrc')
 				
-				if(this.$props.video_src){
+				if(!this.$props.video_src){
 					//当选好作品之后 显示进度环
-					this.showCir = true
-				}else{
+					// this.showCir = true
+				// }else{
 					uni.showToast({
 						title:'请选择上传作品',
 						icon:'none'

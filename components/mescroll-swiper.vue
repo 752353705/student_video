@@ -24,7 +24,7 @@
 		data() {
 			return {
 				height: "400px", // 需要固定swiper的高度
-				tabs: [{name:'全部'}, {name:'奶粉'}, {name:'面膜'}, {name:'图书'}, {name:'果汁'}, {name:'奶瓶'}, {name:'美素'}, {name:'花王'}, {name:'韩蜜'}],
+				// tabs: [{name:'全部'}, {name:'奶粉'}, {name:'面膜'}, {name:'图书'}, {name:'果汁'}, {name:'奶瓶'}, {name:'美素'}, {name:'花王'}, {name:'韩蜜'}],
 				tabIndex: 0 // 当前tab的下标
 			}
 		},
@@ -32,6 +32,7 @@
 			// 轮播菜单
 			swiperChange(e){
 				this.tabIndex = e.detail.current
+				
 			}
 		},
 		onLoad() {

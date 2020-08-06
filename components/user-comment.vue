@@ -1,13 +1,12 @@
 <template>
 	<view>
-		
 		<view class="user_cmt" v-for="(item,index) in msgList" :key="item.id">
 			<!-- 用户的评论 -->
-				<view class="user_img" @click="goAuthor">
+				<view class="user_img" @click="goAuthor(item.avatarUrl)">
 					<image :src="item.avatarUrl" mode=""></image>
 				</view>
 				<view class="content">
-					<view class="user_head" @click="goAuthor">
+					<view class="user_head" @click="goAuthor(item.avatarUrl)">
 						{{item.userName || '用户名'}}
 					</view>
 					<view class="user_body" @click="reply(index,index2)">
@@ -17,49 +16,68 @@
 					<view class="user_footer">
 						<view class="left">
 							<view class="time">
-								{{item.createTime || '昨天22:36'}}
-								<view style="display: inline-block;margin-left: 10rpx;"   @click="reply(index,index2)">回复</view>
+								{{time.changetime(item.createTime) || nowtime}}
+								<!-- <view style="display: inline-block;margin-left: 10rpx;"   
+									@click="reply(index,index2)"
+									>
+									回复
+								</view> -->
 							</view>
 						</view>
 						<view class="right" :id=" 'right' + index "  @click="seeActive(item.id,index)">
 							<!-- 未点赞 -->
-							<image class="img" v-if="!item.liked" src="../static/zan.png" mode=""></image>
+							<u-icon v-if="!item.liked" size="40" name="thumb-up"></u-icon>
+							<!-- <image class="img" v-if="!item.liked" src="../static/zan.png" mode=""></image> -->
 							<!-- 点赞 -->
-							<image class="actImg" v-else src="../static/zan_active.png" mode=""></image>
+							<!-- <image class="actImg" v-else src="../static/zan_active.png" mode=""></image> -->
+							<u-icon v-else size="40" name="thumb-up-fill" color="#ff6347" ></u-icon>
 							<view>{{item.praseCount || ''}}</view>
 						</view>
-						
 					</view>
 					
 					<!-- 判断是否有二级回复 -->
 					<view class="two" v-if="item.replyList.length !== 0" >
 						<!-- <view class="replay" v-if="!showTwoMsg" @click="showTwo">—展开更多回复 {{item.replyList.length}} </view> -->
-						<view class="user_cmt two_cmt" v-for="(item2,index2) in item.replyList" :key="index">
+						<view class="two_cmt" v-for="(item2,index2) in item.replyList" :key="index">
 							<!-- 用户的评论 -->
-								<view class="user_img" @click="goAuthor">
-									<image :src="item2.img" mode=""></image>
+								<view class="user_img" @click="goAuthor(item2.avatarUrl)">
+									<!-- <image :src="item2.img" mode=""></image> -->
+									<image :src="item2.avatarUrl" mode=""></image>
 								</view>
 								<view class="content two_content">
-									<view class="user_head" @click="goAuthor">
-										{{item2.name || '用户名'}}
+									<view class="user_head" @click="goAuthor(item2.avatarUrl)">
+										<!-- {{item2.name || '用户名'}} -->
+										{{item2.userName || '用户名'}}
 									</view>
-									<view class="user_body" @click="reply(index,index2)">
+									
+								<!-- 用于区分用户的 回复状态 -->
+									<!-- 二级回复 是对当前 一级的回复 -->
+									<view  v-if="true" class="user_body" @click="reply(index,index2)">
 										{{item2.content || '用户说的话'}}
+										<!-- {{threereplayname + item2.content || '用户说的话'}} -->
 									</view>
+									<!-- 回复同等级的 二级回复 -->
+									<view  v-else class="user_body" @click="reply(index,index2)">
+										<!-- {{item2.content || '用户说的话'}} -->
+										{{threereplayname + item2.content || '用户说的话'}}
+									</view>
+									
 									<!-- 时间  回复   点赞数 -->
 									<view class="user_footer">
 										<view class="left">
 											<view class="time">
-												{{item2.createTime || '昨天22:36'}}
-												<view style="display: inline-block;margin-left: 10rpx;" @click="reply(index,index2)">回复</view>
+												{{time.changetime(item2.createTime) || nowtime}}
+												<!-- <view style="display: inline-block;margin-left: 10rpx;" @click="reply(index,index2)">回复</view> -->
 											</view>
 										</view>
 										<view class="right" @click="replaySec(index,index2)">
 											
-											<!-- 未关注 -->
-											<image v-if="!item2.liked" src="../static/zan.png" mode=""></image>
-											<!-- 关注 -->
-											<image v-else src="../static/zan_active.png" mode=""></image>
+											<!-- 未点赞 -->
+											<!-- <image v-if="!item2.liked" src="../static/zan.png" mode=""></image> -->
+											<u-icon v-if="!item2.liked" size="40" name="thumb-up"></u-icon>
+											<!-- 点赞 -->
+											<!-- <image v-else src="../static/zan_active.png" mode=""></image> -->
+											<u-icon v-else size="40" name="thumb-up-fill" color="#ff6347" ></u-icon>
 											<text>{{item2.praseCount || ''}}</text>
 										</view>
 										
@@ -78,21 +96,69 @@
 	</view>
 </template>
 
+
+
+<script module="time" lang="wxs">
+	// 控制 二级评论 的时间格式 
+	function changetime(time){
+		if(!time){
+			return ''
+		}
+		//那一天
+		time1 = time.split(' ')[0].split('-')[1] 
+		time2 = time.split(' ')[0].split('-')[2] 
+
+		//具体小时时间
+		time3 = time.split(' ')[2].split(':')[0]
+		time4 = time.split(' ')[2].split(':')[1]
+		// // 当用户 是在 当天发边的评论并且在当天显示
+		// console.log('返回当天的时间',now.getDay())
+		
+		// return time1 + '-' + time2 + ' ' +  time3 + ":" + time4
+		return time1 + '-' + time2
+	}
+	module.exports = {
+		changetime: changetime,
+	}
+</script>
+
+
+
 <script>
 	export default {
 		props:{
 			msgList:{
 				type:Array, //实际请求获取的用户评论数据
-			}
+			},
+			threereplayname:{
+				type:String,
+				default:'',
+			},
 		},
 		data() {
 			return {
 				see_active:false,
-				showTwoMsg:false
+				showTwoMsg:false,
+				nowtime:'7-28 8:37'
 			};
 		},
 		created() {
 			console.log('user-comment  ==> msgList',this.$props.msgList)
+			// 获取当前的时间
+			var time = new Date()
+			// 今天的时间
+				// 月份
+			var month = time.getMonth() + 1  
+				// 几号
+			var date = time.getDate()
+				// 小时
+			var hour = time.getHours()
+				//分钟
+			var minu = time.getMinutes()
+			console.log('组件中获取当前的时间 month ==> ',month,"date ==》",date)
+			
+			// this.nowtime = month + '-' + date + ' ' + hour + ':' + minu
+			this.nowtime = month + '-' + date
 		},
 		components: {
 			
@@ -105,9 +171,9 @@
 				 this.showTwoMsg = true
 			},
 			//跳转到作者页
-			goAuthor(){
+			goAuthor(avatarUrl){
 				uni.navigateTo({
-				   url: "/pages/author/author"
+				   url: "/pages/author/author?avatarUrl=" + avatarUrl
 				});
 			},
 			reply(index,index2){
@@ -125,10 +191,10 @@
 			seeActive(id,index){
 				console.log('对评论进行点赞')
 				
-				// 如果当前已经对其进行了点赞 则不在发起请求
-				if(this.$props.msgList[index].liked){
-					return 
-				}
+				// 如果当前已经对其进行了点赞 则再次点击是取消点赞
+				// if(this.$props.msgList[index].liked){
+				// 	this.$props.msgList[index].liked 
+				// }
 				
 				let _this = this
 				this._post("comment/likeComment",{
@@ -153,7 +219,7 @@
 				// this.$props.msgList[index].replyList[index2].praseCount ++
 				
 				// 如果当前回复已经进行了点赞，则不再触发点赞请求
-				if( this.$props.msgList[index].replyList[index2].liked) return
+				// if( this.$props.msgList[index].replyList[index2].liked) return
 				
 				
 				this._post("comment/likeCommentReply",{
@@ -185,6 +251,13 @@
 		display: flex;
 		justify-content: start;
 		padding: 32rpx 20rpx;
+		
+		// 时间 字体样式
+		.time{
+			color: #939393;
+			font-size: 26rpx;
+		}
+		
 		.user_img{
 			width: 60rpx;
 			height: 60rpx;
@@ -217,16 +290,24 @@
 					justify-content: center;
 					align-items: center;
 				}
-				image{
-					width: 40rpx;
-					height: 40rpx;
-				}
+				// image{
+				// 	width: 40rpx;
+				// 	height: 40rpx;
+				// }
 			}
+			
+			// 二级评论
 			.two{
 				.replay{
 					// color: blue;
 				}
 				.two_cmt{
+					display: flex;
+					justify-content: start;
+					padding: 12rpx 20rpx 0;
+					.user_body{
+						width: 87%;
+					}
 					.two_content::after{
 						content: " ";
 						position: absolute;
