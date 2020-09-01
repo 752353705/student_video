@@ -1,29 +1,27 @@
 <template>
 	<view>
 		<view class="my">
+			<!-- 头部 -->
 			<view class="head height">
 				<view class="userImg" @click="jump">
-					<image :src="user_img" mode=""></image>
+					<image  :src="user_img" mode=""></image>
 				</view>
 				<view class="right">
-					
 					<view class="right_uname" >
 						<view class="user_name" @click="jump">
 							{{user_name || '昵称' }}
 						</view>
 						<button v-if="!user_phone" type="default" hover-class="none" open-type="getPhoneNumber" @getphonenumber="decryptPhoneNumber">绑定手机号</button>
 						<view v-else style="color:#838383 ;" >已绑定</view>
-						<view v-else class="user_phone">15930245253</view>
 					</view>
-					
 					<view class="box">
 						<!-- 关注 -->
-						<view class="focus t_c" @click="goFans">
+						<view class="focus t_c" @click="goFans(1)">
 							<view class="">1</view>
 							<view class="">关注</view>
 						</view>
 						<!-- 粉丝 -->
-						<view class="fans t_c" @click="goFans">
+						<view class="fans t_c" @click="goFans(2)">
 							<view class="">1.6万</view>
 							<view class="">粉丝</view>
 						</view>
@@ -33,12 +31,11 @@
 							<view class="">获赞与收藏</view>
 						</view>
 					</view>
-					
-					
 				</view>
 			</view>
 		
-		  <view class="content height">
+		  <!-- 展示框 -->
+			<view class="content height">
 		    <view class="list">
 		      <view 
 						v-for="(item,index) in useList" 
@@ -48,16 +45,16 @@
 					>
 		        <view class="left">
 		          <view class="left_icon">
-		             <image :src=item.icon mode=""></image>
+								 <text class="iconfont" :class="item.icon"  ></text>
 		          </view>
 		          <view>
 		            {{item.txt}}
 		          </view>
 		        </view>
 		        <view class="right">
-		          <image v-if="index!=1" src="/static/right.png" mode=""></image>
+							<text v-if="index!=1" class="iconfont iconarrow" ></text>
 		          <view class="tic" v-else>
-								{{tic_num}}票
+								{{tic_num}}H
 							</view>
 		        </view>
 		      </view>
@@ -65,12 +62,16 @@
 			</view>
 			
 			<!-- 分类展示头 -->
-			<swiperTabHead  :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
+			<swiperTabHead :flex="true" :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
 	
 			
 			<swiper :style="{height:swiper_height}" :current="tabIndex" @change="tabChange">
-				<swiper-item style="box-sizing: border-box;padding: 0 10rpx;" v-for="(tab,i) in tabBars" :key="i">
-					<mescroll-item :waterFullHeight="swiper_height" :i="i" :index="tabIndex" :tabs="tabBars"></mescroll-item>
+				<swiper-item style="box-sizing: border-box;padding: 7px 5px;" v-for="(tab,i) in tabBars" :key="i">
+					<mescroll-item :waterFullHeight="swiper_height" :i="i" 
+						:index="tabIndex" :tabs="tabBars"
+						@showUseroperation="showUseroperation"
+						:kw="kw"
+						></mescroll-item>
 				</swiper-item>
 			</swiper>
 			
@@ -84,6 +85,15 @@
 			</view>
 		</uni-popup>
 		
+		<!-- 用于进行用户操作的弹出框 -->
+		<uni-popup  class="pop" animation="false" ref="popup_useoperation" type="00" mask-click="false">
+			<uni-popup-useoperation :opertop="opertop" 
+				:txtid="txtid" 
+				:operleft="operleft" type="success"  message="成功消息" duration="0" 
+				:operType="kw"
+				/>
+		</uni-popup>
+		
 	</view>
 </template>
 
@@ -94,6 +104,8 @@
 	
 	// 上传个人资料的弹框
 	import uniPopupUsermsg from '@/components/uni-popup/uni-popup-usermsg.vue'
+	//操作 修改个人的  文章
+	import uniPopupUseoperation from '@/components/uni-popup/uni-popup-useoperation.vue'
 	
 	// 引入tabHead 切换
 	import swiperTabHead from "@/components/swiper-tab-head.vue";
@@ -101,21 +113,28 @@
 		mixins: [MescrollMixin], // 使用mixin
 		data() {
 			return {
+				// 控制操作窗口的弹窗
+				opertop:"300rpx",
+				operleft:"100rpx",
+				txtid:'',//用户长按要操作的文章id
 				// 测试
 				swiper_height: "", // 需要固定swiper的高度
 				tabIndex: 0, // 当前tab的下标
 				//控制nav切换
 				tabIndex:0,// 选中的
 				tabBars:[
-					{ name:"收藏",id:"guanzhu" },
-					{ name:"赞过",id:"tuijian" },
+					{ name:"视频",id:"myVideo" },
+					{ name:"文章",id:"myTxt" },
+					{ name:"二手",id:"myUsed" },
 				],   
+				kw:"myVideo",
 				// 个人展示
 				act:0,
 				useList:[
-					{icon:"/static/my_use.png",txt:'个人资料'},
-					{icon:"/static/my_ticket.png",txt:'剩余票数（每日限投3票）'},
-					{icon:"/static/my_exit1.png",txt:'退出登录'}
+					{icon:"iconuser-info",txt:'个人资料'},
+					{icon:"iconpiao",txt:'我的H币'},
+					{icon:"iconchongzhi",txt:'充值'},
+					{icon:"icontuichufffpx",txt:'退出登录'},
 				],
 				tic_num:3,
 				// 用户信息显示
@@ -127,15 +146,15 @@
 		components:{
 			swiperTabHead,
 			MescrollItem,
-			uniPopupUsermsg
+			uniPopupUsermsg,
+			uniPopupUseoperation
 		},
 		onLoad(){
 			this.swiper_height = uni.getSystemInfoSync().windowHeight + 'px'
 			let _this = this
 			console.log('我的页面')
-		
-			// this.$refs.popup_video.open()	
-			// this.$refs.popup_user.open()
+			
+			
 			uni.showLoading({
 			   title: '加载中'
 			});
@@ -154,7 +173,22 @@
 			this.user_phone = uni.getStorageSync('user_phone')
 			// console.log('my界面  onshow',uni.getStorageSync('user_name'))
 		},
+		onHide() {
+			// 当页面 隐藏之后 关闭操作弹窗
+			this.$refs.popup_useoperation.close()
+		},
 		methods:{
+			// 控制用户操作弹窗的显隐
+			showUseroperation(txtid,location){
+				console.log('list 中 按钮显示的位置',"location ==>",JSON.parse(location))
+				console.log('用户进行点击的目标信息',txtid)
+				
+				this.opertop = JSON.parse(location).btntop
+				this.operleft = JSON.parse(location).btnleft
+				this.txtid = txtid
+				
+				this.$refs.popup_useoperation.open()
+			},
 			// 获取用户的手机号进行手机绑定
 			decryptPhoneNumber(res){
 				let _this = this
@@ -162,7 +196,7 @@
 				// console.log('绑定手机号 iv ==> ',res.detail.iv)
 				
 				// 进行手机号绑定
-				this._post("auth/bindPhone",{
+				this.api._post("auth/bindPhone",{
 					"encryptedData":res.detail.encryptedData,
 					"iv":res.detail.iv
 				},function(res){
@@ -174,23 +208,42 @@
 						_this.user_phone = res.data.phone
 				})
 				
-				
 			},
 			// 跳转查看关注、粉丝
-			goFans(){
+			goFans(num){
 				console.log('跳转到粉丝列表')
 				// 当进行跳转的时候将，作者的关注列表以及粉丝列表传递过去
-				uni.navigateTo({
-					url:`/pages/fansList/fansList?list=${3}`
-				})
+				// uni.navigateTo({
+				// 	url:`/pages/fansList/fansList?list=${3}`
+				// })
+				
+				// 判断是进入关注列表还是进入粉丝列表
+				if(num == 1){
+					// 进入 关注列表
+					uni.navigateTo({
+						url:`/pages/fansList/fansList?name=${'关注'}`
+					})
+				}else if(num == 2){
+					// 进入 粉丝列表
+					uni.navigateTo({
+						url:`/pages/fansList/fansList?name=${'粉丝'}`
+					})
+				}
+				
+				
 			},
 			//滑动切换导航
 			tabChange(e){
 			  this.tabIndex = e.detail.current
+				console.log('滑动的 id',this.tabBars[this.tabIndex].id)
+				this.kw = this.tabBars[this.tabIndex].id
 			},
 			//接受子组件传过来的值点击切换导航
 			tabtap(index){
 				this.tabIndex = index;
+				console.log('点击的 id',this.tabBars[this.tabIndex].id)
+				
+				this.kw = this.tabBars[this.tabIndex].id
 			},
 			// 制作瀑布流
 			getLoadNum(num){
@@ -207,13 +260,16 @@
 			// 进行弹窗的控制
 			open(num){
 				let _this = this 
-				if(num === 9){
-				// 显示上传视频
-					this.$refs.popup_video.open()
+				if(num === 2){
+					// 用户跳转到 充值界面
+					console.log('用户进行充值操作')
+					uni.navigateTo({
+						url:"/pages/recharge/recharge"
+					})
 				}else if(num === 0){
 					// 显示个人资料
 					this.$refs.popup_user.open()
-				}else if(num === 2){
+				}else if(num === 3){
 					// 显示退出登录
 					uni.showModal({
 						title:"提示",
@@ -222,12 +278,14 @@
 							if (res.confirm) {
 								console.log('用户点击确定');
 								// 发起 退出请求
-								_this._post("auth/logout",{},function(res){
+								_this.api._post("auth/logout",{},function(res){
 									console.log('用户进行退出操作',res);
 									// 如果返回成功，清除本地缓存，并跳转到首页
 									uni.clearStorageSync()
 									_this.user_name = ''
-									_this.user_img = ''
+									_this.user_img = '/static/avatarUrl.png'
+									// 显示的绑定手机号也进行切换
+									_this.user_phone = ''
 									
 								})
 							} else if (res.cancel) {
@@ -245,7 +303,6 @@
 			close(num){
 				// console.log('关闭')
 				this.$refs.popup_user.close()
-				// this.$refs.popup_video.close()
 			},
 			// 跳转到注册页
 			jump(){
@@ -303,6 +360,9 @@
 				height: 150rpx;
 				border-radius: 50%;
 				overflow: hidden;
+		// iOS端圆角设置失效
+				-webkit-backface-visibility: hidden;
+				-webkit-transform: translate3d(0, 0, 0);
 				image{
 					width: 100%;
 					height: 100%;
@@ -345,7 +405,7 @@
 			font-size: 30rpx;
 	    .list{
 	      width: 100%;
-	      height: 218rpx;
+	      height: 264rpx;
 	      background-color: white;
 	      border-radius: 20rpx;
 	      box-sizing: border-box;

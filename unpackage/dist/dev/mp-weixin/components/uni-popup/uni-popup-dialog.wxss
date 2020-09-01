@@ -24,6 +24,12 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
 .uni-popup-dialog.data-v-2fab037e {
   width: 300px;
   border-radius: 15px;
@@ -107,7 +113,7 @@
   font-size: 14px;
 }
 .uni-button-color.data-v-2fab037e {
-  color: #007aff;
+  color: #fa436a;
 }
 .uni-dialog-input.data-v-2fab037e {
   -webkit-box-flex: 1;

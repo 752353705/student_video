@@ -5,7 +5,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }
 .siginIn .act {
   background-image: -webkit-linear-gradient(left, #421ea2, #7352ad);
@@ -47,7 +47,7 @@
   height: 100%;
 }
 .siginIn .form .input_box::after {
-  content: " ";
+  content: ' ';
   position: absolute;
   left: 0;
   bottom: 0;
@@ -72,7 +72,7 @@
   position: relative;
 }
 .siginIn .form .verification .ver_num::after {
-  content: " ";
+  content: ' ';
   position: absolute;
   left: 0;
   bottom: 0;

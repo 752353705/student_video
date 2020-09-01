@@ -1,19 +1,21 @@
 <template>
 	<view>
-		<view class="fans" v-for="(index,item) in [1,2,3]" :key="index">
+		<!-- 有关注的粉丝 -->
+		<view class="fans" v-for="(item) in list" :key="index">
 			<view class="left">
 				<view class="img">
-					
+					<image :src="item.avatarUrl" mode=""></image>
 				</view>
-				<view class="name">粉丝</view>
+				<view class="name">{{item.userName}}</view>
 			</view>
 			<view v-if="focus" class="focus" @click="focusOn">
 				关注
 			</view>
-			<view v-else class="focus" @click="focusOn">
+			<view v-else class="focus focuson" @click="focusOn">
 				已关注
 			</view>
 		</view>
+		<!-- 暂无关注 -->
 	</view>
 </template>
 
@@ -21,12 +23,33 @@
 	export default {
 		data() {
 			return {
-				focus:true
+				focus:true,
+				list:[], // 用于渲染的信息内容
+				name:''
 			};
 		},
-		onLoad(options) {
+		onLoad(option) {
 			// 渲染 粉丝列表或者关注列表
-			console.log('fans',options)
+			console.log('当前 渲染那个 列表',option.name)
+			this.name = option.name
+			uni.setNavigationBarTitle({
+			    title: option.name
+			});
+			
+		},
+		onShow() {
+			let _this = this 
+			if(this.name == '关注'){
+				// 获取当前的 粉丝列表
+				this.api._get("follow/follows",{
+					"pageNum":1,
+					"pageSize":10
+				},function(res){
+					console.log('获取关注的粉丝列表 res ===>', res)
+					
+					_this.list = res.data.list
+				})
+			}
 		},
 		methods:{
 			focusOn(){
@@ -73,14 +96,27 @@
 			background-color: yellow;
 			border-radius: 50%;
 			margin-right: 40rpx;
+			overflow: hidden;
+			image{
+				width: 100%;
+				height: 100%;
+			}
 		}
 	}
 	.focus{
 		border: 1px solid red;
 		color: red;
-		padding: 10rpx 20rpx;
+		padding: 6rpx 35rpx;
+		// padding-top: 10rpx;
+		// padding-right: 10rpx;
+		// padding-bottom: 10rpx;
+		// padding-left: 10rpx;
 		border-radius: 40rpx;
-		font-size: 20rpx;
+		font-size: 27rpx;
+	}
+	.focuson{
+		background-color: #ff2440;
+		color: white;
 	}
 }
 // 绘制0.5px的底线

@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<!-- 分类展示头 -->
-		<swiperTabHead  :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
+		<swiperTabHead :flex="true" :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
 			
 		<swiper :style="{height:swiper_height}" :current="tabIndex" @change="tabChange">
 			<swiper-item style="box-sizing: border-box;padding: 0 10rpx;" v-for="(tab,i) in tabBars" :key="i">
@@ -39,16 +39,24 @@
 			swiperTabHead,
 			MescrollItem
 		},
-		onLoad(){
+		onLoad(options){
+			
 			this.swiper_height = uni.getSystemInfoSync().windowHeight + 'px'
 			uni.showLoading({
 			  title: '加载中'
 			});
+			
+			
+			
+			
+			
+			
 		},
 		onReady() {
 			// 页面加载完毕
 			uni.hideLoading();
 		},
+
 		methods:{
 			//滑动切换导航
 			tabChange(e){

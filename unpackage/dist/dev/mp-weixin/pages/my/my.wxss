@@ -48,6 +48,8 @@ button::after {
   height: 150rpx;
   border-radius: 50%;
   overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
 }
 .my .head .userImg image {
   width: 100%;
@@ -97,7 +99,7 @@ button::after {
 }
 .my .content .list {
   width: 100%;
-  height: 218rpx;
+  height: 264rpx;
   background-color: white;
   border-radius: 20rpx;
   box-sizing: border-box;

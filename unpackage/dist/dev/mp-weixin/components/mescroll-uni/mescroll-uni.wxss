@@ -69,6 +69,8 @@
 	border: 2rpx solid gray;
 	border-bottom-color: transparent !important; /*已在style设置border-color,此处需加 !important*/
 	vertical-align: middle;
+	/* background-image: url(http://www.mescroll.com/img/beibei/mescroll-progress.png);
+	transition: all 300ms; */
 }
 
 /* 旋转动画 */
@@ -96,6 +98,26 @@
 		        transform: rotate(360deg);
 }
 }
+
+/*下拉刷新--吉祥物*/
+.mescroll-downwarp .downwarp-mascot{
+	position: absolute;
+	right: 16rpx;
+	bottom: 0;
+	width: 100rpx;
+	height: 100rpx;
+	background-size: contain;
+	background-repeat: no-repeat;
+	/* animation: animMascot .6s steps(1,end) infinite; */
+}
+
+/* @keyframes animMascot {
+	0% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb1.png)}
+	25% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb2.png)}
+	50% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb3.png)}
+	75% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb4.png)}
+	100% {background-image: url(http://www.mescroll.com/img/beibei/mescroll-bb1.png)}
+} */
 
 /* 上拉加载区域 */
 .mescroll-upwarp {

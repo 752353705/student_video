@@ -5,6 +5,8 @@
     "pages/my/my",
     "pages/reg/reg",
     "pages/playVideo/playVideo",
+    "pages/playVideo/txtDetail",
+    "pages/playVideo/usedDetail",
     "pages/login/login",
     "pages/author/author",
     "pages/fansList/fansList",
@@ -16,7 +18,26 @@
     "pages/publish/publish",
     "pages/seekWord/seekWord",
     "pages/signIn/signIn",
-    "pages/shopClassify/shopClassify"
+    "pages/shopClassify/shopClassify",
+    "pages/shopcar/shopcar",
+    "pages/shopdetail/shopdetail",
+    "pages/zan/zan",
+    "pages/newfocus/newfocus",
+    "pages/commt/commt",
+    "pages/order/order",
+    "pages/order/creatOrder",
+    "pages/pay/paysuccess",
+    "pages/pay/pay",
+    "pages/address/address",
+    "pages/address/addressManage",
+    "pages/shopCard/shopCard",
+    "pages/shop/collect",
+    "pages/shopCard/couponList",
+    "pages/publish/publishVideo",
+    "pages/publish/publishNotice",
+    "pages/publish/publishUsed",
+    "pages/shop/category",
+    "pages/recharge/recharge"
   ],
   "subPackages": [],
   "window": {
@@ -29,37 +50,25 @@
   "tabBar": {
     "borderStyle": "black",
     "backgroundColor": "#fdfdfd",
-    "color": "black",
-    "selectedColor": "#f33e54",
+    "color": "#8a8a8a",
+    "selectedColor": "#ff5266",
     "list": [
       {
         "pagePath": "pages/list/list",
-        "iconPath": "/static/index.png",
-        "selectedIconPath": "/static/index_active.png",
-        "text": "作品列表"
-      },
-      {
-        "pagePath": "pages/shop/shop",
-        "iconPath": "/static/shop.png",
-        "selectedIconPath": "/static/shop_active.png",
-        "text": "商城"
+        "iconPath": "/static/tabbar/index.png",
+        "selectedIconPath": "/static/tabbar/index_active.png",
+        "text": "首页"
       },
       {
         "pagePath": "pages/publish/publish",
-        "iconPath": "/static/add.png",
-        "selectedIconPath": "/static/add_active.png",
+        "iconPath": "/static/tabbar/add.png",
+        "selectedIconPath": "/static/tabbar/add_active.png",
         "text": "发布"
       },
       {
-        "pagePath": "pages/tabMsg/tabMsg",
-        "iconPath": "/static/tabMsg.png",
-        "selectedIconPath": "/static/tabMsg_active.png",
-        "text": "消息"
-      },
-      {
         "pagePath": "pages/my/my",
-        "iconPath": "static/home.png",
-        "selectedIconPath": "static/home_active.png",
+        "iconPath": "static/tabbar/my.png",
+        "selectedIconPath": "static/tabbar/my_active.png",
         "text": "我的"
       }
     ]
@@ -69,9 +78,6 @@
     "mescroll-uni": "/components/mescroll-uni/mescroll-uni",
     "uni-popup": "/components/uni-popup/uni-popup",
     "uni-popup-dialog": "/components/uni-popup/uni-popup-dialog",
-    "uni-popup-pushvideo": "/components/uni-popup/uni-popup-pushvideo",
-    "uni-popup-pushimg": "/components/uni-popup/uni-popup-pushimg",
     "c-circle": "/components/cCircle"
-  },
-  "sitemapLocation": "sitemap19.json"
+  }
 }

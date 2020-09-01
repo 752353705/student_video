@@ -52,7 +52,31 @@ export default {
 			let _this = this;
 			if (e.detail.errMsg !== 'getUserInfo:ok') {
 				console.log('e.detail.errMsg !== getUserInfo:ok')
+				
+				// 进行用户的授权操作
+				// var that = this;
+				// // 查看是否授权
+				// wx.getSetting({
+				//  success: function (res) {
+				//   if (res.authSetting['scope.userInfo']) {
+				//    wx.getUserInfo({
+				//     success: function (res) {
+				// 			console.log('授权成功')
+				//      //从数据库获取用户信息
+				//      that.queryUsreInfo();
+				//      //用户已经授权过
+				// 			 wx.switchTab({
+				// 				url: ''
+				// 			 })
+				//     }
+				//    });
+				//   }
+				//  }
+				// })
 				return false;
+				
+				
+				
 			}
 			// 将用户信息进行本地存储
 			
@@ -76,7 +100,7 @@ export default {
 						provider: 'weixin',
 						success: function (infoRes) {
 							console.log('用户信息', infoRes.userInfo);
-							// wx.setStorageSync('userInfo', infoRes.userInfo);
+							wx.setStorageSync('userInfo', infoRes.userInfo);
 							uni.hideLoading()
 							
 							
@@ -86,11 +110,15 @@ export default {
 							// })
 							
 							// 进行post请求
-							_this._post("auth/loginByWeixin",{
+							_this.api._post("auth/loginByWeixin",{
+							// _this._post("auth/login_by_weixin",{
 								"code":loginRes.code,
-								"userInfo":infoRes.userInfo
+								"userInfo":infoRes.userInfo,
+								// shareUserId: 1, //测试
 							},function(res){
 								console.log('login 微信登录 发送post请求',res);
+								// wx.setStorageSync('user_name', res.data.userInfo.nickName);
+								// wx.setStorageSync('user_img', res.data.userInfo.avatarUrl);
 								wx.setStorageSync('user_name', res.data.nickName);
 								wx.setStorageSync('user_img', res.data.avatarUrl);
 								wx.setStorageSync('user_phone', res.data.phone);
@@ -119,9 +147,9 @@ export default {
 		},
 	},
 	
-	onLoad() {
-		console.log('加载')
-	}
+	onLoad: function () {
+	 
+	 }
 
 };
 </script>

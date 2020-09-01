@@ -17,19 +17,11 @@
 						<view class="left">
 							<view class="time">
 								{{time.changetime(item.createTime) || nowtime}}
-								<!-- <view style="display: inline-block;margin-left: 10rpx;"   
-									@click="reply(index,index2)"
-									>
-									回复
-								</view> -->
 							</view>
 						</view>
-						<view class="right" :id=" 'right' + index "  @click="seeActive(item.id,index)">
+						<view class="cmt_right" :id=" 'right' + index "  @click="seeActive(item.id,index)">
 							<!-- 未点赞 -->
 							<u-icon v-if="!item.liked" size="40" name="thumb-up"></u-icon>
-							<!-- <image class="img" v-if="!item.liked" src="../static/zan.png" mode=""></image> -->
-							<!-- 点赞 -->
-							<!-- <image class="actImg" v-else src="../static/zan_active.png" mode=""></image> -->
 							<u-icon v-else size="40" name="thumb-up-fill" color="#ff6347" ></u-icon>
 							<view>{{item.praseCount || ''}}</view>
 						</view>
@@ -41,12 +33,10 @@
 						<view class="two_cmt" v-for="(item2,index2) in item.replyList" :key="index">
 							<!-- 用户的评论 -->
 								<view class="user_img" @click="goAuthor(item2.avatarUrl)">
-									<!-- <image :src="item2.img" mode=""></image> -->
 									<image :src="item2.avatarUrl" mode=""></image>
 								</view>
 								<view class="content two_content">
 									<view class="user_head" @click="goAuthor(item2.avatarUrl)">
-										<!-- {{item2.name || '用户名'}} -->
 										{{item2.userName || '用户名'}}
 									</view>
 									
@@ -54,11 +44,9 @@
 									<!-- 二级回复 是对当前 一级的回复 -->
 									<view  v-if="true" class="user_body" @click="reply(index,index2)">
 										{{item2.content || '用户说的话'}}
-										<!-- {{threereplayname + item2.content || '用户说的话'}} -->
 									</view>
 									<!-- 回复同等级的 二级回复 -->
 									<view  v-else class="user_body" @click="reply(index,index2)">
-										<!-- {{item2.content || '用户说的话'}} -->
 										{{threereplayname + item2.content || '用户说的话'}}
 									</view>
 									
@@ -67,32 +55,22 @@
 										<view class="left">
 											<view class="time">
 												{{time.changetime(item2.createTime) || nowtime}}
-												<!-- <view style="display: inline-block;margin-left: 10rpx;" @click="reply(index,index2)">回复</view> -->
 											</view>
 										</view>
-										<view class="right" @click="replaySec(index,index2)">
+										<view class="cmt_right" @click="replaySec(index,index2)">
 											
 											<!-- 未点赞 -->
-											<!-- <image v-if="!item2.liked" src="../static/zan.png" mode=""></image> -->
 											<u-icon v-if="!item2.liked" size="40" name="thumb-up"></u-icon>
 											<!-- 点赞 -->
-											<!-- <image v-else src="../static/zan_active.png" mode=""></image> -->
 											<u-icon v-else size="40" name="thumb-up-fill" color="#ff6347" ></u-icon>
 											<text>{{item2.praseCount || ''}}</text>
 										</view>
-										
 									</view>
-									
-									
 								</view>
 						</view>
 					</view>
-					
 				</view>
 		</view>
-		
-		<!-- 没有更多 -->
-		<!-- <u-divider>暂无更多</u-divider> -->
 	</view>
 </template>
 
@@ -134,6 +112,10 @@
 				type:String,
 				default:'',
 			},
+			// 判断是 那个的 评论点赞
+			type:{
+				type:String
+			}
 		},
 		data() {
 			return {
@@ -185,26 +167,51 @@
 				
 				// 然后将回复的评论放到二级评论中
 				
-				
-				
 			},
 			seeActive(id,index){
-				console.log('对评论进行点赞')
+				let _this = this
+				console.log('对评论进行点赞',this.type)
 				
 				// 如果当前已经对其进行了点赞 则再次点击是取消点赞
 				// if(this.$props.msgList[index].liked){
 				// 	this.$props.msgList[index].liked 
 				// }
-				
-				let _this = this
-				this._post("comment/likeComment",{
-					"commentId":id
-				},function(res){
-					console.log('进行评论点赞')
+				if( this.type == 'video' ){
+					// 对视频评论进行点赞
+					this.api._post("comment/likeComment",{
+						"commentId":id
+					},function(res){
+						console.log('进行评论点赞')
+						
+						// 对列表中显示的数据进行修改 应当调用父级的方法对其进行修改
+						_this.$emit('changeMsgList',index)
+					})
+				}else if(this.type == 'txt') {
+					console.log('点赞评论的 id',id)
+					// 对文章评论进行点赞
+					this.api._post(`article/comment/liked/${id}`,{},function(res){
+						console.log('进行评论点赞')
+						
+						// 对列表中显示的数据进行修改 应当调用父级的方法对其进行修改
+						_this.$emit('changeMsgList',index)
+					})
 					
-					// 对列表中显示的数据进行修改 应当调用父级的方法对其进行修改
-					_this.$emit('changeMsgList',index)
-				})
+				}else if(this.type == 'used') {
+					console.log('点赞评论的 id',id)
+					// 对文章评论进行点赞
+					this.api._post(`secondGoods/comment/liked/${id}`,{},function(res){
+						console.log('进行二手评论点赞')
+						
+						// 对列表中显示的数据进行修改 应当调用父级的方法对其进行修改
+						_this.$emit('changeMsgList',index)
+					})
+					
+				}
+				
+				
+				
+				// 进行文章评论的点赞
+				
 				
 				
 			},
@@ -222,14 +229,33 @@
 				// if( this.$props.msgList[index].replyList[index2].liked) return
 				
 				
-				this._post("comment/likeCommentReply",{
-					"commentReplyId":_this.$props.msgList[index].replyList[index2].id
-				},function(res){
-					console.log('对评论回复 进行 点赞')
-					// 请求成功后修改列表数据
-					_this.$emit('changeMsgList',index,index2)
+				if( this.type == 'video' ){
+					this.api._post("comment/likeCommentReply",{
+						"commentReplyId":_this.$props.msgList[index].replyList[index2].id
+					},function(res){
+						console.log('对评论回复 进行 点赞')
+						// 请求成功后修改列表数据
+						_this.$emit('changeMsgList',index,index2)
+						
+					})
+				}else if(this.type == 'txt'){
+					this.api._post(`article/comment//likedReply/${_this.$props.msgList[index].replyList[index2].id}`,
+					{},function(res){
+						console.log('对文章评论回复 进行 点赞')
+						// 请求成功后修改列表数据
+						_this.$emit('changeMsgList',index,index2)
+						
+					})
+				}else if(this.type == 'used'){
+					this.api._post(`secondGoods/comment/likedReply/${_this.$props.msgList[index].replyList[index2].id}`,
+					{},function(res){
+						console.log('对二手评论回复 进行 点赞')
+						// 请求成功后修改列表数据
+						_this.$emit('changeMsgList',index,index2)
+						
+					})
 					
-				})
+				}
 				
 			},
 			/**
@@ -251,7 +277,7 @@
 		display: flex;
 		justify-content: start;
 		padding: 32rpx 20rpx;
-		
+		color: black;
 		// 时间 字体样式
 		.time{
 			color: #939393;
@@ -281,7 +307,7 @@
 				width: 100%;	
 				display: flex;
 				justify-content: space-between;
-				.right{
+				.cmt_right{
 					position: absolute;
 					top: 10rpx;
 					right: 10rpx;

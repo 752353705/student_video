@@ -2,6 +2,7 @@
 <template>
 	<view class="uni-popup-share">
 		<view class="uni-share-title"><text class="uni-share-title-text">{{title}}</text></view>
+		
 		<view class="uni-share-content" style="height: 300px;">
 			<!-- 评论内容区 
 				采用 mescroll 进行 评论区的渲染
@@ -9,11 +10,17 @@
 			<mescroll-uni class="mescroll" ref="mescrollRef" top="50" bottom="100" @init="mescrollInit" 
 				@down="downCallback" @up="upCallback" :down="downOption" :up="upOption" 
 			>
-				<!-- <mescroll-empty v-if="msgList.length === 0" ></mescroll-empty> -->
 				<user-comment  class="user_cmt" @reply="reply" @changeMsgList="changeMsgList"  
-					:msgList="msgList"  :threereplayname="threereplayname"
+					:msgList="msgList" :type="type"  :threereplayname="threereplayname"
 					/>
 			</mescroll-uni>
+			
+			<!-- 当有评论的时候 -->
+			<!-- <user-comment  class="user_cmt" @reply="reply" @changeMsgList="changeMsgList"
+				:msgList="msgList" :type="type"  :threereplayname="threereplayname"
+				/> -->
+			<!-- 当没有评论的时候 -->	
+			
 			
 			
 		</view>
@@ -34,9 +41,8 @@
 					@input="sendVal"
 				/>
 			</view>
-			
 			<!-- 发表评论按钮 -->
-			<view @click="send" >发送</view>
+			<view @click="send" style="color: black;" >发送</view>
 		</view>
 	
 		<!-- 取消按钮 -->
@@ -57,12 +63,19 @@
 		mixins: [MescrollMixin], // 使用mixin
 		name: 'UniPopupShare',
 		props: {
+			type:{
+				type:String,
+			},
 			title: {
 				type: String,
 				default: '分享到'
 			},
 			// 当前视频的ID
 			videoId:{
+				type:String,
+			},
+			// 当前文章的 id
+			txtid:{
 				type:String,
 			}
 		},
@@ -81,6 +94,8 @@
 				downOption:{
 					isLock:true
 				},
+				// 控制空布局的使用
+				
 				// 用户头像
 				userImg:'',
 				//动态修改输入框中的值，进行用户之间的交流互评
@@ -108,7 +123,7 @@
 		},
 		mounted() {
 			let _this = this
-			// console.log('挂载')
+			// console.log('挂载 当前评论区的 类型==> ',_this.txtid)
 			uni.getStorage({
 			    key: 'user_img',
 			    success: function (res) {
@@ -153,69 +168,78 @@
 			 * */
 			/*下拉刷新的回调*/
 			downCallback(){
-				// 与 mescroll-body 的处理方式一致 > 
 				console.log('下拉刷新')
-				// this.pageNum = 1
-				
-				
-				// 发起请求，请求评论区内容
-				let _this = this
-				this._get("comment/getComments",{
-					"pageNum":_this.pageNum,
-					"pageSize":10,
-					"videoId":_this.$props.videoId
-				},function(res){
-					console.log('请求评论下拉刷新 ===》 res',res.data.list);
-					_this.msgList = res.data.list
-					_this.mescroll.endSuccess()
-					
-					// 进行了初始化下拉刷新请求数据，之后改变请求的页数
-					// _this.pageNum =  _this.pageNum + 1
-					
-					// 获取用户评论的条数
-					// 将评论数传递给播放页
-					// _this.$emit('changeCommentsNum',res.data.total)
-				})
+				this.mescroll.resetUpScroll();
 				
 			},
 			/*上拉加载的回调*/
 			upCallback(page) {
-				// 与 mescroll-body 的处理方式一致 > 
-				// console.log('uni-popup-comments上拉刷新')
-				// setTimeout(()=>{
-				// 	this.mescroll.endSuccess(1);
-				// },3000)
-				
 				// 上拉加载进行请求数据
 				let _this = this
-				this._get("comment/getComments",{
-					"pageNum":  _this.pageNum ,
-					"pageSize":10,
-					"videoId":_this.$props.videoId
-				},function(res){
-					console.log('请求评论 上拉加载 ===》 res',res.data.list);
+				// console.log('上拉加载 获取 二手 评论 == 》this',this,'this.txtid',this.txtid)
+				if(this.type == 'video'){
+					// 获取 视频界面的 评论
+					this.api._get("comment/getComments",{
+						"pageNum":  _this.pageNum ,
+						"pageSize":10,
+						"videoId":_this.$props.videoId
+					},function(res){
+						console.log('请求评论 上拉加载 ===》 res',res.data.list);
+						// 修改默认的页数
+						_this.pageNum = res.data.nextPage
+						// 参数一：当前页获取的数据量
+						_this.mescroll.endSuccess(res.data.list.length)
+						
+						console.log('_this.msgList ===》',_this.msgList,"res.data.list ==>",res.data.list)
+						// 进行数组之间的拼接 如果请求回的内容相同 ，则不进行拼接
+						if( JSON.stringify(_this.msgList) == JSON.stringify(res.data.list))  return false
+						_this.msgList = _this.msgList.concat(res.data.list)
+						// console.log('请求下一页拼接后的数组 _this.msgList ===》',_this.msgList)
+					})
+				}else if(this.type == 'txt'){
+					// 获取 文章页面的 评论
+					this.api._get("article/comment/list",{
+						"pageNum":  _this.pageNum ,
+						"pageSize":10,
+						"articleId":_this.txtid
+					},function(res){
+						console.log('请求文章评论 ===》 res',res.data.list);
+						// 修改默认的页数
+						_this.pageNum = res.data.nextPage
+						// 参数一：当前页获取的数据量
+						_this.mescroll.endSuccess(res.data.list.length)
+						
+						console.log('_this.msgList ===》',_this.msgList,"res.data.list ==>",res.data.list)
+						// 进行数组之间的拼接 如果请求回的内容相同 ，则不进行拼接
+						if( JSON.stringify(_this.msgList) == JSON.stringify(res.data.list))  return false
+						_this.msgList = _this.msgList.concat(res.data.list)
+						// console.log('请求下一页拼接后的数组 _this.msgList ===》',_this.msgList)
+					})
+				}else if(this.type == 'used'){
+					// 获取用户 的二手评论
+					console.log('获取 二手 评论 == 》',this,this.txtid)
+					this.api._get("secondGoods/commentList",{
+						"pageNum":  _this.pageNum ,
+						"pageSize":10,
+						"goodsId":_this.txtid
+					},function(res){
+						console.log('请求二手评论 ===》 res',res.data.list);
+						// 修改默认的页数
+						_this.pageNum = res.data.nextPage
+						// 参数一：当前页获取的数据量
+						_this.mescroll.endSuccess(res.data.list.length)
+						
+						console.log('_this.msgList ===》',_this.msgList,"res.data.list ==>",res.data.list)
+						// 进行数组之间的拼接 如果请求回的内容相同 ，则不进行拼接
+						if( JSON.stringify(_this.msgList) == JSON.stringify(res.data.list))  return false
+						_this.msgList = _this.msgList.concat(res.data.list)
+						// console.log('请求下一页拼接后的数组 _this.msgList ===》',_this.msgList)
+					})
 					
+					
+				}
 				
-					
-					
-					
-					
-				// 修改默认的页数
-				_this.pageNum = res.data.nextPage
-					
-					
-					// 参数一：当前页获取的数据量
-					_this.mescroll.endSuccess(res.data.list.length)
-					
-					console.log('_this.msgList ===》',_this.msgList,"res.data.list ==>",res.data.list)
-					// 进行数组之间的拼接 如果请求回的内容相同 ，则不进行拼接
-					if( JSON.stringify(_this.msgList) == JSON.stringify(res.data.list))  return false
-					_this.msgList = _this.msgList.concat(res.data.list)
-					// console.log('请求下一页拼接后的数组 _this.msgList ===》',_this.msgList)
-					
-					
-					
-				})
+			
 			},
 			 
 			 
@@ -235,55 +259,138 @@
 				 
 				 console.log('发表评论e',this.val)
 				 
-				 
-				// 如果是对视频进行评论
-				if(this.sendStyle){
-					//对当前视频进行评论
-					this._post("comment/add",{
-								"videoId":_this.$props.videoId,//视频ID
-								"content":_this.val,
-							},function(res){
-								console.log('发表评论成功 res==>',res)
-								
-								
-								// 发表言论成功后，修改列表的距离
-								_this.msgList.unshift({
-									 avatarUrl:uni.getStorageSync("user_img"),
-									 userName:uni.getStorageSync("user_name"),
-									 content:_this.val,
-									 createTime:'',
-									 praseCount:''
-								})
-								
-								_this.val = ''
-								
-								// 添加了言论之后，修改当前的 评论数量
-								_this.$emit('changeCommentsNum')
-								
-								
-							})
-				}else{
-					// 进行评论的回复
-					this._post("comment/addReply",{
-							"commentId":_this.commentId,//评论中的ID
-							"content":_this.val,
-						},function(res){
-							console.log('进行评论回复 res==>',res)
-							_this.sendStyle = true
-							
-							// 对评论列表进行修改，
-							_this.msgList[_this.replayIndex].replyList.unshift({
-								content:_this.val,
-								avatarUrl:uni.getStorageSync("user_img"),
-								userName:uni.getStorageSync("user_name"),
-								createTime:'',
-								praseCount:''
-							})
-							
-							console.log('评论的回复 msgList ==》',_this.msgList)
-							_this.val = ''
-						})
-				}
+				 // 根据传递过来的 type类型 判断 当前评论为 那个部分的
+				 if( this.type == 'video' ){
+					 //给视频添加评论
+					 if(this.sendStyle){
+					 	//对当前视频进行评论
+					 	this.api._post("comment/add",{
+					 				"videoId":_this.$props.videoId,//视频ID
+					 				"content":_this.val,
+					 			},function(res){
+					 				console.log('发表评论成功 res==>',res)
+					 				// 发表言论成功后，修改列表的距离
+					 				_this.msgList.unshift({
+					 					 avatarUrl:uni.getStorageSync("user_img"),
+					 					 userName:uni.getStorageSync("user_name"),
+					 					 content:_this.val,
+					 					 createTime:'',
+					 					 praseCount:''
+					 				})
+					 				_this.val = ''
+					 				// 添加了言论之后，修改当前的 评论数量
+					 				_this.$emit('changeCommentsNum')
+					 			})
+					 }else{
+					 	// 进行评论的回复
+					 	this.api._post("comment/addReply",{
+					 			"commentId":_this.commentId,//评论中的ID
+					 			"content":_this.val,
+					 		},function(res){
+					 			console.log('进行评论回复 res==>',res)
+					 			_this.sendStyle = true
+					 			// 对评论列表进行修改，
+					 			_this.msgList[_this.replayIndex].replyList.unshift({
+					 				content:_this.val,
+					 				avatarUrl:uni.getStorageSync("user_img"),
+					 				userName:uni.getStorageSync("user_name"),
+					 				createTime:'',
+					 				praseCount:''
+					 			})
+					 			console.log('评论的回复 msgList ==》',_this.msgList)
+					 			_this.val = ''
+					 		})
+					 }
+				 }else if( this.type == 'txt' ){
+					 // 当前为 文章的 评论
+					 console.log('添加文章的评论')
+					 if(this.sendStyle){
+					 	//对当前文章进行评论
+					 	this.api._post("article/comment",{
+					 				"articleId":_this.txtid,//视频ID
+					 				"content":_this.val,
+					 			},function(res){
+					 				console.log('发表文章评论成功 res==>',res)
+					 				// 发表言论成功后，修改列表的距离
+					 				_this.msgList.unshift({
+					 					 avatarUrl:uni.getStorageSync("user_img"),
+					 					 userName:uni.getStorageSync("user_name"),
+					 					 content:_this.val,
+					 					 createTime:'',
+					 					 praseCount:''
+					 				})
+					 				_this.val = ''
+					 				// 添加了言论之后，修改当前的 评论数量
+					 				_this.$emit('changeCommentsNum')
+					 			})
+					 }else{
+					 	// 进行评论的回复
+					 	this.api._post("article/comment/addReply",{
+					 			"commentId":_this.commentId,//评论中的ID
+					 			"content":_this.val,
+					 		},function(res){
+					 			console.log('进行文章评论回复 res==>',res)
+					 			_this.sendStyle = true
+					 			// 对评论列表进行修改，
+					 			_this.msgList[_this.replayIndex].replyList.unshift({
+					 				content:_this.val,
+					 				avatarUrl:uni.getStorageSync("user_img"),
+					 				userName:uni.getStorageSync("user_name"),
+					 				createTime:'',
+					 				praseCount:''
+					 			})
+					 			console.log('评论的回复 msgList ==》',_this.msgList)
+					 			_this.val = ''
+					 		})
+					 }
+					 
+					 
+				 }else if( this.type == 'used' ){
+					 // 当前为 文章的 评论
+					 console.log('添加二手的评论')
+					 if(this.sendStyle){
+					 	//对当前 二手 进行评论
+					 	this.api._post("secondGoods/addComment",{
+					 				"goodsId":_this.txtid,//视频ID
+					 				"content":_this.val,
+					 			},function(res){
+					 				console.log('发表文章评论成功 res==>',res)
+					 				// 发表言论成功后，修改列表的距离
+					 				_this.msgList.unshift({
+					 					 avatarUrl:uni.getStorageSync("user_img"),
+					 					 userName:uni.getStorageSync("user_name"),
+					 					 content:_this.val,
+					 					 createTime:'',
+					 					 praseCount:''
+					 				})
+					 				_this.val = ''
+					 				// 添加了言论之后，修改当前的 评论数量
+					 				_this.$emit('changeCommentsNum')
+					 			})
+					 }else{
+					 	// 进行评论的回复
+					 	this.api._post("secondGoods/addCommentReply",{
+					 			"commentId":_this.commentId,//评论中的ID
+					 			"content":_this.val,
+					 		},function(res){
+					 			console.log('进行二手评论回复 res==>',res)
+					 			_this.sendStyle = true
+					 			// 对评论列表进行修改，
+					 			_this.msgList[_this.replayIndex].replyList.unshift({
+					 				content:_this.val,
+					 				avatarUrl:uni.getStorageSync("user_img"),
+					 				userName:uni.getStorageSync("user_name"),
+					 				createTime:'',
+					 				praseCount:''
+					 			})
+					 			console.log('评论的回复 msgList ==》',_this.msgList)
+					 			_this.val = ''
+					 		})
+					 }
+					 
+					 
+				 }
+				
 						
 			},
 			 
@@ -293,41 +400,101 @@
 				
 				// console.log('父级中 reply')
 				
-				if(index2 == undefined){
-					// console.log('对视频评论进行回复')
-					// 对视频评论进行回复
-					
-					// 修改输入框中的值
-					this.replayVal = '回复 @' + this.msgList[index].userName
-					this.commentId = this.msgList[index].id
-					this.sendStyle = false
-					
-					// 修改评论的序号
-					this.replayIndex = index
-					
-					// 拉起输入框，进行聚焦
-					this.inputfocus = true
-					
-				}else{
-					// 对 二级评论机型回复
-					console.log('进行二级回复',this.msgList[index].replyList[index2])
-					this.replayVal = '回复 @' + this.msgList[index].replyList[index2].userName  //用于显示进行二级回复的用户名 
-					// this.replayVal = '回复 @' + "旭东"  //用于显示进行二级回复的用户名 
-					
-					this.commentId = this.msgList[index].id
-					this.sendStyle = false
-					
-					this.replayIndex = index
-					
-					this.inputfocus = true
+				// 首先要确定是 给那个类型的进行二级评论
+				if(this.type == 'video'){
+					// 给视频进行添加二级评论
+					if(index2 == undefined){
+						// console.log('对视频评论进行回复')
+						// 对视频评论进行回复
+						
+						// 修改输入框中的值
+						this.replayVal = '回复 @' + this.msgList[index].userName
+						this.commentId = this.msgList[index].id
+						this.sendStyle = false
+						
+						// 修改评论的序号
+						this.replayIndex = index
+						
+						// 拉起输入框，进行聚焦
+						this.inputfocus = true
+						
+					}else{
+						// 对 二级评论机型回复
+						console.log('进行二级回复',this.msgList[index].replyList[index2])
+						this.replayVal = '回复 @' + this.msgList[index].replyList[index2].userName  //用于显示进行二级回复的用户名 
+						// this.replayVal = '回复 @' + "旭东"  //用于显示进行二级回复的用户名 
+						
+						this.commentId = this.msgList[index].id
+						this.sendStyle = false
+						
+						this.replayIndex = index
+						
+						this.inputfocus = true
+					}
+				}else if(this.type == 'txt'){
+					// 给 文章添加二级评论
+					if(index2 == undefined){
+						// console.log('对视频评论进行回复')
+						// 对视频评论进行回复
+						
+						// 修改输入框中的值
+						this.replayVal = '回复 @' + this.msgList[index].userName
+						this.commentId = this.msgList[index].id
+						this.sendStyle = false
+						
+						// 修改评论的序号
+						this.replayIndex = index
+						
+						// 拉起输入框，进行聚焦
+						this.inputfocus = true
+						
+					}else{
+						// 对 二级评论机型回复
+						console.log('进行二级回复',this.msgList[index].replyList[index2])
+						this.replayVal = '回复 @' + this.msgList[index].replyList[index2].userName  //用于显示进行二级回复的用户名 
+						// this.replayVal = '回复 @' + "旭东"  //用于显示进行二级回复的用户名 
+						
+						this.commentId = this.msgList[index].id
+						this.sendStyle = false
+						
+						this.replayIndex = index
+						
+						this.inputfocus = true
+					}
+				}else if(this.type == 'used'){
+					// 给 二手 添加二级评论
+					if(index2 == undefined){
+						// console.log('对视频评论进行回复')
+						// 对视频评论进行回复
+						
+						// 修改输入框中的值
+						this.replayVal = '回复 @' + this.msgList[index].userName
+						this.commentId = this.msgList[index].id
+						this.sendStyle = false
+						
+						// 修改评论的序号
+						this.replayIndex = index
+						
+						// 拉起输入框，进行聚焦
+						this.inputfocus = true
+						
+					}else{
+						// 对 二级评论机型回复
+						console.log('进行二级回复',this.msgList[index].replyList[index2])
+						this.replayVal = '回复 @' + this.msgList[index].replyList[index2].userName  //用于显示进行二级回复的用户名 
+						// this.replayVal = '回复 @' + "旭东"  //用于显示进行二级回复的用户名 
+						
+						this.commentId = this.msgList[index].id
+						this.sendStyle = false
+						
+						this.replayIndex = index
+						
+						this.inputfocus = true
+					}
 				}
 				
-				
-				
+			
 			 },
-			 
-			 
-			 
 			/**
 			 * 选择内容
 			 */
@@ -406,9 +573,11 @@
 		align-items: center;
 		background-color: white;
 		z-index: 10;
-		position: sticky;
+		position: fixed;
+		width: 100%;
 		bottom: 0;
 		left: 0;
+		color: black;
 		.img_user{
 			width: 60rpx;
 			height: 60rpx;

@@ -71,7 +71,7 @@
 					}
 					
 					//进行用户登录
-					 this._post("auth/login",{
+					 this.api._post("auth/login",{
 					 	"username":e.detail.value.username,
 					 	"password":e.detail.value.password,
 					 },function(res){

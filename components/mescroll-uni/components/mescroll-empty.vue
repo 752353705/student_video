@@ -51,7 +51,7 @@ export default {
 .mescroll-empty {
 	box-sizing: border-box;
 	width: 100%;
-	padding: 200rpx 50rpx;
+	padding: 70rpx 50rpx;
 	text-align: center;
 }
 

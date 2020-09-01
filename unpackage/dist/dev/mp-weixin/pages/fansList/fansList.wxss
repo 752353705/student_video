@@ -28,13 +28,22 @@
   background-color: yellow;
   border-radius: 50%;
   margin-right: 40rpx;
+  overflow: hidden;
+}
+.fans .left .img image {
+  width: 100%;
+  height: 100%;
 }
 .fans .focus {
   border: 1px solid red;
   color: red;
-  padding: 10rpx 20rpx;
+  padding: 6rpx 35rpx;
   border-radius: 40rpx;
-  font-size: 20rpx;
+  font-size: 27rpx;
+}
+.fans .focuson {
+  background-color: #ff2440;
+  color: white;
 }
 .fans:after {
   content: "  ";

@@ -24,6 +24,12 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
 .uni-popup-share.data-v-40e5d6a6 {
   position: relative;
   background-color: #fff;
@@ -84,10 +90,11 @@
           align-items: center;
   background-color: white;
   z-index: 10;
-  position: -webkit-sticky;
-  position: sticky;
+  position: fixed;
+  width: 100%;
   bottom: 0;
   left: 0;
+  color: black;
 }
 .msgBox .img_user.data-v-40e5d6a6 {
   width: 60rpx;

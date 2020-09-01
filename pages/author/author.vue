@@ -2,7 +2,9 @@
 	<view class="author">
 		<!-- 头部 -->
 		<view class="head height">
-			<view class="userImg"></view>
+			<view class="userImg">
+				<image :src="avatarUrl" mode=""></image>
+			</view>
 			<view class="right">
 				<view class="box">
 					<!-- 关注 -->
@@ -38,7 +40,7 @@
 		<!-- 作者相关的视频 -->
 		<view class="content">
 			<!-- 头部 滑动 -->
-			<swiperTabHead class="height"  :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
+			<swiperTabHead class="height" :flex="true" :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
 			<!-- 作品展示 -->
 			<swiper :style="{height:swiper_height}"  :current="tabIndex" @change="tabChange">
 				<swiper-item style="box-sizing: border-box;padding: 0 10rpx;" v-for="(tab,i) in tabBars" :key="i" >
@@ -52,7 +54,7 @@
 <script>
 	// 使用 mescroll
 	import MescrollItem from "@/components/mescroll-swiper-item.vue";
-	import {apiSearch} from "@/API/mock.js"
+	// import {apiSearch} from "@/API/mock.js"
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import wfallsFlow from '../../components/wfallsflow.vue'
 	// 引入tabHead 切换
@@ -61,6 +63,8 @@
 		mixins: [MescrollMixin], // 使用mixin
 		data() {
 			return {
+				// 用户的头像
+				avatarUrl:'',
 				swiper_height: "", // 需要固定swiper的高度
 				//控制nav切换
 				tabIndex:0,// 选中的
@@ -79,7 +83,10 @@
 			MescrollItem,
 			swiperTabHead
 		},
-		onLoad() {
+		onLoad(option) {
+			console.log('查看用户信息 option',option)
+			// 用户跳转过来时的头像信息
+			this.avatarUrl = option.avatarUrl
 			// 测试
 			this.swiper_height = uni.getSystemInfoSync().windowHeight + 'px'
 			// console.log('屏幕高度',uni.getSystemInfoSync().windowHeight)
@@ -157,6 +164,11 @@
 			height: 150rpx;
 			background-color: yellow;
 			border-radius: 50%;
+			overflow: hidden;
+			image{
+				width: 100%;
+				height: 100%;
+			}
 		}
 		.right{
 			width: 77%;

@@ -1,11 +1,6 @@
 .chartRoom .scroll {
   background-color: red;
 }
-.chartRoom .scroll .chartBox {
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-}
 .chartRoom .scroll .chartBox .chart_right {
   width: 100%;
   box-sizing: border-box;
@@ -64,7 +59,7 @@
   border-radius: 50%;
 }
 .chartRoom .input_box {
-  position: absolute;
+  position: fixed;
   z-index: 10;
   left: 0;
   bottom: 0;

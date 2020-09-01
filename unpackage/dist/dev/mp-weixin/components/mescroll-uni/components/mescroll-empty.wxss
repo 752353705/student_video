@@ -51,7 +51,7 @@
 .mescroll-empty {
 	box-sizing: border-box;
 	width: 100%;
-	padding: 100rpx 50rpx;
+	padding: 70rpx 50rpx;
 	text-align: center;
 }
 .mescroll-empty.empty-fixed {

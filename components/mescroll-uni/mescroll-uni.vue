@@ -82,6 +82,12 @@
 			}
 		},
 		props: {
+			// 控制空布局的显示
+			empty:{
+				type:Boolean,
+				default:true
+			},
+			
 			down: Object, // 下拉刷新的参数配置
 			up: Object, // 上拉加载的参数配置
 			top: [String, Number], // 下拉布局往下的偏移量 (支持20, "20rpx", "20px", "20%"格式的值, 其中纯数字则默认单位rpx, 百分比则相对于windowHeight)

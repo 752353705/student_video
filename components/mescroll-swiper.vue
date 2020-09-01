@@ -5,9 +5,6 @@
 		<swiper  :style="{height: height}" :current="tabIndex" @change="swiperChange">
 			<swiper-item  v-for="(tab,i) in tabs" :key="i">
 				<mescroll-item  :i="i" :index="tabIndex"  :tabs="tabs" :mescrollBot="" >
-					<!-- <slot name="pushVideo">
-						上传视频
-					</slot> -->
 				</mescroll-item>
 			</swiper-item>
 		</swiper>
@@ -24,7 +21,6 @@
 		data() {
 			return {
 				height: "400px", // 需要固定swiper的高度
-				// tabs: [{name:'全部'}, {name:'奶粉'}, {name:'面膜'}, {name:'图书'}, {name:'果汁'}, {name:'奶瓶'}, {name:'美素'}, {name:'花王'}, {name:'韩蜜'}],
 				tabIndex: 0 // 当前tab的下标
 			}
 		},

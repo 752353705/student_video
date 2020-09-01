@@ -87,7 +87,7 @@
 					console.log('校验成功')
 					this.sliderVerifyFLag = false
 					// 调用发送验证码 请求
-					this._post("auth/regCaptcha",{
+					this.api._post("auth/regCaptcha",{
 						"phone":_this.phone,
 					},function(res){
 						console.log('获取验证码',res);
@@ -147,7 +147,7 @@
 				// 注意对立即登录按钮 点击进行防抖节流 处理防止用户多次点击
 				
 				// 发送请求，进行密码重置
-				_this._post("auth/reset",{
+				_this.api._post("auth/reset",{
 					"password":e.detail.value.password,
 					"phone":e.detail.value.phone,
 					"code":_this.wxCode,   //验证码

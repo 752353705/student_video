@@ -24,8 +24,16 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
 .uni-popup-share.data-v-66f313da {
-  background-color: #fff;
+  background-color: #171926;
+  color: white;
+  border-radius: 20rpx 20rpx 0 0;
 }
 .uni-share-title.data-v-66f313da {
   display: -webkit-box;
@@ -46,7 +54,6 @@
 .uni-share-title-text.data-v-66f313da {
   font-size: 40rpx;
   font-weight: bolder;
-  color: #666;
 }
 .uni-share-content.data-v-66f313da {
   display: -webkit-box;
@@ -90,17 +97,13 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.uni-share-content-item.data-v-66f313da:active {
-  background-color: #f5f5f5;
-}
 .uni-share-image.data-v-66f313da {
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
 }
 .uni-share-text.data-v-66f313da {
   margin-top: 10px;
   font-size: 14px;
-  color: #3B4144;
 }
 .uni-share-button-box.data-v-66f313da {
   display: -webkit-box;
@@ -111,6 +114,21 @@
   -webkit-flex-direction: row;
           flex-direction: row;
   padding: 10px 15px;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+          justify-content: flex-end;
+}
+.recharge.data-v-66f313da {
+  color: #ffd72a;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  height: 65rpx;
+  background-color: #10131c;
+  text-align: center;
+  line-height: 65rpx;
+  border-radius: 20rpx;
+  padding: 0 20rpx;
 }
 .uni-share-button.data-v-66f313da {
   -webkit-box-flex: 1;

@@ -1,0 +1,10 @@
+(global["webpackJsonp"]=global["webpackJsonp"]||[]).push([["components/uni-popup/uni-popup-usermsg"],{"2c63":function(t,e,n){"use strict";n.r(e);var u=n("50ac"),o=n.n(u);for(var i in u)"default"!==i&&function(t){n.d(e,t,(function(){return u[t]}))}(i);e["default"]=o.a},3174:function(t,e,n){"use strict";var u=n("61a4"),o=n.n(u);o.a},"4b42":function(t,e,n){"use strict";n.r(e);var u=n("9eac"),o=n("2c63");for(var i in o)"default"!==i&&function(t){n.d(e,t,(function(){return o[t]}))}(i);n("3174");var r,a=n("f0c5"),c=Object(a["a"])(o["default"],u["b"],u["c"],!1,null,"39efd4da",null,!1,u["a"],r);e["default"]=c.exports},"50ac":function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default=void 0;n("1d36"),u(n("4e29"));function u(t){return t&&t.__esModule?t:{default:t}}var o={name:"UniPopupMessage",props:{pop_type:{type:String,default:""},type:{type:String,default:"success"},message:{type:String,default:""},duration:{type:Number,default:3e3}},inject:["popup"],data:function(){return{video_src:"",uploader:"",videos:[],showCir:!1,percent:0}},created:function(){this.popup.childrenMsg=this},onReady:function(){},methods:{open:function(){var t=this;0!==this.duration&&(clearTimeout(this.popuptimer),this.popuptimer=setTimeout((function(){t.popup.close()}),this.duration))},close:function(){clearTimeout(this.popuptimer)},submitUserMsg:function(t){console.log("个人资料e",t.detail.value)}}};e.default=o},"61a4":function(t,e,n){},"9eac":function(t,e,n){"use strict";var u,o=function(){var t=this,e=t.$createElement;t._self._c},i=[];n.d(e,"b",(function(){return o})),n.d(e,"c",(function(){return i})),n.d(e,"a",(function(){return u}))}}]);
+;(global["webpackJsonp"] = global["webpackJsonp"] || []).push([
+    'components/uni-popup/uni-popup-usermsg-create-component',
+    {
+        'components/uni-popup/uni-popup-usermsg-create-component':(function(module, exports, __webpack_require__){
+            __webpack_require__('543d')['createComponent'](__webpack_require__("4b42"))
+        })
+    },
+    [['components/uni-popup/uni-popup-usermsg-create-component']]
+]);

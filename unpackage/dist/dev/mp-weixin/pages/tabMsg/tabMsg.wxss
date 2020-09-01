@@ -36,7 +36,7 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.tabMsg .tab_head .head_item image {
+.tabMsg .tab_head .head_item .img {
   width: 80rpx;
   height: 80rpx;
 }
@@ -44,7 +44,7 @@
   margin-top: 20rpx;
 }
 .tabMsg .head::after {
-  content: " ";
+  content: ' ';
   position: absolute;
   left: 0;
   top: 0;
@@ -109,7 +109,7 @@
   color: #8d8d8d;
 }
 .tabMsg .content .con_item .right::after {
-  content: " ";
+  content: ' ';
   position: absolute;
   left: 0;
   bottom: 0;

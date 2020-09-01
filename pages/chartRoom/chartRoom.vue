@@ -6,7 +6,10 @@
 			class="scroll"
 		> -->  
 		<!-- bottom="50%" -->
-		<mescroll-body class="scroll" ref="mescrollRef"  @init="mescrollInit" :down="downOption" @down="downCallback" :up="upOption">
+		<mescroll-body class="scroll" ref="mescrollRef"  @init="mescrollInit" 
+			:down="downOption" @down="downCallback" :up="upOption"
+			bottom="50%"
+			>
 			<view v-if="isEnd" class="msg-end">没有更多消息了</view>
 			<view class="chartBox">
 				<!-- 接收方 在左侧显示 -->
@@ -36,7 +39,7 @@
 		<!-- 输入框 -->
 		<view class="input_box height"
 			:style=inputBottom
-		>
+			>
 			<!-- 输入框 -->
 			<input class="uni-input"  
 				cursor-spacing="10"
@@ -45,6 +48,7 @@
 				@input="input"
 				@keyboardheightchange="keyWord"
 				@confirm="end" 
+				@blur="blur"
 				:adjust-position="false"
 				:hold-keyboard="false"	
 			/>
@@ -114,11 +118,11 @@
 				
 				
 				// 滚动组件
-				downOption: {
-					autoShowLoading: true, // 显示下拉刷新的进度条
-					minAngle: 70, // 增大触发下拉刷新的角度
-					textColor: '#000000' // 下拉刷新的文本颜色
-				},
+				// downOption: {
+				// 	autoShowLoading: true, // 显示下拉刷新的进度条
+				// 	minAngle: 70, // 增大触发下拉刷新的角度
+				// 	textColor: '#000000' // 下拉刷新的文本颜色
+				// },
 				upOption: {
 					use: false, // 禁止上拉
 					toTop: {
@@ -135,6 +139,7 @@
 			// uniPopupChart
 		},
 		onLoad() {
+			console.log("进入聊天界面")
 			// this.$refs.popupChart.open()
 			// 聊天室，导航栏改变成 聊天对象的名称
 			uni.setNavigationBarTitle({
@@ -144,6 +149,12 @@
 			// 获取发送方的头像
 			this.rightUserImg = uni.getStorageSync('user_img')
 			
+		},
+		onShow() {
+			// 当用户进入到聊天界面之后，将tabbar 的角标去掉
+			uni.removeTabBarBadge({
+				index:3
+			})
 		},
 		onReady() {
 			let _this = this
@@ -195,31 +206,33 @@
 						console.log("下拉获取数据 data",data,"this.msgList")
 						// 判断是那个用户的消息，将其放入相应的列表
 						this.chartRight = data.concat(this.chartRight); // 注意不是this.msgList.concat
-			
-						// 控制聊天的消息界面的滚动
-						// this.$nextTick(() => {
-						// 	if (this.pageNum <= 2) {
-						// 		// 第一页直接滚动到底部 ( this.pageNum已在前面加1 )
-						// 		this.mescroll.scrollTo(99999, 0);
-						// 	} else if (topMsg) {
-						// 		// 保持顶部消息的位置
-						// 		let view = uni.createSelectorQuery().select('#' + topMsg.VIEW_ID);
-						// 		view
-						// 			.boundingClientRect(v => {
-						// 				console.log('节点离页面顶部的距离=' + v.top);
-						// 				this.mescroll.scrollTo(v.top - 100, 0); // 减去上偏移量100
-						// 			})
-						// 			.exec();
-						// 	}
-						// });
-						
-						
+						this.msgscroll()
 						
 					})
 					.catch(() => {
 						this.pageNum--; // 联网失败,必须回减页码
 						this.mescroll.endErr(); // 隐藏下拉刷新的状态
 					});
+			},
+			// 控制消息页面的滚动
+			msgscroll(){
+				let topMsg = this.msgList[0];
+				// 控制聊天的消息界面的滚动
+				this.$nextTick(() => {
+					if (this.pageNum <= 2) {
+						// 第一页直接滚动到底部 ( this.pageNum已在前面加1 )
+						this.mescroll.scrollTo(99999, 0);
+					} else if (topMsg) {
+						// 保持顶部消息的位置
+						let view = uni.createSelectorQuery().select('#' + topMsg.VIEW_ID);
+						view
+							.boundingClientRect(v => {
+								console.log('节点离页面顶部的距离=' + v.top);
+								this.mescroll.scrollTo(v.top - 100, 0); // 减去上偏移量100
+							})
+							.exec();
+					}
+				});
 			},
 			
 			
@@ -228,9 +241,16 @@
 				console.log('发送消息',this.sendVal)
 				this.inputBottom = 0
 				// 将发送方的消息储存到 chartRight
-				this.chartRight.push(this.sendVal)
+				this.chartRight.push({title:this.sendVal})
 				// 然后清空输入框内容
 				this.sendVal = ''
+				
+				// 消息界面向上进行滚动
+				this.msgscroll()
+			},
+			// 当输入框失去焦点之后
+			blur(){
+				this.inputBottom = 0
 			},
 			// 当用户进行输入
 			input(e){
@@ -295,8 +315,8 @@
 		.scroll{
 			background-color: red;
 			.chartBox{
-				position: sticky;
-				top: 0;
+				// position: sticky;
+				// top: 0;
 				.chart_right{
 					width: 100%;
 					box-sizing: border-box;
@@ -347,7 +367,7 @@
 	
 		
 		.input_box{
-			position: absolute;
+			position: fixed;
 			z-index: 10;
 			left: 0;
 			bottom: 0;

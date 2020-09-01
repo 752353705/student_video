@@ -1,161 +1,252 @@
 {
-		"easycom": {
-				"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
-			},
-    "pages" : [
-        //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-        {
-            "path" : "pages/list/list",
-            "style" : {
-							"navigationStyle" : "custom"
-							// "navigationBarTitleText" : "作品列表"
-							
-            }
-        },
-        {
-            "path" : "pages/find/find",
-            "style" : {
-							"navigationBarTitleText" : "搜索作品"
-            }
-        },
-        {
-					"path" : "pages/my/my",
-					"style" : {
-						"navigationBarTitleText" : "我的"
-					}
-        },
-        {
-            "path" : "pages/reg/reg",
-            "style" : {
-							"navigationBarTitleText" : "账号登录"
-						}
-        },
-        {
-            "path" : "pages/playVideo/playVideo",
-            "style" : {
-                "navigationStyle" : "custom",
-								"app-plus":{
-									"subNVues":[{
-											"id":"gift",
-											 "path":"pages/playVideo/gift.nvue",
-											 "style":{
-												 "position":"absolute",
-												 "bottom":"0",
-												 "height":"350px"
-											 },
-											 "type":"popup"
-										}]
-								}
-            }
-        }
-        ,{
-            "path" : "pages/login/login",
-            "style" : {
-							"navigationBarTitleText" : "登录"
-						}
-        }
-        ,{
-            "path" : "pages/author/author",
-            "style" : {
-						}
-        }
-        ,{
-            "path" : "pages/fansList/fansList",
-            "style" : {
-							"navigationBarTitleText" : "粉丝列表"
-						}
-        }
-        ,{
-            "path" : "pages/tabMsg/tabMsg",
-            "style" : {
-							"navigationBarTitleText" : "消息"
-						}
-        }
-        ,{
-            "path" : "pages/chartRoom/chartRoom",
-            "style" : {
+	"easycom": {
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/list/list",
+			"style": {
+				"navigationStyle": "custom"
+				// "navigationBarTitleText" : "作品列表"
 
-						}
-        }
-        ,{
-            "path" : "pages/chat/chat",
-            "style" : {}
-        }
-        ,{
-            "path" : "pages/shop/shop",
-            "style" : {
-							"navigationBarTitleText" : "大学生商城"
-						}
-        }
-        ,{
-            "path" : "pages/findList/findList",
-            "style" : {}
-        },
-				{
-				    "path" : "pages/publish/publish",
-				    "style" : {}
+			}
+		},
+		{
+			"path": "pages/find/find",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		},
+		{
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/reg/reg",
+			"style": {
+				"navigationBarTitleText": "账号登录"
+			}
+		},
+		{
+			"path": "pages/playVideo/playVideo",
+			"style": {
+				"navigationStyle": "custom",
+				"app-plus": {
+					"subNVues": [{
+						"id": "gift",
+						"path": "pages/playVideo/gift.nvue",
+						"style": {
+							"position": "absolute",
+							"bottom": "0",
+							"height": "350px"
+						},
+						"type": "popup"
+					}]
 				}
-        ,{
-            "path" : "pages/seekWord/seekWord",
+			}
+		},{
+			"path": "pages/playVideo/txtDetail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		},{
+			"path": "pages/playVideo/usedDetail",
+			"style": {
+				"navigationStyle": "custom"
+			}
+		}, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		}, {
+			"path": "pages/author/author",
+			"style": {}
+		}, {
+			"path": "pages/fansList/fansList",
+			"style": {
+
+			}
+		}, {
+			"path": "pages/tabMsg/tabMsg",
+			"style": {
+				"navigationBarTitleText": "消息"
+			}
+		}, {
+			"path": "pages/chartRoom/chartRoom",
+			"style": {
+
+			}
+		}, {
+			"path": "pages/chat/chat",
+			"style": {}
+		}, {
+			"path": "pages/shop/shop",
+			"style": {
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#85c43f",
+				"navigationBarTitleText": "大学生商城"
+			}
+		}, {
+			"path": "pages/findList/findList",
+			"style": {}
+		},
+		{
+			"path": "pages/publish/publish",
+			"style": {}
+		}, {
+			"path": "pages/seekWord/seekWord",
+			"style": {
+				"navigationBarTitleText": "密码重置"
+			}
+		}, {
+			"path": "pages/signIn/signIn",
+			"style": {
+				"navigationBarTitleText": "注册"
+			}
+		}, {
+			"path": "pages/shopClassify/shopClassify",
+			"style": {
+				"navigationBarTitleText": "分类"
+			}
+		}, {
+			"path": "pages/shopcar/shopcar",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		}, {
+			"path": "pages/shopdetail/shopdetail",
+			"style": {
+				"navigationBarTitleText": "详情展示"
+			}
+		}, {
+			"path": "pages/zan/zan",
+			"style": {
+				"navigationBarTitleText": "赞和收藏"
+			}
+		}, {
+			"path": "pages/newfocus/newfocus",
+			"style": {
+				"navigationBarTitleText": "新增关注"
+			}
+		}, {
+			"path": "pages/commt/commt",
+			"style": {
+				"navigationBarTitleText": "评论和@"
+			}
+		}, {
+			"path": "pages/order/order",
+			"style": {
+				"navigationBarTitleText": "我的订单"
+
+			}
+		},
+		{
+			"path": "pages/order/creatOrder",
+			"style": {
+				"navigationBarTitleText": "填写订单"
+			}
+		}, {
+			"path": "pages/pay/paysuccess",
+			"style": {
+				"navigationBarTitleText": "支付成功"
+			}
+		},
+		{
+			"path": "pages/pay/pay",
+			"style": {
+				"navigationBarTitleText": "支付"
+			}
+		}, {
+			"path": "pages/address/address",
+			"style": {
+				"navigationBarTitleText": "收货地址"
+			}
+		},
+		{
+			"path": "pages/address/addressManage",
+			"style": {
+				"navigationBarTitleText": "编辑地址"
+			}
+		}, {
+			"path": "pages/shopCard/shopCard",
+			"style": {
+				"navigationBarTitleText": "选择优惠券"
+			}
+		}, {
+			"path": "pages/shop/collect",
+			"style": {
+				"navigationBarTitleText": "商品收藏"
+			}
+		},
+		{
+			"path": "pages/shopCard/couponList",
+			"style": {
+				"navigationBarTitleText": "我的优惠券"
+			}
+		},{
+			"path": "pages/publish/publishVideo",
+			"style": {
+				"navigationBarTitleText": "发布视频"
+			}
+		},{
+			"path": "pages/publish/publishNotice",
+			"style": {
+				"navigationBarTitleText": "发布文章"
+			}
+		},{
+			"path": "pages/publish/publishUsed",
+			"style": {
+				"navigationBarTitleText": "发布二手"
+			}
+		}, {
+			"path": "pages/shop/category",
+			"style": {
+				"navigationBarTitleText": "分类"
+			}
+		}
+	    ,{
+            "path" : "pages/recharge/recharge",
             "style" : {
-							"navigationBarTitleText" : "密码重置"
-						}
-        }
-        ,{
-            "path" : "pages/signIn/signIn",
-            "style" : {
-							"navigationBarTitleText" : "注册"
-						}
-        }
-        ,{
-            "path" : "pages/shopClassify/shopClassify",
-            "style" : {
-							"navigationBarTitleText" : "分类"
+							"navigationBarTitleText": "充值"
 						}
         }
     ],
-    "globalStyle" : {
-        "navigationBarTextStyle" : "black",
-        "navigationBarTitleText" : "大学生短视频",
-        "navigationBarBackgroundColor" : "#FFFFFF",
-        "backgroundColor" : "#F8F8F8",
-				"backgroundColorTop":"#FFFFFF"
-    },
-		"tabBar": {
-			"borderStyle": "black",
-			"backgroundColor": "#fdfdfd",
-			"color": "black",
-			"selectedColor": "#f33e54",
-			"list": [{
-					"pagePath": "pages/list/list",
-					"iconPath": "/static/index.png",
-					"selectedIconPath": "/static/index_active.png",
-					"text": "作品列表"
-				},
-				{
-					"pagePath": "pages/shop/shop",
-					"iconPath": "/static/shop.png",
-					"selectedIconPath": "/static/shop_active.png",
-					"text": "商城"
-				},
-				{
-					"pagePath": "pages/publish/publish",
-					"iconPath": "/static/add.png",
-					"selectedIconPath": "/static/add_active.png",
-					"text": "发布"
-				},
-				{
-					"pagePath": "pages/tabMsg/tabMsg",
-					"iconPath": "/static/tabMsg.png",
-					"selectedIconPath": "/static/tabMsg_active.png",
-					"text": "消息"
-				},
-				{
-					"pagePath": "pages/my/my",
-					"iconPath": "static/home.png",
-					"selectedIconPath": "static/home_active.png",
-					"text": "我的"
-				}
-			]
-		}
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "大学生短视频",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#F8F8F8",
+		"backgroundColorTop": "#FFFFFF"
+	},
+	"tabBar": {
+		"borderStyle": "black",
+		"backgroundColor": "#fdfdfd",
+		"color": "#8a8a8a",
+		"selectedColor": "#ff5266",
+		"list": [{
+				"pagePath": "pages/list/list",
+				"iconPath": "/static/tabbar/index.png",
+				"selectedIconPath": "/static/tabbar/index_active.png",
+				"text": "首页"
+			},
+
+			{
+				"pagePath": "pages/publish/publish",
+				"iconPath": "/static/tabbar/add.png",
+				"selectedIconPath": "/static/tabbar/add_active.png",
+				"text": "发布"
+			},
+
+			{
+				"pagePath": "pages/my/my",
+				"iconPath": "static/tabbar/my.png",
+				"selectedIconPath": "static/tabbar/my_active.png",
+				"text": "我的"
+			}
+		]
+	}
 }

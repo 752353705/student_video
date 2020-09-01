@@ -3,64 +3,32 @@
 	swiper中的transfrom会使fixed失效,此时用height="100%"固定高度; 
 	swiper中无法触发mescroll-mixins.js的onPageScroll和onReachBottom方法,只能用mescroll-uni,不能用mescroll-body
 	-->
-	<mescroll-uni :safearea="true" ref="mescrollRef" 
-		@init="mescrollInit" height="100%" top="400" 
-		:bottom="mescrollBot" :down="downOption" @down="downCallback" 
-		:up="upOption" @up="upCallback"
-		
-		>
-
+	<mescroll-uni
+		:safearea="true"
+		ref="mescrollRef"
+		@init="mescrollInit"
+		height="100%"
+		top="400"
+		:bottom="mescrollBot"
+		:down="downOption"
+		@down="downCallback"
+		:up="upOption"
+		@up="upCallback"
+	>
 		<!-- 普通界面 -->
 		<block v-if="showType == 0">
 			<!-- <mescroll-empty v-if="goods.length === 0"></mescroll-empty> -->
 			<mescroll-empty @emptyclick="emptyClick" v-if="goods.length === 0" :option="emptyOption"></mescroll-empty>
 			<block v-else>
-				<wfalls-flow @showUseroperation="showUseroperation" @closeUseroperation="closeUseroperation" 
-					style="{height:400px}" :list="goods"
-					>
-				</wfalls-flow>
-				</block>
-		</block>
-
-		<!-- 上传视频界面  -->
-		<block v-if="showType == 1">
-			<mescroll-empty v-if="goods.length === 0"></mescroll-empty>
-			<block v-else>
-				<wfalls-flow v-if="i === 0" style="{height:400px}" :list="goods"></wfalls-flow>
-
-				<view class="box" v-else>
-					<!--渲染结束 点击可以上传视频-->
-					<view class="push_video" @click="open(1)">
-						<view class="cross"></view>
-						<view class="txt">上传短视频</view>
-					</view>
-
-					<view class="push_img" @click="open(0)">
-						<view class="cross"></view>
-						<view class="txt">上传图文</view>
-					</view>
-				</view>
-				<!-- <solt></solt> -->
+				<!-- 渲染 视频的 瀑布流 -->
+				<wfalls-flow @showUseroperation="showUseroperation" @closeUseroperation="closeUseroperation" style="{height:400px}" :list="goods"></wfalls-flow>
 			</block>
 		</block>
-
 		<!-- 商品的瀑布流 -->
 		<block v-if="showType == 2">
 			<mescroll-empty @emptyclick="emptyClick" v-if="goods.length === 0" :option="emptyOption"></mescroll-empty>
 			<block v-else><shop-waterfall style="{height:400px}" :list="goods"></shop-waterfall></block>
 		</block>
-
-		<!-- 上传视频的弹出框 -->
-		<uni-popup v-if="showType == 1" class="pop" animation="false" ref="popup_video" type="center" mask-click="false" @change="change">
-			<uni-popup-pushvideo :video_src="video_src" @changeVideoSrc="changeVideo" @clear="clear" duration="0" />
-			<view class="imgBox"><image class="img" src="/static/close.png" mode="" @click="close(1)"></image></view>
-		</uni-popup>
-
-		<!-- 上传图片的弹出框 -->
-		<uni-popup v-if="showType == 1" class="pop" animation="false" ref="popup_img" type="center" mask-click="false" @change="change">
-			<uni-popup-pushimg :video_src="video_src" @changeVideoSrc="changeVideo" @clear="clear" duration="0" />
-			<view class="imgBox"><image class="img" src="/static/close.png" mode="" @click="close(0)"></image></view>
-		</uni-popup>
 	</mescroll-uni>
 </template>
 
@@ -68,9 +36,7 @@
 import MescrollEmpty from '@/components/mescroll-uni/components/mescroll-empty.vue';
 import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
 import MescrollMoreItemMixin from '@/components/mescroll-uni/mixins/mescroll-more-item.js';
-import { apiSearch } from '@/API/mock.js';
 
-import goodList from '@/components/good-list.vue';
 import wfallsFlow from '@/components/wfallsflow.vue';
 import shopWaterfall from '@/components/shop-waterfall.vue';
 
@@ -78,7 +44,6 @@ export default {
 	mixins: [MescrollMixin, MescrollMoreItemMixin], // 注意此处还需使用MescrollMoreItemMixin (必须写在MescrollMixin后面)
 	components: {
 		MescrollEmpty,
-		goodList,
 		wfallsFlow,
 		shopWaterfall
 	},
@@ -88,7 +53,7 @@ export default {
 			// 下拉
 			downOption: {
 				// bgColor:'red',
-				auto: false, // 不自动加载 (mixin已处理第一个tab触发downCallback)
+				auto: false // 不自动加载 (mixin已处理第一个tab触发downCallback)
 			},
 			option: {},
 			// 空布局时的样式
@@ -107,7 +72,8 @@ export default {
 		// },
 		// 关键词
 		kw: {
-			type: String
+			type: String,
+			default: 'listVideo'
 		},
 
 		// 空布局时的提示
@@ -147,10 +113,10 @@ export default {
 	},
 	computed: {
 		// console.log('swiper item 进行挂载',this.$props.videolist)
-		
+
 		// 将空页面的布局 对 data中 的数据进行赋值
 		changeEmpty() {
-			console.log('swiper item 进行挂载',this.$props.videolist)
+			// console.log('swiper item 进行挂载',this.$props.videolist)
 			// console.log('mescroll-swiper-item 滚动 初加载');
 			this.option = this.$props.emptyOption;
 		}
@@ -188,86 +154,177 @@ export default {
 				this.$refs.popup_video.close();
 			}
 		},
-		change(e) {
-			// console.log('popup tabbar' + e.type + ' 状态', e.show);
-			if (!e.show) {
-				// 弹窗关闭
-				// console.log('上传视频弹窗隐藏');
-				this.video_src = '';
-
-				this.images = [];
-			}
-		},
-		changeVideo(val) {
-			// console.log('修改video_src');
-			this.video_src = val;
-		},
-		// 清空当前的视频
-		clear() {
-			this.video_src = '';
-		},
-
 		/*下拉刷新的回调 */
 		downCallback(page) {
-			let _this = this;
-			// this._get('vod/list',{
-			// 		pageNum: 1,
-			// 		pageSize: '10'
-			// 	},function(res) {
-			// 		if (page.num == 1) _this.goods = [];
-			// 		_this.goods = _this.goods.concat(res.list);
-			// 		_this.mescroll.endSuccess(res.list.length);
-			// 	});
-			// 用于显示 --END--
-			this.mescroll.resetUpScroll(true);
+			console.log('进行下拉操作');
+			// let _this = this;
+			// this.mescroll.resetUpScroll(true);
+			this.mescroll.resetUpScroll();
 		},
 		/*上拉加载的回调: 其中page.num:当前页 从1开始, page.size:每页数据条数,默认10 */
 		upCallback(page) {
+			console.log('进行上拉操作', this.kw,page);
 			let _this = this;
-			
-			//联网加载数据
-			// if (this.$props.kw == '推荐') {
-				this._get('vod/list',{
+			if (page.num == 1) {
+				_this.goods = [];
+			}
+			//联网加载数据  判断用户当前所在的 tabber 名，分别进行不同的网络请求
+			if (this.$props.kw == 'listVideo') {
+				console.log('上拉请求视频 this ==>',this)
+				// 请求首页的视频
+				this.api._get(
+					'vod/list',
+					{
 						pageNum: page.num,
 						pageSize: '10'
-					},function(res) {
-						// console.log('请求首页的数据', res);
-						if (page.num == 1) _this.goods = [];
+					},
+					function(res) {
+						console.log('请求首页的数据 成功', res);
+					
 						_this.goods = _this.goods.concat(res.list);
-						// console.log('goods', _this.goods);
 						_this.mescroll.endSuccess(res.list.length);
-						
+						// 如果进行网络请求出错，则 取消当前 正在加载的 提示
+						_this.mescroll.endSuccess(1);
 						// setTimeout(()=>{
 						// 	console.log('定时器想视频列表中添加数据')
 						// 	_this.goods = _this.goods.concat(res.list);
 						// },6000)
-					});
-			// } else {
-			// 	_this.mescroll.endSuccess(1);
-			// }
+					},
+					function() {
+						console.log('请求首页的数据 失败');
+						_this.mescroll.endSuccess(1);
+					}
+				);
+			}else if (this.$props.kw == 'listTxt') {
+			// 请求 首页 文章列表
+				this.api._get(
+					'article/list',
+					{
+						pageNum: page.num,
+						pageSize: '10'
+					},
+					function(res) {
+						console.log('请求首页的文章 成功', res.data);
+						if (page.num == 1) {
+							_this.goods = [];
+						}
+						_this.goods = _this.goods.concat(res.data.list);
+						_this.mescroll.endSuccess(res.data.list.length);
+						// 如果进行网络请求出错，则 取消当前 正在加载的 提示
+					},
+					function() {
+						console.log('请求首页的数据 失败');
+						_this.mescroll.endSuccess(1);
+					}
+				);
+			} else if(this.$props.kw == 'listUsed'){
+				// 请求首页二手
+				this.api._get(
+					'secondGoods/list',
+					{
+						pageNum: page.num,
+						pageSize: '10'
+					},
+					function(res) {
+						console.log('请求首页的二手列表 成功', res.data);
+						if (page.num == 1) {
+							_this.goods = [];
+						}
+						_this.goods = _this.goods.concat(res.data.list);
+						_this.mescroll.endSuccess(res.data.list.length);
+						// 如果进行网络请求出错，则 取消当前 正在加载的 提示
+					},
+					function() {
+						console.log('请求首页的数据 失败');
+						_this.mescroll.endSuccess(1);
+					}
+				);
+			}else if (this.$props.kw == 'myTxt') {
+				// 请求我的 文章
+				this.api._get(
+					'article/user',
+					{
+						pageNum: page.num,
+						pageSize: '10'
+					},
+					function(res) {
+						console.log('请求我的文章 成功', res.data);
+						if (page.num == 1) {
+							_this.goods = [];
+						}
+						// 由于 获得的 自己的文章中没有 头像和姓名  将其添加上
 
-			// 测试swiper 渲染数据
-				// apiSearch(page.num, page.size)
-				// 	.then(curPageData => {
-				// 		//联网成功的回调,隐藏下拉刷新和上拉加载的状态;
-				// 		this.mescroll.endSuccess(curPageData.length);
-				// 		//设置列表数据
-				// 		if (page.num == 1) this.goods = []; //如果是第一页需手动制空列表
-				// 		console.log('curPageData', curPageData);
-				// 		this.goods = this.goods.concat(curPageData); //追加新数据
-				// 		console.log('上拉加载 goods', this.goods);
-				// 	})
-				// 	.catch(() => {
-				// 		//联网失败, 结束加载
-				// 		this.mescroll.endErr();
-				// 	});
+						_this.goods = _this.goods.concat(res.data.list);
+						_this.mescroll.endSuccess(res.data.list.length);
+						// 如果进行网络请求出错，则 取消当前 正在加载的 提示
+					},
+					function() {
+						console.log('请求首页的数据 失败');
+						_this.mescroll.endSuccess(1);
+					}
+				);
+			}else if(this.$props.kw == 'myVideo'){
+				// 请求我的视频
+				this.api._get(
+					'article/user',
+					{
+						pageNum: page.num,
+						pageSize: '10'
+					},
+					function(res) {
+						console.log('请求我的文章 成功', res.data);
+						if (page.num == 1) {
+							_this.goods = [];
+						}
+						// 由于 获得的 自己的文章中没有 头像和姓名  将其添加上
+				
+						_this.goods = _this.goods.concat(res.data.list);
+						_this.mescroll.endSuccess(res.data.list.length);
+						// 如果进行网络请求出错，则 取消当前 正在加载的 提示
+					},
+					function() {
+						console.log('请求首页的数据 失败');
+						_this.mescroll.endSuccess(1);
+					}
+				);
+				
+				
+				
+			}else if(this.$props.kw == 'myUsed'){
+				// 请求我的二手
+				this.api._get(
+					'secondGoods/user',
+					{
+						pageNum: page.num,
+						pageSize: '10'
+					},
+					function(res) {
+						console.log('请求我的二手 成功', res.data);
+						if (page.num == 1) {
+							_this.goods = [];
+						}
+						// 由于 获得的 自己的文章中没有 头像和姓名  将其添加上
+				
+						_this.goods = _this.goods.concat(res.data.list);
+						_this.mescroll.endSuccess(res.data.list.length);
+						// 如果进行网络请求出错，则 取消当前 正在加载的 提示
+					},
+					function() {
+						console.log('请求首页的数据 失败');
+						_this.mescroll.endSuccess(1);
+					}
+				);
+			}
 		},
 		//点击空布局按钮的回调
 		emptyClick() {
-			uni.showToast({
-				icon: 'none',
-				title: '点击了按钮,具体逻辑自行实现'
-			});
+			// uni.showToast({
+			// 	icon: 'none',
+			// 	title: '点击了按钮,具体逻辑自行实现'
+			// });
+
+			// 重新进行网络请求
+			this.downCallback();
 		}
 	}
 };

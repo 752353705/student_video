@@ -6,6 +6,11 @@
   -webkit-justify-content: start;
           justify-content: start;
   padding: 32rpx 20rpx;
+  color: black;
+}
+.user_cmt .time {
+  color: #939393;
+  font-size: 26rpx;
 }
 .user_cmt .user_img {
   width: 60rpx;
@@ -32,7 +37,7 @@
   -webkit-justify-content: space-between;
           justify-content: space-between;
 }
-.user_cmt .content .user_footer .right {
+.user_cmt .content .user_footer .cmt_right {
   position: absolute;
   top: 10rpx;
   right: 10rpx;
@@ -50,9 +55,17 @@
   -webkit-align-items: center;
           align-items: center;
 }
-.user_cmt .content .user_footer image {
-  width: 40rpx;
-  height: 40rpx;
+.user_cmt .content .two .two_cmt {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: start;
+  -webkit-justify-content: start;
+          justify-content: start;
+  padding: 12rpx 20rpx 0;
+}
+.user_cmt .content .two .two_cmt .user_body {
+  width: 87%;
 }
 .user_cmt .content .two .two_cmt .two_content::after {
   content: " ";

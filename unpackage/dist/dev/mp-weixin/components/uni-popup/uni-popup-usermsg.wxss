@@ -24,6 +24,12 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
 .uni-popup-message.data-v-0d86d5a6 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -153,11 +159,6 @@
   height: 100%;
   border-radius: 20rpx;
   width: 100%;
-}
-.uni-popup-message .user_msg .content .input_box image.data-v-0d86d5a6 {
-  width: 33rpx;
-  height: 33rpx;
-  margin-right: 13rpx;
 }
 .uni-popup-message .user_msg .content .user_txt.data-v-0d86d5a6 {
   width: 582.63rpx;

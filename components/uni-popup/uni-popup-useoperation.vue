@@ -2,15 +2,15 @@
 	<view class="uni-popup-message" >
 		<!-- 个人资料 -->
 		<view  class="uni-popup-message-text "  :style="{left:operleft,top:opertop}" >
-			<view class="item" v-for="(item) in oper" :key="index" :data-id="index"  @click="operchoose">
+			<view class="item" v-for="(item,index) in oper" :key="index"  @click="operchoose(index)">
 				<!-- 左侧图标 -->
-				<view class="left">
+				<!-- <view class="left">
 					<image :src=item.src mode=""></image>
-				</view>
+				</view> -->
 				<!-- 右侧内容 -->
 				<view class="right">
 					<view class="tit">{{item.tit}}</view>
-					<view class="des">{{item.des}}</view>
+					<!-- <view class="des">{{item.des}}</view> -->
 				</view>
 			</view>
 		</view>
@@ -31,11 +31,20 @@
 	 * @property {String} message 消息提示文字
 	 * @property {String} duration 显示时间，设置为 0 则不会自动关闭
 	 */
-	import { _postVideo } from '../../API/_post.js'
 	import VODUpload from '../aliyun-upload-sdk-1.0.0.min.js'
 	export default {
 		name: 'UniPopupMessage',
 		props: {
+			// 获取点击的文章的信息
+			txtid:{
+				type:String
+			},
+			// 判断用户要对 文章 还是 二手进行 修改
+			operType:{
+				type:String
+			},
+			
+			
 			// 控制弹窗的位置
 			opertop:{
 				type:String,
@@ -79,9 +88,9 @@
 			return {
 				// 显示用户操作的
 				oper:[
-					{src:'/static/nolike.png',tit:'不感兴趣',des:'减少此类内容'},
-					{src:'/static/shield.png',tit:'屏蔽',des:'不喜欢'},
-					{src:'/static/report.png',tit:'举报',des:'内容令人不适，搬运抄袭'}
+					{src:'/static/nolike.png',tit:'修改',des:'减少此类内容'},
+					{src:'/static/shield.png',tit:'删除',des:'不喜欢'},
+					// {src:'/static/report.png',tit:'举报',des:'内容令人不适，搬运抄袭'}
 				],
 				
 				video_src:'',
@@ -99,8 +108,43 @@
 		},
 		methods: {
 			// 用户点击弹窗进行操作
-			operchoose(e){
-				console.log('点击弹窗 e',e)
+			operchoose(index){
+				let _this = this
+				console.log('this.txtid',this.txtid,_this.operType)
+				if(index == 0){
+					// 用户进行修改操作
+					// 跳转到 写文章的界面  将点击的 文章的信息传递过去
+					if(_this.operType == 'myTxt'){
+						// 当前的类型 为文章
+						uni.navigateTo({
+							url:`/pages/publish/publishNotice?txtid=${this.txtid}`
+						})
+					}else if (_this.operType == 'myUsed'){
+						// 当前类型为 二手
+						uni.navigateTo({
+							url:`/pages/publish/publishUsed?usedid=${this.txtid}`
+						})
+					}
+					
+					
+				}else if(index == 1) {
+					// let delMsg = JSON.parse(this.item)
+					// 用户进行删除操作
+					// console.log('用户进行 删除 delMsg',JSON.parse(this.item))
+					if(_this.operType == 'myTxt'){
+						this.api._del(`article/${_this.txtid}`,{},function(res){
+							console.log('用户进行删除成功',res)
+							_this.$emit('closeUseroperation');
+						})
+					}else if(_this.operType == 'myUsed'){
+						this.api._del(`secondGoods/${_this.txtid}`,{},function(res){
+							console.log('用户进行删除成功',res)
+							_this.$emit('closeUseroperation');
+						})
+					}
+					
+				}
+				
 			},
 			
 			
@@ -129,24 +173,18 @@
 		flex-direction: column;
 		align-items: center;
 		.uni-popup-message-text{
-			width: 575rpx;
-			height: 449rpx;
+			// width: 575rpx;
+			// height: 449rpx;
 			background-color:white ;
 			font-size: 14px;
 			border-radius: 18rpx;
-			// background-image: linear-gradient(to bottom, #fed353 , #ea9b70);
-			// position: relative;
 			position: absolute;
-			
-			
-			
 			box-sizing: border-box;
-			
 			padding-left: 26rpx;
 			// padding-top: 31rpx;
 			padding-right: 35rpx;
-			padding-bottom: 48rpx;
-			// display: flex;
+			// padding-bottom: 48rpx;
+			display: flex;
 			// flex-direction: column;
 			// align-items: center;
 			overflow: hidden;
@@ -156,9 +194,9 @@
 				justify-content: start;
 				box-sizing: border-box;
 				// padding-left: 35rpx;
-				padding-top: 31rpx;
-				padding-right: 35rpx;
-				padding-bottom: 48rpx;
+				padding-top: 13rpx;
+				padding-right: 16rpx;
+				padding-bottom: 19rpx;
 				// background-color: red;
 				position: relative;
 				.left{

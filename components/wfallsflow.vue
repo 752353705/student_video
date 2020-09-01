@@ -4,34 +4,51 @@
 			<view id="wf-list" class="list" v-for="(list, listIndex) of viewList" :key="listIndex">
 				<!-- 每一个作品 -->
 				<!-- <view class="item" v-for="(item,index) of list.list" :key="index" -->
-				<view class="item" v-for="(item, index) of list.list" :key="item.id" @longpress="longpress">
+				<view class="item" v-for="(item, index) of list.list" :key="item.id" 
+					:data-index="index" :data-listindex="listIndex"
+					@longpress="longpress" @click="jump(item)">
 					<!-- :data-videoId='item.videoId' -->
 					<!-- 视频封面 -->
-					<u-lazy-load
-						@load="handleViewRender(listIndex, index)"
-						@error="handleViewRender(listIndex, index)"
-						:image="item.coverUrl"
-						@click="jumpVideo(item.videoId, item.avatarUrl, item.userName, item.conversation, item.commentNum, item.userId, item.praseCount, item.id,item.forwardCount,item.avatarUrl)"
-					></u-lazy-load>
+					<u-lazy-load @load="handleViewRender(listIndex, index)" 
+						@error="handleViewRender(listIndex, index)" 
+						:image="item.coverUrl || 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1554013048&di=a3dc9fd1406dd7bad7fbb97b5489ec04&imgtype=jpg&er=1&src=http%3A%2F%2Fimg009.hc360.cn%2Fhb%2FnKo44ac2656F831c684507E3Da0E3a26841.jpg' "></u-lazy-load>
 					<!-- 上传视频的简单的简介 转发量 {{ item.forwardCount }} -->
 					<view class="introduction">
-						{{ item.conversation }}
+						{{ item.conversation || item.title }}
 						<!-- 简单的简介简单的简介简单的简介简单的简介简单的简介简单的简介简单的简介 -->
 					</view>
+					<!-- 如果渲染的是 商品的话显示 商品的价格 -->
+					<view class="price" v-if="item.price" >
+						<view>
+							￥
+							<text class="num"> 
+								{{item.price / 100}} 
+								<!-- {{price.floatdiv(item.price,100)}} -->
+							</text>
+						</view>
+						<view class="see_num">
+							{{item.viewsNum}} 人浏览
+						</view>
+					</view>
+					
+					
 					<!-- 用户的 头像以及点赞数 -->
 					<view class="item_foot">
 						<view class="left">
-							<view class="user_img"><image :src="item.avatarUrl" mode=""></image></view>
+							<view class="user_img"><image :src="item.avatarUrl || avatarUrl " mode=""></image></view>
 							<view class="msg">
-								<!-- 姓名 -->
-								{{ item.userName }}
+								<!-- 姓名 *** 如果没有则是来自自己的作品  -->
+								{{ item.userName || userName }}
 							</view>
 						</view>
-						<view class="right">
-							<view class="icon"><image src="/static/my_vote.png" mode=""></image></view>
-							<view>
-								<!-- 票数 -->
-								{{ item.voteNum }}
+						<view class="right" @tap.stop="waterLike"  
+							:data-index="index" :data-listindex="listIndex"
+							>
+								<u-icon  v-if="!item.praseStatus" name="heart" color="#000000" size="34"></u-icon>
+								<u-icon  v-else name="heart-fill" color="red" size="34"></u-icon>
+							<view style="margin-left: 10rpx;" >
+								<!-- 票数 文章点赞数 -->
+								{{ item.voteNum || item.status }}
 							</view>
 						</view>
 					</view>
@@ -40,6 +57,7 @@
 		</view>
 	</view>
 </template>
+
 
 <script>
 export default {
@@ -50,6 +68,10 @@ export default {
 	},
 	data() {
 		return {
+			// 在 观看我的界面 时没有 头像和名称
+			userName:'',
+			avatarUrl:'',
+			
 			loadingImg: '/static/loading.png',
 			viewList: [{ list: [] }, { list: [] }], //展示到视图的列表数据
 			everyNum: 2,
@@ -63,38 +85,64 @@ export default {
 		// uniPopupUseoperation
 	},
 	methods: {
+		// 用户在瀑布流中点击红心进行点赞
+		waterLike(e){
+			// 用户进行点击点赞关注
+			// 获取点赞目标处于瀑布流中的位置
+			let item = this.viewList[e.currentTarget.dataset.listindex].list[e.currentTarget.dataset.index]
+			// 改变item 中表示点赞状态的值
+			item.praseStatus = !item.praseStatus
+			
+		},
+		
+		
 		// 用户进行长按
 		longpress(e) {
-			console.log('用户进行长按 e', e);
-			// 在 我的作品 页面显示 删除按钮
+			// console.log('waterfall 用户进行长按 e',e.currentTarget,e.currentTarget.dataset.listindex,e.currentTarget.dataset.index);
+			// 在 我的作品 页面显示 删除按钮 this.viewList  e.currentTarget.dataset.index  
 			this.showBtn = true;
 			let btntop;
 			let btnleft;
 			// 控制弹窗的显示防止 弹窗超出 页面的范围
-			if (e.touches[0].clientY + 224 > 667) {
-				// btntop = e.detail.y - 224 + 'px'   //224
-				btntop = Math.abs(667 - 224 - 60) + 'px'; //224
+			if (e.touches[0].clientY + 35 > 667) {
+				// btntop = e.detail.y - 35 + 'px'   //35
+				btntop = Math.abs(667 - 35 - 60) + 'px'; //35
 			} else {
-				btntop = e.touches[0].clientY + 'px'; //224
+				btntop = e.touches[0].clientY + 'px'; //35
 			}
 
-			if (375 - e.touches[0].clientX < 287) {
-				// btnleft = Math.abs(e.detail.x - 287) + 'px'  //287
-				btnleft = Math.abs(375 - 287 - 20) + 'px'; //287
+			if (375 - e.touches[0].clientX < 126) {
+				// btnleft = Math.abs(e.detail.x - 126) + 'px'  //126
+				btnleft = Math.abs(375 - 126 - 20) + 'px'; //126
 			} else {
-				btnleft = e.touches[0].clientX + 'px'; //287
+				btnleft = e.touches[0].clientX + 'px'; //126
 			}
 
 			// 显示操作弹框
 			// 在此触发父级事件 使得 list 中的 操作弹窗进行显示
-			this.$emit('showUseroperation', btntop, btnleft);
+			// console.log('item',JSON.stringify(item))
+			let location = {}
+			location.btntop = btntop
+			location.btnleft = btnleft
+			location = JSON.stringify(location)
+			
+			// 将 操作弹框的位置 以及 文章 id 传递过去
+			// 然后，用户点击跳转到修改页面，先根据 id 获取文章内容
+			// 然后在进行修改
+			
+			// 获取 用户 在瀑布流中 点击的是 第几列 第几个
+			let item = this.viewList[e.currentTarget.dataset.listindex].list[e.currentTarget.dataset.index]
+			
+			
+			this.$emit('showUseroperation',item.id,location);
+			// this.$emit('showUseroperation', btntop, btnleft,item);
 		},
-		// close(num){
-		// 	// console.log('关闭')
-		// 	// 触发父级中的事件，使得list 中的 操作弹窗进行隐藏
-		// 	this.$emit("closeUseroperation")
-		// 	// this.$refs.popup_useoperation.close()
-		// },
+		close(num) {
+			// console.log('关闭')
+			// 触发父级中的事件，使得list 中的 操作弹窗进行隐藏
+			this.$emit('closeUseroperation');
+			// this.$refs.popup_useoperation.close()
+		},
 
 		// 按钮进行了显示之后，用户进行删除等操作，发起请求后，按钮消失
 		// 或者点击别处进行消失
@@ -106,7 +154,7 @@ export default {
 			// console.log('瀑布流组件中进行 初始化组件');
 			this.viewList = [{ list: [] }, { list: [] }];
 			// setTimeout(() => {
-				this.handleViewRender(0, 0);
+			this.handleViewRender(0, 0);
 			// }, 0);
 		},
 		handleViewRender(x, y) {
@@ -138,18 +186,56 @@ export default {
 					// })
 				})
 				.exec();
-			// console.log('viewList ==>',this.viewList)
+			console.log('瀑布流 viewList ==>',this.viewList)
 		},
-		jumpVideo(videoId, avatarUrl, userName, conversation, commentNum, userId, praseCount, id, forwardCount,coverUrl) {
-			// console.log('瀑布流跳转');
-			// 根据点击的id进行跳转到视频播放页面  用来传递每一个视频的 videoId
-			uni.navigateTo({
-				url: `/pages/playVideo/playVideo?videoId=${videoId}&avatarUrl=${avatarUrl}&userName=${userName}&conversation=${conversation}&commentNum=${commentNum}&userId=${userId}&praseCount=${praseCount}&id=${id}&forwardCount=${forwardCount}&coverUrl=${coverUrl}`
-			});
+
+		// 用户点击 进行跳转操作
+		jump(item) {
+			console.log('进行跳转 item', item);
+			if (item.videoId) {
+				console.log('跳转到视频界面');
+				// 跳转到 视频播放页面
+				let videoId = item.videoId;
+				let avatarUrl = item.avatarUrl;
+				let userName = item.userName;
+				let conversation = item.conversation;
+				let commentNum = item.commentNum;
+				let userId = item.userId;
+				let praseCount = item.praseCount;
+				let id = item.id;
+				let forwardCount = item.forwardCount;
+				let coverUrl = item.coverUrl;
+
+					uni.navigateTo({
+						url: `/pages/playVideo/playVideo?videoId=${videoId}&avatarUrl=${avatarUrl}&userName=${userName}&conversation=${conversation}&commentNum=${commentNum}&userId=${userId}&praseCount=${praseCount}&id=${id}&forwardCount=${forwardCount}&coverUrl=${coverUrl}`
+					});
+			} 
+			else if (item.price){
+				// 跳转到 二手详情页面
+				console.log('跳转到二手详情页');
+				uni.navigateTo({
+					// 测试二手 
+					url:`/pages/playVideo/usedDetail?usedId=${item.id}`
+				});
+			}
+			else if (item.title) {
+				// 跳转到文章页面
+				console.log('跳转到文章详情页');
+				uni.navigateTo({
+					url:`/pages/playVideo/txtDetail?txtId=${item.id}`
+					
+					// 测试二手 记得修改过来
+					// url:`/pages/playVideo/usedDetail?txtId=8`
+				});
+			} 
+			
 		}
 	},
 	mounted() {
-		// console.log('瀑布流组件进行挂载 list', this.$props.list);
+		console.log('瀑布流组件进行挂载 list', this.list);
+		this.userName = uni.getStorageSync('user_name')
+		this.avatarUrl = uni.getStorageSync('user_img')
+		
 		if (this.list.length) {
 			this.init();
 		}
@@ -189,7 +275,7 @@ export default {
 			.introduction {
 				// width: 100%;
 				// // height: 90rpx;
-				// box-sizing: border-box;
+				box-sizing: border-box;
 				padding: 5rpx 20rpx;
 				// line-height: 40rpx;
 				// font-weight: 200;
@@ -205,6 +291,26 @@ export default {
 				-webkit-line-clamp: 2;
 			}
 
+			// 二手商品的 价格显示
+			.price{
+				box-sizing: border-box;
+				padding: 5rpx 20rpx;
+				color: #fc3c3b;
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-end;
+				.num{
+					font-weight: bolder;
+					font-size: 38rpx;
+				}
+				.see_num{
+					color: #838383;
+					font-size: 23rpx;
+				}
+				
+			}
+			
+			
 			// 上传视频的 用户个人信息
 			.item_foot {
 				width: 100%;

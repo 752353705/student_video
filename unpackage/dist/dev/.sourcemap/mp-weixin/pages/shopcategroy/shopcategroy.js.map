@@ -1,0 +1,1 @@
+{"version":3,"sources":["uni-app:///main.js"],"names":["createPage","Page"],"mappings":";;;;wEAAA,qBACA,sBACA,uI,mDACAA,EAAWC,a","file":"pages/shopcategroy/shopcategroy.js","sourcesContent":["import 'uni-pages';\nimport Vue from 'vue'\nimport Page from './pages/shopcategroy/shopcategroy.vue'\ncreatePage(Page)"],"sourceRoot":""}

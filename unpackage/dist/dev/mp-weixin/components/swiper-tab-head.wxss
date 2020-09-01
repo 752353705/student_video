@@ -1,13 +1,19 @@
-.uni-swiper-tab {
-  width: 100%;
-  -webkit-box-pack: space-evenly;
-  -webkit-justify-content: space-evenly;
-          justify-content: space-evenly;
-  margin-bottom: 10rpx;
-  height: 70rpx;
-  line-height: 50rpx;
+.data-v-7d5e07c6 {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 80rpx;
 }
-.tab {
+/* 整体的长度 */
+.uni-tab-bar {
+  white-space: nowrap;
+  width: 100%;
+  height: 61rpx;
+  background-color: white;
+  box-sizing: border-box;
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 10;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -16,27 +22,16 @@
           justify-content: space-evenly;
 }
 .swiper-tab-list {
-  color: #969696;
-  font-weight: bold;
   display: inline-block;
+  width: 117rpx;
+  height: 61rpx;
+  line-height: 61rpx;
+  font-size: 34rpx;
+  color: #969696;
   text-align: center;
 }
-.uni-tab-bar {
-  box-sizing: border-box;
-  position: -webkit-sticky;
-  position: sticky;
-  left: 0;
-  z-index: 10;
-  background-color: white;
-}
-.uni-tab-bar .active {
-  color: red;
-}
-.active .swiper-tab-line {
-  border-bottom: 1rpx solid red;
-  width: 70rpx;
-  margin: auto;
-  border-top: 6rpx solid red;
-  border-radius: 20rpx;
+.swiper-tab-list.active {
+  color: #f83f20;
+  font-weight: bold;
 }
 

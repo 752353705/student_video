@@ -1,82 +1,157 @@
 <template>
-	<view>
-		<!-- 进行自我作品的展示 与  进行作品的上传操作 -->
-		<!-- 分类展示头 -->
-		<swiperTabHead  :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
-			
+	<view class="content" :class="{'active':active}">
+		<!-- 当前页面 遮罩层下面的背景 -->
+		<!-- <image class="logo" :class="{'active':active}" src="../../../static/logo.png"  mode="aspectFit"></image> -->
 		
-		<swiper :style="{height:swiper_height}" :current="tabIndex" @change="tabChange">
-			<swiper-item style="box-sizing: border-box;padding: 0 10rpx;" v-for="(tab,i) in tabBars" :key="i">
-				<mescroll-item :showType="showType" :waterFullHeight="swiper_height" :i="i" :index="tabIndex" :tabs="tabBars"></mescroll-item>
-			</swiper-item>
-		</swiper>
-
+		<view class="tabbar-box-wrap">
+			<view class="tabbar-box">
+				<view class="tabbar-box-item" @click="goToPage('/pages/publish/publishVideo')">
+					<view class="t-icon iconshipin"></view>
+					<text class="explain">发视频</text>
+				</view>
+				
+				<view class="tabbar-box-item" @click="goToPage('/pages/publish/publishNotice')">
+					<view class="t-icon icontuwenzixun"></view>
+					<text class="explain">发文章</text>
+				</view>
+				
+				<view class="tabbar-box-item" @click="goToPage('/pages/publish/publishUsed')">
+					<view class="t-icon iconershou"></view>
+					<text class="explain">发二手</text>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
 <script>
-	// 引入tabHead 切换
-	import swiperTabHead from "@/components/swiper-tab-head.vue";
-	import MescrollItem from "@/components/mescroll-swiper-item.vue";
-	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
-	
 	export default {
 		data() {
 			return {
-				showType:1,
-				swiper_height: "", // 需要固定swiper的高度
-				tabIndex: 0, // 当前tab的下标
-				tabBars:[
-					{ name:"我的作品",id:"guanzhu" },
-					{ name:"上传作品",id:"tuijian" },
-				],
+				active: false
 			};
 		},
 		components:{
-			swiperTabHead,
-			MescrollItem,
+			
 		},
 		onLoad() {
-			this.swiper_height = uni.getSystemInfoSync().windowHeight + 'px'
-			let _this = this
-			console.log('发布界面')
-					
-			// this.$refs.popup_video.open()	
-			// this.$refs.popup_user.open()
-			uni.showLoading({
-			   title: '加载中'
-			});
+		
+		},
+		onShow() {
+			this.active = true;
+		},
+		onHide() {
+			this.active = false;
 		},
 		onReady() {
-			// 页面加载完毕
-			console.log('页面加载完毕')
-			uni.hideLoading();
+			
 		},
-		methods:{
-			//滑动切换导航
-			tabChange(e){
-			  this.tabIndex = e.detail.current
-			},
-			//接受子组件传过来的值点击切换导航
-			tabtap(index){
-				this.tabIndex = index;
-			},
-			// 制作瀑布流
-			getLoadNum(num){
-			    console.log('共加载了:'+num);
-			    !this.isNewRenderDone&&uni.hideLoading()
-			    this.isNewRenderDone = true
-			},	
-			// 点击我的视频跳转到视频播放页
-			goPlayVideo(){
+		methods: {
+			goToPage(url) {
+				if (!url) return;
 				uni.navigateTo({
-					url: "/pages/playVideo/playVideo"
-				})
-			},
+					url
+				});
+			}
 		},
 	}
 </script>
 
-<style lang="less">
-
+<style lang="scss" scoped>
+.content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	/* #ifdef H5 */
+	height: calc(100vh - var(--window-bottom) - var(--window-top));
+	/* #endif */
+	/* #ifndef H5 */
+	height: 100vh;
+	/* #endif */
+	transition: opacity 0.3s;
+	background: #999;
+	opacity: 0;
+	&.active {
+		opacity: 1;
+	}
+	.logo {
+		position: relative;
+		margin-top: -400upx;
+		width: 200upx;
+		height: 200upx;
+		// z-index: -1;
+		opacity: 0;
+		transition: opacity 0.3s;
+		&.active {
+			opacity: 1;
+		}
+	}
+}
+.tabbar-box-wrap {
+	position: absolute;
+	width: 100%;
+	padding: 50upx;
+	box-sizing: border-box;
+	bottom: 0;
+	left: 0;
+	.tabbar-box {
+		position: relative;
+		display: flex;
+		width: 100%;
+		background: #fff;
+		border-radius: 20upx;
+		padding: 15upx 20upx;
+		box-sizing: border-box;
+		z-index: 2;
+		box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.1);
+		&:after {
+			content: '';
+			position: absolute;
+			bottom: -16upx;
+			left: 0;
+			right: 0;
+			margin: auto;
+			width: 50upx;
+			height: 50upx;
+			transform: rotate(45deg);
+			background: #fff;
+			z-index: 1;
+			box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.1);
+			border-radius: 2px;
+		}
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: #ffffff;
+			border-radius: 20upx;
+			z-index: 2;
+		}
+		.tabbar-box-item {
+			// position: relative;
+			width: 100%;
+			z-index: 3;
+			margin: 10upx;
+			color: $uni-color-subtitle;
+			text-align: center;
+			font-size: $uni-font-size-base;
+			
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			
+			// 控制当前页面中 svg 图标的 大小
+			.t-icon{
+				width: 40px;
+				height: 40px;
+			}
+		}
+	}
+}
 </style>
+

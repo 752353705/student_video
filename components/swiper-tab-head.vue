@@ -57,9 +57,11 @@
 			},
 			// 当滚动区域内部内容滚动到一定的位置，滚带条自动向右移动
 			changeLeft(num){
-				console.log('用户滑动进行切换 num ==> ',num)
+				console.log('tab-head num ==> ',num)
 				this.index = num
 				this.left = (this.index - 3) * 60 
+				
+				
 				// if(num > 3){
 				// 	// 当 tabIndex 到达 4 的时候；滚动条向左侧滚动
 				// 	// console.log("tabIndex 到达 4 的时候；滚动条向左侧滚动")
@@ -70,29 +72,6 @@
 				// }
 				
 			},
-			
-			
-			// upper: function(e) {
-			// 	console.log("滚动到顶部/左边,触发scrolltoupper ==》 e",e)
-			// },
-			// lower: function(e) {
-			// 	console.log("滚动到底部/右边,触发scrolltolower ==》 e",e)
-			// },
-			// scroll: function(e) {
-			// 	console.log(e)
-			// 	// this.old.scrollTop = e.detail.scrollTop
-			// },
-			// goTop: function(e) {
-			// 	// 解决view层不同步的问题
-			// 	this.scrollTop = this.old.scrollTop
-			// 	this.$nextTick(function() {
-			// 		this.scrollTop = 0
-			// 	});
-			// 	uni.showToast({
-			// 		icon:"none",
-			// 		title:"纵向滚动 scrollTop 值已被修改为 0"
-			// 	})
-			// }
 		}
 	}
 </script>
@@ -131,7 +110,7 @@
 		text-align: center;
 		// 被激活状态
 		&.active{
-			color: black;
+			color: #f83f20;
 			font-weight: bold;
 		}
 		
