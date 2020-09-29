@@ -13,12 +13,11 @@
   background-color: black;
 }
 .playVideo .uni_vdplayer .back {
-  width: 40rpx;
-  height: 40rpx;
   position: absolute;
   top: 67rpx;
   left: 30rpx;
   color: white;
+  font-size: 50rpx;
 }
 .playVideo .uni_vdplayer video {
   width: 100%;
@@ -75,7 +74,6 @@
 .playVideo .uni_vdplayer .foot .foot_head .foot_head_box .foot_head_img {
   width: 60rpx;
   height: 60rpx;
-  background-color: yellow;
   border-radius: 50%;
   margin-right: 20rpx;
   overflow: hidden;
@@ -93,13 +91,18 @@
   border-radius: 30rpx;
   margin-left: 20rpx;
 }
+.playVideo .uni_vdplayer .foot .video_msg {
+  color: white;
+  width: 87%;
+  font-size: 30rpx;
+}
 .playVideo .uni_vdplayer .right {
   width: 100rpx;
   height: 439rpx;
   background-color: transparent;
   position: absolute;
   right: 23rpx;
-  top: 62%;
+  top: 61%;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;

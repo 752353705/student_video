@@ -1,109 +1,109 @@
 <template>
 	<view class="playVideo">
 		<swiper :indicator-dots="false" :duration="200" :vertical="true" :current="videoIndex" @change="handleSlider" style="height: 100%;">
-			<block v-for="(item, index) in videoData" :key="index">
+			<block v-for="(item, index) in playInfo.playUrlList" :key="index">
 				<swiper-item type="success">
-							<view class="uni_vdplayer">
-								<video
-									v-if="videoId"
-									:id="'myVideo' + index"
-									ref="myVideo"
-									class="player-video"
-									:data-index="index"
-									@click="handleClicked"
-									:data-time="lastTime"
-									:controls="true"
-									:src="item.src"
-									:custom-cache="false"
-									:loop="true"
-									:show-play-btn="false"
-									:show-center-play-btn="false"
-									:objectFit="fill"
-									:poster="avatarUrl"
-								></video>
-								<!-- 双击红心特效-->
-								<like-button v-if="videoId" ref='likeheart' :site="site" ></like-button>
-								<!-- 中间播放按钮 -->
-								<view v-if="btnShow" class="vd-cover flexbox" :data-index="index" @click="handleClicked">
-									<!-- <text v-if="!isPlay" class="iconfont icon-bofang"></text> -->
-									<image v-if="!isPlay" src="/static/play.png" mode=""></image>
-									<image v-else src="/static/suspended.png" mode=""></image>
+					<view class="uni_vdplayer">
+						<video
+							:id="'myVideo' + index"
+							ref="myVideo"
+							class="player-video"
+							:data-index="index"
+							@click="handleClicked"
+							:data-time="lastTime"
+							:controls="true"
+							:src="playInfo.playUrlList[0]"
+							:custom-cache="false"
+							:loop="true"
+							:show-play-btn="false"
+							:show-center-play-btn="false"
+							:objectFit="fill"
+							:poster="avatarUrl"
+							:enable-progress-gesture="false"
+							@waiting="videoWaiting"
+						></video>
+
+						<cover-image class="player-video" @click="play" :src="coverUrl"></cover-image>
+
+						<!-- 双击红心特效-->
+						<like-button v-if="videoItem.videoId" ref="likeheart" :site="site"></like-button>
+						<!-- 中间播放按钮 -->
+						<view v-if="btnShow" class="vd-cover flexbox" :data-index="index" @click="handleClicked">
+							<image v-if="!isPlay" src="/static/play.png" mode=""></image>
+							<image v-else src="/static/suspended.png" mode=""></image>
+						</view>
+
+						<!-- 返回上一级页面的按钮 -->
+						<text class="iconfont iconleft back" @click="back"></text>
+
+						<view class="foot">
+							<!-- 头部 -->
+							<view class="foot_head">
+								<view class="foot_head_box" @click="goAuthor">
+									<!-- 发布视频者的头像 -->
+									<view class="foot_head_img"><image :src="videoItem.avatarUrl || avatarUrl" mode=""></image></view>
+									<!-- 名称 -->
+									<view>{{ videoItem.userName || userName }}</view>
 								</view>
-
-								<!-- 返回上一级页面的按钮 -->
-								<!-- <image class="back" @click="back" src="/static/back.png" mode=""></image> -->
-								<text class="iconfont iconleft back" @click="back" ></text>
-								<!-- <u-icon class="back" @click="back" size="40" name="arrow-left"></u-icon> -->
-
-								<view class="foot">
-									<!-- 头部 -->
-									<view class="foot_head">
-										<view class="foot_head_box" @click="goAuthor">
-											<!-- 发布视频者的头像 -->
-											<view class="foot_head_img"><image :src="avatarUrl" mode=""></image></view>
-											<!-- 名称 -->
-											<view>{{ userName }}</view>
-										</view>
-										<!-- 立即关注 -->
-										<span @click="focusOn" v-if="focus">关注</span>
-										<span @click="focusOn" v-else>已关注</span>
-									</view>
-									<!-- 作品简介 -->
-									<view class="video_msg" style="color:white">
-										<text>{{ conversation }}</text>
-									</view>
-								</view>
-
-								<!-- 右侧 -->
-								<view class="right">
-									<!-- 送礼物 -->
-									<view class="gift icon" @click="sendGift(index)">
-										<!-- <image src="/static/gift.png" mode=""></image> -->
-										<text class="t-icon iconliwu" ></text>
-									</view>
-									<!-- 喜欢 -->
-
-									<!-- <likeButton  :throttle="100" :large="2" > -->
-									<view class="like icon" @click="getLike(1)" type="success">
-										<!-- 不喜欢 -->
-										<u-icon v-if="!like" name="heart" color="#c3c2c1" size="56"></u-icon>
-										<!-- 喜欢 -->
-										<u-icon v-else name="heart-fill" color="red" size="56"></u-icon>
-										<view class="icon_num">{{ praseCount || '' }}</view>
-									</view>
-									<!-- 评论   点击评论显示评论弹出框-->
-									<view class="comments icon" @click="showPop(index)">
-										<!-- <image src="/static/comments.png" mode=""></image> -->
-										<text class="iconfont iconxinxi" ></text>
-										<view class="icon_num">{{ commentNum }}</view>
-									</view>
-									<!-- 转发 -->
-									<view class="forwarding icon" @click="confirmShare(index)">
-										<!-- <image src="/static/forwarding.png" mode=""></image> -->
-										<text class="iconfont iconforward-null"></text>
-										<view class="icon_num">{{ forwardCount }}</view>
-									</view>
-								</view>
+								<!-- 立即关注 -->
+								<span @click="focusOn" v-if="!playInfo.followState">关注</span>
+								<span @click="focusOn" v-else>已关注</span>
+								<!-- 进行收藏 -->
+								<span @tap.stop="collection" v-if="!playInfo.collectionState">收藏</span>
+								<span @tap.stop="collection" v-else>已收藏</span>
+								
+								<!-- <text @tap.stop="collection">收藏</text> -->
 							</view>
+							<!-- 作品简介 -->
+							<view class="video_msg" style="color:white">
+								<!-- 视频描述限制长度 -->
+								{{ videoItem.conversation }}
+							</view>
+						</view>
 
-							<!-- 生成海报图 -->
-							<qrcode-poster ref="poster" title="海报标题" subTitle="海报副标题" price="10" @close="close(index)"></qrcode-poster>
+						<!-- 右侧 -->
+						<view class="right">
+							<!-- 送礼物 -->
+							<view class="gift icon" @click="sendGift(index)"><text class="t-icon iconliwu"></text></view>
+							<!-- 喜欢 -->
+							<view class="like icon" @click.stop="getLike" type="success">
+								<!-- 不喜欢 -->
+								<u-icon v-if="!playInfo.praseState" name="heart" color="#c3c2c1" size="56"></u-icon>
+								<!-- 喜欢 -->
+								<u-icon v-else name="heart-fill" color="red" size="56"></u-icon>
+								<view class="icon_num">{{ videoItem.praseCount || '' }}</view>
+							</view>
+							<!-- 评论   点击评论显示评论弹出框-->
+							<view class="comments icon" @click="showPop(index)">
+								<text class="iconfont iconxinxi"></text>
+								<view class="icon_num">{{ videoItem.commentNum }}</view>
+							</view>
+							<!-- 转发 -->
+							<view class="forwarding icon" @click="confirmShare(index)">
+								<text class="iconfont iconforward-null"></text>
+								<view class="icon_num">{{ videoItem.forwardCount }}</view>
+							</view>
+							<!-- 下载视频 -->
+							<view class="forwarding icon" @click="downVideo(index)">
+								<text class="iconfont iconxiazai"></text>
+								<!-- <view class="icon_num">{{ forwardCount }}</view> -->
+							</view>
+						</view>
+					</view>
 
-							<!-- 送礼物弹出框 -->
-							<uni-popup ref="popupGifts" type="share" @change="change">
-								<uni-popup-gifts title="礼物" @recharge="recharge" @select="selectgift"></uni-popup-gifts>
-							</uni-popup>
-							<!-- 评论弹出框 -->
-							<uni-popup ref="popupComments" type="share" @change="change">
-								<uni-popup-comments @changeCommentsNum="changeCommentsNum" 
-									title="评论" :videoId="videoId" @select="select"
-									type="video"
-									></uni-popup-comments>
-							</uni-popup>
-							<!-- 转发弹出框 -->
-							<uni-popup ref="popupShare" type="share" @change="change"><uni-popup-share title="分享到" @select="select"></uni-popup-share></uni-popup>
-							<!-- 充值弹框 -->
-							<uni-popup ref="popupRecharge" type="share" @change="change"><uni-popup-recharge title="分享到" @select="select"></uni-popup-recharge></uni-popup>
+					<!-- 生成海报图 -->
+					<qrcode-poster ref="poster" title="海报标题" subTitle="海报副标题" price="10" @close="close(index)"></qrcode-poster>
+
+					<!-- 送礼物弹出框 -->
+					<uni-popup ref="popupGifts" type="share" @change="change"><uni-popup-gifts title="礼物" @recharge="recharge" @select="selectgift"></uni-popup-gifts></uni-popup>
+					<!-- 评论弹出框 -->
+					<uni-popup ref="popupComments" type="share" @change="change">
+						<uni-popup-comments @changeCommentsNum="changeCommentsNum" title="评论" :videoId="videoItem.videoId" @select="select" type="video"></uni-popup-comments>
+					</uni-popup>
+					<!-- 转发弹出框 -->
+					<uni-popup ref="popupShare" type="share" @change="change"><uni-popup-share title="分享到" @select="select"></uni-popup-share></uni-popup>
+					<!-- 充值弹框 -->
+					<uni-popup ref="popupRecharge" type="share"><uni-popup-recharge title="分享到" @select="select"></uni-popup-recharge></uni-popup>
 				</swiper-item>
 			</block>
 		</swiper>
@@ -126,48 +126,27 @@ import likeButton from '@/components/like-button/like-button.vue';
 export default {
 	data() {
 		return {
-			videoItem:'', //用户点击 进行播放目标的信息
+			userInfo:'', //用户的个人信息
+			videoItem:'', //用户点击视频的所有信息
 			
+			// 防止没有用户的信息
+			avatarUrl:"",
+			userName:"",
 			
-			// 红心渲染的参数
-			// viewList: [], // 渲染元素
-			// elId: 0, // 元素渲染id
-			// oldTime: 0, // 全局时间用于函数节流
-			// timer: null, // 定时器
-
+			// 用户进入到视频播放页面 请求到的播放信息
+			playInfo: '',
 			// 红心出现的位置
 			site: '',
-			// 视频封面截图
-			coverUrl: '',
-			// 视频的转发数
-			forwardCount: 0,
-			// 视频的点赞数
-			praseCount: 0,
-			// 当前视频页 作者的 用户ID
-			userId: '',
-			// 用于控制双击动画特效
-			pageDate: new Date(), //全局时间用于函数节流
-
-			// 视频发布者的信息
-			avatarUrl: '',
-			userName: '',
-			conversation: '',
-
-			videoId: '', //播放视频的Id
-			videoData: [],
 			videoIndex: 0,
-			videoW: '',
-			videoH: '',
-			// vlist: videoJson,//播放视频的列表组
 			isPlay: true, //当前视频是否播放中
 			timeStamp: 0,
 			clickNum: 0, //记录点击次数  判断单击还是双击
 			btnShow: false, //控制按钮的显示隐藏
-			like: false, //判断用户是否喜欢该视频
+			// like: false, //判断用户是否喜欢该视频
 			show_pop: false, //控制评论弹出层显示隐藏
 			videoContextList: '', //储存所有的视频区
 			focus: true, //判断是否进行关注  true 未关注  false 已关注
-			commentNum: ''
+			col:false,//用户是否进行了收藏
 		};
 	},
 	components: {
@@ -180,30 +159,33 @@ export default {
 		QrcodePoster
 	},
 	onLoad(option) {
+		console.log('播放视频页面 的 option 中的 item', JSON.parse(decodeURIComponent(option.item)));
+		// 包含视频的所有信息
+		this.videoItem = JSON.parse(decodeURIComponent(option.item))
+		
+		
+		
+		console.log('this.videoItem',this.videoItem)
 		// 获取传递过来的 点击目标的信息
-		this.videoItem = option.item
-		
-		
-		
 		// 在这里获取用户在首页点击进来的 视屏ID 用于发起请求，获取视频
-		// this.videoId = option.videoId;
-		this.videoId = option.videoId || '842c376a462548f187d8c37df8f2eab7';
-		this.avatarUrl = option.avatarUrl;
-		this.userName = option.userName;
-		this.conversation = option.conversation;
-		this.userId = option.userId;
-		this.id = option.id;
-		// 点赞数
-		this.praseCount = option.praseCount;
-		// 当前用户的评论数
-		this.commentNum = parseInt(option.commentNum);
-		// 当前视频的 转发量
-		this.forwardCount = option.forwardCount;
-		// 当前的视频页面的截图
-		this.coverUrl = option.coverUrl;
-
-		let _this = this;
-
+		this.videoId = option.videoId;
+		this.avatarUrl = uni.getStorageSync('user_img')
+		this.userName = uni.getStorageSync('user_name');
+		
+		// if (!this.videoItem.avatarUrl) {
+		// 	console.log('传递过来的 用户头像为空')
+		// 	// 传过来为空
+		// 	this.videoItem.avatarUrl = uni.getStorageSync('user_img');
+		// 	this.videoItem.avatarUrl = option.avatarUrl;
+		// } else {
+		// 	// console.log('传递过来的 用户头像不为空')
+		// }
+		// if (!this.videoItem.userName) {
+		// 	// 传过来为空
+		// 	this.videoItem.userName = uni.getStorageSync('user_name');
+		// } else {
+		// 	this.videoItem.userName = option.userName;
+		// }
 		// 用于显示分享到朋友圈
 		uni.showShareMenu({
 			withShareTicket: true,
@@ -213,32 +195,54 @@ export default {
 	onShow() {
 		let _this = this;
 		// 根据页面点击后传递过来的videoID，进行播放
-		if(this.videoId){
-			// 如果用户 浏览的是 视频
-			this.api._post(
-				'vod/getPlayInfo',
-				{
-					videoId: _this.videoId
-				},
-				function(res) {
-					console.log('获取进行播放的视频 res ===>', res);
-					// 将返回的视频播放地址 进行赋值  而后播放
-					_this.videoData = [{ src: res.data.playUrlList[0] }];
-					_this.init();
-					// 然后判断 当前播放的视频 用户 是否进行了 关注 点赞
-					_this.like = res.data.praseState; //点赞
-					_this.focus = !res.data.followState; //关注
-				}
-			);
-		}else if( !this.videoId ){
-			// 用户选择的不是视频
-			
-			
-			
-			
+		// 如果用户 浏览的是 视频
+		this.api._post(
+			'vod/getPlayInfo',
+			{
+				videoId: _this.videoItem.videoId
+			},
+			function(res) {
+				console.log('获取进行播放的视频 res ===>', res);
+				_this.playInfo = res.data;
+				// 将返回的视频播放地址 进行赋值  而后播放
+				_this.init();
+			}
+		);
+		
+		// 获取用户的个人信息
+		if(true){
+			this.api._get(
+			'user/info',{},(res)=>{
+				console.log('获取用户的当前信息',res)
+				// this.userInfo = res.data
+			})
 		}
 		
+		
 	},
+	onHide() {
+		// 当进行页面之间的切换时
+		
+		
+		
+	},
+	
+	
+	
+	onReady() {
+		// 页面加载完成 进行浏览记录
+		this.api._post(
+			'history',
+			{
+				itemId: this.videoItem.id,
+				itemType:"V"
+			},
+			function(res) {
+				console.log('用户进行浏览成功', res);
+			}
+		);
+	},
+	
 	// 触发页面的转发事件
 	onShareAppMessage: function(res) {
 		let _this = this;
@@ -250,7 +254,7 @@ export default {
 		this.api._post(
 			'vod/forward',
 			{
-				id: _this.id
+				id: _this.videoItem.id
 			},
 			function(res) {
 				console.log('用户进行转发成功', res);
@@ -261,7 +265,7 @@ export default {
 
 		return {
 			// title: '转发到好友和群聊',
-			path: '/pages/playVideo/playVideo?videoId=' + this.videoId
+			path: '/pages/playVideo/playVideo?videoId=' + this.videoItem.videoId
 			// imageUrl: '自定义转发图片',
 			// desc:'自定义描述'
 		};
@@ -281,6 +285,100 @@ export default {
 	},
 
 	methods: {
+		// 对视频进行收藏操作
+		collection(){
+			this.api._post(
+				'collection',
+				{
+					itemId: this.videoItem.id, //被关注的 作者id
+					itemType: 'V', //被关注的 作者id
+				},
+				(res) => {
+					console.log('进行收藏成功', res);
+					this.playInfo.collectionState = !this.playInfo.collectionState
+				}
+			);
+		},
+		
+		
+		// 当视频 进行 缓冲的时候触发
+		videoWaiting() {
+			// console.log('视频进行缓冲');
+		},
+
+		// 用户点击下载按钮进行当前视频的下载操作
+		downVideo(index) {
+			console.log('下载视频');
+			let _this = this;
+			// 判断用户是否开启了保存到相册
+			wx.downloadFile({
+				url: _this.playInfo.playUrlList[index],
+				success: res => {
+					console.log('downloadFile成功', res);
+					// wx.showLoading({
+					//   title: '获取资源中',
+					// })
+					wx.saveVideoToPhotosAlbum({
+						filePath: res.tempFilePath,
+						success: file => {
+							console.log('saveVideoToPhotosAlbum成功', file);
+							wx.hideLoading();
+							wx.showToast({
+								title: '下载成功',
+								icon: 'none'
+							});
+						},
+						fail: err => {
+							console.log('saveVideoToPhotosAlbum失败', err);
+							if (err.errMsg === 'saveVideoToPhotosAlbum:fail auth deny') {
+								wx.showModal({
+									title: '提示',
+									content: '需要您授权保存相册',
+									showCancel: false,
+									success: data => {
+										wx.openSetting({
+											success(settingdata) {
+												if (settingdata.authSetting['scope.writePhotosAlbum']) {
+													wx.showModal({
+														title: '提示',
+														content: '获取权限成功,再次点击下载即可保存',
+														showCancel: false
+													});
+												} else {
+													wx.showModal({
+														title: '提示',
+														content: '获取权限失败，将无法保存到相册哦~',
+														showCancel: false
+													});
+												}
+											}
+										});
+									}
+								});
+							}
+						}
+					});
+				},
+				fail: res => {
+					console.log('downloadFile失败', res);
+				}
+			});
+			// uni.authorize({
+			//     scope: 'scope.writePhotosAlbum',
+			//     success() {
+			// 			console.log('开启了保存到相册')
+			//         uni.saveVideoToPhotosAlbum({
+			//         	filePath: _this.playInfo.playUrlList[index],
+			//         	success: function(res) {
+			//         		console.log('save success',res);
+			//         	},
+			//         	fail: function(err){
+			//         		console.log('err',err)
+			//         	}
+			//         });
+			//     }
+			// })
+		},
 		// 显示充值弹框
 		recharge(e, done) {
 			// console.log('播放页面 显示充值弹窗')
@@ -307,24 +405,32 @@ export default {
 		},
 		// 点击用户头像跳转到发布者的详情页
 		goAuthor() {
+			// 用户点击 作者头像 跳转到 作者详情页面
+			// 作者详情页需要的信息
+			let item = {
+				avatarUrl:this.videoItem.avatarUrl,
+				userId:this.videoItem.userId,
+				userName:this.videoItem.userName || uni.getStorageSync('user_name')
+			}
+			
 			uni.navigateTo({
-				url: '/pages/author/author'
+				url: `/pages/author/author?item=${JSON.stringify(item)}`
 			});
 		},
 		// 判断用户是否进行关注
 		focusOn() {
 			let _this = this;
-			if (this.focus) {
+			if (!this.playInfo.followState) {
 				// 用户未关注
 				// 原先未关注 ，现在进行关注操作
 				this.api._post(
 					'follow',
 					{
-						followedId: _this.userId //被关注的 作者id
+						followedId: _this.videoItem.userId //被关注的 作者id
 					},
 					function(res) {
 						// console.log('进行关注成功',res);
-						_this.focus = false;
+						_this.playInfo.followState = !_this.playInfo.followState;
 					}
 				);
 			} else {
@@ -337,11 +443,11 @@ export default {
 							_this.api._post(
 								'follow',
 								{
-									followedId: _this.userId //被关注的 作者id
+									followedId: _this.videoItem.userId //被关注的 作者id
 								},
 								function(res) {
-									console.log('进行关注成功', res);
-									_this.focus = true;
+									console.log('进行取消关注成功', res);
+									_this.playInfo.followState = !_this.playInfo.followState
 								}
 							);
 
@@ -355,7 +461,7 @@ export default {
 		},
 		init() {
 			this.videoContextList = [];
-			for (var i = 0; i < this.videoData.length; i++) {
+			for (var i = 0; i < this.playInfo.playUrlList.length; i++) {
 				// this.videoContextList.push(this.$refs['myVideo' + i][0])
 				this.videoContextList.push(uni.createVideoContext('myVideo' + i, this));
 			}
@@ -396,20 +502,20 @@ export default {
 			this.videoContext.pause();
 			this.isPlay = false;
 		},
-		
+
 		// 点击视频事件
 		handleClicked(e) {
-			let index = e.currentTarget.dataset.index
-			let _this = this
-			let ctx = this.videoContextList[index]
-			this.clickNum++
+			let index = e.currentTarget.dataset.index;
+			let _this = this;
+			let ctx = this.videoContextList[index];
+			this.clickNum++;
 			// 只要用户点击的次数大于二都进行动画显示
-			if(this.clickNum >= 2){
-				console.log('出现红心')
+			if (this.clickNum >= 2) {
+				console.log('出现红心');
 				// // 红心动画
-				this.site = [e.detail.x,e.detail.y]
+				this.site = [e.detail.x, e.detail.y];
 				// 调用显示 红心的动画效果
-				this.$refs.likeheart[index].handleClick({timeStamp: Date.now()})
+				this.$refs.likeheart[index].handleClick({ timeStamp: Date.now() });
 			}
 			if (timer) {
 				clearTimeout(timer);
@@ -420,71 +526,87 @@ export default {
 					// console.log('双击视频 进入全屏');
 					console.log('双击视频 ');
 					// 进行点赞
-					this.getLike(0)
+					this.getLike();
 				} else {
-					console.log('单机视频')
+					console.log('单机视频');
 					this.btnShow = true;
 					if (this.isPlay) {
-						this.isPlay = false
+						this.isPlay = false;
 						ctx.pause();
 					} else {
 						ctx.play();
-						this.isPlay = true
+						this.isPlay = true;
 						// 三秒只有隐藏播放按钮
 						setTimeout(() => {
 							this.btnShow = false;
 						}, 1000);
 					}
 				}
-				console.log('清除点击数')
-				this.clickNum = 0
+				console.log('清除点击数');
+				this.clickNum = 0;
 			}, 300);
 		},
-
-		// 喜欢
-		handleIsLike(index) {
-			let vlist = this.vlist;
-			vlist[index].islike = !vlist[index].islike;
-			this.vlist = vlist;
-		},
-		// 控制弹窗的操作
-
 		// 控制送礼物的弹窗
 		sendGift(index) {
 			console.log('送礼物', index);
 			this.$refs.popupGifts[this.videoIndex].open();
 		},
 		selectgift(e, done) {
+			let _this = this;
 			// console.log('送礼物')
 			uni.showModal({
 				title: '提示',
-				content: `您确定赠送${e.item.text}吗`,
+				content: `您确定赠送${e.item.name}吗`,
 				success: function(res) {
 					if (res.confirm) {
 						// console.log('用户点击确定',uni.getProvider,);
 						// 然后调用支付功能进行支付操作
 						// 微信小程序支付
-						uni.requestPayment({
-							provider: 'wxpay', //服务提供商 通过uni.getProvider获取
-							timeStamp: String(Date.now()), //时间戳
-							nonceStr: 'A1B2C3D4E5', //随机字符串
-							// 统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=xx。
-							package: 'prepay_id=wx20180101abcdefg',
-							signType: 'MD5', //签名算法
-							paySign: 'appid=wxd930ea5d5a258f4f&body=test&device_info=1000&mch_id=10000100&nonce_str=ibuaiVcKdpRxkhJA', //签名
-							success: function(res) {
-								console.log('success:' + JSON.stringify(res));
-							},
-							fail: function(err) {
-								console.log('fail:' + JSON.stringify(err));
-							}
-						});
+						_this.userPay();
 					} else if (res.cancel) {
 						console.log('用户点击取消');
 					}
 				}
 			});
 		},
+		// 用户进行支付操作
+		userPay() {
+			let _this = this;
+			// 判断用户的 手机系统
+			let platform = uni.getSystemInfoSync().platform;
+			if (platform == 'ios') {
+				return uni.showToast({
+					title: 'ioc系统暂时无法支付',
+					duration: 2000
+				});
+			}
+			// 先请求 后端的下单支付接口
+			this.api._post('user/prepay?userId=29', {}, function(res) {
+				console.log('测试支付', res);
+			});
+
+			// 返回支付参数（5个参数和sign）
+			// 然后鉴权调起支付
+
+			// 所有的参数值，后端生成，返回给前端
+
+			// uni.requestPayment({
+			// 	provider: 'wxpay', //服务提供商 通过uni.getProvider获取
+			// 	timeStamp: , //时间戳
+			// 	nonceStr: , //随机字符串
+			// 	// 统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=xx。
+			// 	package: 'prepay_id=wx20180101abcdefg',
+			// 	signType: 'MD5', //签名算法
+			// 	paySign: 'appid=wxd930ea5d5a258f4f&body=test&device_info=1000&mch_id=10000100&nonce_str=ibuaiVcKdpRxkhJA', //签名
+			// 	success: function(res) {
+			// 		console.log('success:' + JSON.stringify(res));
+			// 	},
+			// 	fail: function(err) {
+			// 		console.log('fail:' + JSON.stringify(err));
+			// 	}
+			// });
+		},
+
 		// 控制评论弹窗
 		showPop() {
 			// console.log('评论窗口 ref',this.$refs.popupComments)
@@ -519,58 +641,35 @@ export default {
 		},
 
 		// 点击红心喜欢该视频
-		getLike(num) {
+		getLike() {
 			let _this = this;
-			// this.like = !this.like;
 			// 视频点赞 发起请求 ，
-
-			// 通过 num 来进行判断 用户是通过那种方式进行的点击操作
-			if (num == 0) {
-				// 用户是通过双击进行的点赞
-				// 则用户只能在未点赞之时发起请求，之后再次进行点击则 只显示红心特效
-				if (!_this.like) {
-					// 当前没有进行点赞
-					this.api._post(
-						'vod/likeVideo',
-						{
-							videoId: _this.id
-						},
-						function(res) {
-							// console.log('用户进行视频点赞 点亮红心',res)
-							_this.like = true;
-							_this.praseCount++;
-						}
-					);
-				}
-			} else if (num == 1) {
-				// 用户直接点击的 红心图标
-				if (!_this.like) {
-					// 当前没有进行点赞
-					this.api._post(
-						'vod/likeVideo',
-						{
-							videoId: _this.id
-						},
-						function(res) {
-							// console.log('用户进行视频点赞 点亮红心',res)
-							_this.like = true;
-							_this.praseCount++;
-						}
-					);
-				} else {
-					// 当前已经进行了点赞
-					this.api._post(
-						'vod/likeVideo',
-						{
-							videoId: _this.id
-						},
-						function(res) {
-							// console.log('用户取消视频点赞 消灭红心',res)
-							_this.like = false;
-							_this.praseCount--;
-						}
-					);
-				}
+			// 则用户只能在未点赞之时发起请求，之后再次进行点击则 只显示红心特效
+			if (!_this.playInfo.praseState) {
+				// 当前没有进行点赞
+				this.api._post(
+					'vod/likeVideo',
+					{
+						videoId: _this.videoItem.id
+					},
+					function(res) {
+						// console.log('用户进行视频点赞 点亮红心',res)
+						_this.playInfo.praseState = true;
+						_this.videoItem.praseCount++;
+					}
+				);
+			} else {
+				this.api._post(
+					'vod/likeVideo',
+					{
+						videoId: _this.videoItem.id
+					},
+					function(res) {
+						// console.log('用户取消视频点赞 消灭红心',res)
+						_this.playInfo.praseState = false;
+						_this.videoItem.praseCount--;
+					}
+				);
 			}
 		},
 		/**
@@ -614,12 +713,13 @@ export default {
 		height: 100%;
 		background-color: black;
 		.back {
-			width: 40rpx;
-			height: 40rpx;
+			// width: 40rpx;
+			// height: 40rpx;
 			position: absolute;
 			top: 67rpx;
 			left: 30rpx;
 			color: white;
+			font-size: 50rpx;
 		}
 		video {
 			width: 100%;
@@ -666,7 +766,6 @@ export default {
 					.foot_head_img {
 						width: 60rpx;
 						height: 60rpx;
-						background-color: yellow;
 						border-radius: 50%;
 						margin-right: 20rpx;
 						overflow: hidden;
@@ -676,7 +775,6 @@ export default {
 						}
 					}
 				}
-
 				span {
 					display: inline-block;
 					background-color: red;
@@ -687,6 +785,12 @@ export default {
 					margin-left: 20rpx;
 				}
 			}
+			.video_msg {
+				color: white;
+				// background-color: red;
+				width: 87%;
+				font-size: 30rpx;
+			}
 		}
 		.right {
 			width: 100rpx;
@@ -694,7 +798,7 @@ export default {
 			background-color: transparent;
 			position: absolute;
 			right: 23rpx;
-			top: 62%;
+			top: 61%;
 			display: flex;
 			flex-direction: column;
 			justify-content: space-evenly;
@@ -743,11 +847,11 @@ export default {
 	}
 }
 // 调控 iconfont 图标的颜色大小
-.iconfont{
+.iconfont {
 	color: white;
 	font-size: 65rpx;
 }
-.t-icon{
+.t-icon {
 	width: 27px;
 	height: 27px;
 }

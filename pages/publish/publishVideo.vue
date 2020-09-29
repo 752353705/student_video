@@ -6,7 +6,22 @@
 			<textarea  :show-confirm-bar="false" name="area" :value="areaVal" 
 				class="txt_area" @input='areaInput' 
 				placeholder="视频简介" 
+				maxlength="50"
 				/>
+				
+				<!-- 用户进行选择视频的封面 -->
+				<!-- <view class="tit">选择最靓的视频封面吧</view> -->
+				 <view class="tit" style="color:#8d8696 ;" >选择最靓的封面吧(未进行选择默认第一帧做封面)</view>
+				<!-- 没有封面的时候 -->
+				<view v-if="!VImg" class="content coverImg" @click="getVImg" >
+					<!-- 十字图案 -->
+					<view class="cross" ></view>
+				</view>
+				<view v-else class="content">
+					<image :src="VImg" class="video" />
+					<cover-image class="img" @click="clear(1)"  src="../../static/close_video.png" mode=""></cover-image>
+				</view>
+				
 			<!-- 没有视频的时候、 -->
 			<view v-if="!video_src"  class="content" @click="getVideo" >
 				<!-- 十字图案 -->
@@ -16,7 +31,7 @@
 			<view v-else class="content">
 				<video :src="video_src" class="video">
 				</video>
-					<cover-image class="img" @click="clear"  src="../../static/close_video.png" mode=""></cover-image>
+					<cover-image class="img" @click="clear(2)"  src="../../static/close_video.png" mode=""></cover-image>
 			</view>
 			
 			<view class="btn" @click="submitVideo">
@@ -38,6 +53,10 @@
 	export default {
 		data() {
 			return {
+				//视频封面
+				 VImg:'',
+				
+				
 				video_src:'',
 				uploader:'',
 				videos: [],
@@ -64,8 +83,12 @@
 				cameraIndex: 0
 			}
 		},
-		created() {
-			// this.popup.childrenMsg = this
+		onLoad(option) {
+			// 当用户是进行 视频修改的时候
+			
+			// 根据用户传递过来的 id 发起请求获取 当前视频的信息
+			
+			
 		},
 		onHide() {
 			// console.log('上传组件隐藏',this.$props)
@@ -204,7 +227,7 @@
 							console.log("文件上传完毕 onUploadEnd: uploaded all the files")
 							// 然后关闭弹窗 清除数据
 							// that.$emit('changeVideoSrc','')
-							this.video_src = '';
+							// this.video_src = '';
 							that.percent = 0
 							that.showCir = false
 							that.areaVal =''
@@ -216,11 +239,48 @@
 			
 		},
 		methods: {
+			// 当前用户进行视频封面的选择
+			getVImg(){
+				// console.log('调用接口获取本地图片');
+				// 调用内部接口获取拍摄的视频
+				//成功获取本地视频的地址之后，显示视频的第一帧
+				var that = this;
+				uni.chooseImage({
+					count: 1, // 最多可以选择的图片张数
+					sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+					success: function(res) {
+						// 判断所选图片 每张不能超过 1 M
+						console.log('选择的图片', res);
+						res.tempFiles.forEach((item, index) => {
+							if (item.size > 1024 * 1024) {
+								uni.showToast({
+									title: '封面图片大小超过1m,请重新选择',
+									icon: 'none'
+								});
+							}
+						});
+				
+						// 将选择的 图片本地地址进行存储
+						res.tempFilePaths.forEach(item => {
+							that.VImg = item
+						});
+					}
+				});
+			},
+			
 			// 删除当前作品
-			clear(){
+			clear(num){
 				console.log('删除当前作品')
 				// this.$emit('clear')
-				this.video_src = ''
+				if(num == 1){
+					// 用户删除封面图
+					this.VImg = ''
+				}else{
+					// 用户删除视频
+					this.video_src = ''
+				}
+				
 			},
 			
 			// 控制弹窗
@@ -379,22 +439,7 @@
 				justify-content: center;
 				align-items: center;
 				border-radius: 23rpx;
-				// 十字图案
-				.cross {
-				  background: #888888;
-				  height: 89.58rpx;
-				  position: relative;
-				  width: 9.88rpx;
-				}
-				.cross:after {
-				 background-color: #888888;
-				 content: "";
-				 height: 9.88rpx;
-				 left: -37.77rpx;
-				 position: absolute;
-				 top: 39.77rpx;
-				 width: 89.58rpx;
-				}
+				
 				.video{
 					width: 100%;
 				}
@@ -407,15 +452,24 @@
 					right: -10rpx;
 				}
 			}
+			// 封面提示
+			.tit{
+				margin-top: 25px;
+			}
+			// 视频封面
+			.coverImg{
+				margin-top: 10px;
+			}
+			
 			// 底部按钮
 			.btn{
 				width: 260.22rpx;
 				height: 83.66rpx;
 				text-align: center;
 				line-height: 83.66rpx;
-				background-image: linear-gradient(to bottom, #ef6a25 , #f41c1f);
+				background-color: #fe2c53;
 				border-radius: 40rpx;
-				color: #db986e;
+				color: white;
 				font-size: 36rpx;
 				font-weight: bolder;
 				position: fixed;
@@ -431,5 +485,21 @@
 				transform: translate(-50%,-50%);
 			}
 		}
+	}
+	// 十字图案
+	.cross {
+	  background: #888888;
+	  height: 89.58rpx;
+	  position: relative;
+	  width: 9.88rpx;
+	}
+	.cross:after {
+	 background-color: #888888;
+	 content: "";
+	 height: 9.88rpx;
+	 left: -37.77rpx;
+	 position: absolute;
+	 top: 39.77rpx;
+	 width: 89.58rpx;
 	}
 </style>

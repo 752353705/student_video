@@ -1,10 +1,10 @@
 page {
-  background-color: black;
+  background-color: white;
 }
 .txt_detail {
   box-sizing: border-box;
   padding-bottom: 32rpx;
-  background-color: black;
+  background-color: white;
 }
 .txt_detail .uni_vdplayer {
   position: relative;
@@ -41,8 +41,8 @@ page {
   width: 100%;
   box-sizing: border-box;
   padding: 20rpx 40rpx 10rpx;
-  padding-right: 100rpx;
-  color: white;
+  margin-bottom: 100rpx;
+  color: black;
 }
 .txt_detail .uni_vdplayer .txtMain .head {
   width: 100%;
@@ -68,7 +68,6 @@ page {
 .txt_detail .uni_vdplayer .txtMain .head .head_box .head_img {
   width: 60rpx;
   height: 60rpx;
-  background-color: yellow;
   border-radius: 50%;
   margin-right: 20rpx;
   overflow: hidden;
@@ -95,59 +94,88 @@ page {
   text-indent: 2em;
   box-sizing: border-box;
 }
-.txt_detail .uni_vdplayer .right {
-  width: 100rpx;
-  height: 439rpx;
-  background-color: transparent;
+.txt_detail .uni_vdplayer .txtMain .fans {
+  margin-top: 20rpx;
+}
+.txt_detail .uni_vdplayer .txtMain .fans .tit {
+  font-size: 35rpx;
+  font-weight: bold;
+}
+.txt_detail .uni_vdplayer .txtMain .fans .img_list {
+  margin-top: 20rpx;
+  width: 100%;
+  font-size: 15rpx;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  word-break: break-all;
+}
+.txt_detail .uni_vdplayer .txtMain .fans .img_list image {
+  margin-right: 20rpx;
+  display: inline-block;
+  width: 60rpx;
+  height: 60rpx;
+}
+.txt_detail .uni_vdplayer .btm {
   position: fixed;
-  right: 23rpx;
-  top: 62%;
+  z-index: 20;
+  bottom: 0;
+  left: 0;
+  background-color: white;
+  width: 100%;
+  height: 114rpx;
+  border-top: 1px solid #d0d0d0;
+  box-sizing: border-box;
+  padding-left: 40rpx ;
+  padding-right: 10rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-          flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.txt_detail .uni_vdplayer .btm .le {
+  background-color: #f0f0f4;
+  color: #999aa8;
+  border-radius: 20rpx;
+}
+.txt_detail .uni_vdplayer .btm .le .msg {
+  width: 310rpx;
+  height: 63rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: start;
+  -webkit-justify-content: start;
+          justify-content: start;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.txt_detail .uni_vdplayer .btm .le .msg .icon_num {
+  margin-top: 10rpx;
+}
+.txt_detail .uni_vdplayer .btm .le .msg .iconxie {
+  font-size: 52rpx;
+}
+.txt_detail .uni_vdplayer .btm .ri {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
   -webkit-box-pack: space-evenly;
   -webkit-justify-content: space-evenly;
           justify-content: space-evenly;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+          align-items: flex-start;
+  width: 312rpx;
 }
-.txt_detail .uni_vdplayer .right button[type='default'][plain] {
-  border: 0px solid #353535;
-  background-color: transparent;
-}
-.txt_detail .uni_vdplayer .right button {
-  position: relative;
-  display: block;
-  box-sizing: border-box;
-  font-size: 20rpx;
-  color: white;
-  text-align: center;
-  text-decoration: none;
-  line-height: 30rpx;
-  overflow: hidden;
-}
-.txt_detail .uni_vdplayer .right .forwarding {
-  width: 90px;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-          justify-content: center;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-}
-.txt_detail .uni_vdplayer .right .icon {
+.txt_detail .uni_vdplayer .btm .ri .icon {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -160,20 +188,7 @@ page {
           align-items: center;
   font-size: 22rpx;
 }
-.txt_detail .uni_vdplayer .right .icon .icon_num {
-  margin-top: 10rpx;
-  color: white;
-}
-.txt_detail .uni_vdplayer .right .icon image {
-  width: 50rpx;
-  height: 50rpx;
-}
-.iconfont {
-  font-size: 65rpx;
-  color: white;
-}
-.t-icon {
-  width: 27px;
-  height: 27px;
+.txt_detail .uni_vdplayer .btm .ri .icon .iconfont {
+  font-size: 50rpx;
 }
 

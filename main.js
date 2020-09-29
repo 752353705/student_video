@@ -25,6 +25,11 @@ Vue.component('cCircle',cCircle)
 import {api} from './API/_api.js'
 Vue.prototype.api = api
 
+// 页面之间 进行返回的 时候，修改上一个页面栈中的数据
+Vue.prototype.$eventHub = new Vue();
+
+
+
 
 Vue.config.productionTip = false
 App.mpType = 'app'

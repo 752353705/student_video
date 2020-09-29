@@ -14,6 +14,19 @@
 			<!-- 价格 -->
 			<input class="price_num" @input="priceInput" type="number" :value="used_price" placeholder="价格" />
 
+			<!-- 二手封面 -->
+			<view class="tit" style="color:#8d8696 ;" >选择最靓的封面吧(未进行选择默认第一张做封面)</view>
+			<!-- 没有封面的时候 -->
+			<view v-if="!usedImg" class=" coverImg" @click="getUsedImg">
+				<!-- 十字图案 -->
+				<view class="cross"></view>
+			</view>
+			<view v-else class="cover_content" @tap.stop="detailImg(1)" style="background-color: black;">
+				<image :src="usedImg"  mode="aspectFit" />
+				<cover-image class="img" @click.stop="clear(1)" src="../../static/close_video.png" mode=""></cover-image>
+			</view>
+
+
 			<view class="img_box">
 				<!-- 当前可以进行选择的二手个数 -->
 				<view class="shownum">
@@ -47,6 +60,9 @@
 export default {
 	data() {
 		return {
+			// 二手列表封面图选择
+			usedImg:'',
+			
 			// 渲染价格
 			used_price: '',
 			// 二手商品的名称
@@ -89,6 +105,33 @@ export default {
 	onHide() {},
 	onReady() {},
 	methods: {
+		// 用户自己选择二手的封面图
+		getUsedImg(){
+			let that = this
+			uni.chooseImage({
+				count: 1, // 最多可以选择的图片张数
+				sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+				sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+				success: function(res) {
+					// 判断所选图片 每张不能超过 1 M
+					console.log('选择的图片', res);
+					res.tempFiles.forEach((item, index) => {
+						if (item.size > 1024 * 1024) {
+							uni.showToast({
+								title: '封面图片大小超过1m,请重新选择',
+								icon: 'none'
+							});
+						}
+					});
+			
+					// 将选择的 图片本地地址进行存储
+					res.tempFilePaths.forEach(item => {
+						that.usedImg = item
+					});
+				}
+			});
+		},
+		
 		// 用户要进行信息修改，根据文章ID获取文章的详细信息
 		getTxtDetail(usedid) {
 			let _this = this;
@@ -98,6 +141,7 @@ export default {
 				_this.oldItem = res.data;
 				// 将传递过来的信息 赋值给 当前页面的信息
 				_this.usedname = res.data.title;
+				_this.usedImg = res.data.coverUrl;
 				_this.areaVal = res.data.goodsDescribe;
 				_this.used_price = _this.floatDiv(res.data.price,100)
 				// _this.images =
@@ -150,6 +194,12 @@ export default {
 			this.num = 0;
 			console.log('上传图片');
 			let _this = this;
+			
+			uni.showLoading({
+				title:'正在上传..'
+			})
+			
+			
 			// 改变 当前 所选图片结构
 			this.images.forEach(item => {
 				// console.log('上传图片的url',item.url)
@@ -209,7 +259,7 @@ export default {
 				this.api._post(
 					'secondGoods',
 					{
-						coverUrl: _this.imgArr[0], //封面图
+						coverUrl: _this.usedImg || _this.imgArr[0], //封面图
 						title: _this.usedname, //二手名称
 						price: _this.floatMul(_this.used_price,100), //二手价格
 						images: _this.imgArr.join(','), //图片
@@ -217,6 +267,9 @@ export default {
 					},
 					function(res) {
 						console.log(res);
+						
+						uni.hideLoading()
+						
 						// 提示上传结果
 						uni.showToast({
 							title: '上传' + res.errmsg,
@@ -245,15 +298,19 @@ export default {
 			}
 		},
 		// 点击查看所选图片详情
-		detailImg() {
+		detailImg(num) {
 			console.log('预览图片');
 			let imgarr = [];
 
 			// 改变 当前 相册数组结构
+		if(num == 1){
+			// 代表用户查看封面详情
+			imgarr.push(this.usedImg);
+		}else{
 			this.images.forEach(item => {
 				imgarr.push(item.url);
 			});
-
+		}
 			// 预览图片
 			uni.previewImage({
 				urls: imgarr,
@@ -262,21 +319,26 @@ export default {
 			});
 		},
 		// 删除当前作品
-		clear(index) {
-			console.log('删除当前作品');
-			this.$emit('clear');
-
-			console.log('当前作品列表 ==》', this.images);
-
-			// 操作数组删除选定的一项
-			this.images.splice(index, 1);
-			this.imgArr.splice(index, 1);
-			if (this.change) this.oldImgArr.splice(index, 1);
-			// num 与 count 数值可以相互通用
-			this.num = this.num - 1;
-			// 修改当前 可以进行选择的图片
-			this.count = this.images.length;
-			console.log('删除操作之后的作品列表 ==》', this.images);
+		clear(num,index) {
+			if(num == 1){
+				// 代表用户要重新选择封面图
+				this.usedImg = ''
+			}else{
+				console.log('删除当前作品');
+				this.$emit('clear');
+				
+				console.log('当前作品列表 ==》', this.images);
+				
+				// 操作数组删除选定的一项
+				this.images.splice(index, 1);
+				this.imgArr.splice(index, 1);
+				if (this.change) this.oldImgArr.splice(index, 1);
+				// num 与 count 数值可以相互通用
+				this.num = this.num - 1;
+				// 修改当前 可以进行选择的图片
+				this.count = this.images.length;
+				console.log('删除操作之后的作品列表 ==》', this.images);
+			}
 		},
 
 		// 获取本地拍摄的作品
@@ -322,6 +384,7 @@ export default {
 	// overflow: auto;
 	box-sizing: border-box;
 	padding: 20px;
+	padding-bottom: 100px;
 	// 文章标题
 	.input{
 		background-color: #f2f2f2;
@@ -336,7 +399,6 @@ export default {
 	// 文章内容
 	.uni-popup-message-text {
 		width: 100%;
-		height: 960.52rpx;
 		font-size: 14px;
 		position: relative;
 		box-sizing: border-box;
@@ -354,6 +416,57 @@ export default {
 			box-sizing: border-box;
 			padding: 30rpx;
 		}
+		
+		// 封面
+		.tit {
+			margin-top: 10px;
+		}
+		.coverImg {
+			margin-top: 23rpx;
+			// color: white;
+			// font-size: 30rpx;
+			// position: relative;
+			width: 203.58rpx;
+			height: 189.58rpx;
+			background-color: #f2f2f2;
+			// text-align: center;
+			// margin-right: 20rpx;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			border-radius: 23rpx;
+			
+		}
+		.cover_content {
+			margin-top: 20rpx;
+			// color: white;
+			// font-size: 30rpx;
+			position: relative;
+			width: 203.58rpx;
+			height: 189.58rpx;
+			// background-color: #f2f2f2;
+			// text-align: center;
+			// margin-right: 20rpx;
+			// display: flex;
+			// flex-direction: column;
+			// justify-content: center;
+			// align-items: center;
+			// border-radius: 23rpx;
+			image {
+				width: 100%;
+				height: 100%;
+			}
+		
+			.img {
+				position: absolute;
+				width: 40rpx;
+				height: 40rpx;
+				top: 3rpx;
+				right: -16rpx;
+			}
+		}
+		
 		// 二手物品的价格
 		.price_num {
 			margin-top: 35rpx;
@@ -411,22 +524,7 @@ export default {
 						width: 100%;
 						height: 100%;
 					}
-					// 上传的十字图案
-					.cross {
-						background: #888888;
-						height: 89.58rpx;
-						position: relative;
-						width: 9.88rpx;
-					}
-					.cross:after {
-						background-color: #888888;
-						content: '';
-						height: 9.88rpx;
-						left: -37.77rpx;
-						position: absolute;
-						top: 39.77rpx;
-						width: 89.58rpx;
-					}
+				
 					.img {
 						position: absolute;
 						width: 40rpx;
@@ -446,9 +544,9 @@ export default {
 			height: 83.66rpx;
 			text-align: center;
 			line-height: 83.66rpx;
-			background-image: linear-gradient(to bottom, #ef6a25, #f41c1f);
 			border-radius: 40rpx;
-			color: #db986e;
+			background-color: #fe2c53;
+			color: white;
 			font-size: 36rpx;
 			font-weight: bolder;
 			position: fixed;
@@ -465,4 +563,20 @@ export default {
 		}
 	}
 }
+	// 上传的十字图案
+					.cross {
+						background: #888888;
+						height: 89.58rpx;
+						position: relative;
+						width: 9.88rpx;
+					}
+					.cross:after {
+						background-color: #888888;
+						content: '';
+						height: 9.88rpx;
+						left: -37.77rpx;
+						position: absolute;
+						top: 39.77rpx;
+						width: 89.58rpx;
+					}
 </style>

@@ -76,6 +76,8 @@ export default {
 		verifyResult(res) {
 			let _this = this;
 			if (this.phone.length !== 11) {
+				this.sliderVerifyFLag = false;
+				
 				return uni.showToast({
 					title: '请输入完整手机号',
 					icon: 'none',

@@ -7,30 +7,32 @@
 					<!-- 返回上一页的按钮 -->
 					<text class="iconfont iconleft back" @click.stop="back" ></text>
 					<!-- 作者头像 -->
-					<view class="head_img"><image :src="txtItem.avatarUrl || avatarUrl" mode=""></image></view>
+					<view class="head_img"><image :src="usedItem.avatarUrl" mode=""></image></view>
 					<!-- 名称 -->
-					<view>{{ txtItem.userName || userName }}</view>
+					<view>{{ usedItem.userName || userName }}</view>
 				</view>
 				<!-- 立即关注 -->
-				<span @click="focusOn" v-if="focus">关注</span>
+				<span @click="focusOn" v-if="!usedItem.followed">关注</span>
 				<span @click="focusOn" v-else>已关注</span>
+					<!-- <text @tap.stop="collection">收藏</text> -->
 			</view>
 			<!-- 内容主题 -->
 			<view class="main">
 				<!-- 二手商品的价格 -->
 					<view class="price">
 						￥
-						 <text class="num"> {{txtItem.price / 100}} </text>
+						 <text class="num"> {{usedItem.price}} </text>
 					</view>
 				<!-- 二手商品的描述 -->
 				<view class="describe">
-					{{txtItem.goodsDescribe}}
+					{{usedItem.goodsDescribe}}
 				</view>
 				
 				<!-- 二手显示图片 -->
 				<view class="used_imgbox" 
 					v-for="(item,index) in imgArr " :key="index">
 					<image  
+						@longpress="downImg(item)"
 						@tap.stop="detailImg"
 						:src="item" mode="widthFix"></image>
 				</view>
@@ -41,20 +43,27 @@
 				<!-- 喜欢 -->
 				<view class="like icon" @click="getLike" type="success">
 					<!-- 不喜欢 -->
-					<u-icon v-if="!txtItem.praseStatus" name="heart" color="#ffffff" size="56"></u-icon>
+					<u-icon v-if="!usedItem.praseStatus" name="heart" color="#ffffff" size="56"></u-icon>
 					<!-- 喜欢 -->
 					<u-icon v-else name="heart-fill" color="red" size="56"></u-icon>
-					<view class="icon_num">{{ txtItem.praseCount || '' }}</view>
+					<view class="icon_num">{{ usedItem.praseCount || '' }}</view>
 				</view>
 				<!-- 评论   点击评论显示评论弹出框-->
 				<view class="comments icon" @click="showPop">
 					<text class="iconfont iconxinxi" ></text>
-					<view class="icon_num">{{ txtItem.commentNum }}</view>
+					<view class="icon_num">{{ usedItem.commentNum }}</view>
+				</view>
+				<!-- 收藏 -->
+				<view class="comments icon" @tap.stop="collection">
+				<!-- 	<u-icon v-if="!clt" size="74" name="star" color="white"></u-icon>
+					<u-icon v-else size="74" name="star-fill" color="red"></u-icon> -->
+					<text v-if="!usedItem.collectionStatus" class="iconfont iconshoucang1"  ></text>
+					<text v-else class="iconfont iconshoucangactive" style="color: red;"  ></text>
 				</view>
 				<!-- 转发 -->
 				<view class="forwarding icon" @click="confirmShare">
 					<text class="iconfont iconforward-null"></text>
-					<view class="icon_num">{{ txtItem.forwardCount }}</view>
+					<view class="icon_num">{{ usedItem.forwardCount }}</view>
 				</view>
 			</view>
 		</view>
@@ -63,14 +72,14 @@
 		<qrcode-poster ref="poster" title="海报标题" subTitle="海报副标题" price="10" @close="close(index)"></qrcode-poster>
 
 		<!-- 评论弹出框 -->
-		<uni-popup ref="popupComments" type="share" @change="change">
+		<uni-popup ref="popupComments" type="share" >
 			<uni-popup-comments @changeCommentsNum="changeCommentsNum" 
-				title='评论'  :txtid="id" @select="select"
+				title='评论'  :usedId="id" @select="select"
 				type="used"
 			></uni-popup-comments>
 		</uni-popup>
 		<!-- 转发弹出框 -->
-		<uni-popup ref="popupShare" type="share" @change="change"><uni-popup-share title="分享到" @select="select"></uni-popup-share></uni-popup>
+		<uni-popup ref="popupShare" type="share" ><uni-popup-share title="分享到" @select="select"></uni-popup-share></uni-popup>
 	</view>
 </template>
 
@@ -88,8 +97,13 @@ import likeButton from '@/components/like-button/like-button.vue';
 export default {
 	data() {
 		return {
+			clt:false, //表示用户没有进行收藏
 			id:'',
-			txtItem:'',
+			usedItem:{
+				price:0,
+				avatarUrl:'/static/avatarUrl.png',
+				goodsDescribe:''
+			},  //进行修改 为 usedItem
 			imgArr:'', //文章的背景图
 
 			// 当用户浏览自己的文章 时没有 头像和 姓名
@@ -131,16 +145,31 @@ export default {
 		});
 	},
 	onShow() {
+		let _this = this 
 		console.log('当前作品的浏览量 onshow')
 		// 显示当前 二手商品的 浏览量
 		this.api._post(
-			`secondGoods/views/${_this.txtItem.id}`,{},
+			`secondGoods/views/${_this.id}`,{},
 			function(res) {
 				console.log('当前作品的浏览量',res)
 				
 			}
 		);
 		
+	},
+	onReady() {
+		console.log('用户进行浏览 id', this.usedItem.id);
+		// 页面加载完成 进行浏览记录
+		this.api._post(
+			'history',
+			{
+				itemId: this.id,
+				itemType:"S"
+			},
+			function(res) {
+				console.log('用户进行浏览成功', res);
+			}
+		);
 	},
 	// 触发页面的转发事件
 	onShareAppMessage: function(res) {
@@ -151,9 +180,9 @@ export default {
 		}
 		// 调用 转发请求 记录用户转发了多少次
 		this.api._post(
-			`secondGoods/forward/${_this.txtItem.id}`,{},function(res) {
+			`secondGoods/forward/${_this.usedItem.id}`,{},function(res) {
 				console.log('用户进行转发成功', res);
-				_this.txtItem.forwardCount++;
+				_this.usedItem.forwardCount++;
 			}
 		);
 
@@ -179,6 +208,79 @@ export default {
 	},
 
 	methods: {
+		// 对图文进行收藏操作
+		collection(){
+			let _this = this
+			this.api._post(
+				'collection',
+				{
+					itemId: this.usedItem.id, //被关注的 作者id
+					itemType: 'S', //被关注的 作者id
+				},
+				function(res) {
+					_this.usedItem.collectionStatus = !_this.usedItem.collectionStatus
+					console.log('进行收藏成功', res);
+				}
+			);
+		},
+		downImg(imgsrc){
+			console.log('用户长按图片进行下载')
+			//判断用户授权
+			wx.downloadFile({
+			  url: imgsrc,
+			  success: res => {
+			    console.log('downloadFile成功',res);
+			    // wx.showLoading({
+			    //   title: '获取资源中',
+			    // })
+			    wx.saveImageToPhotosAlbum({
+			      filePath: res.tempFilePath,
+			      success: file => {
+			        console.log('saveVideoToPhotosAlbum成功',file);
+			        wx.hideLoading()
+			        wx.showToast({
+			          title: '下载成功',
+			          icon: 'none',
+			        })
+			      },
+			      fail: err => {
+			        console.log('saveVideoToPhotosAlbum失败',err)
+			        if (err.errMsg === 'saveVideoToPhotosAlbum:fail auth deny') {
+			          wx.showModal({
+			            title: '提示',
+			            content: '需要您授权保存相册',
+			            showCancel: false,
+			            success: data => {
+			              wx.openSetting({
+			                success(settingdata) {
+			                  if (settingdata.authSetting['scope.writePhotosAlbum']) {
+			                    wx.showModal({
+			                      title: '提示',
+			                      content: '获取权限成功,再次点击下载即可保存',
+			                      showCancel: false,
+			                    })
+			                  } else {
+			                    wx.showModal({
+			                      title: '提示',
+			                      content: '获取权限失败，将无法保存到相册哦~',
+			                      showCancel: false,
+			                    })
+			                  }
+			                },
+			              })
+			            }
+			          })
+			        }
+			      }
+			    })
+			  },
+			  fail:res=>{
+			    console.log('downloadFile失败', res);
+						
+						
+			  }
+			})
+		},
 		// 对当前二手图片进行详细的 浏览
 		detailImg() {
 			// 预览图片
@@ -196,7 +298,8 @@ export default {
 				`secondGoods/${id}`,{},
 				function(res) {
 					console.log('获取文章的详情',res)
-					_this.txtItem = res.data
+					_this.usedItem = res.data
+					_this.usedItem.price = _this.usedItem.price/100
 					_this.imgArr = res.data.images.split(',')
 				}
 			);
@@ -210,7 +313,7 @@ export default {
 		// 当海报图生成之后，关闭分享弹窗
 		close(index) {
 			// console.log('海报图生成 关闭分享弹窗 this.$refs.popupShare ===>',this.$refs.popupShare)
-			this.$refs.popupShare[index].close();
+			this.$refs.popupShare.close();
 		},
 		// 控制页面评论数的改变
 		changeCommentsNum(num) {
@@ -224,48 +327,55 @@ export default {
 		},
 		// 点击用户头像跳转到发布者的详情页
 		goAuthor() {
+			// 用户点击 作者头像 跳转到 作者详情页面
+			// 作者详情页需要的信息
+			let item = {
+				avatarUrl:this.usedItem.avatarUrl,
+				userId:this.usedItem.userId,
+			}
+			
 			uni.navigateTo({
-				url: '/pages/author/author'
+				url: `/pages/author/author?item=${JSON.stringify(item)}`
 			});
 		},
 		// 判断用户是否进行关注
 		focusOn() {
 			let _this = this;
-			if (this.focus) {
+			if (!this.usedItem.followed) {
 				// 用户未关注
 				// 原先未关注 ，现在进行关注操作
-				// this.api._post(
-				// 	'follow',
-				// 	{
-				// 		followedId: _this.userId //被关注的 作者id
-				// 	},
-				// 	function(res) {
-				// 		// console.log('进行关注成功',res);
-				// 		_this.focus = false;
-				// 	}
-				// );
+				this.api._post(
+					'follow',
+					{
+						followedId: _this.usedItem.userId //被关注的 作者id
+					},
+					function(res) {
+						// console.log('进行关注成功',res);
+						_this.usedItem.followed = !_this.usedItem.followed;
+					}
+				);
 			} else {
 				// 用户已经进行了关注，此时再进行点击表示用户是否要取消关注
 				uni.showModal({
 					content: '确认不在关注',
 					success: function(res) {
-						// if (res.confirm) {
-						// 	// console.log('用户点击确定');
-						// 	_this.api._post(
-						// 		'follow',
-						// 		{
-						// 			followedId: _this.userId //被关注的 作者id
-						// 		},
-						// 		function(res) {
-						// 			console.log('进行关注成功', res);
-						// 			_this.focus = true;
-						// 		}
-						// 	);
+						if (res.confirm) {
+							// console.log('用户点击确定');
+							_this.api._post(
+								'follow',
+								{
+									followedId: _this.usedItem.userId //被关注的 作者id
+								},
+								function(res) {
+									console.log('进行取消关注成功', res);
+									_this.usedItem.followed = !_this.usedItem.followed;
+								}
+							);
 
-						// 	// _this.focus = true //用户取消关注
-						// } else if (res.cancel) {
-						// 	console.log('用户点击取消');
-						// }
+							// _this.focus = true //用户取消关注
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
 					}
 				});
 			}
@@ -325,7 +435,7 @@ export default {
 			this.is_show_model = false;
 
 			// 将要在海报图中进行绘制的二维码传送过去
-			this.$refs.poster[0].showCanvas('https://oss.zhangyubk.com/cmqrcode.jpg');
+			this.$refs.poster.showCanvas('https://oss.zhangyubk.com/cmqrcode.jpg');
 		},
 		/**
 		 * 转发时选择内容
@@ -348,24 +458,24 @@ export default {
 
 			console.log('用户进行点赞操作')
 			
-			if(!this.txtItem.praseStatus){
+			if(!this.usedItem.praseStatus){
 				// 用户还没有进行点赞
 				this.api._post(
-					`secondGoods/likeSecondGoods/${_this.txtItem.id}`,{},
+					`secondGoods/likeSecondGoods/${_this.usedItem.id}`,{},
 					function(res) {
 						console.log('用户进行二手点赞 点亮红心',res)
-						_this.txtItem.praseStatus = true;
-						_this.txtItem.praseCount++;
+						_this.usedItem.praseStatus = true;
+						_this.usedItem.praseCount++;
 					}
 				);
 			}else{
 				// 用户进行了点赞操作
 				this.api._post(
-					`secondGoods/likeSecondGoods/${_this.txtItem.id}`,{},
+					`secondGoods/likeSecondGoods/${_this.usedItem.id}`,{},
 					function(res) {
 						console.log('用户进行二手取消点赞',res)
-						_this.txtItem.praseStatus = false;
-						_this.txtItem.praseCount--;
+						_this.usedItem.praseStatus = false;
+						_this.usedItem.praseCount--;
 					}
 				);
 			}
@@ -408,7 +518,6 @@ page{
 			.head_img {
 				width: 60rpx;
 				height: 60rpx;
-				background-color: yellow;
 				border-radius: 50%;
 				margin-right: 20rpx;
 				margin-left: 20rpx;

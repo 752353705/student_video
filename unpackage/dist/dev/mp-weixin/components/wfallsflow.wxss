@@ -94,7 +94,6 @@
 .list-container .list .item .item_foot .left .user_img.data-v-0450caea {
   width: 40rpx;
   height: 40rpx;
-  background-color: yellow;
   border-radius: 50%;
   overflow: hidden;
   margin-right: 10rpx;

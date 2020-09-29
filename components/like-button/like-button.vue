@@ -37,14 +37,14 @@
     props: {
       src: {
         type: String,
-        default: '/static/like_active.png'
+        default: '/static/like.png'
       },
       showImgs: { // 显示图标路径
         type: Array,
         default: () => {
           return [
-            '/static/like_active.png',
-            '/static/like_active.png',
+            '/static/like.png',
+            '/static/like.png',
           ]
         }
       },

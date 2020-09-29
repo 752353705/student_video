@@ -12,7 +12,6 @@
 .author .head .userImg {
   width: 150rpx;
   height: 150rpx;
-  background-color: yellow;
   border-radius: 50%;
   overflow: hidden;
 }

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "消费记录",
+  "usingComponents": {
+    "swiper-tab-head": "/components/swiper-tab-head"
+  }
+}

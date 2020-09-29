@@ -3,16 +3,12 @@
 		<!-- 表单 -->
 		<form class="form" @submit="formSubmit" @reset="formReset">          
 			<view class="input_box">
-				<view class="icon">
-					<image src="../../static/pw.png" mode=""></image>
-				</view>
+				<view class="iconfont iconshoujihao icon"></view>
 				<input :focus="true" type="number" name="username" placeholder="手机号" maxlength="11">
 				</input>
 			</view>
 			<view class="input_box">
-				<view class="icon">
-					<image src="../../static/phoneNum.png" mode=""></image>
-				</view>
+				<view class="iconfont iconmima icon"></view>
 				<input name="password" placeholder="密码" password="true" />
 			</view>
 			<view class="t_c txt" @click="seekWord">忘记密码？</view>
@@ -159,12 +155,9 @@
 			}
 			.icon{
 				margin-right: 10rpx;
-				width: 40rpx;
-				height:40rpx;
-				image{
-					width:100%;
-					height:100%;
-				}
+				// width: 40rpx;
+				// height:40rpx;
+				font-size: 20px;
 			}
 			button{
 				height: 80.86rpx;

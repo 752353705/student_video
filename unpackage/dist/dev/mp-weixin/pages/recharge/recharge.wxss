@@ -31,6 +31,13 @@
   font-size: 35rpx;
   color: #858585;
 }
+.histroy {
+  position: absolute;
+  right: 30rpx;
+  top: 20rpx;
+  font-size: 35rpx;
+  color: #858585;
+}
 .uni-recharge-content {
   display: -webkit-box;
   display: -webkit-flex;
@@ -63,12 +70,12 @@
           align-items: center;
 }
 .uni-recharge-content-box .p1 {
-  font-size: 40rpx;
+  font-size: 36rpx;
   font-weight: bold;
   color: black;
 }
 .uni-recharge-content-box .p2 {
-  font-size: 20rpx;
+  font-size: 33rpx;
   color: #7b7b7b;
 }
 .rule {

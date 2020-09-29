@@ -1,44 +1,96 @@
 <template>
-	<!-- 充值的弹窗 -->
-	<!-- <uni-popup ref="recharge" type="share" @change="change" > -->
-
 	<view class="uni-popup-recharge">
 		<view class="uni-recharge-title"><text class="uni-recharge-title-text">充值</text></view>
-		<view class="balance">余额: 0</view>
+		<view class="balance">剩余H币: {{money}}</view>
 		<view class="uni-recharge-content">
-			<view class="uni-recharge-content-box" @click="addmoney" v-for="(item, index) in [1, 2, 3, 4, 5, 6]" :key="index">
-				<view class="p1">10</view>
-				<view class="p2">1元</view>
+			<view class="uni-recharge-content-box" @click="addmoney(index)" v-for="(item, index) in priceArr" :key="index">
+				<view class="p1">{{item.num}} H币</view>
+				<view class="p2">{{item.price}}元</view>
 			</view>
 		</view>
-		
 		<view class="rule">
 			充值代表已阅读并同意 <text style="color:#efab26 ;">《用户充和协议》</text>
 		</view>
-		<!-- <view class="uni-recharge-button-box">
-			<view class="recharge" @click="recharge">
-				充值 >
-			</view>
-		</view> -->
 	</view>
-	<!-- </uni-popup> -->
 </template>
 
 <script>
 export default {
 	data() {
-		return {};
+		return {
+			money:0,
+			userId:'',
+			priceArr:[
+				{
+					num:10,
+					price:1
+				},{
+					num:50,
+					price:5
+				},{
+					num:100,
+					price:10
+				},{
+					num:500,
+					price:50
+				},{
+					num:1000,
+					price:100
+				},{
+					num:5000,
+					price:500
+				},
+			]
+		};
+	},
+	created() {
+		let _this = this
+		this.api._get(
+		'user/info',{},function(res){
+			console.log('获取用户当前的 H币',res)
+			_this.money = res.data.hgold
+			_this.userId = res.data.userId
+		})
 	},
 	methods: {
-		addmoney(){
-			console.log('充值 增加 H币')
-		}
-		
-		// recharge(){
-		// 	console.log('跳转到充值弹窗')
-		// 	// 关闭 送礼物弹窗 显示充值弹窗
-		// 	this.$emit('recharge')
-		// },
+		addmoney(index){
+			let _this = this
+			console.log('充值 增加 H币',this.priceArr[index].price)
+			
+			let fee = this.floatMul(_this.priceArr[index].price,100)
+			let hGold = this.priceArr[index].num
+			
+			// this.userPay()
+			this.api._post(`user/prepay?userId=${this.userId}&fee=${fee}&hGold=${hGold}`,{
+				
+			},function(res){
+				console.log('测试支付',res.data)
+				uni.requestPayment({
+					provider: 'wxpay', //服务提供商 通过uni.getProvider获取
+					timeStamp:res.data.timeStamp , //时间戳
+					nonceStr:res.data.nonceStr , //随机字符串
+					// 统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=xx。
+					package: res.data.packageValue,
+					signType: res.data.signType, //签名算法
+					paySign: res.data.paySign, //签名
+					success: function(res) {
+						console.log('支付接口成功 调用',res);
+					},
+					fail: function(err) {
+						console.log('fail:',err);
+					}
+				});
+			},function(err){
+				console.log('err',err)
+			})
+		},
+		// 精确乘法
+		floatMul(arg1,arg2)   {
+			 var m=0,s1=arg1.toString(),s2=arg2.toString();
+			 try{m+=s1.split(".")[1].length}catch(e){}
+			 try{m+=s2.split(".")[1].length}catch(e){}
+			 return Number(s1.replace(".",""))*Number(s2.replace(".",""))/Math.pow(10,m);
+		 },
 	}
 };
 </script>
@@ -47,7 +99,7 @@ export default {
 // 充值界面
 .uni-popup-recharge {
 	background-color: white;
-	height: 356px;
+	height: 348px;
 	position: relative;
 	border-radius: 20rpx 20rpx 0 0;
 }
@@ -90,12 +142,12 @@ export default {
 	justify-content: center;
 	align-items: center;
 	.p1 {
-		font-size: 40rpx;
+		font-size: 36rpx;
 		font-weight: bold;
 		color: black;
 	}
 	.p2 {
-		font-size: 20rpx;
+		font-size: 33rpx;
 		color: #7b7b7b;
 	}
 }

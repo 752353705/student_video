@@ -1,16 +1,28 @@
 {
   "pages": [
+    "pages/my/mySigin",
     "pages/list/list",
+    "pages/store/store",
     "pages/find/find",
-    "pages/my/my",
     "pages/reg/reg",
     "pages/playVideo/playVideo",
+    "pages/playVideo/txtDetail",
+    "pages/playVideo/usedDetail",
     "pages/login/login",
     "pages/author/author",
-    "pages/fansList/fansList",
+    "pages/my/my",
+    "pages/my/myFocus",
+    "pages/my/myFans",
+    "pages/my/myCollection",
+    "pages/my/myHistory",
+    "pages/my/myConsumption",
+    "pages/my/myRun",
+    "pages/myRun/myGoodsLoc",
+    "pages/myRun/fagoods",
+    "pages/myRun/goodsnote",
     "pages/tabMsg/tabMsg",
-    "pages/chartRoom/chartRoom",
-    "pages/chat/chat",
+    "pages/chart/chartRoom",
+    "pages/chart/chartList",
     "pages/shop/shop",
     "pages/findList/findList",
     "pages/publish/publish",
@@ -31,7 +43,12 @@
     "pages/shopCard/shopCard",
     "pages/shop/collect",
     "pages/shopCard/couponList",
-    "pages/shop/category"
+    "pages/publish/publishVideo",
+    "pages/publish/publishNotice",
+    "pages/publish/publishUsed",
+    "pages/shop/category",
+    "pages/recharge/recharge",
+    "pages/recharge/rechHis"
   ],
   "subPackages": [],
   "window": {
@@ -67,13 +84,16 @@
       }
     ]
   },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
+  },
   "usingComponents": {
     "mescroll-body": "/components/mescroll-uni/mescroll-body",
     "mescroll-uni": "/components/mescroll-uni/mescroll-uni",
     "uni-popup": "/components/uni-popup/uni-popup",
     "uni-popup-dialog": "/components/uni-popup/uni-popup-dialog",
-    "uni-popup-pushvideo": "/components/uni-popup/uni-popup-pushvideo",
-    "uni-popup-pushimg": "/components/uni-popup/uni-popup-pushimg",
     "c-circle": "/components/cCircle"
   },
   "sitemapLocation": "sitemap.json"

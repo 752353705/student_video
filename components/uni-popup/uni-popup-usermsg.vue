@@ -1,24 +1,36 @@
 <template>
 	<view class="uni-popup-message">
 		<!-- 个人资料 -->
-		<view class="uni-popup-message-text user_msg">
+		<view class="user_msg">
 			<view class="tit">个人资料</view>
 
 			<form @submit="submitUserMsg" @reset="">
 				<view class="content">
 					<view class="input_box">
-						<text class="iconfont iconuser-info" style="margin-right: 13rpx;"></text>
-						<input name="name" type="text" value="" placeholder="姓名" />
+						<text class="t-icon iconxingming" style="margin-right: 13rpx;"></text>
+						<input name="name" type="text" :value="userInfo.userName" placeholder="姓名" />
 					</view>
 					<view class="input_box">
-						<text class="iconfont iconxingbie" style="margin-right: 13rpx;"></text>
-						<input name="gender" type="text" value="" placeholder="性别" />
+						<text class="t-icon icongenders" style="margin-right: 13rpx;"></text>
+						<!-- <input name="gender" type="text" value="" placeholder="性别" /> -->
+						<radio-group name="gender" @change="radioChange" style="display: flex;align-items: center;">
+							<label
+								v-for="(item, index) in items" :key="item.value"
+								style="margin-right: 10rpx;"
+								>
+								<radio :value="userInfo.gender || 0" 
+									:checked="index == current" 
+									color="red" class="redio"
+									/>
+								<text>{{ item.name }}</text>
+							</label>
+						</radio-group>
 					</view>
 					<view class="input_box">
-						<text class="iconfont iconxuexiao" style="margin-right: 13rpx;"></text>
-						<input name="school" type="text" value="" placeholder="学校" />
+						<text class="t-icon iconxuexiao" style="margin-right: 13rpx;"></text>
+						<input name="school" type="text" :value="userInfo.schoolName" placeholder="学校" />
 					</view>
-					<textarea name="area" class="user_txt" value="" placeholder="请输入简介" />
+					<textarea name="area" class="textarea" :value="userInfo.personalProfile" placeholder="请输入简介" />
 				</view>
 				<button class="btn" form-type="submit">保存</button>
 			</form>
@@ -43,6 +55,10 @@ import VODUpload from '../aliyun-upload-sdk-1.0.0.min.js';
 export default {
 	name: 'UniPopupMessage',
 	props: {
+		// 用户的基础信息
+		userInfo:{
+			type:Object
+		},
 		/**
 		 * 判断弹出框是哪一种类型
 		 * */
@@ -75,18 +91,38 @@ export default {
 	inject: ['popup'],
 	data() {
 		return {
-			video_src: '',
-			uploader: '',
-			videos: [],
-			showCir: false, //进度环是否显示
-			percent: 0 //上传进度环的显示
+			// 单选按钮
+			items: [
+				{
+					value: '1',
+					name: '男'
+				},
+				{
+					value: '2',
+					name: '女'
+				}
+			],
+			current:'',
 		};
 	},
-	created() {
-		this.popup.childrenMsg = this;
+	mounted() {
+		// console.log('this.$props.userInfo',this.$props.userInfo)
+		setTimeout(()=>{
+			this.current = parseInt(this.$props.userInfo.gender || 1 ) - 1 
+		},0)
+		// this.current = parseInt(this.$props.userInfo.gender || 1 ) - 1
 	},
 	onReady() {},
 	methods: {
+		// 单选按钮
+		radioChange: function(evt) {
+			for (let i = 0; i < this.items.length; i++) {
+				if (this.items[i].value === evt.target.value) {
+					this.current = i;
+					break;
+				}
+			}
+		},
 		// 控制弹窗
 		open() {
 			if (this.duration === 0) return;
@@ -101,59 +137,71 @@ export default {
 		//提交个人资料
 		submitUserMsg(e) {
 			console.log('个人资料e', e.detail.value);
+			let _this = this;
+			let val = e.detail.value;
+			// 调用提交个人资料的 接口，成功之后，关闭弹窗
+			this.api._put(`user?gender=${val.gender}&userName=${val.name}&schoolName=${val.school}&personalProfile=${val.area}`, {}, function(res) {
+				console.log('用户上传简介', res);
+				uni.showToast({
+					icon: 'none',
+					title: '修改信息成功',
+					success() {
+						// 关闭弹窗
+						_this.$emit('closeUsermsg');
+					}
+				});
+			});
 		}
 	}
 };
 </script>
 <style lang="scss" scoped>
 .uni-popup-message {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	.uni-popup-message-text {
-		width: 639.58rpx;
-		height: 821.52rpx;
-		background-color: #f9ba59;
-		font-size: 14px;
+	.user_msg {
+		width: 644.44rpx;
+		height: 722.22rpx;
+		background-color: white;
 		border-radius: 50rpx;
-		background-image: linear-gradient(to bottom, #fed353, #ea9b70);
-		position: relative;
 		box-sizing: border-box;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		overflow: hidden;
-		.head {
-			box-sizing: border-box;
-			width: 80%;
-			height: 100rpx;
-			color: #822c37;
+		padding-top: 40rpx;
+		padding-left: 40rpx;
+		padding-right: 40rpx;
+		.tit {
+			color: #7f3a35;
 			font-size: 40rpx;
 			font-weight: bolder;
 			text-align: center;
-			box-sizing: border-box;
-			margin-bottom: 20rpx;
-			position: relative;
-			.bg {
-				width: 100%;
-				height: 333rpx;
-				background-color: #fed353;
-				border-radius: 50%;
-				position: absolute;
-				top: -203rpx;
-				box-shadow: 0 8px 5px #e9a631;
-				.tit {
-					position: absolute;
-					bottom: 49rpx;
-					left: 50%;
-					transform: translateX(-50%);
-				}
-			}
+			height: 89rpx;
 		}
 		.content {
-			color: white;
-			font-size: 30rpx;
-			box-shadow: 8px 4px 4px #e9a631;
+			.input_box {
+				height: 70rpx;
+				// background-image: linear-gradient(to bottom, #f8c663, #e4a270);
+				background-color: #f2f2f2;
+				border-radius: 20rpx;
+				display: flex;
+				justify-content: start;
+				align-items: center;
+				box-sizing: border-box;
+				padding-left: 20rpx;
+				margin-bottom: 20rpx;
+				input {
+					display: inline-block;
+					height: 100%;
+					border-radius: 20rpx;
+					width: 100%;
+				}
+			}
+			.textarea {
+				width: 582.63rpx;
+				height: 222.22rpx;
+				// background-image: linear-gradient(to bottom, #fac663, #e5a172);
+				background-color: #f2f2f2;
+				margin-top: 20rpx;
+				box-sizing: border-box;
+				padding: 10rpx 40rpx 10rpx;
+				border-radius: 30rpx;
+			}
 		}
 		.btn {
 			width: 181.22rpx;
@@ -169,57 +217,10 @@ export default {
 			margin: 20rpx auto;
 		}
 	}
-	// 个人资料的弹窗样式
-	.user_msg {
-		width: 644.44rpx;
-		height: 722.22rpx;
-		padding-top: 40rpx;
-		padding-left: 40rpx;
-		padding-right: 40rpx;
+}
 
-		.tit {
-			color: #7f3a35;
-			font-size: 40rpx;
-			font-weight: bolder;
-			width: 100%;
-			justify-content: start;
-			text-align: start;
-			height: 89rpx;
-			background-color: transparent;
-			margin-bottom: 0rpx;
-			box-sizing: border-box;
-			padding-left: 30rpx;
-		}
-
-		.content {
-			width: 100%;
-			box-shadow: none;
-			.input_box {
-				height: 70rpx;
-				background-image: linear-gradient(to bottom, #f8c663, #e4a270);
-				border-radius: 20rpx;
-				display: flex;
-				justify-content: start;
-				align-items: center;
-				box-sizing: border-box;
-				padding-left: 20rpx;
-				input {
-					display: inline-block;
-					height: 100%;
-					border-radius: 20rpx;
-					width: 100%;
-				}
-			}
-			.user_txt {
-				width: 582.63rpx;
-				height: 222.22rpx;
-				background-image: linear-gradient(to bottom, #fac663, #e5a172);
-				margin-top: 20rpx;
-				box-sizing: border-box;
-				padding: 10rpx 40rpx 10rpx;
-				border-radius: 30rpx;
-			}
-		}
-	}
+// 修改单选框的样式
+.redio{
+	transform: scale(0.7);
 }
 </style>

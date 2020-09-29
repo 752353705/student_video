@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "私信",
+  "usingComponents": {
+    "u-swipe-action": "/node-modules/uview-ui/components/u-swipe-action/u-swipe-action",
+    "u-badge": "/node-modules/uview-ui/components/u-badge/u-badge"
+  }
+}

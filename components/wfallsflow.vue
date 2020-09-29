@@ -11,7 +11,7 @@
 					<!-- 视频封面 -->
 					<u-lazy-load @load="handleViewRender(listIndex, index)" 
 						@error="handleViewRender(listIndex, index)" 
-						:image="item.coverUrl || 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1554013048&di=a3dc9fd1406dd7bad7fbb97b5489ec04&imgtype=jpg&er=1&src=http%3A%2F%2Fimg009.hc360.cn%2Fhb%2FnKo44ac2656F831c684507E3Da0E3a26841.jpg' "></u-lazy-load>
+						:image="item.coverUrl "></u-lazy-load>
 					<!-- 上传视频的简单的简介 转发量 {{ item.forwardCount }} -->
 					<view class="introduction">
 						{{ item.conversation || item.title }}
@@ -44,11 +44,14 @@
 						<view class="right" @tap.stop="waterLike"  
 							:data-index="index" :data-listindex="listIndex"
 							>
-								<u-icon  v-if="!item.praseStatus" name="heart" color="#000000" size="34"></u-icon>
+								<!-- <view style="margin-right: 10rpx;" >
+									0人浏览
+								</view> -->
+								<u-icon  v-if="!item.liked" name="heart" color="#000000" size="34"></u-icon>
 								<u-icon  v-else name="heart-fill" color="red" size="34"></u-icon>
 							<view style="margin-left: 10rpx;" >
-								<!-- 票数 文章点赞数 -->
-								{{ item.voteNum || item.status }}
+								<!-- 票数 文章点赞数                     -->
+								{{ item.praseCount }}
 							</view>
 						</view>
 					</view>
@@ -64,6 +67,9 @@ export default {
 	props: {
 		list: {
 			type: Array //实际请求获取的列表数据
+		},
+		kw:{
+			type:String
 		}
 	},
 	data() {
@@ -71,12 +77,10 @@ export default {
 			// 在 观看我的界面 时没有 头像和名称
 			userName:'',
 			avatarUrl:'',
-			
 			loadingImg: '/static/loading.png',
 			viewList: [{ list: [] }, { list: [] }], //展示到视图的列表数据
 			everyNum: 2,
 			scrollTop: 0, //懒加载时滚动的距离  动态生成
-
 			// 控制自定义的按钮
 			showBtn: false
 		};
@@ -84,18 +88,89 @@ export default {
 	components: {
 		// uniPopupUseoperation
 	},
+	mounted() {
+		console.log('瀑布流组件进行挂载 list', this.list);
+		this.userName = uni.getStorageSync('user_name')
+		this.avatarUrl = uni.getStorageSync('user_img')
+		
+		if (this.list.length) {
+			this.init();
+		}
+	},
+	onReady() {
+		// console.log('瀑布流组件onready list', this.$props.list);
+	},
 	methods: {
 		// 用户在瀑布流中点击红心进行点赞
 		waterLike(e){
+			// console.log('用户进行点击',e,'kw',this.kw)
 			// 用户进行点击点赞关注
 			// 获取点赞目标处于瀑布流中的位置
 			let item = this.viewList[e.currentTarget.dataset.listindex].list[e.currentTarget.dataset.index]
 			// 改变item 中表示点赞状态的值
-			item.praseStatus = !item.praseStatus
-			
+			// 发起请求 增加点赞的 接口
+			this.kw == 'listVideo' 
+				? this.waterVideoLike(item)
+				: this.kw == 'listTxt'
+				? this.waterTxtLike(item)
+				: this.kw == 'listUsed'
+				?	this.waterUsedLike(item)
+				: ''
 		},
-		
-		
+		// 用户在 视频 瀑布流中 进行点赞操作
+		waterVideoLike(item){
+			this.api._post(
+				'vod/likeVideo',
+				{
+					videoId: item.id
+				},
+				function(res) {
+					// console.log('用户进行视频点赞 点亮红心',res)
+					item.liked = !item.liked
+					if(item.liked){
+						// 数量增加
+						item.praseCount ++
+					}else{
+						// 数量减少
+						item.praseCount --
+					}
+				}
+			);
+		},
+		// 用户在 文章 瀑布流中 进行点赞操作
+		waterTxtLike(item){
+			this.api._post(
+				`article/likeArticle/${item.id}`,{},
+				function(res) {
+					console.log('用户进行文章点赞 点亮红心',res)
+					item.liked = !item.liked
+					if(item.liked){
+						// 数量增加
+						item.praseCount ++
+					}else{
+						// 数量减少
+						item.praseCount --
+					}
+				}
+			);
+		},
+		// 用户在 二手 瀑布流中 进行点赞操作
+		waterUsedLike(item){
+			this.api._post(
+				`secondGoods/likeSecondGoods/${item.id}`,{},
+				function(res) {
+					console.log('用户进行二手点赞 点亮红心',res)
+					item.liked = !item.liked
+					if(item.liked){
+						// 数量增加
+						item.praseCount ++
+					}else{
+						// 数量减少
+						item.praseCount --
+					}
+				}
+			);
+		},
 		// 用户进行长按
 		longpress(e) {
 			// console.log('waterfall 用户进行长按 e',e.currentTarget,e.currentTarget.dataset.listindex,e.currentTarget.dataset.index);
@@ -143,13 +218,6 @@ export default {
 			this.$emit('closeUseroperation');
 			// this.$refs.popup_useoperation.close()
 		},
-
-		// 按钮进行了显示之后，用户进行删除等操作，发起请求后，按钮消失
-		// 或者点击别处进行消失
-		delwateritem() {
-			// console.log('进行删除选定的一项');
-		},
-
 		init() {
 			// console.log('瀑布流组件中进行 初始化组件');
 			this.viewList = [{ list: [] }, { list: [] }];
@@ -176,9 +244,7 @@ export default {
 				.selectAll('#wf-list')
 				.boundingClientRect(data => {
 					// console.log('初始化瀑布流 data', data, 'index', index);
-
 					listFlag = data[0].bottom - data[1].bottom <= 0 ? 0 : 1;
-
 					this.viewList[listFlag].list.push(this.list[index]);
 					// this.list.slice(index,index+this.everyNum).forEach((item,index)=>{
 					//     const flag = listFlag===0?index&1:Number(!(index&1))
@@ -186,29 +252,19 @@ export default {
 					// })
 				})
 				.exec();
-			console.log('瀑布流 viewList ==>',this.viewList)
+			// console.log('瀑布流 viewList ==>',this.viewList)
 		},
-
 		// 用户点击 进行跳转操作
 		jump(item) {
 			console.log('进行跳转 item', item);
 			if (item.videoId) {
 				console.log('跳转到视频界面');
-				// 跳转到 视频播放页面
-				let videoId = item.videoId;
-				let avatarUrl = item.avatarUrl;
-				let userName = item.userName;
-				let conversation = item.conversation;
-				let commentNum = item.commentNum;
-				let userId = item.userId;
-				let praseCount = item.praseCount;
-				let id = item.id;
-				let forwardCount = item.forwardCount;
-				let coverUrl = item.coverUrl;
-
-					uni.navigateTo({
-						url: `/pages/playVideo/playVideo?videoId=${videoId}&avatarUrl=${avatarUrl}&userName=${userName}&conversation=${conversation}&commentNum=${commentNum}&userId=${userId}&praseCount=${praseCount}&id=${id}&forwardCount=${forwardCount}&coverUrl=${coverUrl}`
-					});
+				
+				uni.navigateTo({
+					url:'/pages/playVideo/playVideo?item=' + encodeURIComponent(JSON.stringify(item))
+				})
+				
+				
 			} 
 			else if (item.price){
 				// 跳转到 二手详情页面
@@ -231,18 +287,6 @@ export default {
 			
 		}
 	},
-	mounted() {
-		console.log('瀑布流组件进行挂载 list', this.list);
-		this.userName = uni.getStorageSync('user_name')
-		this.avatarUrl = uni.getStorageSync('user_img')
-		
-		if (this.list.length) {
-			this.init();
-		}
-	},
-	onReady() {
-		// console.log('瀑布流组件onready list', this.$props.list);
-	}
 };
 </script>
 
@@ -330,7 +374,6 @@ export default {
 					.user_img {
 						width: 40rpx;
 						height: 40rpx;
-						background-color: yellow;
 						border-radius: 50%;
 						overflow: hidden;
 						margin-right: 10rpx;

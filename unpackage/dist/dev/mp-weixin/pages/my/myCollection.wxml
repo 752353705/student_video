@@ -1,0 +1,17 @@
+<wxs module="img">
+// 控制 二级评论 的时间格式
+function changeimg(img){
+	// console.log('img',img)
+	if(!img){
+		return ''
+	}
+	// console.log('处理图片的语言',img.split(',').slice(0,4))
+	return img.split(',').slice(0,4)
+	// return time
+}
+
+module.exports = {
+	changeImg: changeimg,
+}
+</wxs>
+<view class="myColl data-v-642d1704"><block wx:if="{{colSumList.length==0}}"><block class="data-v-642d1704"><image class="empty data-v-642d1704" src="../../static/collect.png" mode></image></block></block><block wx:else><block class="data-v-642d1704"><block wx:if="{{!btnShow}}"><view data-event-opts="{{[['tap',[['tapChange',['$event']]]]]}}" class="operation data-v-642d1704" catchtap="__e">编辑</view></block><block wx:else><view data-event-opts="{{[['tap',[['tapChange',['$event']]]]]}}" class="operation data-v-642d1704" catchtap="__e">取消</view></block><block wx:if="{{btnShow}}"><view class="btn data-v-642d1704"><view data-event-opts="{{[['tap',[['clear',['$event']]]]]}}" class="clear data-v-642d1704" catchtap="__e">一键清空</view><view data-event-opts="{{[['tap',[['del',['$event']]]]]}}" class="{{['data-v-642d1704',operList.length!=0?'':'del']}}" catchtap="__e">删除</view></view></block><checkbox-group class="box data-v-642d1704" data-id="999" data-event-opts="{{[['change',[['checkboxChange',['$event']]]]]}}" bindchange="__e"><block wx:for="{{colSumList}}" wx:for-item="item" wx:for-index="index" wx:key="id"><label class="item data-v-642d1704" data-index="{{index}}"><block wx:if="{{btnShow}}"><checkbox value="{{item.collectionId}}" class="data-v-642d1704"></checkbox></block><view class="cont data-v-642d1704" style=";" data-item="{{item}}" data-index="{{index}}" data-kw="video" data-event-opts="{{[['tap',[['jumpDetail',['$event']]]]]}}" bindtap="__e"><view class="head data-v-642d1704"><image src="{{item.avatarUrl||uimg}}" mode class="data-v-642d1704"></image><view class="data-v-642d1704"><view class="name data-v-642d1704">{{item.userName||uname}}</view><view class="time data-v-642d1704">{{item.createTime}}</view></view></view><view class="txt data-v-642d1704">{{item.conversation||item.content||item.goodsDescribe}}</view><view class="detail_img data-v-642d1704"><block wx:for="{{img.changeImg(item.images)}}" wx:for-item="Img_item" wx:for-index="Img_index" wx:key="*this"><image src="{{Img_item}}" mode class="data-v-642d1704"></image></block></view><view class="foot data-v-642d1704"><view class="f_item data-v-642d1704"><text class="iconfont iconforward-null data-v-642d1704"></text><text style="margin-left:10rpx;" class="data-v-642d1704">分享</text></view><view class="f_item data-v-642d1704"><text class="iconfont iconxinxi data-v-642d1704"></text><text style="margin-left:10rpx;" class="data-v-642d1704">{{item.commentNum}}</text></view><view class="f_item  data-v-642d1704"><text class="iconfont icondianzan data-v-642d1704"></text><text style="margin-left:10rpx;" class="data-v-642d1704">{{item.praseCount}}</text></view></view></view></label></block></checkbox-group></block></block></view>

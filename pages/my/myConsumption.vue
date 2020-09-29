@@ -1,0 +1,159 @@
+<template>
+	<view class="csp">
+		<!-- 头部 -->
+		<swiperTabHead :flex="true" :tabBars="tabBars"
+			:tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
+			
+		<!-- 数据渲染区 -->
+		<view class="cont">
+			<!-- 当前无消费记录 -->
+			<block v-if="hisList.length == 0" >
+				<image class="empty" src="../../static/dingdan.png" mode=""></image>
+			</block>
+			<!-- 当前有消费记录 -->
+			<view class="item" v-else v-for="(item,index) in hisList"
+				:key="index"
+				>
+				<view class="left">
+					<view class="name">{{item.getRoute}}</view>
+					<view class="time">{{item.createTime}}</view>
+				</view>
+				<view class="right">
+					+{{item.hgoldNumber}}H币
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	// 引入tabHead 切换
+	import swiperTabHead from "@/components/swiper-tab-head.vue";
+	export default{
+		data(){
+			return {
+				tabIndex: 0, // 当前tab的下标
+				tabBars:[
+					{ name:"获取记录",id:"chongzhi" },
+					{ name:"消费记录",id:"xiaofei" },
+				], 
+				hisList:[],
+				// 进行上拉请求加载时
+				// 默认第一页进行加载
+				pageNum: 1,
+				// 判断是否有下一页
+				nextpage:false
+			}
+		},
+		components:{
+			swiperTabHead,
+		},
+		onLoad() {
+			this.getHgold()
+		},
+		onReachBottom(){
+			console.log('上拉加载')
+			// 当当前的数据 条数大于十条的时候，下拉到底部 重新请求数据
+			if(this.nextpage){
+				this.getHgold()
+			}
+		},
+		methods:{
+			//滑动切换导航
+			tabChange(e){
+			  this.tabIndex = e.detail.current
+				console.log('滑动的 id',this.tabBars[this.tabIndex].id)
+				this.kw = this.tabBars[this.tabIndex].id
+			},
+			//接受子组件传过来的值点击切换导航
+			tabtap(index){
+				this.tabIndex = index;
+				console.log('点击的 id',this.tabBars[this.tabIndex].id)
+				// 根据用户点击的 不同的 按钮id 来渲染 不同的数据
+				if(this.tabBars[this.tabIndex].id == 'chongzhi'){
+					// 请求充值的接口，渲染数据
+					console.log('请求充值数据')
+					
+					
+					
+					
+				}else if(this.tabBars[this.tabIndex].id == 'xiaofei') {
+					// 请求 消费记录的接口 渲染数据
+					console.log('请求消费数据')
+					
+				}
+				// this.kw = this.tabBars[this.tabIndex].id
+			},
+			// 获取 记录 的接口
+			getHgold(){
+				this.api._get('hgold/get/list',{
+					 pageNum:this.pageNum,
+					 pageSize:10,
+				},(res)=>{
+					console.log('获取充值记录的接口')
+					this.hisList = this.hisList.concat(res.data.list)
+					// 判断返回的 数据条数 用来看是否有下一页
+					if (this.hisList.length == 10) {
+						this.pageNum++;
+						this.nextpage = true
+					}else{
+						this.nextpage = false
+					}
+				})
+			},
+			
+			
+			
+		}
+		
+	}
+	
+	
+</script>
+
+<style scoped lang="less">
+	.csp{
+		// 空布局
+		.empty {
+			width: 200px;
+			height: 200px;
+			position: absolute;
+			top: 36%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
+		// 内容样式
+		.cont{
+			.item{
+				box-sizing: border-box;
+				margin-left: 40rpx;
+				margin-top: 37rpx;
+				margin-right: 40rpx;
+				padding-bottom: 32rpx;
+				border-bottom: 1px solid #e4e4e4;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				height: 100rpx;
+				
+				.left{
+					.name{
+						font-size: 35rpx;
+					}
+					
+					.time{
+						font-size: 25rpx;
+						color:#8f8f8f ;
+					}
+				}
+				.right{
+					font-size: 37rpx;
+				}
+				
+			}
+		}
+		.item:last-child{
+			border-bottom: 1px solid white;
+		}
+	}	
+</style>

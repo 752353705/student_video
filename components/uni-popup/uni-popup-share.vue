@@ -25,11 +25,11 @@
 					
 					
 					<!-- 进行海报图的分享 -->
-					<view class="uni-share-content-item" @click.stop="select">
+				<!-- 	<view class="uni-share-content-item" @click.stop="select">
 						<image class="uni-share-image" src="https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-5.png" mode="aspectFill"></image>
 						<text class="uni-share-text">海报</text>
 					</view>
-					
+					 -->
 					
 					
 			</view>

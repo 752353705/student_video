@@ -32,7 +32,7 @@
 /* 行为相关颜色 */
 .uni-popup-recharge.data-v-2ef223e0 {
   background-color: white;
-  height: 356px;
+  height: 348px;
   position: relative;
   border-radius: 20rpx 20rpx 0 0;
 }
@@ -95,12 +95,12 @@
           align-items: center;
 }
 .uni-recharge-content-box .p1.data-v-2ef223e0 {
-  font-size: 40rpx;
+  font-size: 36rpx;
   font-weight: bold;
   color: black;
 }
 .uni-recharge-content-box .p2.data-v-2ef223e0 {
-  font-size: 20rpx;
+  font-size: 33rpx;
   color: #7b7b7b;
 }
 .rule.data-v-2ef223e0 {

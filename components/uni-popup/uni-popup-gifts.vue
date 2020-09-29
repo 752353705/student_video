@@ -4,26 +4,44 @@
 		<view class="uni-popup-share">
 			<view class="uni-share-title"><text class="uni-share-title-text">{{title}}</text></view>
 			<view class="uni-share-content">
-				<view class="uni-share-content-box">
-					<view class="uni-share-content-item" v-for="(item,index) in bottomData" :key="index" @click.stop="select(item,index)">
+		<!-- 		<view class="uni-share-content-box">
+					<view class="uni-share-content-item" v-for="(item,index) in bottomData" 
+						:key="index" @click.stop="select(item,index)">
 						<image class="uni-share-image" :src="item.icon" mode="aspectFill"></image>
 						<text class="uni-share-text">{{item.text}}</text>
 						<text class="uni-share-text">{{item.name}}</text>
 					</view>
-		
-				</view>
+				</view> -->
+				
+				<!-- 当礼物 变多的时候 可以使用 轮播图的效果进行显示 -->
+				<swiper  style="width: 100%;height: 248px;" :indicator-dots="false" :autoplay="false" >
+					<swiper-item class="uni-share-content-box" >
+						<view class="uni-share-content-item" v-for="(item,index) in giftFirst" 
+							:key="index" @click.stop="select(item,index)"
+							>
+							<image class="uni-share-image" :src="item.icon" mode="aspectFill"></image>
+							<text class="uni-share-text">{{item.name}}</text>
+							<text class="uni-share-text">{{item.price}}</text>
+						</view>
+					</swiper-item>
+					<swiper-item class="uni-share-content-box" >
+						<view class="uni-share-content-item" v-for="(item,index) in giftSecond" 
+							:key="index" @click.stop="select(item,index)"
+							>
+							<image class="uni-share-image" :src="item.icon" mode="aspectFill"></image>
+							<text class="uni-share-text">{{item.name}}</text>
+							<text class="uni-share-text">{{item.price}}</text>
+						</view>
+					</swiper-item>
+				</swiper>
 			</view>
 			<view class="uni-share-button-box">
-				<!-- <button class="uni-share-button" @click="close">取消</button> -->
 				<view class="recharge" @click="recharge">
 					充值 
 					<u-icon size="40" name="arrow-right"></u-icon>
 				</view>
-					<!-- <u-icon @click="recharge" label="充值" size="40" name="arrow-right"></u-icon> -->
 			</view>
 		</view>
-		
-
 	</view>
 </template>
 
@@ -41,47 +59,59 @@
 			return {
 				// 控制是显示送礼物的界面还是显示充值的界面
 				// show:true,
-				bottomData: [
+				giftFirst: [
 					{
-						text: '甜甜圈',
-						icon: '/static/donuts.png',
-						name: '60 H币'
+						name: '加油',
+						icon: '/static/gift/jiayou.png',
+						price: '1 H币'
 					},
 					{
-						text: '奖牌',
-						icon: '/static/jiangpai.png',
-						name: '10 H币'
+						name: '棒棒糖',
+						icon: '/static/gift/tang.png',
+						price: '10 H币'
 					},
 					{
-						text: '红心',
-						icon: '/static/xinxin.png',
-						name: '20 H币'
+						name: '么么哒',
+						icon: '/static/gift/momoda.png',
+						price: '20 H币'
 					},
 					{
-						text: '新浪',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-1.png',
-						name: 'sina'
+						name: '卡布奇诺',
+						icon: '/static/gift/coffee.png',
+						price: '50 H币'
 					},
 					{
-						text: '钻石',
-						icon: '/static/zhenaizuanshi.png',
-						name: 'copy'
+						name: '弗列罗',
+						icon: '/static/gift/qiaokeli.png',
+						price: '100 H币'
 					},	
 					{
-						text: '雪糕',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-7.png',
-						name: 'copy'
+						name: '蛋糕',
+						icon: '/static/gift/dangao.png',
+						price: '300 H币'
 					},	
 					{
-						text: '飞机',
-						icon: '/static/zhenaidapao.png',
-						name: 'copy'
+						name: '真爱卷轴',
+						icon: '/static/gift/juanzhou.png',
+						price: '666 H币'
 					},
 					{
-						text: '热气球',
-						icon: 'https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-5.png',
-						name: 'more'
-					}
+						name: '永恒钻戒',
+						icon: '/static/gift/zuanjie.png',
+						price: '999 H币'
+					},
+				],
+				giftSecond:[
+					{
+						name: '阿拉丁神灯',
+						icon: '/static/gift/shendeng.png',
+						price: '6666 H币'
+					},
+					{
+						name: '神秘宝藏',
+						icon: '/static/gift/baozang.png',
+						price: '8888 H币'
+					},
 				]
 			}
 		},
@@ -160,6 +190,8 @@
 		flex-direction: row;
 		flex-wrap: wrap;
 		width: 360px;
+		justify-content: flex-start;
+		align-items: flex-start;
 	}
 	
 	.uni-share-content-item {

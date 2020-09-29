@@ -1,14 +1,17 @@
 // 将所有的 网络请求进行集中处理
 let token = wx.getStorageSync('token') || ''
-// 线上
+// 测试
 // let api_root = 'http://47.93.148.235:8082/wx/'
+// 线上
+// let api_root = 'https://xsh.taihangyizhan.com/wx/'
 // 本地
 let api_root = 'http://lvpeng.free.qydev.com/wx/'
+// let api_root = '192.168.0.102:8082/wx/'
 
 // 'https://xsh.taihangyizhan.com/wx/'
 
 // 发送 get 请求
-function _get(url, data, success, fail, msg) {
+function _get(url, data, success, fail, complete) {
 	// 请求开始弹出正在加载弹框
 	uni.showLoading({
 		title: '加载中...',
@@ -46,6 +49,8 @@ function _get(url, data, success, fail, msg) {
 			}
 			// 用户登录态消失
 			if (res.data.errno === 501) {
+				complete()
+				
 				uni.showModal({
 					title: '友情提示',
 					content: res.data.errmsg,
@@ -72,9 +77,10 @@ function _get(url, data, success, fail, msg) {
 				title: '友情提示',
 				content: '网络繁忙,请重试',
 				success: function(res) {
-					uni.navigateBack({
-						delta: 1
-					})
+					// uni.navigateBack({
+					// 	delta: 1
+					// })
+					console.log('res',res)
 				}
 			})
 			fail && fail(res.data);
@@ -154,9 +160,10 @@ function _post(url, data, success, fail, complete) {
 				return false;
 			}
 			// 成功执行
+			console.log('post res',res)
 			success && success(res.data)
 		},
-		fail: () => {
+		fail: res => {
 			uni.showModal({
 				title: '友情提示',
 				content: '网络繁忙，请重试',

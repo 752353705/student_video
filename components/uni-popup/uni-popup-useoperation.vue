@@ -36,6 +36,7 @@
 		name: 'UniPopupMessage',
 		props: {
 			// 获取点击的文章的信息
+			// 进行修改 其代表的是 要进行操作的作品 id
 			txtid:{
 				type:String
 			},
@@ -124,6 +125,11 @@
 						uni.navigateTo({
 							url:`/pages/publish/publishUsed?usedid=${this.txtid}`
 						})
+					}else if (_this.operType == 'myVideo'){
+						// 当前类型为 二手
+						uni.navigateTo({
+							url:`/pages/publish/publishVideo?usedid=${this.txtid}`
+						})
 					}
 					
 					
@@ -132,14 +138,35 @@
 					// 用户进行删除操作
 					// console.log('用户进行 删除 delMsg',JSON.parse(this.item))
 					if(_this.operType == 'myTxt'){
+							console.log('用户进行删除成功')
 						this.api._del(`article/${_this.txtid}`,{},function(res){
-							console.log('用户进行删除成功',res)
 							_this.$emit('closeUseroperation');
+							
+							uni.showToast({
+								icon:'none',
+								title: '删除成功',
+							})
+							// 然后刷新当前的瀑布流
+							
 						})
 					}else if(_this.operType == 'myUsed'){
 						this.api._del(`secondGoods/${_this.txtid}`,{},function(res){
 							console.log('用户进行删除成功',res)
 							_this.$emit('closeUseroperation');
+							uni.showToast({
+								icon:'none',
+								title:'删除成功'
+							})
+						})
+					}else if(_this.operType == 'myVideo'){
+						console.log('删除 我的视频')
+						this.api._del(`vod/delete/${_this.txtid}`,{},function(res){
+							console.log('用户进行删除成功',res)
+							_this.$emit('closeUseroperation');
+							uni.showToast({
+								icon:'none',
+								title:'删除成功'
+							})
 						})
 					}
 					

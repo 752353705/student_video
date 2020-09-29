@@ -1,7 +1,5 @@
 {
-  "navigationStyle": "custom",
   "usingComponents": {
-    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
     "u-notice-bar": "/node-modules/uview-ui/components/u-notice-bar/u-notice-bar",
     "mescroll-empty": "/components/mescroll-uni/components/mescroll-empty",
     "mescroll-item": "/components/mescroll-swiper-item",
