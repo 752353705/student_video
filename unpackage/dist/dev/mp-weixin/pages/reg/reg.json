@@ -1,4 +1,6 @@
 {
-  "navigationBarTitleText": "账号登录",
-  "usingComponents": {}
+  "navigationBarTitleText": "手机号登录",
+  "usingComponents": {
+    "slider-verify": "/components/slider-verify/slider-verify"
+  }
 }

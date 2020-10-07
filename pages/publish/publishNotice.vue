@@ -7,16 +7,14 @@
 			<textarea :show-confirm-bar="false" name="area" :value="areaVal" class="txt_area" @input="areaInput" placeholder="#输入内容" :maxlength="-1" />
 
 			<!-- 文章封面 -->
-			<view class="tit" style="color:#8d8696 ;" >选择最靓的封面吧(未进行选择默认第一张做封面)</view>
-			<!-- 没有封面的时候 -->
+			<!-- <view class="tit" style="color:#8d8696 ;" >选择最靓的封面吧(未进行选择默认第一张做封面)</view>
 			<view v-if="!TImg" class=" coverImg" @click="getNtImg">
-				<!-- 十字图案 -->
 				<view class="cross"></view>
 			</view>
 			<view v-else class="cover_content" @tap.stop="detailImg(1)" style="background-color: black;">
 				<image :src="TImg"  mode="aspectFit" />
 				<cover-image class="img" @click.stop="clear(1)" src="../../static/close_video.png" mode=""></cover-image>
-			</view>
+			</view> -->
 
 			<view class="img_box">
 				<!-- 当前可以进行选择的图片个数 -->
@@ -39,9 +37,9 @@
 			<!-- 上传进度显示 
 				当上传完毕之后，进度环消失
 			 -->
-			<cCircle v-if="showCir" class="c_circle" :size="60" :percent="percent">
+			<!-- <cCircle v-if="showCir" class="c_circle" :size="60" :percent="percent">
 				<span slot="content" style="color: #32CDA5;">{{ percent }}%</span>
-			</cCircle>
+			</cCircle> -->
 		</view>
 	</view>
 </template>
@@ -159,7 +157,7 @@ export default {
 			
 			// 改变 当前 所选图片结构
 			this.images.forEach(item => {
-				// console.log('上传图片的url',item.url)
+				console.log('上传图片的url',item.url,item.url.substr(0,10))
 				// 因为 微信小程序中只能单文件上传
 				// 进行循环上传
 				uni.uploadFile({
@@ -210,7 +208,7 @@ export default {
 				return;
 			}
 
-			if (!this.change) {
+			// if (!this.change) {
 				console.log('用户进行上传操作');
 				// 用户进行上传操作
 				this.api._post(
@@ -227,28 +225,35 @@ export default {
 						// 提示上传结果
 						uni.showToast({
 							title: '上传' + res.errmsg,
-							icon: 'none'
+							icon: 'none',
+							success() {
+								// 跳转到发布文章的详情页
+								uni.navigateTo({
+									url:`/pages/playVideo/txtDetail?txtId=${res.data}`
+								})
+							}
 						});
 					}
 				);
-			} else {
-				// 用户进行 修改后的重新提交操作
-				console.log('用户完成 修改操作 进行重新提交');
+			// } 
+			// else {
+			// 	// 用户进行 修改后的重新提交操作
+			// 	console.log('用户完成 修改操作 进行重新提交');
 
-				this.api._put(
-					'article',
-					{
-						id: _this.oldItem.id,
-						coverUrl:_this.TImg || _this.imgArr[0], //封面图
-						content: _this.areaVal, //内容
-						title: _this.title, //标题
-						images: _this.imgArr.join(',') //图片
-					},
-					function(res) {
-						console.log(res);
-					}
-				);
-			}
+			// 	this.api._put(
+			// 		'article',
+			// 		{
+			// 			id: _this.oldItem.id,
+			// 			coverUrl:_this.TImg || _this.imgArr[0], //封面图
+			// 			content: _this.areaVal, //内容
+			// 			title: _this.title, //标题
+			// 			images: _this.imgArr.join(',') //图片
+			// 		},
+			// 		function(res) {
+			// 			console.log(res);
+			// 		}
+			// 	);
+			// }
 		},
 		// 点击查看所选图片详情
 		detailImg(num) {

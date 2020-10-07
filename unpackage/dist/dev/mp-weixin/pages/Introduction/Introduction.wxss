@@ -1,0 +1,32 @@
+.introduction swiper.data-v-6b8ac646 {
+  height: 300rpx;
+}
+.introduction swiper swiper-item.data-v-6b8ac646 {
+  background-color: yellow;
+}
+.introduction .tab.data-v-6b8ac646 {
+  margin-top: 20rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+          justify-content: space-around;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.introduction .cont.data-v-6b8ac646 {
+  box-sizing: border-box;
+  padding-left: 20rpx;
+  padding-top: 20rpx;
+  padding-right: 20rpx;
+  padding-bottom: 20rpx;
+}
+.introduction .cont .item.data-v-6b8ac646 {
+  width: 99%;
+  height: 186rpx;
+  margin: auto;
+  margin-bottom: 30rpx;
+  background-color: red;
+}
+

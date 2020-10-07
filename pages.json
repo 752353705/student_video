@@ -5,24 +5,27 @@
 	"pages": [
 		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/list/list",
+			"path": "pages/Introduction/Introduction",
 			"style": {
 				// "navigationStyle": "custom"
-				// "navigationBarTitleText" : "作品列表"
-			}
-		},{
-			"path": "pages/my/mySigin",
-			"style": {
-				// "navigationStyle": "custom"
-				"navigationBarTitleText" : "签到"
-			}
-		},{
-			"path": "pages/store/store",
-			"style": {
-				// "navigationStyle": "custom"
-				"navigationBarTitleText" : "商品优选"
+				"navigationBarTitleText" : "大赛简介"
 			}
 		},
+		{
+			"path": "pages/list/list",
+			"style": {
+				"navigationStyle": "custom"
+				// "navigationBarTitleText" : "作品列表"
+			}
+		},
+		
+		// {
+		// 	"path": "pages/store/store",
+		// 	"style": {
+		// 		// "navigationStyle": "custom"
+		// 		"navigationBarTitleText" : "商品优选"
+		// 	}
+		// },
 		{
 			"path": "pages/find/find",
 			"style": {
@@ -32,26 +35,34 @@
 		{
 			"path": "pages/reg/reg",
 			"style": {
-				"navigationBarTitleText": "账号登录"
+				"navigationBarTitleText": "手机号登录"
 			}
 		},
+		// {
+		// 	"path": "pages/playVideo/playVideo",
+		// 	"style": {
+		// 		"navigationStyle": "custom"
+		// 	}
+		// }, 
 		{
-			"path": "pages/playVideo/playVideo",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}, {
 			"path": "pages/playVideo/txtDetail",
 			"style": {
 				"navigationStyle": "custom"
 			}
-		}, {
-			"path": "pages/playVideo/usedDetail",
-			"style": {
-				"navigationStyle": "custom"
-			}
-		}, {
+		},
+		// {
+		// 	"path": "pages/playVideo/usedDetail",
+		// 	"style": {
+		// 		"navigationStyle": "custom"
+		// 	}
+		// }, 
+		{
 			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "微信授权登录"
+			}
+		},{
+			"path": "pages/login/secLogin",
 			"style": {
 				"navigationBarTitleText": "登录"
 			}
@@ -64,17 +75,24 @@
 			"style": {
 				"navigationBarTitleText": "我的"
 			}
-		}, {
+		},
+		{
+			"path": "pages/my/mySigin",
+			"style": {
+				"navigationBarTitleText": "签到"
+			}
+		},{
 			"path": "pages/my/myFocus",
 			"style": {
 				"navigationBarTitleText": "我的关注"
 			}
-		}, {
+		},{
 			"path": "pages/my/myFans",
 			"style": {
 				"navigationBarTitleText": "我的粉丝"
 			}
-		}, {
+		},
+		{
 			"path": "pages/my/myCollection",
 			"style": {
 				"navigationBarTitleText": "我的收藏",
@@ -91,147 +109,168 @@
 			"style": {
 				"navigationBarTitleText": "消费记录"
 			}
-		},{
-			"path": "pages/my/myRun",
-			"style": {
-				"navigationBarTitleText": "跑腿"
-			}
-		},{
-			"path": "pages/myRun/myGoodsLoc",
-			"style": {
-				"navigationBarTitleText": "请补充发货地址"
-			}
-		},{
-			"path": "pages/myRun/fagoods",
-			"style": {
-				"navigationBarTitleText": "发货地址"
-			}
-		},{
-			"path": "pages/myRun/goodsnote",
-			"style": {
-				"navigationBarTitleText": "订单备注"
-			}
-		}, {
-			"path": "pages/tabMsg/tabMsg",
-			"style": {
-				"navigationBarTitleText": "消息"
-			}
-		}, {
-			"path": "pages/chart/chartRoom",
-			"style": {
+		},
+		// {
+		// 	"path": "pages/my/myRun",
+		// 	"style": {
+		// 		"navigationBarTitleText": "跑腿"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/myRun/myGoodsLoc",
+		// 	"style": {
+		// 		"navigationBarTitleText": "请补充发货地址"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/myRun/fagoods",
+		// 	"style": {
+		// 		"navigationBarTitleText": "发货地址"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/myRun/goodsnote",
+		// 	"style": {
+		// 		"navigationBarTitleText": "订单备注"
+		// 	}
+		// }, 
+		// {
+		// 	"path": "pages/tabMsg/tabMsg",
+		// 	"style": {
+		// 		"navigationBarTitleText": "消息"
+		// 	}
+		// }, 
+		// {
+		// 	"path": "pages/chart/chartRoom",
+		// 	"style": {
 
-			}
-		},
-		{
-			"path": "pages/chart/chartList",
-			"style": {
-				"navigationBarTitleText": "私信"
-			}
-		}, {
-			"path": "pages/shop/shop",
-			"style": {
-				"navigationBarTextStyle": "white",
-				"navigationBarBackgroundColor": "#85c43f",
-				"navigationBarTitleText": "大学生商城"
-			}
-		}, {
-			"path": "pages/findList/findList",
-			"style": {}
-		},
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/chart/chartList",
+		// 	"style": {
+		// 		"navigationBarTitleText": "私信"
+		// 	}
+		// }, 
+		// {
+		// 	"path": "pages/shop/shop",
+		// 	"style": {
+		// 		"navigationBarTextStyle": "white",
+		// 		"navigationBarBackgroundColor": "#85c43f",
+		// 		"navigationBarTitleText": "大学生商城"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/findList/findList",
+		// 	"style": {}
+		// },
 		{
 			"path": "pages/publish/publish",
 			"style": {}
-		}, {
+		}, 
+		{
 			"path": "pages/seekWord/seekWord",
 			"style": {
 				"navigationBarTitleText": "密码重置"
 			}
-		}, {
+		}, 
+		{
 			"path": "pages/signIn/signIn",
 			"style": {
 				"navigationBarTitleText": "注册"
 			}
-		}, {
-			"path": "pages/shopClassify/shopClassify",
-			"style": {
-				"navigationBarTitleText": "分类"
-			}
-		}, {
-			"path": "pages/shopcar/shopcar",
-			"style": {
-				"navigationBarTitleText": "购物车"
-			}
-		}, {
-			"path": "pages/shopdetail/shopdetail",
-			"style": {
-				"navigationBarTitleText": "详情展示"
-			}
-		}, {
+		},
+		// {
+		// 	"path": "pages/shopClassify/shopClassify",
+		// 	"style": {
+		// 		"navigationBarTitleText": "分类"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/shopcar/shopcar",
+		// 	"style": {
+		// 		"navigationBarTitleText": "购物车"
+		// 	}
+		// }, 
+		// {
+		// 	"path": "pages/shopdetail/shopdetail",
+		// 	"style": {
+		// 		"navigationBarTitleText": "详情展示"
+		// 	}
+		// }, 
+		{
 			"path": "pages/zan/zan",
 			"style": {
 				"navigationBarTitleText": "赞和收藏"
 			}
-		}, {
+		}, 
+		{
 			"path": "pages/newfocus/newfocus",
 			"style": {
 				"navigationBarTitleText": "新增关注"
 			}
-		}, {
+		}, 
+		{
 			"path": "pages/commt/commt",
 			"style": {
 				"navigationBarTitleText": "评论和@"
 			}
-		}, {
-			"path": "pages/order/order",
-			"style": {
-				"navigationBarTitleText": "我的订单"
+		}, 
+		// {
+		// 	"path": "pages/order/order",
+		// 	"style": {
+		// 		"navigationBarTitleText": "我的订单"
 
-			}
-		},
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/order/creatOrder",
+		// 	"style": {
+		// 		"navigationBarTitleText": "填写订单"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/pay/paysuccess",
+		// 	"style": {
+		// 		"navigationBarTitleText": "支付成功"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/pay/pay",
+		// 	"style": {
+		// 		"navigationBarTitleText": "支付"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/address/address",
+		// 	"style": {
+		// 		"navigationBarTitleText": "收货地址"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/address/addressManage",
+		// 	"style": {
+		// 		"navigationBarTitleText": "编辑地址"
+		// 	}
+		// }, {
+		// 	"path": "pages/shopCard/shopCard",
+		// 	"style": {
+		// 		"navigationBarTitleText": "选择优惠券"
+		// 	}
+		// }, {
+		// 	"path": "pages/shop/collect",
+		// 	"style": {
+		// 		"navigationBarTitleText": "商品收藏"
+		// 	}
+		// },
+		// {
+		// 	"path": "pages/shopCard/couponList",
+		// 	"style": {
+		// 		"navigationBarTitleText": "我的优惠券"
+		// 	}
+		// }, 
+		
 		{
-			"path": "pages/order/creatOrder",
-			"style": {
-				"navigationBarTitleText": "填写订单"
-			}
-		}, {
-			"path": "pages/pay/paysuccess",
-			"style": {
-				"navigationBarTitleText": "支付成功"
-			}
-		},
-		{
-			"path": "pages/pay/pay",
-			"style": {
-				"navigationBarTitleText": "支付"
-			}
-		}, {
-			"path": "pages/address/address",
-			"style": {
-				"navigationBarTitleText": "收货地址"
-			}
-		},
-		{
-			"path": "pages/address/addressManage",
-			"style": {
-				"navigationBarTitleText": "编辑地址"
-			}
-		}, {
-			"path": "pages/shopCard/shopCard",
-			"style": {
-				"navigationBarTitleText": "选择优惠券"
-			}
-		}, {
-			"path": "pages/shop/collect",
-			"style": {
-				"navigationBarTitleText": "商品收藏"
-			}
-		},
-		{
-			"path": "pages/shopCard/couponList",
-			"style": {
-				"navigationBarTitleText": "我的优惠券"
-			}
-		}, {
 			"path": "pages/publish/publishVideo",
 			"style": {
 				"navigationBarTitleText": "发布视频"
@@ -246,12 +285,14 @@
 			"style": {
 				"navigationBarTitleText": "发布二手"
 			}
-		}, {
-			"path": "pages/shop/category",
-			"style": {
-				"navigationBarTitleText": "分类"
-			}
-		}, {
+		}, 
+		// {
+		// 	"path": "pages/shop/category",
+		// 	"style": {
+		// 		"navigationBarTitleText": "分类"
+		// 	}
+		// }, 
+		{
 			"path": "pages/recharge/recharge",
 			"style": {
 				"navigationBarTitleText": "充值"
@@ -261,11 +302,55 @@
 			"style": {
 				"navigationBarTitleText": "充值记录"
 			}
+		},{
+				"path" : "pages/rank/rank",
+				"style" : {
+					"navigationBarTitleText": "排行榜"
+				}
+			}
+        ,{
+            "path" : "pages/changeTxt/changeTxt",
+            "style" : {
+							"navigationBarTitleText": "文章修改"
+						}
+        }
+    ],
+	"subPackages":[{
+		"root":"packageA",
+		"pages":[{
+			"path": "pages/mySigin",
+			"style": {
+				"navigationBarTitleText" : "签到"
+			}
+		},{
+			"path": "pages/myFocus",
+			"style": {
+				"navigationBarTitleText": "我的关注"
+			}
+		},{
+			"path": "pages/myFans",
+			"style": {
+				"navigationBarTitleText": "我的粉丝"
+			}
+		}]
+	}],
+	"preloadRule":{
+	  "packageA/pages/mySigin": {
+			"network": "all",
+			"packages": ["packageA"]
+		},
+		"packageA/pages/myFans": {
+			"network": "all",
+			"packages": ["packageA"]
+		},
+		"packageA/pages/myFocus": {
+			"network": "all",
+			"packages": ["packageA"]
 		}
-	],
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "大学生短视频",
+		// "navigationBarTitleText": "学声汇短视频",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#F8F8F8",
 		"backgroundColorTop": "#FFFFFF"
@@ -288,10 +373,10 @@
 			// 	"text": "优选"
 			// },
 			{
-				"pagePath": "pages/publish/publish",
+				"pagePath": "pages/publish/publishNotice",
 				"iconPath": "/static/tabbar/add.png",
 				"selectedIconPath": "/static/tabbar/add_active.png",
-				"text": "发布"
+				"text": "发布作品"
 			},
 			// {
 			// 	"pagePath": "pages/shop/shop",

@@ -11,7 +11,7 @@
 					<!-- 视频封面 -->
 					<u-lazy-load @load="handleViewRender(listIndex, index)" 
 						@error="handleViewRender(listIndex, index)" 
-						:image="item.coverUrl "></u-lazy-load>
+						:image="item.coverUrl || 'https://ceshigfsc.oss-cn-beijing.aliyuncs.com/33e2ec6b-565e-4f0c-90b6-dd726ccec025.jpg' "></u-lazy-load>
 					<!-- 上传视频的简单的简介 转发量 {{ item.forwardCount }} -->
 					<view class="introduction">
 						{{ item.conversation || item.title }}

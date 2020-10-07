@@ -1,1 +1,0 @@
-<view class="note data-v-0acd341b"><textarea placeholder="请填写备注信息" maxlength="80" data-event-opts="{{[['input',[['input',['$event']]]]]}}" value="{{val}}" bindinput="__e" class="data-v-0acd341b"></textarea><view data-event-opts="{{[['tap',[['sub',['$event']]]]]}}" class="btn data-v-0acd341b" bindtap="__e">确定</view><view class="num data-v-0acd341b">{{''+num+'/80'}}</view></view>

@@ -111,14 +111,16 @@
 			// 用户点击弹窗进行操作
 			operchoose(index){
 				let _this = this
-				console.log('this.txtid',this.txtid,_this.operType)
+				console.log('this.txtid',this.txtid,_this.operType,index)
 				if(index == 0){
 					// 用户进行修改操作
 					// 跳转到 写文章的界面  将点击的 文章的信息传递过去
 					if(_this.operType == 'myTxt'){
+						console.log('跳转文章')
 						// 当前的类型 为文章
 						uni.navigateTo({
-							url:`/pages/publish/publishNotice?txtid=${this.txtid}`
+							// url:`/pages/publish/publishNotice?txtid=${this.txtid}`
+							url:`/pages/changeTxt/changeTxt?txtid=${this.txtid}`
 						})
 					}else if (_this.operType == 'myUsed'){
 						// 当前类型为 二手

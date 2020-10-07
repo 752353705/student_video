@@ -2,42 +2,42 @@
 	<view class="sigin">
 		<image class="si_bg" src="../../static/si_bg.png" mode=""></image>
 		
-		<view class="box">
-			<view class="main">
+		<view class="box pa-t20 pa-b20">
+			<view class="main panel-center item-center wrap">
 				<!-- 判断是否已经进行了签到 -->
-				<view class="item"  
+				<view class="item panel-start item-center"  
 					:class="index < continuousSignNumber ? 'act' : ''"
 					v-for="(item,index) in sigin_data"
 					:key="index"
 					>
 					<!-- 遮罩层 处理还没到期的签到 
 						判断当前签到没有
-						
 						-->
-					<view
+				<!-- 	<view
 						:class="index < continuousSignNumber ? '' : !act_btn && index === continuousSignNumber ? '' : 'bg' "
 						>
-					</view>
+					</view> -->
 					<!-- 已签到的图标 -->
-					<block v-if="index < continuousSignNumber ">
+					<!-- <block v-if="index < continuousSignNumber ">
 						<image class="dui" src="/static/dui.png" mode=""></image>
-					</block>
+					</block> -->
 					
-					<view class="day">{{item.day}}</view>
-					<view class="body">
+					<view class="day text-center w-100">{{item.day}}</view>
+					<view class="body text-center">
 						<!-- 签到的图标 -->
-						<image :src="index < continuousSignNumber ? '/static/n_sigin.png' : '/static/sigin.png' " 
-							>
+						<!-- <image :src="index < continuousSignNumber ? '/static/n_sigin.png' : '/static/sigin.png' " 
+							> -->
+						<image :src="index < continuousSignNumber ? '/static/dui.png' : '/static/sigin.png' ">
 						</image>
 						
-						<view class="money"  >{{item.money}}</view>
+						<view class="money">{{item.money}}H币</view>
 					</view>
 				</view>
 			</view>
 		</view>
 		
 		<!-- 签到按钮 -->
-		<view class="btn" 
+		<view class="btn text-center" 
 			:class=" !act_btn ? '' : 'n_act' "
 			@tap="sigin"
 			>
@@ -54,32 +54,28 @@
 				// 签到数据
 				sigin_data:[
 					{
-						day:'1天',
-						money:'1H币'
+						day:'第 1 天',
+						money:1
 					},{
-						day:'2天',
-						money:'2H币'
+						day:'第 2 天',
+						money:2
 					},{
-						day:'3天',
-						money:'3H币'
+						day:'第 3 天',
+						money:3
 					},{
-						day:'4天',
-						money:'4H币'
+						day:'第 4 天',
+						money:4
 					},{
-						day:'5天',
-						money:'5H币'
+						day:'第 5 天',
+						money:5
 					},{
-						day:'6天',
-						money:'6H币'
+						day:'第 6 天',
+						money:6
 					},{
-						day:'7天',
-						money:'7H币'
+						day:'第 7 天',
+						money:7
 					},
 				],
-				// 表示 当前已经签到的
-				num:0,
-				// 当前周几
-				now_day:1,
 				// 当前连续签到的天数
 				continuousSignNumber:0,
 				// 当前是否已经进行了签到，
@@ -92,9 +88,9 @@
 		},
 		onShow() {
 			let _this = this 
-			console.log('请求签到状态')
+			// console.log('请求签到状态')
 			this.api._get('sign',{},function(res){
-				console.log('签到状态',res)
+				// console.log('签到状态',res)
 				if(res.data.status === '0'){
 					// 未签到
 					_this.act_btn = false
@@ -108,15 +104,16 @@
 		},
 		methods:{
 			sigin(){
-				console.log('用户进行签到操作')
+				// console.log('用户进行签到操作')
 				let _this = this 
 				if(!this.act_btn){
 					// false 表示还没签到
-					this.api._post('sign',{},function(res){
-						console.log('进行签到成功',res)
+					this.api._post('sign',{
+						hGold:this.sigin_data[this.continuousSignNumber].money
+					},function(res){
+						// console.log('进行签到成功',res)
 						_this.act_btn = true
 						_this.continuousSignNumber ++
-						
 					})
 				}
 			},
@@ -146,47 +143,32 @@
 			transform: translateX(-50%);
 			width: 97%;
 			box-sizing: border-box;
-			padding-top: 20rpx;
-			padding-bottom: 20rpx;
 			margin: 50rpx auto 0;
 			background-color: white;
 			border-radius: 50rpx;
-			.now_time{
-				font-size: 27rpx;
-				color: #0062CC;
-				margin-top: 20rpx;
-				margin-bottom: 20rpx;
-			}
+			
 			.main{
-				display: flex;
-				justify-content: center;
-				flex-wrap: wrap;
-				align-items: center;
+				// flex-wrap: wrap;
 				box-sizing: border-box;
-				
 				// 当前要签到的样式
 				.item{
 					position: relative;
 					width: 218rpx;
 					height: 170rpx;
-					background-color: #f23030;
+					background-color: #f1f1f1;
 					margin-top: 20rpx;
 					margin-right: 20rpx;
-					display: flex;
 					flex-direction: column;
-					justify-content: flex-start;
-					align-items: center;
 					// 还未到签到时间的遮罩
-					.bg{
-						position: absolute;
-						top: 0;
-						left:0;
-						width: 100%;
-						height: 100%;
-						background-color: #FAFAFA;
-						opacity: 0.5;
-					}
-					
+					// .bg{
+					// 	position: absolute;
+					// 	top: 0;
+					// 	left:0;
+					// 	width: 100%;
+					// 	height: 100%;
+					// 	background-color: #FAFAFA;
+					// 	opacity: 0.5;
+					// }
 					// 表示已经签到的 对勾
 					.dui{
 						width: 140rpx;
@@ -198,46 +180,54 @@
 						transform: translate(-50%,-50%);
 					}
 					.day{
-						color: white;
-						text-align: center;
-						width: 100%;
+						
+						padding-top: 10rpx;
 						height: 40rpx;
-						background-color: #f23030;
+						font-weight: bold;
+						// background-color: #f23030;
 					}
 					.body{
-						background-color: white;
 						width: 211rpx;
-						height: 126rpx;
-						text-align: center;
+						height: 114rpx;
 						image{
 							margin-top: 10rpx;
 							width: 60rpx;
 							height: 60rpx;
 						}
 						.money{
-							// margin-top: -8rpx;
+							// font-weight: bold;
+							color: #b1b1b3;
 						}
 					}
 				}
-				
-				
 				// 已经签到的样式
 				.act{
-					background-color: #bbbbbb;
-					color: #bbbbbb;
+					background-color: #f0c054;
+					color: white;
 					.day{
-						background-color: #bbbbbb;
+						color: white;
+						background-color: #f0c054;
+					}
+					.body{
+						background-color: #f0c054;
+						.money{
+							color: white;
+						}
 					}
 				}
 				// 未进行签到的样式
 				.n_act{
+					background-color: #f1f1f1;
 					.day{
+						color: #848587;
 						background-color: #f23030;
 					}
+					.body{
+						.money{
+							
+						}
+					}
 				}
-				
-				
-				
 				// 取消第三个和第六个的margin
 				.item:nth-child(3){
 					margin-right: 0rpx;
@@ -263,8 +253,8 @@
 		// 已经进行了签到
 		.n_act{
 			background-image:none;
-			background-color: #bbbbbb;
-			color: #9b9b9b;
+			background-color: #f0c054;
+			color: white;
 		}
 	}
 </style>

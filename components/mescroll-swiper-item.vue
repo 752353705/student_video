@@ -157,7 +157,7 @@ export default {
 			}
 			//联网加载数据  判断用户当前所在的 tabber 名，分别进行不同的网络请求
 			setTimeout(()=>{
-				console.log('进行上拉操作', this.kw,this.uId);
+				console.log('进行上拉操作', this.kw,page.num);
 				this.$props.kw == 'listVideo'
 					? this.getListVideo(page.num)
 					: this.$props.kw == 'listTxt'
@@ -182,6 +182,7 @@ export default {
 		// 下拉加载发起请求
 		// 请求首页的 视频数据
 		getListVideo(pageNum) {
+			console.log('首页',pageNum)
 			let _this = this;
 			this.api._get(
 				'vod/list',
@@ -215,6 +216,9 @@ export default {
 				function(res) {
 					console.log('请求首页的文章 成功', res.data);
 					_this.goods = _this.goods.concat(res.data.list);
+					
+					console.log('请求首页的文章 _this.goods', _this.goods);
+					
 					_this.mescroll.endSuccess(res.data.list.length);
 				},
 				function() {

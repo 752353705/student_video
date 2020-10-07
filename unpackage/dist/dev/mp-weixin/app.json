@@ -1,59 +1,46 @@
 {
   "pages": [
+    "pages/Introduction/Introduction",
     "pages/list/list",
-    "pages/my/mySigin",
-    "pages/store/store",
     "pages/find/find",
     "pages/reg/reg",
-    "pages/playVideo/playVideo",
     "pages/playVideo/txtDetail",
-    "pages/playVideo/usedDetail",
     "pages/login/login",
+    "pages/login/secLogin",
     "pages/author/author",
     "pages/my/my",
+    "pages/my/mySigin",
     "pages/my/myFocus",
     "pages/my/myFans",
     "pages/my/myCollection",
     "pages/my/myHistory",
     "pages/my/myConsumption",
-    "pages/my/myRun",
-    "pages/myRun/myGoodsLoc",
-    "pages/myRun/fagoods",
-    "pages/myRun/goodsnote",
-    "pages/tabMsg/tabMsg",
-    "pages/chart/chartRoom",
-    "pages/chart/chartList",
-    "pages/shop/shop",
-    "pages/findList/findList",
     "pages/publish/publish",
     "pages/seekWord/seekWord",
     "pages/signIn/signIn",
-    "pages/shopClassify/shopClassify",
-    "pages/shopcar/shopcar",
-    "pages/shopdetail/shopdetail",
     "pages/zan/zan",
     "pages/newfocus/newfocus",
     "pages/commt/commt",
-    "pages/order/order",
-    "pages/order/creatOrder",
-    "pages/pay/paysuccess",
-    "pages/pay/pay",
-    "pages/address/address",
-    "pages/address/addressManage",
-    "pages/shopCard/shopCard",
-    "pages/shop/collect",
-    "pages/shopCard/couponList",
     "pages/publish/publishVideo",
     "pages/publish/publishNotice",
     "pages/publish/publishUsed",
-    "pages/shop/category",
     "pages/recharge/recharge",
-    "pages/recharge/rechHis"
+    "pages/recharge/rechHis",
+    "pages/rank/rank",
+    "pages/changeTxt/changeTxt"
   ],
-  "subPackages": [],
+  "subPackages": [
+    {
+      "root": "packageA",
+      "pages": [
+        "pages/mySigin",
+        "pages/myFocus",
+        "pages/myFans"
+      ]
+    }
+  ],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "大学生短视频",
     "navigationBarBackgroundColor": "#FFFFFF",
     "backgroundColor": "#F8F8F8",
     "backgroundColorTop": "#FFFFFF"
@@ -71,10 +58,10 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/publish/publish",
+        "pagePath": "pages/publish/publishNotice",
         "iconPath": "/static/tabbar/add.png",
         "selectedIconPath": "/static/tabbar/add_active.png",
-        "text": "发布"
+        "text": "发布作品"
       },
       {
         "pagePath": "pages/my/my",
@@ -83,6 +70,26 @@
         "text": "我的"
       }
     ]
+  },
+  "preloadRule": {
+    "packageA/pages/mySigin": {
+      "network": "all",
+      "packages": [
+        "packageA"
+      ]
+    },
+    "packageA/pages/myFans": {
+      "network": "all",
+      "packages": [
+        "packageA"
+      ]
+    },
+    "packageA/pages/myFocus": {
+      "network": "all",
+      "packages": [
+        "packageA"
+      ]
+    }
   },
   "permission": {
     "scope.userLocation": {

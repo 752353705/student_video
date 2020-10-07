@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "跑腿",
-  "usingComponents": {
-    "uni-popup": "/components/uni-popup/uni-popup",
-    "uni-popup-goodsmsg": "/components/uni-popup/uni-popup-goodsmsg"
-  }
-}

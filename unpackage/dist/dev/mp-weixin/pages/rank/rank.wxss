@@ -1,0 +1,58 @@
+.rank.data-v-16e4b086 {
+  box-sizing: border-box;
+  padding-left: 20rpx;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+  padding-right: 20rpx;
+}
+.rank .item.data-v-16e4b086 {
+  height: 150rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  box-sizing: border-box;
+  padding-right: 20rpx ;
+  padding-left: 20rpx;
+  background-color: #f8f8f8;
+  margin-bottom: 30rpx;
+  border-radius: 28rpx;
+}
+.rank .item .le.data-v-16e4b086 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.rank .item .le .num.data-v-16e4b086 {
+  background-color: #aaaaaa;
+  margin-right: 20rpx;
+  border-radius: 50%;
+  color: white;
+  width: 48rpx;
+  height: 48rpx;
+  text-align: center;
+  line-height: 48rpx;
+}
+.rank .item .le .img.data-v-16e4b086 {
+  border-radius: 50%;
+  width: 100rpx;
+  height: 100rpx;
+  margin-right: 20rpx;
+  background-color: red;
+}
+.rank .item .le .name.data-v-16e4b086 {
+  font-size: 30rpx;
+}
+.rank .item .ri .ticket.data-v-16e4b086 {
+  font-size: 50rpx;
+  font-weight: bold;
+}
+

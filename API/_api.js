@@ -4,9 +4,12 @@ let token = wx.getStorageSync('token') || ''
 // let api_root = 'http://47.93.148.235:8082/wx/'
 // 线上
 // let api_root = 'https://xsh.taihangyizhan.com/wx/'
+// let api_root = 'http://c84n0poo.xiaomy.net/wx/'
+
 // 本地
-let api_root = 'http://lvpeng.free.qydev.com/wx/'
-// let api_root = '192.168.0.102:8082/wx/'
+// let api_root = 'http://lvpeng.free.qydev.com/wx/'
+let api_root = 'http://192.168.0.102:8082/wx/'
+// let api_root = 'http://172.20.10.4:8082/wx/'
 
 // 'https://xsh.taihangyizhan.com/wx/'
 
@@ -30,6 +33,8 @@ function _get(url, data, success, fail, complete) {
 		},
 		data: data,
 		success: (res) => {
+			
+			
 			//判断返回的状态码
 			if (res.statusCode !== 200 || typeof res.data !== 'object') {
 				if (!msg) {
@@ -73,6 +78,7 @@ function _get(url, data, success, fail, complete) {
 			success && success(res.data);
 		},
 		fail: function(res) {
+			console.log('get请求',res)
 			uni.showModal({
 				title: '友情提示',
 				content: '网络繁忙,请重试',
@@ -160,7 +166,7 @@ function _post(url, data, success, fail, complete) {
 				return false;
 			}
 			// 成功执行
-			console.log('post res',res)
+			// console.log('post res',res)
 			success && success(res.data)
 		},
 		fail: res => {

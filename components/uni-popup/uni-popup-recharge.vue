@@ -16,9 +16,14 @@
 
 <script>
 export default {
+	props: {
+		money: {
+			type: Number
+		}
+	},
 	data() {
 		return {
-			money:0,
+			// money:0,
 			userId:'',
 			priceArr:[
 				{
@@ -44,13 +49,13 @@ export default {
 		};
 	},
 	created() {
-		let _this = this
-		this.api._get(
-		'user/info',{},function(res){
-			console.log('获取用户当前的 H币',res)
-			_this.money = res.data.hgold
-			_this.userId = res.data.userId
-		})
+		// let _this = this
+		// this.api._get(
+		// 'user/info',{},function(res){
+		// 	console.log('获取用户当前的 H币',res)
+		// 	_this.money = res.data.hgold
+		// 	_this.userId = res.data.userId
+		// })
 	},
 	methods: {
 		addmoney(index){
@@ -99,7 +104,7 @@ export default {
 // 充值界面
 .uni-popup-recharge {
 	background-color: white;
-	height: 348px;
+	height: 351px;
 	position: relative;
 	border-radius: 20rpx 20rpx 0 0;
 }

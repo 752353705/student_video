@@ -3,7 +3,7 @@
 		<!-- 表单 -->
 		<form class="form" @submit="formSubmit" @reset="formReset">
 			<view class="input_box">
-				<image src="../../static/pw.png" mode=""></image>
+				<!-- <image src="../../static/pw.png" mode=""></image> -->
 				<input :focus="true" name="username" placeholder="用户名" maxlength="11" />
 			</view>
 			<view class="input_box">

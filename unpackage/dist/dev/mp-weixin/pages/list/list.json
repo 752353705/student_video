@@ -1,9 +1,9 @@
 {
+  "navigationStyle": "custom",
   "usingComponents": {
-    "u-notice-bar": "/node-modules/uview-ui/components/u-notice-bar/u-notice-bar",
+    "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
     "mescroll-empty": "/components/mescroll-uni/components/mescroll-empty",
     "mescroll-item": "/components/mescroll-swiper-item",
-    "swiper-tab-head": "/components/swiper-tab-head",
-    "uni-popup-useoperation": "/components/uni-popup/uni-popup-useoperation"
+    "swiper-tab-head": "/components/swiper-tab-head"
   }
 }

@@ -5,33 +5,11 @@
 		</view>
 		<view class="uni-share-content">
 			<view class="uni-share-content-box">
-					
-					<!-- 分享到微信好友 -->
-					<!-- 	v-for="(item, index) in bottomData" :key="index" 
-						@touchstart="setId"  v-if="item.name === 'wx'" -->
 					<button type="default" open-type="share" plain="false" class="uni-share-content-item" 
 					>
 						<image class="uni-share-image" src="https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png" mode="aspectFill"></image>
 						<text class="uni-share-text">微信</text>
 					</button>
-					
-					<!-- 进行朋友圈的分享 -->
-				<!-- 	<button type="default" open-type="share" plain="false" class="uni-share-content-item"
-					>
-						<image class="uni-share-image" src="https://img-cdn-qiniu.dcloud.net.cn/uni-ui/gird-3.png" mode="aspectFill"></image>
-						<text class="uni-share-text">朋友圈</text>
-					</button> -->
-					
-					
-					
-					<!-- 进行海报图的分享 -->
-				<!-- 	<view class="uni-share-content-item" @click.stop="select">
-						<image class="uni-share-image" src="https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-5.png" mode="aspectFill"></image>
-						<text class="uni-share-text">海报</text>
-					</view>
-					 -->
-					
-					
 			</view>
 		</view>
 		<view class="uni-share-button-box"><button class="uni-share-button" @click="close">取消</button></view>

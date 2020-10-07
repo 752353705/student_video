@@ -11,6 +11,8 @@
 	"libVersion": "",
 	"appid": "wx35ae62ee04cc537b",
 	"projectname": "student_video",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -37,15 +39,22 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "pages/my/mySigin",
-					"pathName": "pages/my/mySigin",
+					"name": "pages/list/list",
+					"pathName": "pages/list/list",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "pages/login/login",
+					"pathName": "pages/login/login",
 					"query": "",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "pages/my/my",
-					"pathName": "pages/my/my",
+					"name": "pages/login/secLogin",
+					"pathName": "pages/login/secLogin",
 					"query": "",
 					"scene": null
 				}

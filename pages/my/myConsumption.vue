@@ -3,9 +3,9 @@
 		<!-- 头部 -->
 		<swiperTabHead :flex="true" :tabBars="tabBars"
 			:tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
-			
+		
 		<!-- 数据渲染区 -->
-		<view class="cont">
+		<view  class="cont">
 			<!-- 当前无消费记录 -->
 			<block v-if="hisList.length == 0" >
 				<image class="empty" src="../../static/dingdan.png" mode=""></image>
@@ -40,7 +40,8 @@
 				hisList:[],
 				// 进行上拉请求加载时
 				// 默认第一页进行加载
-				pageNum: 1,
+				g_pageNum: 1,
+				d_pageNum: 1,
 				// 判断是否有下一页
 				nextpage:false
 			}
@@ -59,42 +60,43 @@
 			}
 		},
 		methods:{
-			//滑动切换导航
-			tabChange(e){
-			  this.tabIndex = e.detail.current
-				console.log('滑动的 id',this.tabBars[this.tabIndex].id)
-				this.kw = this.tabBars[this.tabIndex].id
-			},
 			//接受子组件传过来的值点击切换导航
 			tabtap(index){
+				if(index === this.tabIndex){
+					// 防止不必要的请求
+					return
+				}
 				this.tabIndex = index;
+				
+				// 当用户进行来回的切换时 保证请求的页码还是1
+				this.g_pageNum = 1
+				this.d_pageNum = 1
+				
 				console.log('点击的 id',this.tabBars[this.tabIndex].id)
 				// 根据用户点击的 不同的 按钮id 来渲染 不同的数据
+				this.hisList = []
+				
 				if(this.tabBars[this.tabIndex].id == 'chongzhi'){
 					// 请求充值的接口，渲染数据
-					console.log('请求充值数据')
-					
-					
-					
-					
+					// console.log('请求获取数据')
+					this.getHgold()
 				}else if(this.tabBars[this.tabIndex].id == 'xiaofei') {
 					// 请求 消费记录的接口 渲染数据
-					console.log('请求消费数据')
-					
+					// console.log('请求消费数据')
+					this.delHgold()
 				}
-				// this.kw = this.tabBars[this.tabIndex].id
 			},
 			// 获取 记录 的接口
 			getHgold(){
 				this.api._get('hgold/get/list',{
-					 pageNum:this.pageNum,
+					 pageNum:this.g_pageNum,
 					 pageSize:10,
 				},(res)=>{
-					console.log('获取充值记录的接口')
+					// console.log('获取充值记录的接口')
 					this.hisList = this.hisList.concat(res.data.list)
 					// 判断返回的 数据条数 用来看是否有下一页
 					if (this.hisList.length == 10) {
-						this.pageNum++;
+						this.g_pageNum++;
 						this.nextpage = true
 					}else{
 						this.nextpage = false
@@ -102,10 +104,26 @@
 				})
 			},
 			
-			
-			
+			//消费记录的接口
+			delHgold(){
+				// 请求获取记录的接口
+				this.api._get('user/rechargeList',{
+					 pageNum:this.d_pageNum,
+					 pageSize:10,
+				},(res)=>{
+					// console.log('获取充值记录的接口')
+					this.hisList = this.hisList.concat(res.data.list)
+					// 判断返回的 数据条数 用来看是否有下一页
+					if (this.hisList.length == 10) {
+						this.d_pageNum++;
+						this.nextpage = true
+					}else{
+						this.nextpage = false
+					}
+				})
+				
+			},
 		}
-		
 	}
 	
 	

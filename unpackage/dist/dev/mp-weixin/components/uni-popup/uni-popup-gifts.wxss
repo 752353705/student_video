@@ -31,6 +31,7 @@
 /* 图片加载中颜色 */
 /* 行为相关颜色 */
 .uni-popup-share.data-v-66f313da {
+  position: relative;
   background-color: #171926;
   color: white;
   border-radius: 20rpx 20rpx 0 0;
@@ -148,5 +149,13 @@
 .uni-share-button.data-v-66f313da::after {
   border-radius: 50px;
   border: none;
+}
+.rank.data-v-66f313da {
+  position: absolute;
+  top: 20rpx;
+  right: 62rpx;
+  font-size: 33rpx;
+  font-weight: bolder;
+  color: #e7c229;
 }
 

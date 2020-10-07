@@ -1,0 +1,80 @@
+.empty {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  top: 36%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.fans {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  box-sizing: border-box;
+  padding: 20rpx 40rpx;
+  padding-left: 0;
+  margin: 20rpx 40rpx;
+  position: relative;
+}
+.fans .left {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.fans .left .img {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  margin-right: 40rpx;
+  overflow: hidden;
+}
+.fans .left .img image {
+  width: 100%;
+  height: 100%;
+}
+.fans .focus {
+  border: 1px solid red;
+  color: red;
+  padding: 6rpx 35rpx;
+  border-radius: 40rpx;
+  font-size: 27rpx;
+}
+.fans .focuson {
+  background-color: #ff2440;
+  color: white;
+}
+.fans:after {
+  content: "  ";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px solid black;
+  /* 如果不用 background-color, 使用 border-top:1px solid #f00; 效果是一样的*/
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+}
+.fans:last-child::after {
+  content: "  ";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px solid white;
+  /* 如果不用 background-color, 使用 border-top:1px solid #f00; 效果是一样的*/
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+}
+

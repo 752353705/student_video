@@ -92,13 +92,8 @@ export default {
 			var that = this;
 
 			if (Math.abs(that.oldx - that.left) <= 5) {
-				uni.showToast({
-					title: '验证码发送',
-					duration: 2500,
-					success() {
-						that.$emit('touchSliderResult', true);
-					}
-				});
+				that.$emit('touchSliderResult', true);
+				
 			} else {
 				that.refreshVerify();
 			}

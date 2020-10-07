@@ -1,0 +1,1 @@
+{"version":3,"sources":["uni-app:///main.js"],"names":["createPage","Page"],"mappings":";;;;wEAAA,qBACA,sBACA,yH,mDACAA,EAAWC,a","file":"pagesA/my/mySigin.js","sourcesContent":["import 'uni-pages';\nimport Vue from 'vue'\nimport Page from './pagesA/my/mySigin.vue'\ncreatePage(Page)"],"sourceRoot":""}

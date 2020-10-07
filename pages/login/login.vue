@@ -10,12 +10,12 @@
 				lang="zh_CN" 
 				@getuserinfo="login"
 			>
-				微信登录
+				微信授权用户信息
 			</button>
-			<button class="btn login_phone" @click="goPhoneLogin"
+		<!-- 	<button class="btn login_phone" @click="goPhoneLogin"
 			>
-				账号登录
-			</button>
+				手机号登录/注册
+			</button> -->
 		
 	</view>
 </template>
@@ -48,102 +48,71 @@ export default {
 		},
 		// 微信登录
 		login(e) {
-			// console.log('登录e',_this.userInfo)
+			console.log('登录e 个人信息',e.detail.userInfo)
 			let _this = this;
-			if (e.detail.errMsg !== 'getUserInfo:ok') {
-				console.log('e.detail.errMsg !== getUserInfo:ok')
+			if (e.detail.errMsg == 'getUserInfo:ok') {
+				// 用户允许了获取信息
+				// wx 获取登录用户 code
+				uni.showLoading({
+					title:'正在授权...'
+				})
 				
-				// 进行用户的授权操作
-				// var that = this;
-				// // 查看是否授权
-				// wx.getSetting({
-				//  success: function (res) {
-				//   if (res.authSetting['scope.userInfo']) {
-				//    wx.getUserInfo({
-				//     success: function (res) {
-				// 			console.log('授权成功')
-				//      //从数据库获取用户信息
-				//      that.queryUsreInfo();
-				//      //用户已经授权过
-				// 			 wx.switchTab({
-				// 				url: ''
-				// 			 })
-				//     }
-				//    });
-				//   }
-				//  }
-				// })
-				return false;
-				
-				
-				
-			}
-			// 将用户信息进行本地存储
-			
-			
-			
-			//  显示加载的效果
-			uni.showLoading({
-				title: '登录中...'
-			});
-		
-			// wx 获取登录用户 code
-			uni.login({
-				provider: 'weixin',
-				success: loginRes => {
-					// 获取用户的  code
-					console.log('login获取code',loginRes.code)
-					// wx.setStorageSync('code', loginRes.code);
-					// let _this.code = loginRes.code
-					// 获取用户信息
-					uni.getUserInfo({
-						provider: 'weixin',
-						success: function (infoRes) {
-							console.log('用户信息', infoRes.userInfo);
-							wx.setStorageSync('userInfo', infoRes.userInfo);
+				uni.login({
+					provider: 'weixin',
+					success: loginRes => {
+						// 获取用户的  code
+						console.log('loginRes',loginRes)
+						// 进行post请求
+						_this.api._post("auth/loginByWeixin",{
+							"code":loginRes.code,
+							"userInfo":e.detail.userInfo,
+						},function(res){
+							console.log('login 微信登录 发送post请求',res);
+							uni.setStorageSync('user_name', res.data.nickName);
+							uni.setStorageSync('user_img', res.data.avatarUrl);
+							uni.setStorageSync('token', res.data.token);
+							
 							uni.hideLoading()
-							
-							
-							
-							// uni.navigateBack({
-							// 	delta: 1
-							// })
-							
-							// 进行post请求
-							_this.api._post("auth/loginByWeixin",{
-							// _this._post("auth/login_by_weixin",{
-								"code":loginRes.code,
-								"userInfo":infoRes.userInfo,
-								// shareUserId: 1, //测试
-							},function(res){
-								console.log('login 微信登录 发送post请求',res);
-								// wx.setStorageSync('user_name', res.data.userInfo.nickName);
-								// wx.setStorageSync('user_img', res.data.userInfo.avatarUrl);
-								wx.setStorageSync('user_name', res.data.nickName);
-								wx.setStorageSync('user_img', res.data.avatarUrl);
-								wx.setStorageSync('user_phone', res.data.phone);
-								wx.setStorageSync('token', res.data.token);
+							// 请求成功之后跳转到我的界面
+							if(!res.data.phone){
+								uni.navigateTo({
+									url:'/pages/login/secLogin'
+								})
+							}
+						})
+						
+						
+						
+						// console.log('login获取code',loginRes.code)
+						// wx.setStorageSync('code', loginRes.code);
+						// let _this.code = loginRes.code
+						// // 获取用户信息
+						// uni.getUserInfo({
+						// 	provider: 'weixin',
+						// 	success: function (infoRes) {
+						// 		console.log('用户信息', infoRes.userInfo);
+						// 		wx.setStorageSync('userInfo', infoRes.userInfo);
 								
-								// 请求成功之后跳转到我的界面
-								if(res.errno === 0){
-									uni.navigateBack({
-										delta:1
-									})
-								}
-							})
+								
+								
+						// 		// uni.navigateBack({
+						// 		// 	delta: 1
+						// 		// })
+								
 							
-						},
-						fail:function(err){
-							console.log('获取用户信息失败 err',err)
-						}
-					});
-				},
-				fail: () => {
-					uni.showToast({ title: '获取 code 失败', icon: 'none' });
-					return false;
-				}
-			});
-			return false;
+								
+						// 	},
+						// 	fail:function(err){
+						// 		console.log('获取用户信息失败 err',err)
+						// 	}
+						// });
+					},
+					fail: () => {
+						uni.showToast({ title: '获取信息失败', icon: 'none' });
+						return false;
+					}
+				});
+			}
 		},
 	},
 	

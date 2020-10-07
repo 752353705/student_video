@@ -1,23 +1,21 @@
 page {
-  background-color: white;
+  background-color: #f8f8f8;
+}
+.t-icon {
+  width: 25px;
+  height: 25px;
 }
 .txt_detail {
   box-sizing: border-box;
   padding-bottom: 32rpx;
-  background-color: white;
 }
 .txt_detail .uni_vdplayer {
   position: relative;
-  width: 100%;
-  height: 100%;
 }
 .txt_detail .uni_vdplayer .txtImg {
-  width: 100%;
   height: 900rpx;
 }
 .txt_detail .uni_vdplayer .txtImg .swiper-item {
-  width: 100%;
-  height: 100%;
   position: relative;
 }
 .txt_detail .uni_vdplayer .txtImg .swiper-item image {
@@ -26,6 +24,38 @@ page {
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
   width: 100%;
+}
+.txt_detail .uni_vdplayer .txt_rank {
+  width: 92%;
+  height: 134rpx;
+  background-color: white;
+  margin: 30rpx auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+          justify-content: space-around;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  border-radius: 39rpx;
+  box-sizing: border-box;
+}
+.txt_detail .uni_vdplayer .txt_rank .rank_item {
+  width: 33%;
+  text-align: center;
+}
+.txt_detail .uni_vdplayer .txt_rank .rank_item .num {
+  font-size: 47rpx;
+  font-weight: bold;
+}
+.txt_detail .uni_vdplayer .txt_rank .rank_item .desc {
+  font-size: 26rpx;
+  color: #cacaca;
+}
+.txt_detail .uni_vdplayer .txt_rank .rank_item:nth-child(3) {
+  border: none;
+  padding: 0;
 }
 .txt_detail .uni_vdplayer .back {
   width: 40rpx;
@@ -38,52 +68,36 @@ page {
   font-size: 45rpx;
 }
 .txt_detail .uni_vdplayer .txtMain {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 20rpx 40rpx 10rpx;
-  margin-bottom: 100rpx;
   color: black;
 }
 .txt_detail .uni_vdplayer .txtMain .head {
-  width: 100%;
   height: 100rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  -webkit-box-pack: start;
-  -webkit-justify-content: start;
-          justify-content: start;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
 }
 .txt_detail .uni_vdplayer .txtMain .head .head_box {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
 }
 .txt_detail .uni_vdplayer .txtMain .head .head_box .head_img {
   width: 60rpx;
   height: 60rpx;
   border-radius: 50%;
-  margin-right: 20rpx;
   overflow: hidden;
-}
-.txt_detail .uni_vdplayer .txtMain .head .head_box .head_img image {
-  width: 100%;
-  height: 100%;
 }
 .txt_detail .uni_vdplayer .txtMain .head ._span {
   display: inline-block;
-  background-color: red;
-  box-sizing: border-box;
-  padding: 10rpx 20rpx;
+  padding: 12rpx 20rpx;
+  border: 1px solid #ff234f;
+  color: #ff234f;
   font-size: 20rpx;
-  border-radius: 30rpx;
-  margin-left: 20rpx;
+  border-radius: 18rpx;
+  box-sizing: border-box;
 }
 .txt_detail .uni_vdplayer .txtMain .txtTitle {
   font-size: 38rpx;
@@ -105,39 +119,21 @@ page {
   margin-top: 20rpx;
   width: 100%;
   font-size: 15rpx;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  word-break: break-all;
 }
 .txt_detail .uni_vdplayer .txtMain .fans .img_list image {
   margin-right: 20rpx;
   display: inline-block;
   width: 60rpx;
   height: 60rpx;
+  border-radius: 50%;
 }
 .txt_detail .uni_vdplayer .btm {
   position: fixed;
   z-index: 20;
   bottom: 0;
   left: 0;
-  background-color: white;
-  width: 100%;
   height: 114rpx;
   border-top: 1px solid #d0d0d0;
-  box-sizing: border-box;
-  padding-left: 40rpx ;
-  padding-right: 10rpx;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-          justify-content: space-between;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
 }
 .txt_detail .uni_vdplayer .btm .le {
   background-color: #f0f0f4;
@@ -153,12 +149,6 @@ page {
   -webkit-box-pack: start;
   -webkit-justify-content: start;
           justify-content: start;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-}
-.txt_detail .uni_vdplayer .btm .le .msg .icon_num {
-  margin-top: 10rpx;
 }
 .txt_detail .uni_vdplayer .btm .le .msg .iconxie {
   font-size: 52rpx;
@@ -170,10 +160,7 @@ page {
   -webkit-box-pack: space-evenly;
   -webkit-justify-content: space-evenly;
           justify-content: space-evenly;
-  -webkit-box-align: start;
-  -webkit-align-items: flex-start;
-          align-items: flex-start;
-  width: 312rpx;
+  width: 354rpx;
 }
 .txt_detail .uni_vdplayer .btm .ri .icon {
   display: -webkit-box;
