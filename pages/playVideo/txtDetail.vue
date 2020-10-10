@@ -8,20 +8,6 @@
 				</swiper-item>
 			</swiper>
 			
-			<!-- 礼物图片 -->
-			<!-- <view class="barrage-item">
-				<image class="barrage-image" src="../../static/avatarUrl.png" mode=""></image>
-				
-				<view class="body">
-					<view class="">谁送的</view>
-					<view class="">票数增加</view>
-				</view>
-				<view class="img">
-					礼物图片
-				</view>
-			</view> -->
-			
-			
 			<!-- 滚动显示送礼物 -->
 			<sin-barrage v-if="sinBar" :list="list" :bottom="bottom" :left="left" 
 				:color="color" :background="background" :opacity="0.7" 
@@ -164,27 +150,30 @@ export default {
 			// 控制礼物弹窗的显隐
 			sinBar:true,
 			// 送礼物的数据
-			list: [{
-						id: 1,
-						image: "http://thirdwx.qlogo.cn/mmopen/vi_32/ZU1C66ckT0O8GUrhQXWV6Bak4T1e23ZDBbYNH65t1so8QUI4EzibUtPenyX2CmPOcO4p1x38ophZ3ZtTPc5yjlw/132",
-						text: '张三赠送鲜花'
-				}, {
-						id: 2,
-						image: "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTII4gjVwfYnnn08OYnQvNx6Azhd6WLAX2lRdEjy0u5VnWMlLkFdno9MiaY9RMX539IibpFCcNklk9Xw/132",
-						text: '李四赠送鲜花'
-				}, {
-						id: 3,
-						image: "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKxu6TyMBhVsj8kC6uDAicXGNuZczpiaVUsk7Wh1ianReX1ne8TGGEDVymfm4UicS21FXUQzUibV5HyP8Q/132",
-						text: '王五赠送鲜花'
-				}, {
-						id: 4,
-						image: "http://thirdwx.qlogo.cn/mmopen/vi_32/pyOZXTibxo7HOonF8yjTCicY7pA0onoHNh5V2pic6qibB7MeF5hMSBFr6SdAbmjaKZ4XMt5pQiabwSicviaiarLicBEYkyg/132",
-						text: '赵六赠送鲜花'
-				}, {
-						id: 5,
-						image: "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLY9xp1nsR6qcJoiaacjlzhQY8OndsvaVS2yd6s8OtWkkzvGk2wpibQNxbyrH4rYIJljO1Vg0ZmgbkA/132",
-						text: '钱七赠送鲜花'
-				}],
+			list: [
+				{}
+				// {
+				// 		id: 1,
+				// 		image: "http://thirdwx.qlogo.cn/mmopen/vi_32/ZU1C66ckT0O8GUrhQXWV6Bak4T1e23ZDBbYNH65t1so8QUI4EzibUtPenyX2CmPOcO4p1x38ophZ3ZtTPc5yjlw/132",
+				// 		text: '张三赠送鲜花'
+				// }, {
+				// 		id: 2,
+				// 		image: "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTII4gjVwfYnnn08OYnQvNx6Azhd6WLAX2lRdEjy0u5VnWMlLkFdno9MiaY9RMX539IibpFCcNklk9Xw/132",
+				// 		text: '李四赠送鲜花'
+				// }, {
+				// 		id: 3,
+				// 		image: "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTKxu6TyMBhVsj8kC6uDAicXGNuZczpiaVUsk7Wh1ianReX1ne8TGGEDVymfm4UicS21FXUQzUibV5HyP8Q/132",
+				// 		text: '王五赠送鲜花'
+				// }, {
+				// 		id: 4,
+				// 		image: "http://thirdwx.qlogo.cn/mmopen/vi_32/pyOZXTibxo7HOonF8yjTCicY7pA0onoHNh5V2pic6qibB7MeF5hMSBFr6SdAbmjaKZ4XMt5pQiabwSicviaiarLicBEYkyg/132",
+				// 		text: '赵六赠送鲜花'
+				// }, {
+				// 		id: 5,
+				// 		image: "http://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLY9xp1nsR6qcJoiaacjlzhQY8OndsvaVS2yd6s8OtWkkzvGk2wpibQNxbyrH4rYIJljO1Vg0ZmgbkA/132",
+				// 		text: '钱七赠送鲜花'
+				// },
+				],
 				bottom: 500,
 				left: 42,
 				color: '#FFFFFF',
@@ -244,6 +233,10 @@ export default {
 		// 根据文章的id 发起请求 获取文章的详情
 		// this.txtId = option.txtId || 6;
 		this.txtId = option.txtId;
+		
+		// 获取礼物弹幕信息
+		this.getGift(option.txtId)
+		
 		// 获取文章信息
 		this.getTxtDetail(this.txtId);
 
@@ -255,6 +248,8 @@ export default {
 			withShareTicket: true,
 			menus: ['shareAppMessage', 'shareTimeline']
 		});
+		
+		
 	},
 	onShow() {
 		// console.log('用户进行浏览', this.txtItem);
@@ -306,6 +301,16 @@ export default {
 	},
 
 	methods: {
+		// 获取礼物弹幕信息
+		getGift(articleId){
+			this.api._get(
+				`gift/article/gift/${articleId}`,{},res => {
+					console.log('获取礼物弹幕 ===>', res);
+			
+					this.list = res.data;
+				}
+			);
+		},
 		// 控制弹窗显隐
 		showSinBar(){
 			// console.log('隐藏弹窗')
@@ -646,11 +651,13 @@ export default {
 };
 </script>
 
-<style lang="less">
-	
+<style>
 	page {
 		background-color: #f8f8f8;
 	}
+</style>
+
+<style lang="less" scoped >
 	.t-icon {
 		width: 25px;
 		height: 25px;

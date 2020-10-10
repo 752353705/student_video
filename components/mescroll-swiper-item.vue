@@ -54,6 +54,12 @@ export default {
 	},
 	data() {
 		return {
+			// 与搜索相关的参数
+			title:'',
+			// 默认 不进行拼接
+			state:true,
+			
+			
 			video_src: '',
 			// 下拉
 			downOption: {
@@ -123,7 +129,7 @@ export default {
 		}
 	},
 	mounted() {
-		console.log('swiper item 进行挂载 this.uId',this.uId)
+		console.log('swiper item 进行挂载 this.uId',this.uId,this.$props.kw)
 	},
 	computed: {
 		
@@ -176,10 +182,47 @@ export default {
 					? this.getOtherTxt(page.num)
 					: this.$props.kw == 'otherUsed'
 					? this.getOtherUsed(page.num)
+					// : this.$props.kw == 'search'
+					// ? this.getSearch(this.title,page.num,this.state)
 					: ''
 			},0)
 		},
 		// 下拉加载发起请求
+		// 请求用户进行搜索的内容
+		// getSearch(title,pageNum,state){
+		// 	console.log('搜索 keyword',title)
+		// 	this.title = title
+		// 	this.state = state
+		// 	let _this = this;
+		// 	this.api._get('article/search',{
+		// 		pageNum: pageNum || 1,
+		// 		pageSize: '10',
+		// 		title:title || ''
+		// 	},(res)=>{
+		// 	console.log('请求首页的数据 成功', res);
+			
+		// 	// 判断用户是进行上拉还是进行的搜索
+		// 	if(!state){
+		// 		console.log('不拼接');
+		// 		// 默认是进行的搜索
+		// 		// _this.goods = []
+		// 		_this.goods = res.data.list
+		// 	}else {
+		// 		console.log('拼接');
+		// 		// 用户进行上拉加载新的一页
+		// 		 _this.goods = _this.goods.concat(res.data.list);
+		// 	}
+			
+		// 	// _this.goods = _this.goods.concat(res.data.list);
+		// 	// _this.goods = res.data.list
+		// 	_this.mescroll.endSuccess(res.data.list.length || 1);
+		// 	console.log('_this.goods',_this.goods);
+		// 	// 如果进行网络请求出错，则 取消当前 正在加载的 提示
+		// 	// _this.mescroll.endSuccess(1);
+		// 	})
+		// },
+		
+		
 		// 请求首页的 视频数据
 		getListVideo(pageNum) {
 			console.log('首页',pageNum)

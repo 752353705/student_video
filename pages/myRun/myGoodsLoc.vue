@@ -17,7 +17,7 @@
 								<!-- 街道号 -->
 								<view class="">{{goods_loc_msg.street_number}}</view>
 							</view>
-						<view class="iconfont iconarrow"></view>
+						<view class="iconfont iconfanhui"></view>
 					</view>
 				</view>
 				<!-- 填写具体的门牌号 -->

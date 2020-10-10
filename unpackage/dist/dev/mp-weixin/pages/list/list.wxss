@@ -1,4 +1,5 @@
 .listPage.data-v-7d5e07c6 {
+  background-color: #f5f6fa;
   box-sizing: border-box;
   padding: 0rpx 10rpx 0;
 }
@@ -14,7 +15,7 @@
   left: 0;
 }
 .listPage .searchBox .serach.data-v-7d5e07c6 {
-  background-color: #cbcbcf;
+  background-color: #f5f5f5;
   border-radius: 33rpx;
   width: 69%;
   height: 100%;
@@ -36,8 +37,14 @@
   margin-right: 13rpx;
 }
 .listPage .game_type.data-v-7d5e07c6 {
+  background-color: white;
   margin-bottom: 20rpx;
-  margin-top: 20rpx;
+  position: -webkit-sticky;
+  position: sticky;
+  margin-top: 30rpx;
+  top: 133rpx;
+  left: 0;
+  z-index: 20;
   height: 168rpx;
   box-sizing: border-box;
   padding-left: 20rpx;
@@ -53,7 +60,6 @@
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
           justify-content: space-between;
-  box-shadow: 0px 1px 10px 3px #dddddd;
 }
 .listPage .game_type .le.data-v-7d5e07c6 {
   display: -webkit-box;

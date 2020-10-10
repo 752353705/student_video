@@ -1,0 +1,63 @@
+.birth-time.data-v-7cb5d752 {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 99;
+  visibility: hidden;
+}
+.birth-time.active.data-v-7cb5d752 {
+  visibility: initial;
+}
+.birth-time.active .layout.data-v-7cb5d752 {
+  -webkit-transition-delay: 200ms;
+          transition-delay: 200ms;
+  bottom: 0;
+}
+.birth-time .layout.data-v-7cb5d752 {
+  background-color: #fff;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -500rpx;
+  height: 500rpx;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.birth-time .layout .title.data-v-7cb5d752 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  height: 90rpx;
+  padding: 0 40rpx;
+}
+.birth-time .layout .title text.data-v-7cb5d752 {
+  line-height: 90rpx;
+}
+.birth-time .layout .title .fr.data-v-7cb5d752 {
+  color: #f7224e;
+}
+.birth-time .layout .wrap.data-v-7cb5d752 {
+  height: 410rpx;
+}
+.birth-time .layout .wrap .wrap-height.data-v-7cb5d752 {
+  height: 100%;
+}
+.birth-time .layout .wrap .wrap-height .item.data-v-7cb5d752 {
+  text-align: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+}
+

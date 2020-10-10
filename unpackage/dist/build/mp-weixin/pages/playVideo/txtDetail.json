@@ -1,6 +1,7 @@
 {
   "navigationStyle": "custom",
   "usingComponents": {
+    "sin-barrage": "/components/sin-barrage/sin-barrage",
     "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
     "uni-popup": "/components/uni-popup/uni-popup",
     "user-comment": "/components/user-comment",
@@ -9,6 +10,7 @@
     "uni-popup-gifts": "/components/uni-popup/uni-popup-gifts",
     "uni-popup-recharge": "/components/uni-popup/uni-popup-recharge",
     "like-button": "/components/like-button/like-button",
-    "qrcode-poster": "/components/zhangyu-qrcode-poster/zhangyu-qrcode-poster"
+    "qrcode-poster": "/components/zhangyu-qrcode-poster/zhangyu-qrcode-poster",
+    "uni-popup-rank": "/components/uni-popup/uni-popup-rank"
   }
 }

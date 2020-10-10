@@ -9,7 +9,7 @@
 		</view>
 		
 		<!-- 赛事 类型说明 height -->
-		<view class="game_type ">
+		<view class="game_type height">
 			<view class="le">
 				<view >
 					<image class="img_box" src="" :mode="aspectFit"></image>
@@ -38,17 +38,18 @@
 		</u-notice-bar> -->
 		
 		<!-- 轮播滑动页面 -->
-		<swiper style="" :style="{height:mescroll_height}" :current="tabIndex" @change="tabChange">
-			<swiper-item :emptyOption="emptyOption" style="box-sizing: border-box;padding: 0 10rpx;" v-for="(tab,i) in tabBars" :key="i">
-				<mescroll-item :mescrollBot="mescrollBot" :videolist='videolist' 
+		<!-- <swiper style="" :style="{height:mescroll_height}" :current="tabIndex" @change="tabChange"> -->
+			<!-- <swiper-item :emptyOption="emptyOption" style="box-sizing: border-box;padding: 0 10rpx;" v-for="(tab,i) in tabBars" :key="i"> -->
+				<mescroll-item :mescrollBot="mescrollBot" 
 					:kw="kw" @showUseroperation="showUseroperation" 
 					@closeUseroperation="closeUseroperation" :waterFullHeight="mescroll_height" 
 					:i="i" :index="tabIndex" :tabs="tabBars"
-					@getListVideo="getListVideo"
+					@getListVideo="getListVideo" 
+					
 				>
 				</mescroll-item>
-			</swiper-item>
-		</swiper>
+			<!-- </swiper-item> -->
+		<!-- </swiper> -->
 	</view>
 </template>
 
@@ -65,17 +66,17 @@
 		data() {
 			return {
 				// 视频滚动区域距离底部的距离
-				mescrollBot:'96',
+				// mescrollBot:'200',
 				// 视频的数据
-				videolist:[],
+				// videolist:[],
 				// 请求数据的关键词
 				kw:"listTxt",
-				notice:[
-					'寒雨连江夜入吴',
-					'平明送客楚山孤',
-					'洛阳亲友如相问',
-					'一片冰心在玉壶'
-				],
+				// notice:[
+				// 	'寒雨连江夜入吴',
+				// 	'平明送客楚山孤',
+				// 	'洛阳亲友如相问',
+				// 	'一片冰心在玉壶'
+				// ],
 				// 空布局时自定义提示
 				emptyOption:{
 					tip:'list空布局提示'
@@ -139,8 +140,9 @@
 		methods: {
 			// 用户点击比赛跳转到大赛界面
 			goGame(){
+				console.log('跳转大赛')
 				uni.navigateTo({
-					url:'/pages/Introduction/Introductions'
+					url:'/pages/Introduction/Introduction'
 				})
 			},
 			
@@ -186,7 +188,11 @@
 </script>
 
 <style  scoped lang="less">
+	// page{
+	// 	background-color: #f5f6fa;
+	// }
 	.listPage{
+		background-color: #f5f6fa;
 		box-sizing: border-box;
 		padding: 0rpx 10rpx 0;
 		// 滚动的小喇叭
@@ -211,7 +217,7 @@
 			top: 0;
 			left: 0;
 			.serach{
-				background-color: #cbcbcf;
+				background-color: #f5f5f5;
 				border-radius: 33rpx;
 				width: 69%;
 				height: 100%;
@@ -231,8 +237,13 @@
 		
 		// 赛事分类
 		.game_type{
+			background-color: white;
 			margin-bottom: 20rpx;
-			margin-top: 20rpx;
+			position: sticky;
+			margin-top: 30rpx;
+			top: 133rpx;
+			left: 0;
+			z-index: 20;
 			// width: 99%;
 			height: 168rpx;
 			// background-color: red;
@@ -247,7 +258,7 @@
 			// 四周阴影
 			// box-shadow:0px 2px 5px 5px #dddddd;
 			
-			box-shadow:0px 1px 10px 3px #dddddd;
+			// box-shadow:0px 1px 10px 3px #dddddd;
 			
 			// box-shadow: 10px 10px 5px #dddddd;
 			

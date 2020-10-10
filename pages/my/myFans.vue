@@ -33,6 +33,10 @@
 				list:[], // 用于渲染的信息内容
 				name:'',
 				userId:'',
+				// 默认第一页进行加载
+				pageNum: 1,
+				// 判断是否有下一页
+				nextpage:false
 			};
 		},
 		onLoad(option) {
@@ -55,19 +59,36 @@
 					this.getMyFans()
 				}
 		},
+		onReachBottom(){
+			console.log('上拉加载')
+			// 当当前的数据 条数大于十条的时候，下拉到底部 重新请求数据
+			if(!this.nextpage) return;
+			if(this.userId){
+				this.getOtherFans()
+			}else{
+				this.getMyFans()
+			}
+		},
 		methods:{
 			// 获取我的粉丝列表
 			getMyFans(){
 				this.api._get(
 					'follow/fans',
 					{
-						pageNum: 1,
+						pageNum: this.pageNum,
 						pageSize: 10
 					},
 					(res) => {
 						console.log('获取我的粉丝列表 res ===>', res);
 				
-						this.list = res.data.list;
+						this.list = this.list.concat(res.data.list);
+						if (this.colSumList.length == 10) {
+							this.pageNum++;
+							this.nextpage = true
+						}else{
+							this.nextpage = false
+						}
+						
 					}
 				);
 			},
@@ -77,7 +98,7 @@
 					'follow/otherUserfans',
 					{
 						userId:this.userId,
-						pageNum: 1,
+						pageNum: this.pageNum,
 						pageSize: 10
 					},
 					(res) => {
@@ -87,9 +108,6 @@
 					}
 				);
 			},
-			
-			
-			
 			focusOn(index){
 				let _this = this
 				if(!this.list[index].followed){

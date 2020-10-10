@@ -2,6 +2,14 @@
 	<view class="pused">
 		<!-- 文章标题 -->
 		<input class="input" type="text" @input="titInput" name="title" :value="title" placeholder="标题" />
+		<!-- 文章话题 -->
+		<view class="topic" :class="topic ? 'act' : '' " @click="goTopic">
+			<view class="le">
+				<view class="tag">#</view>
+				{{topic || '参与话题'}}
+			</view>
+			<view class="iconfont iconfanhui"></view>
+		</view>
 		<view class="uni-popup-message-text">
 			<!-- 文章内容 -->
 			<textarea :show-confirm-bar="false" name="area" :value="areaVal" class="txt_area" @input="areaInput" placeholder="#输入内容" :maxlength="-1" />
@@ -48,6 +56,8 @@
 export default {
 	data() {
 		return {
+			// 用户选择的话题
+			topic:'',
 			// 用户选择的文章的封面图
 			TImg:'',
 			// 判断用户是否是要进行修改操作
@@ -77,6 +87,9 @@ export default {
 	},
 	onLoad(option) {
 		console.log('上传文章的界面  option', option);
+		// 获取发布文章的 话题
+		
+		
 		if (option.txtid) {
 			// 标记是要进行文章修改
 			this.change = true;
@@ -84,9 +97,25 @@ export default {
 			this.getTxtDetail(option.txtid);
 		}
 	},
-	onHide() {},
-	onReady() {},
+	onShow() {
+		console.log('页面显示')
+		let _this = this
+		this.$eventHub.$on('topic', function (data) {
+		 	console.log('topic '+ data);
+			_this.topic = data
+			// 监听完成之后进行取消
+			_this.$eventHub.$off('topic');
+		});
+		
+	},
 	methods: {
+		// 用户选择话题
+		goTopic(){
+			uni.navigateTo({
+				url:'/pages/publish/topic'
+			})
+		},
+		
 		// 选择封面图
 		getNtImg(){
 			let that = this
@@ -360,7 +389,34 @@ export default {
 		box-sizing: border-box;
 		padding-left: 20rpx;
 	}
-
+	// 当前文章话题
+	.topic{
+		margin-top: 20rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.le{
+			.tag{
+				display: inline-block;
+				width: 32rpx;
+				text-align: center;
+				border-radius: 50%;
+				line-height: 32rpx;
+				background-color: black;
+				color: white;
+				margin-right: 10rpx;
+			}
+		}
+		// 当用户选择好了话题之后
+		&.act{
+			.le{
+				color: #5994e2;
+				.tag{
+					background-color: #5994e2;
+				}
+			}
+		}
+	}
 	// 文章内容
 	.uni-popup-message-text {
 		width: 100%;

@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "手机号登录",
-  "usingComponents": {
-    "slider-verify": "/components/slider-verify/slider-verify"
-  }
-}

@@ -1,0 +1,89 @@
+<template>
+	<view style="position: relative;">
+		<textarea 
+			class="textarea"
+			:value="value" 
+			placeholder="有趣的个人简介会吸引更多粉丝哦" 
+			placeholder-style="color:#9c9c9c;margin-left:20rpx"
+			maxlength="60"
+			@input="input"
+			>
+			<!-- 最多的字数 -->
+		</textarea>
+			<view class="num">{{num}}/60</view>
+			
+		<!-- 保存按钮 -->	
+		<view class="btn" @click="submit">
+			保存
+		</view>
+			
+	</view>
+</template>
+
+<script>
+	export default {
+		data(){
+			return {
+				value:'',
+				num:0
+			}
+		},
+		onLoad(option) {
+			this.value = option.personalProfile
+		},
+		methods:{
+			// 用户输入 简介
+			input(e){
+				// console.log('e',e)
+				this.value = e.detail.value
+				this.num = e.detail.cursor
+			},
+			// 用户进行提交
+			submit(){
+				console.log('提交')
+				this.api._put('user',{
+					personalProfile:this.value
+				},(res)=>{
+					uni.navigateBack({
+						delta:1
+					})
+				})
+			}
+		},
+	}
+</script>
+
+<style>
+	page{
+		background-color: #f5f5f5;
+	}
+</style>
+
+<style lang="less" scoped>
+	.textarea{
+		padding-left: 20rpx;
+		padding-top: 20rpx;
+		padding-right: 20rpx;
+		padding-bottom: 20rpx;
+		background-color: white;
+		border-radius: 30rpx;
+		margin: 80rpx auto;
+		
+		
+	}
+	.num{
+		position: absolute;
+		bottom:187rpx;
+		right: 75rpx;
+		color: #9c9c9c;
+	}
+	.btn{
+		width: 67%;
+		line-height: 91rpx;
+		text-align: center;
+		color: white;
+		background-color: #ff2440;
+		margin: 20rpx auto;
+		border-radius: 30rpx;
+	}
+</style>

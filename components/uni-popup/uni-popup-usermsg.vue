@@ -110,7 +110,7 @@ export default {
 		setTimeout(()=>{
 			this.current = parseInt(this.$props.userInfo.gender || 1 ) - 1 
 		},0)
-		// this.current = parseInt(this.$props.userInfo.gender || 1 ) - 1
+		// this.current = parseInt(this.$props.userInfo.gender)
 	},
 	onReady() {},
 	methods: {
@@ -142,12 +142,12 @@ export default {
 			// 调用提交个人资料的 接口，成功之后，关闭弹窗
 			this.api._put(`user?gender=${val.gender}&userName=${val.name}&schoolName=${val.school}&personalProfile=${val.area}`, {}, function(res) {
 				console.log('用户上传简介', res);
+				_this.$emit('closeUsermsg');
 				uni.showToast({
 					icon: 'none',
 					title: '修改信息成功',
 					success() {
-						// 关闭弹窗
-						_this.$emit('closeUsermsg');
+						
 					}
 				});
 			});

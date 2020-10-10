@@ -8,7 +8,7 @@ let token = wx.getStorageSync('token') || ''
 
 // 本地
 // let api_root = 'http://lvpeng.free.qydev.com/wx/'
-let api_root = 'http://192.168.0.102:8082/wx/'
+let api_root = 'http://192.168.0.103:8082/wx/'
 // let api_root = 'http://172.20.10.4:8082/wx/'
 
 // 'https://xsh.taihangyizhan.com/wx/'
@@ -56,22 +56,8 @@ function _get(url, data, success, fail, complete) {
 			if (res.data.errno === 501) {
 				complete()
 				
-				uni.showModal({
-					title: '友情提示',
-					content: res.data.errmsg,
-					success: function(res) {
-						if (res.confirm) {
-							// 跳转到用户的登录界面
-							uni.navigateTo({
-								url: "/pages/login/login"
-							})
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-							// uni.navigateBack({
-							// 	delta: 1
-							// })
-						}
-					}
+				uni.navigateTo({
+					url: "/pages/login/login"
 				})
 				return false;
 			}
@@ -129,24 +115,8 @@ function _post(url, data, success, fail, complete) {
 
 			// 如果用户登录状态失效
 			if (res.data.errno == 501) {
-				uni.showModal({
-					title: '友情提示',
-					content: res.data.errmsg,
-					success: function(res) {
-						if (res.confirm) {
-							// 跳转到用户的登录界面
-							uni.navigateTo({
-								url: "/pages/login/login"
-							})
-
-
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-							// uni.navigateBack({
-							// 	delta: 1
-							// })
-						}
-					}
+				uni.navigateTo({
+					url: "/pages/login/login"
 				})
 				return false
 			}
@@ -221,24 +191,8 @@ function _put(url, data, success, fail, complete) {
 
 			// 如果用户登录状态失效
 			if (res.data.errno == 501) {
-				uni.showModal({
-					title: '友情提示',
-					content: res.data.errmsg,
-					success: function(res) {
-						if (res.confirm) {
-							// 跳转到用户的登录界面
-							uni.navigateTo({
-								url: "/pages/login/login"
-							})
-
-
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-							// uni.navigateBack({
-							// 	delta: 1
-							// })
-						}
-					}
+				uni.navigateTo({
+					url: "/pages/login/login"
 				})
 				return false
 			}
@@ -310,23 +264,10 @@ export const _del = function(url, data, success, fail, complete) {
 
 			// 如果用户登录状态失效
 			if (res.data.errno == 501) {
-				uni.showModal({
-					title: '友情提示',
-					content: res.data.errmsg,
-					success: function(res) {
-						if (res.confirm) {
-							// 跳转到用户的登录界面
-							uni.navigateTo({
-								url: "/pages/login/login"
-							})
-						} else if (res.cancel) {
-							console.log('用户点击取消');
-							// uni.navigateBack({
-							// 	delta: 1
-							// })
-						}
-					}
+				uni.navigateTo({
+					url: "/pages/login/login"
 				})
+				
 				return false
 			}
 			// 出现其他的问题

@@ -1,22 +1,18 @@
 <template>
 	<view class="container">
 		<view class="wechatapp login">
-			<open-data class="app-img" type="userAvatarUrl"></open-data>
-			<open-data class="app-title" type="userNickName"></open-data>
+			<view class="app-img">
+				<image src="/static/logo.png"></image>
+			</view>
+			<view class="app-title">帮小驴儿</view>
 		</view>
-		<view class="auth-title">该程序将获得以下授权：</view>
-		<view class="auth-subtitle">·获得您的公开信息（昵称、头像等）</view>
 			<button class="btn login_wei" openType="getPhoneNumber"
 				lang="zh_CN" 
 				@getphonenumber="getPhone"
 			>
 				微信登录
 			</button>
-		<!-- 	<button class="btn login_phone" @click="goPhoneLogin"
-			>
-				手机号登录/注册
-			</button> -->
-		
+			
 	</view>
 </template>
 
@@ -24,53 +20,34 @@
 export default {
 	data() {
 		return {
-			phone: '点击获取手机号',
-			telStatus: false,
-			invite: false,
-			telStatus: false,
-			// login: true,
-			toast: false,
-			appid: '',
-			secret: '',
-			code: '',
-			sessionKey: '',
-			openId: '',
-			userInfo: {},
-			pageOption: {}
+			
 		};
 	},
 	methods: {
-		// 进行账号登录
-		goPhoneLogin(){
-			uni.navigateTo({
-				url:"/pages/reg/reg"
-			})
-		},
 		// 获取手机号
 		getPhone(e) {
 			console.log('获取用户的手机号',e)
-			
-			// uni.showLoading({
-			// 	title: '登录中..',
-			// 	mask: true
-			// })
+			let _this = this 
+			uni.showLoading({
+				title: '登录中..',
+				mask: true
+			})
 			// console.log('登录e',_this.userInfo)
 			  if (e.detail.encryptedData){
-			
 					// 发起请求然后 跳转到 首页
-					// app.com.post('wx/user/loginByPhone',{
-					// 	encryptedData:e.detail.encryptedData,
-					// 	iv:e.detail.iv
-					// },function(res){
-					// 	uni.hideLoading();
-					// 	console.log('获取信息成功',res)
-					// 	 // 将手机号进行本地存储
-					// 	uni.setStorageSync('user_phone', res.data.phone);
-					// 	// 然后进行跳转
-					// 	uni.navigateBack({
-					// 		delta:2
-					// 	})
-					// })
+					_this.api._post('auth/loginByPhone',{
+						encryptedData:e.detail.encryptedData,
+						iv:e.detail.iv
+					},function(res){
+						uni.hideLoading();
+						console.log('获取信息成功',res)
+						 // 将手机号进行本地存储
+						uni.setStorageSync('user_phone', res.data.phone);
+						// 然后进行跳转
+						uni.navigateBack({
+							delta:1
+						})
+					})
 				}
 		},
 	},
@@ -83,7 +60,6 @@ export default {
 </script>
 
 <style lang="less">
-
 .container {
 	padding: 0 86rpx;
 	.wechatapp {
@@ -95,6 +71,10 @@ export default {
 			height: 138rpx;
 			border-radius: 20rpx;
 			margin: auto;
+			image{
+				width: 100%;
+				height: 100%;
+			}
 		}
 		.app-title {
 			display: block;
@@ -105,14 +85,9 @@ export default {
 		}
 	}
 	.wechatapp.login {
-		padding: 87rpx 0 68rpx;
+		padding: 87rpx 0 200rpx;
 		margin-bottom: 100rpx;
-		border-bottom: 0.5rpx solid #dfdfdf;
 	}
-	
-	
-	
-	
 }
 
 .control {
@@ -157,18 +132,4 @@ export default {
 	display: none;
 }
 
-/* login */
-
-.auth-title {
-	margin-bottom: 20rpx;
-	line-height: 1;
-	color: #333;
-	font-size: 30rpx;
-}
-
-.auth-subtitle {
-	font-size: 30rpx;
-	line-height: 1;
-	color: #999;
-}
 </style>

@@ -1,0 +1,1 @@
+<block wx:if="{{show}}"><view class="{{['min-popup data-v-186271e8',isShow?'min-show':'min-hide']}}"><view data-event-opts="{{[['tap',[['close',['$event']]]]]}}" class="min-overlay data-v-186271e8" bindtap="__e"></view><view class="{{['data-v-186271e8',size?'min-content-'+size:'min-content']}}"><slot></slot></view></view></block>

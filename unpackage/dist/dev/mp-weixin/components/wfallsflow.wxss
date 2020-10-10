@@ -26,6 +26,7 @@
 }
 .list-container .list .item.data-v-0450caea {
   margin-bottom: 18rpx;
+  background-color: white;
 }
 .list-container .list .item image.data-v-0450caea {
   display: block;
@@ -34,6 +35,7 @@
 .list-container .list .item .introduction.data-v-0450caea {
   box-sizing: border-box;
   padding: 5rpx 20rpx;
+  color: black;
   display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -1,0 +1,34 @@
+.my_data .user_img.data-v-2c0e1d06 {
+  width: 162rpx;
+  height: 162rpx;
+  margin: 80rpx auto;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.my_data .user_img image.data-v-2c0e1d06 {
+  width: 100%;
+  height: 100%;
+}
+.my_data .msg_box.data-v-2c0e1d06 {
+  box-sizing: border-box;
+  padding-left: 44rpx;
+  padding-right: 44rpx;
+}
+.my_data .msg_box .item.data-v-2c0e1d06 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  border-bottom: 1rpx solid #e6e6e6;
+  padding-top: 37rpx;
+  padding-bottom: 44rpx;
+}
+.my_data .msg_box .item.data-v-2c0e1d06:last-child {
+  border: none;
+}
+

@@ -1,0 +1,30 @@
+
+page{
+	background-color: #f5f5f5;
+}
+
+.textarea.data-v-226fc976 {
+  padding-left: 20rpx;
+  padding-top: 20rpx;
+  padding-right: 20rpx;
+  padding-bottom: 20rpx;
+  background-color: white;
+  border-radius: 30rpx;
+  margin: 80rpx auto;
+}
+.num.data-v-226fc976 {
+  position: absolute;
+  bottom: 187rpx;
+  right: 75rpx;
+  color: #9c9c9c;
+}
+.btn.data-v-226fc976 {
+  width: 67%;
+  line-height: 91rpx;
+  text-align: center;
+  color: white;
+  background-color: #ff2440;
+  margin: 20rpx auto;
+  border-radius: 30rpx;
+}
+

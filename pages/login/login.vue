@@ -1,22 +1,23 @@
 <template>
 	<view class="container">
 		<view class="wechatapp login">
-			<open-data class="app-img" type="userAvatarUrl"></open-data>
-			<open-data class="app-title" type="userNickName"></open-data>
+			<view class="app-img">
+				<image src="/static/logo.png"></image>
+			</view>
+			<view class="app-title">帮小驴儿</view>
 		</view>
-		<view class="auth-title">该程序将获得以下授权：</view>
-		<view class="auth-subtitle">·获得您的公开信息（昵称、头像等）</view>
+		<view class="auth-title">请完成微信授权以继续使用</view>
 			<button class="btn login_wei" openType="getUserInfo"
 				lang="zh_CN" 
 				@getuserinfo="login"
 			>
 				微信授权用户信息
 			</button>
-		<!-- 	<button class="btn login_phone" @click="goPhoneLogin"
-			>
-				手机号登录/注册
-			</button> -->
-		
+			
+			<view class="rule">
+				登录代表您已同意
+				<text style="color: #f83f20;">小驴帮儿用户协议、隐私协议</text>
+			</view>
 	</view>
 </template>
 
@@ -24,28 +25,10 @@
 export default {
 	data() {
 		return {
-			phone: '点击获取手机号',
-			telStatus: false,
-			invite: false,
-			telStatus: false,
-			// login: true,
-			toast: false,
-			appid: '',
-			secret: '',
-			code: '',
-			sessionKey: '',
-			openId: '',
-			userInfo: {},
-			pageOption: {}
+			
 		};
 	},
 	methods: {
-		// 进行账号登录
-		goPhoneLogin(){
-			uni.navigateTo({
-				url:"/pages/reg/reg"
-			})
-		},
 		// 微信登录
 		login(e) {
 			console.log('登录e 个人信息',e.detail.userInfo)
@@ -63,49 +46,28 @@ export default {
 						// 获取用户的  code
 						console.log('loginRes',loginRes)
 						// 进行post请求
-						_this.api._post("auth/loginByWeixin",{
+						_this.api._post("auth/login",{
 							"code":loginRes.code,
-							"userInfo":e.detail.userInfo,
+							"user":e.detail.userInfo,
 						},function(res){
 							console.log('login 微信登录 发送post请求',res);
-							uni.setStorageSync('user_name', res.data.nickName);
-							uni.setStorageSync('user_img', res.data.avatarUrl);
+							// uni.setStorageSync('user_name', res.data.userName);
+							// uni.setStorageSync('user_img', res.data.avatarUrl);
 							uni.setStorageSync('token', res.data.token);
 							
 							uni.hideLoading()
 							// 请求成功之后跳转到我的界面
 							if(!res.data.phone){
-								uni.navigateTo({
+								uni.redirectTo({
 									url:'/pages/login/secLogin'
+								})
+							}else {
+								uni.setStorageSync('user_phone', res.data.phone);
+								uni.navigateBack({
+									delta:1
 								})
 							}
 						})
-						
-						
-						
-						// console.log('login获取code',loginRes.code)
-						// wx.setStorageSync('code', loginRes.code);
-						// let _this.code = loginRes.code
-						// // 获取用户信息
-						// uni.getUserInfo({
-						// 	provider: 'weixin',
-						// 	success: function (infoRes) {
-						// 		console.log('用户信息', infoRes.userInfo);
-						// 		wx.setStorageSync('userInfo', infoRes.userInfo);
-								
-								
-								
-						// 		// uni.navigateBack({
-						// 		// 	delta: 1
-						// 		// })
-								
-							
-								
-						// 	},
-						// 	fail:function(err){
-						// 		console.log('获取用户信息失败 err',err)
-						// 	}
-						// });
 					},
 					fail: () => {
 						uni.showToast({ title: '获取信息失败', icon: 'none' });
@@ -136,6 +98,10 @@ export default {
 			height: 138rpx;
 			border-radius: 20rpx;
 			margin: auto;
+			image{
+				width: 100%;
+				height: 100%;
+			}
 		}
 		.app-title {
 			display: block;
@@ -146,14 +112,9 @@ export default {
 		}
 	}
 	.wechatapp.login {
-		padding: 87rpx 0 68rpx;
+		padding: 87rpx 0 150rpx;
 		margin-bottom: 100rpx;
-		border-bottom: 0.5rpx solid #dfdfdf;
 	}
-	
-	
-	
-	
 }
 
 .control {
@@ -166,8 +127,7 @@ export default {
 	flex: 1;
 	height: 80rpx;
 	padding: 0;
-	margin-top: 68rpx;
-	border-radius: 40rpx;
+	border-radius: 20rpx;
 	line-height: 80rpx;
 	text-align: center;
 	font-size: 32rpx;
@@ -180,36 +140,26 @@ export default {
 }
 
 .btn.login_wei {
-	margin-top: 83rpx;
 	margin-right: 0;
 	color: white;
 	border: none;
-	background: #f83f20;
-}
-.btn.login_phone {
-	margin-top: 72rpx;
-	margin-right: 0;
-	color: white;
-	border: none;
-	background: #838180;
+	background: #26c81f;
 }
 
 .btn.login::after {
 	display: none;
 }
 
-/* login */
-
 .auth-title {
-	margin-bottom: 20rpx;
+	text-align: center;
+	margin-bottom: 30rpx;
 	line-height: 1;
-	color: #333;
+	color: #696b7c;
 	font-size: 30rpx;
 }
-
-.auth-subtitle {
-	font-size: 30rpx;
-	line-height: 1;
-	color: #999;
+.rule{
+	position: fixed;
+	bottom: 60rpx;
+	text-align: center;
 }
 </style>

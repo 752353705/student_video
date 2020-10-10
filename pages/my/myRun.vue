@@ -43,7 +43,7 @@
 				</view>
 				<view class="right">
 					<text>{{ goodsmsg }}</text>
-					<text class="iconfont iconarrow"></text>
+					<text class="iconfont iconfanhui"></text>
 				</view>
 			</view>
 			<!-- 送货详情 -->
@@ -69,7 +69,7 @@
 						<view style="font-size: 17px;">订单金额</view>
 						<view class="rl">
 							<view class="">暂无可用优惠券</view>
-							<text class="iconfont iconarrow"></text>
+							<text class="iconfont iconfanhui"></text>
 						</view>
 					</view>
 				</view>
@@ -79,7 +79,7 @@
 						<view style="font-size: 17px;">订单保价</view>
 						<view class="rl">
 							<text class="">贵重物品建议保价</text>
-							<text class="iconfont iconarrow"></text>
+							<text class="iconfont iconfanhui"></text>
 						</view>
 					</view>
 				</view>
@@ -89,7 +89,7 @@
 						<view style="font-size: 17px;">订单备注</view>
 						<view class="rl">
 							<view class="">备注说点什么</view>
-							<text class="iconfont iconarrow"></text>
+							<text class="iconfont iconfanhui"></text>
 						</view>
 					</view>
 				</view>

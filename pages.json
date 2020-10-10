@@ -7,8 +7,18 @@
 		{
 			"path": "pages/Introduction/Introduction",
 			"style": {
-				// "navigationStyle": "custom"
-				"navigationBarTitleText" : "大赛简介"
+				"navigationStyle": "custom",
+				// "navigationBarTitleText" : "大赛简介",
+				// "navigationBarBackgroundColor":"#0e171e",
+				"navigationBarTextStyle":"white"
+			}
+		},
+		{
+			"path": "pages/Introduction/gameDetail",
+			"style": {
+				// "navigationBarTitleText" : "大赛简介",
+				"navigationBarBackgroundColor":"#0a121b",
+				"navigationBarTextStyle":"white"
 			}
 		},
 		{
@@ -30,12 +40,6 @@
 			"path": "pages/find/find",
 			"style": {
 				"navigationBarTitleText": "搜索"
-			}
-		},
-		{
-			"path": "pages/reg/reg",
-			"style": {
-				"navigationBarTitleText": "手机号登录"
 			}
 		},
 		// {
@@ -68,12 +72,57 @@
 			}
 		}, {
 			"path": "pages/author/author",
-			"style": {}
+			"style": {
+				"navigationStyle": "custom"
+			}
 		},
 		{
 			"path": "pages/my/my",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationStyle": "custom"
+				// "navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/myData/myData",
+			"style": {
+				"navigationBarTitleText": "编辑资料"
+			}
+		},
+		{
+			"path": "pages/myData/myIntroduction",
+			"style": {
+				"navigationBarTitleText": "修改个人简介"
+			}
+		},
+		{
+			"path": "pages/myData/myName",
+			"style": {
+				"navigationBarTitleText": "修改名字"
+			}
+		},	
+		{
+			"path": "pages/myData/myGender",
+			"style": {
+				"navigationBarTitleText": "修改性别"
+			}
+		},
+		{
+			"path": "pages/myData/myBirthday",
+			"style": {
+				"navigationBarTitleText": "修改生日"
+			}
+		},
+		{
+			"path": "pages/my/myWallet",
+			"style": {
+				"navigationBarTitleText": "我的钱包"
+			}
+		},
+		{
+			"path": "pages/my/setting",
+			"style": {
+				"navigationBarTitleText": "设置"
 			}
 		},
 		{
@@ -95,19 +144,19 @@
 		{
 			"path": "pages/my/myCollection",
 			"style": {
-				"navigationBarTitleText": "我的收藏",
-				"enablePullDownRefresh":true
+				"navigationBarTitleText": "我的收藏"
+				// "enablePullDownRefresh":true
 			}
 		},{
 			"path": "pages/my/myHistory",
 			"style": {
-				"navigationBarTitleText": "浏览记录",
-				"enablePullDownRefresh":true
+				"navigationBarTitleText": "浏览记录"
+				// "enablePullDownRefresh":true
 			}
 		},{
 			"path": "pages/my/myConsumption",
 			"style": {
-				"navigationBarTitleText": "消费记录"
+				"navigationBarTitleText": "金币明细"
 			}
 		},
 		// {
@@ -164,22 +213,10 @@
 		// 	"path": "pages/findList/findList",
 		// 	"style": {}
 		// },
-		{
-			"path": "pages/publish/publish",
-			"style": {}
-		}, 
-		{
-			"path": "pages/seekWord/seekWord",
-			"style": {
-				"navigationBarTitleText": "密码重置"
-			}
-		}, 
-		{
-			"path": "pages/signIn/signIn",
-			"style": {
-				"navigationBarTitleText": "注册"
-			}
-		},
+		// {
+		// 	"path": "pages/publish/publish",
+		// 	"style": {}
+		// }, 
 		// {
 		// 	"path": "pages/shopClassify/shopClassify",
 		// 	"style": {
@@ -274,6 +311,11 @@
 			"path": "pages/publish/publishVideo",
 			"style": {
 				"navigationBarTitleText": "发布视频"
+			}
+		},{
+			"path": "pages/publish/topic",
+			"style": {
+				"navigationBarTitleText": "更多话题"
 			}
 		}, {
 			"path": "pages/publish/publishNotice",

@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "消费记录",
+  "navigationBarTitleText": "金币明细",
   "usingComponents": {
     "swiper-tab-head": "/components/swiper-tab-head"
   }

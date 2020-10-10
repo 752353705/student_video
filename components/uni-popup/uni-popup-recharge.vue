@@ -49,13 +49,7 @@ export default {
 		};
 	},
 	created() {
-		// let _this = this
-		// this.api._get(
-		// 'user/info',{},function(res){
-		// 	console.log('获取用户当前的 H币',res)
-		// 	_this.money = res.data.hgold
-		// 	_this.userId = res.data.userId
-		// })
+		
 	},
 	methods: {
 		addmoney(index){

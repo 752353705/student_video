@@ -1,102 +1,78 @@
 <template>
 	<view>
 		<view class="my box-boder">
-			<!-- 头部 -->
-			<view class="head pa-t20 pa-r40 pa-b20 pa-l40 height box-boder">
-				<view class="userImg " @click="jump">
-					<image class="w-100 h-100"  :src="user_img" mode=""></image>
-				</view>
-				<view class="right ma-l30">
-					<view class="right_uname item-end ma-l20" >
-						<view class="user_name ma-r20" @click="jump">
-							{{user_name || '昵称' }}
-						</view>
-						<button v-if="!userInfo.phone" type="default" hover-class="none" open-type="getPhoneNumber" @getphonenumber="decryptPhoneNumber">绑定手机号</button>
-						<view v-else style="color:#838383 ;" >已绑定</view>
+			<view class="height" style="background-image: linear-gradient(to bottom, #192936, #786f68);height: 257px;" >
+				<!-- 头部 -->
+				<view class="head pa-r40 pa-b20 pa-l40  box-boder">
+					<view class="userImg " @click="jump">
+						<image class="w-100 h-100"  :src="userInfo.avatarUrl || '/static/avatarUrl.png'" mode=""></image>
 					</view>
-					<view class="box ma-t10 item-center">
-						<!-- 关注 -->
+					<view class="right ma-l10">
+						<view class="right_uname item-end ma-l20" >
+							<view class="user_name ma-r20" @click="jump">
+								{{userInfo.userName || '昵称' }}
+							</view>
+						</view>
+						<view class="box">
+							<view class="code">{{user_phone.slice(0,3)}}****{{user_phone.slice(7)}}</view>
+							<view class="location">
+								<view class="t-icon" :class=" userInfo.gender == 2 ?  'iconbianzu' : 'iconziyuan' ">
+								</view>
+								<view class="province">{{userInfo.province}}</view>
+								<view class="city">{{userInfo.city}}</view>
+							</view>
+							<!-- 签到显示 v-if="showsigin" -->
+							<view  class="sigin item-center" @click="sigin">
+								<image class="ma-r10" src="../../static/sigin.png" mode=""></image>
+								签到
+								<text class="iconfont iconfanhui" ></text>
+							</view>
+						</view>
+					</view>
+				</view>
+				<!-- 用户自己的简介 -->
+				<view class="desc box-boder pa-l40">
+					{{userInfo.personalProfile || ''}}
+				</view>
+				<!-- 关注收藏 -->
+				<view class="box-thr ma-t10 item-center">
+					<!-- 关注 -->
+					<view class="le">
 						<view class="focus t_c" @click="goFans(1)">
-							<view class="">{{focusNum}}</view>
+							<view class="">{{userInfo.fansNumber || 0}}</view>
 							<view class="">关注</view>
 						</view>
 						<!-- 粉丝 -->
 						<view class="fans t_c" @click="goFans(2)">
-							<view class="">{{fansNum}}</view>
+							<view class="">{{userInfo.followedNumber || 0}}</view>
 							<view class="">粉丝</view>
 						</view>
 						<!-- 获赞与收藏 -->
 						<view class="collection t_c">
-							<view class="">{{userInfo.likes}}</view>
-							<view class="">获赞与收藏</view>
+							<view class="">{{userInfo.likedNumber || 0}}</view>
+							<view class="">获赞</view>
 						</view>
-						<!-- 消息通知 -->
-					<!-- 	<view style="position: relative;" >
-							<view class="iconfont iconxinxiduanxinxiaoxitixingyoujiansixinyouxiang" @tap="goChart" ></view>
-							未读消息提示
-							<u-badge v-if="showbadge" count="10" :offset="off" size="mini" />
-						</view> -->
-						<!-- 签到显示 v-if="showsigin" -->
-						<view  class="sigin item-center" @click="sigin">
-							<image class="ma-r10" src="../../static/sigin.png" mode=""></image>
-							签到
-							<text class="iconfont iconfanhui" ></text>
-						</view>
-						
 					</view>
+					<!-- 设置按钮 -->
+					<view @click="goSetting" class="ri iconfont iconicon-test"></view>
 				</view>
 			</view>
-		
-		  <!-- 展示框 -->
-			<view class="content height box-boder">
-		    <view class="list wrap w-100 box-boder">
-		      <view 
-						v-for="(item,index) in useList" 
-						:key="index"
-						@click="open(index)"
-						class="list_item panel-center item-center box-boder" 
-					>
-						<view class="left_icon">
-							 <text class="t-icon" :class="item.icon"  ></text>
-						</view>
-					
-						<view>
-							<text v-if="index !== 1">{{item.txt}}</text>
-							<text v-else>{{userInfo.hgold || '0' }}H</text>
-						</view>
-		      </view>
-		    </view>
+			<view :style="{height:swiper_height}" style="border-radius:30rpx 30rpx 0 0;overflow: hidden;box-sizing: border-box;padding: 0px 5px;background-color: #f5f5f5;" >
+				<!-- 分类展示头 -->
+				<swiperTabHead class="height" :flex="false" :tabBars="tabBars" 
+					:tabIndex="tabIndex" @tabtap="tabtap"
+					></swiperTabHead>
+				<!-- <swiper :style="{height:swiper_height}" style="background-color: white;" :current="tabIndex" @change="tabChange"> -->
+					<!-- <swiper-item style="box-sizing: border-box;padding: 7px 5px;" v-for="(tab,i) in tabBars" :key="i"> -->
+						<mescroll-item  :waterFullHeight="swiper_height" :i="i" 
+							:index="tabIndex" :tabs="tabBars"
+							@showUseroperation="showUseroperation"
+							:kw="kw"
+							></mescroll-item>
+					<!-- </swiper-item> -->
+				<!-- </swiper> -->
 			</view>
-			
-			<!-- 分类展示头 -->
-			<swiperTabHead :flex="true" :tabBars="tabBars" 
-				:tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
-	
-			
-			<swiper :style="{height:swiper_height}" :current="tabIndex" @change="tabChange">
-				<swiper-item style="box-sizing: border-box;padding: 7px 5px;" v-for="(tab,i) in tabBars" :key="i">
-					<mescroll-item :waterFullHeight="swiper_height" :i="i" 
-						:index="tabIndex" :tabs="tabBars"
-						@showUseroperation="showUseroperation"
-						
-						:kw="kw"
-						></mescroll-item>
-				</swiper-item>
-			</swiper>
-			
-			
 		</view>
-		<!-- 个人资料填写的弹出框 -->
-		<uni-popup class="pop" animation="false" ref="popup_user" type="center" mask-click="false">
-			<uni-popup-usermsg type="success"  message="成功消息" 
-				duration="0" :userInfo="userInfo"
-				@closeUsermsg="closeUsermsg"
-				/>
-		<!-- 	<view class="imgBox">
-				<image class="img" src="/static/close.png" mode="" @click="close"></image>
-			</view> -->
-		</uni-popup>
-		
 		<!-- 用于进行用户操作的弹出框 -->
 		<uni-popup  class="pop" animation="false" ref="popup_useoperation" type="00" mask-click="false">
 			<uni-popup-useoperation :opertop="opertop" 
@@ -112,12 +88,8 @@
 <script>
 	import MescrollItem from "@/components/mescroll-swiper-item.vue";
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
-	
-	// 上传个人资料的弹框
-	import uniPopupUsermsg from '@/components/uni-popup/uni-popup-usermsg.vue'
 	//操作 修改个人的  文章
 	import uniPopupUseoperation from '@/components/uni-popup/uni-popup-useoperation.vue'
-	
 	// 引入tabHead 切换
 	import swiperTabHead from "@/components/swiper-tab-head.vue";
 	const app = getApp()
@@ -127,10 +99,13 @@
 			return {
 				// 是否显示签到
 				showsigin:false,
-				
+				// 视频滚动区域距离底部的距离
+				mescrollBot:'200',
 				// 用户的基本信息
 				userInfo:{
-					likes:0
+					likes:0,
+					gender:0, 
+					personalProfile:'',
 				},
 				// 控制显示未读消息数的位置
 				off: [0, -6],
@@ -151,34 +126,43 @@
 				kw:"myTxt",
 				// 个人展示
 				act:0,
-				useList:[
-					{icon:"icongerenziliao",txt:'个人资料'},
-					{icon:"iconyue",txt:'我的H币'},
-					{icon:"iconchongzhi",txt:'充值'},
-					{icon:"icontuichudenglu",txt:'退出登录'},
-					{icon:"iconshoucang2",txt:'我的收藏'},
-					{icon:"icont-icon-test-copy",txt:'浏览记录'},
-					// {icon:"iconpaotuibeifen",txt:'跑腿'},
-				],
-				tic_num:0,
 				// 用户信息显示
-				user_img:'', //用户头像
-				user_name:'',//用户名
+				// user_img:'', //用户头像
+				// user_name:'',//用户名
 				user_phone:'', //用户手机
-				fansNum:0, //用户粉丝数
-				focusNum:0 //用户关注数
+				// fansNum:0, //用户粉丝数
+				// focusNum:0 //用户关注数
 			};
 		},
 		components:{
 			// uniPopupSigin,
 			swiperTabHead,
 			MescrollItem,
-			uniPopupUsermsg,
+			
 			uniPopupUseoperation
 		},
 		onLoad(){
-			this.swiper_height = uni.getSystemInfoSync().windowHeight + 'px'
+			let height = 0
 			let _this = this
+			this.swiper_height = uni.getSystemInfoSync().windowHeight - 20 + 'px'
+			// uni.getSystemInfo({
+			// 	success(res) {
+			// 			_this.phoneHeight = res.windowHeight; //获取用户设备的高度
+			// 			console.log('用户的设备高度',res.windowHeight);
+			// 			// 计算组件的高度
+			// 			let view = uni.createSelectorQuery().selectAll('.height');
+			// 			view.boundingClientRect(data => {
+			// 				// 计算上方各元素的高度总和
+			// 				data.forEach((item,index) => {
+			// 					// console.log('item',item.height)
+			// 					height += parseInt(item.height)
+			// 				})
+			// 					_this.swiper_height =  _this.phoneHeight - height ;
+			// 					_this.swiper_height =  _this.swiper_height + 30 +"px";
+			// 			}).exec();
+			// 	}
+			// });
+			
 			console.log('我的页面')
 			uni.showLoading({
 			   title: '加载中'
@@ -194,17 +178,17 @@
 			// this.$refs.popup_sigin.open()
 			let _this = this 
 			// 获取用户名
-			this.user_name = uni.getStorageSync('user_name')
+			// this.user_name = uni.getStorageSync('user_name')
 			// 获取头像
-			this.user_img = uni.getStorageSync('user_img') || '/static/avatarUrl.png'
+			// this.user_img = uni.getStorageSync('user_img') || '/static/avatarUrl.png'
 			// 获取用户手机
 			this.user_phone = uni.getStorageSync('user_phone')
 			//获取当前用户的 H 币数量
 			this.getUsInfo()
 			// 获取关注人数
-			this.getFocusNum()
+			// this.getFocusNum()
 			// 获取粉丝人数
-			this.getFansNum()
+			// this.getFansNum()
 			// 如果用户已经进行了登陆则显示签到图标
 			if(uni.getStorageSync('token')){
 				this.showsigin = true
@@ -218,6 +202,13 @@
 			this.$refs.popup_useoperation.close()
 		},
 		methods:{
+			// 跳转到设置界面
+			goSetting(){
+				uni.navigateTo({
+					url:'/pages/my/setting'
+				})
+			},
+			
 			// 获取用户的个人信息
 			getUsInfo(){
 				if(uni.getStorageSync('token')){
@@ -230,27 +221,27 @@
 				}
 			},
 			// 获取用户的粉丝人数 getFansNum
-			getFansNum(){
-				if(uni.getStorageSync('token')){
-					// 如果用户进行了登录操作，获取用户的个人信息
-					this.api._get(
-					'follow/fansCount',{},(res)=>{
-						console.log('获取用户当前的 粉丝数量',res)
-						this.fansNum = res.data || '0'
-					})
-				}
-			},
+			// getFansNum(){
+			// 	if(uni.getStorageSync('token')){
+			// 		// 如果用户进行了登录操作，获取用户的个人信息
+			// 		this.api._get(
+			// 		'follow/fansCount',{},(res)=>{
+			// 			console.log('获取用户当前的 粉丝数量',res)
+			// 			this.fansNum = res.data || '0'
+			// 		})
+			// 	}
+			// },
 			// 获取当前用户关注数量
-			getFocusNum(){
-				if(uni.getStorageSync('token')){
-					// 如果用户进行了登录操作，获取用户的个人信息
-					this.api._get(
-					'follow/followedCount',{},(res)=>{
-						console.log('获取用户当前的 关注人数',res)
-						this.focusNum = res.data || 0
-					})
-				}
-			},
+			// getFocusNum(){
+			// 	if(uni.getStorageSync('token')){
+			// 		// 如果用户进行了登录操作，获取用户的个人信息
+			// 		this.api._get(
+			// 		'follow/followedCount',{},(res)=>{
+			// 			console.log('获取用户当前的 关注人数',res)
+			// 			this.focusNum = res.data || 0
+			// 		})
+			// 	}
+			// },
 			// 进行签到
 			sigin(){
 				console.log('进行签到')
@@ -274,10 +265,7 @@
 					}
 				})
 			},
-			// 关闭提交个人资料的弹窗
-			closeUsermsg(){
-				this.$refs.popup_user.close()
-			},
+			
 			// 控制用户操作弹窗的显隐
 			showUseroperation(txtid,location){
 				// console.log('list 中 按钮显示的位置',"location ==>",JSON.parse(location))
@@ -293,21 +281,21 @@
 			},
 			
 			// 获取用户的手机号进行手机绑定
-			decryptPhoneNumber(res){
-				let _this = this
-				// 进行手机号绑定
-				this.api._post("auth/bindPhone",{
-					"encryptedData":res.detail.encryptedData,
-					"iv":res.detail.iv
-				},function(res){
-					// console.log('绑定手机号 res',res);
-					// 结果成功，将页面中的绑定手机号显示为用户手机，并加以保密 ***
-						// 绑定手机号成功，进行本地存储
-						wx.setStorageSync('user_phone', res.data.phone);
-						_this.user_phone = res.data.phone
-				})
+			// decryptPhoneNumber(res){
+			// 	let _this = this
+			// 	// 进行手机号绑定
+			// 	this.api._post("auth/bindPhone",{
+			// 		"encryptedData":res.detail.encryptedData,
+			// 		"iv":res.detail.iv
+			// 	},function(res){
+			// 		// console.log('绑定手机号 res',res);
+			// 		// 结果成功，将页面中的绑定手机号显示为用户手机，并加以保密 ***
+			// 			// 绑定手机号成功，进行本地存储
+			// 			wx.setStorageSync('user_phone', res.data.phone);
+			// 			_this.user_phone = res.data.phone
+			// 	})
 				
-			},
+			// },
 			// 跳转查看关注、粉丝
 			goFans(num){
 				console.log('跳转到粉丝列表')
@@ -349,73 +337,7 @@
 					url: "/pages/playVideo/playVideo"
 				})
 			},
-			// 进行弹窗的控制
-			open(num){
-				let _this = this 
-				if(num === 0){
-					// 显示个人资料
-					this.$refs.popup_user.open()
-				}else if(num === 1){
-					// 用户进入 消费记录
-					uni.navigateTo({
-						url:"/pages/my/myConsumption"
-					})
-				}
-				else if(num === 2){
-					// 用户跳转到 充值界面
-					// console.log('用户进行充值操作')
-					uni.navigateTo({
-						url:`/pages/recharge/recharge?money=${this.userInfo.hgold}&userId=${this.userInfo.userId}`
-					})
-				}
-				else if(num === 3){
-					// 显示退出登录
-					uni.showModal({
-						title:"提示",
-						content:"确定退出吗",
-						success:function(res){
-							if (res.confirm) {
-								// console.log('用户点击确定');
-								// 发起 退出请求
-								_this.api._post("auth/logout",{},function(res){
-									// console.log('用户进行退出操作',res);
-									// 如果返回成功，清除本地缓存，并跳转到首页
-									uni.clearStorageSync()
-									_this.user_name = ''
-									_this.user_img = '/static/avatarUrl.png'
-									// 显示的绑定手机号也进行切换
-									_this.user_phone = ''
-									
-								})
-							} else if (res.cancel) {
-								// console.log('用户点击取消');
-								// 不进行操作弹出框取消即可
-							}
-						},
-						fail:function() {
-							console.log('调用接口失败')
-						}
-					})
-				}
-				else if(num === 4){
-					// 用户进入我的收藏
-					uni.navigateTo({
-						url:"/pages/my/myCollection"
-					})
-				}
-				else if(num === 5){
-					// 用户进入浏览记录
-					uni.navigateTo({
-						url:"/pages/my/myHistory"
-					})
-				}
-				else if(num === 6){
-					// 用户进入 跑腿中
-					uni.navigateTo({
-						url:"/pages/my/myRun"
-					})
-				}
-			},
+			
 			close(num){
 				// console.log('关闭')
 				this.$refs.popup_user.close()
@@ -465,10 +387,11 @@
 	}
 	
 	.my{
-	  background-color: #f6f6f6;
-		color: black;
+	  background-color: #786f68;
+		color: white;
 		.head{
 			display: flex;
+			padding-top: 150rpx;
 			.userImg{
 				width: 150rpx;
 				height: 150rpx;
@@ -482,13 +405,44 @@
 				width: 77%;
 				position: relative;
 				.box{
+					box-sizing: border-box;
+					padding-left: 20rpx;
+					padding-top: 20rpx;
+					padding-right: 20rpx;
+					// padding-bottom: 20rpx;
 					font-size: 28rpx;
-					display: flex;
-					justify-content: space-evenly;
-					color: #5e5e5e;
+					// color: white;
 					
+					.code{
+						font-size: 20rpx;
+					}
+					
+					.location{
+						margin-top: 10rpx;
+						display: flex;
+						align-items: center;
+						font-size: 25rpx;
+						.t-icon{
+							width: 19px;
+							height: 19px;
+							margin-right: 10rpx;
+						}
+						.province{
+							margin-right: 10rpx;
+						}
+						.city{
+							
+						}
+					}
+					
+					
+					
+					
+					
+					
+					// 签到按钮
 					.sigin{
-						background-color: #f4f4f4;
+						// background-color: #f4f4f4;
 						border-radius:10rpx;
 						position: absolute;
 						top: 10rpx;
@@ -505,31 +459,36 @@
 					.user_name{
 						font-size: 41rpx;
 						font-weight: bolder;
-						color: #838383;
+						// color: #838383;
 					}
 					.user_phone{
-						color: #838383;
+						// color: #838383;
 					}
 				}
 			}
 		}
-		// 内容区样式
-	  .content{
-	    padding: 0 40rpx 10rpx;
-			font-size: 30rpx;
-			// 九宫选择按钮
-	    .list{
-	      height: 316rpx;
-	      background-color: white;
-	      border-radius: 20rpx;
-	      padding: 15rpx 30rpx;
-	      color: #707070;
+		// 用户自己的简介
+		.desc{
+			margin: 20rpx;
+		}
+		// 关注 收藏
+		.box-thr{
+			margin-bottom: 30rpx;
+			font-size: 28rpx;
+			display: flex;
+			justify-content: space-between;
+			// color: #5e5e5e;
+			box-sizing: border-box;
+			padding: 0 40rpx;
+			.le{
+				width: 50%;
 				display: flex;
-	      .list_item{
-					flex-direction: column;
-	        height: 129rpx;
-					width: 150rpx;
-				}
+				justify-content: space-evenly;
+			}
+			.ri{
+				box-sizing: border-box;
+				padding: 7rpx 14rpx;
+				border-radius: 20rpx;
 			}
 		}
 	}
@@ -542,4 +501,8 @@
 		font-size: 33px;
 		margin-left: 25px;
 	}
+	.iconicon-test{
+		font-size: 20px;
+	}
+	
 </style>

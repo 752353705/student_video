@@ -88,9 +88,10 @@
 	.uni-tab-bar {
 		white-space: nowrap;
 		width: 100%;
-		height: 61rpx;
+		height: 62rpx;
 		background-color: white;
 		box-sizing: border-box;
+		padding-left: 30rpx;
 		position: sticky;
 		left: 0;
 		z-index: 10;

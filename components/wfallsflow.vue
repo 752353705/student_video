@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="list-container">
-			<view id="wf-list" class="list" v-for="(list, listIndex) of viewList" :key="listIndex">
+			<view id="wf-list" class="list" v-for="(list, listIndex) in viewList" :key="listIndex">
 				<!-- 每一个作品 -->
 				<!-- <view class="item" v-for="(item,index) of list.list" :key="index" -->
 				<view class="item" v-for="(item, index) of list.list" :key="item.id" 
@@ -219,7 +219,7 @@ export default {
 			// this.$refs.popup_useoperation.close()
 		},
 		init() {
-			// console.log('瀑布流组件中进行 初始化组件');
+			console.log('瀑布流组件中进行 初始化组件');
 			this.viewList = [{ list: [] }, { list: [] }];
 			// setTimeout(() => {
 			this.handleViewRender(0, 0);
@@ -309,6 +309,7 @@ export default {
 		flex-direction: column;
 		.item {
 			margin-bottom: 18rpx;
+			background-color: white;
 			// height: 200px;
 			image {
 				display: block;
@@ -321,6 +322,7 @@ export default {
 				// // height: 90rpx;
 				box-sizing: border-box;
 				padding: 5rpx 20rpx;
+				color: black;
 				// line-height: 40rpx;
 				// font-weight: 200;
 				// font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei';

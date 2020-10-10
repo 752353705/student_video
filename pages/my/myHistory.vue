@@ -104,21 +104,12 @@ export default {
 	onShow() {
 		this.getData();
 	},
-	onPullDownRefresh() {
-		console.log('下拉刷新');
-		this.getData();
-		setTimeout(function() {
-			uni.stopPullDownRefresh();
-		}, 0);
-	},
 	onReachBottom(){
 		console.log('上拉加载')
 		// 当当前的数据 条数大于十条的时候，下拉到底部 重新请求数据
 		if(this.nextpage){
 			this.getData()
 		}
-		
-		
 	},
 	methods: {
 		// 请求记录数据
@@ -133,7 +124,7 @@ export default {
 				},
 				res => {
 					// console.log('请求收藏列表',res, res.data);
-					let val = res.data;
+					// let val = res.data;
 
 					// 进行判断方式有 null
 					// for (let key in val) {
@@ -147,13 +138,13 @@ export default {
 
 					// 将这三大类进行 拼接
 					// this.colSumList = val.videoList.concat(val.articleList).concat(val.secondGoodsList);
-					this.colSumList = this.colSumList.concat(val.itemList)
+					this.colSumList = this.colSumList.concat(res.data.itemList)
 					// this.colSumList.concat(val.itemList)
 					
 					
 					console.log('colSumList',this.colSumList)
 					// 判断返回的 数据条数 用来看是否有下一页
-					if (this.colSumList.length == 10) {
+					if (res.data.itemList == 10) {
 						this.pageNum++;
 						this.nextpage = true
 					}else{

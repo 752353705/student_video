@@ -1,4 +1,5 @@
 {
+  "navigationStyle": "custom",
   "usingComponents": {
     "wfalls-flow": "/components/wfallsflow",
     "mescroll-item": "/components/mescroll-swiper-item",

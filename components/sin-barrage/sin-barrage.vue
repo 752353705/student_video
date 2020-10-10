@@ -2,12 +2,12 @@
 	<view>
 		<transition-group name="barrage" class="barrage" :style="{bottom:bottom+'rpx',left:left+'rpx'}">
 			<view class="barrage-item"  v-for="(item,index) in barrageList"  :key="item.id">
-				<image class="barrage-image" :src="item.image"></image>
+				<image class="barrage-image" :src="item.avatarImage"></image>
 				<view class="barrage-text">
 					<text class="" :style="{color:color,background:background,opacity:opacity}">{{item.text}}</text>
-					<view>{{item.text}}</view>
+					<view>{{item.giftName}}</view>
 				</view>
-				<image class="barrage-image" :src="item.image"></image>
+				<image class="barrage-image" :src="item.giftImage"></image>
 			</view>
 		</transition-group>
 	</view>
@@ -59,12 +59,27 @@
 			}
 		},
 		mounted() {
-				console.log('初始this.list',this.list[0])
+				
 			
 			// 定义次数
 			let intNum = 0
 			let len = this.list.length
+			console.log('初始this.list',this.list,len)
+			
+			
 			time1 = setInterval(() => {
+				if(!(len > 0)){
+					console.log('定时器1')
+					clearInterval(time1)
+					return
+				}
+				
+				if(intNum == len){
+					console.log('清除定时器')
+					clearInterval(time1)
+					// 然后 进行隐藏弹窗
+					this.$emit('showSinBar')
+				}
 				
 				/** 此处逻辑：
 				 * 设定A数组为展示数组（默认3条数据），B数组为源数组（n条数据）
@@ -73,33 +88,40 @@
 				 * 同时把B数组头部第1条数据移出来，并移入A数组尾部
 				 * 如此循环即可
 				 */
-				// if (this.barrageList.length < this.rows) { 
-				if (intNum < this.rows) { 
-					// 每次显示三个
-						// console.log('barrageList 长度小于三')
-						this.barrageList.push(this.list[intNum])
-						
-						// this.list.splice(0, 1)
-						
+				// 原版
+				console.log('定时器')
+				if (this.barrageList.length < this.rows) {
+					this.barrageList.push(this.list[0])
+					this.list.splice(0, 1)
 				} else {
-					// console.log('次数 大于三',intNum,this.list[intNum])
-					// 优化
-					if(intNum < len - 1){
-						this.barrageList.splice(0, 1)
-						this.barrageList.push(this.list[intNum])
-					}else {
-						this.barrageList.splice(0, 1)
-						// this.barrageList.push(this.list[intNum])
-					}
+					let objAFristItem = this.barrageList[0]
+					this.barrageList.splice(objAFristItem, 1)
+					this.list.push(objAFristItem)
+					let objBFirstItem = this.list[0]
+					this.list.splice(objBFirstItem, 1)
+					this.barrageList.push(objBFirstItem)
 				}
+				// if (intNum < this.rows) { 
+				// 	// 每次显示三个
+				// 		// console.log('barrageList 长度小于三')
+				// 		this.barrageList.push(this.list[intNum])
+						
+				// 		// this.list.splice(0, 1)
+						
+				// } else {
+				// 	// console.log('次数 大于三',intNum,this.list[intNum])
+				// 	// 优化
+				// 	if(intNum < len - 1){
+				// 		this.barrageList.splice(0, 1)
+				// 		this.barrageList.push(this.list[intNum])
+				// 	}else {
+				// 		this.barrageList.splice(0, 1)
+				// 		// this.barrageList.push(this.list[intNum])
+				// 	}
+				// }
 				intNum ++
-				// 当循环过一遍之后，清除定时器
-				if(intNum == len + this.rows){
-					console.log('清除定时器')
-					clearInterval(time1)
-					// 然后 进行隐藏弹窗
-					// this.$emit('showSinBar')
-				}
+				// // 当循环过一遍之后，清除定时器
+				
 			}, this.msec)
 		},
 		beforeDestroy(){

@@ -1,41 +1,34 @@
 .author {
   width: 100%;
-  height: 69.44rpx;
+  color: white;
+  background-color: #786f68;
 }
 .author .head {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  box-sizing: border-box;
-  padding: 40rpx 40rpx;
+  padding-top: 150rpx;
 }
 .author .head .userImg {
   width: 150rpx;
   height: 150rpx;
   border-radius: 50%;
   overflow: hidden;
-}
-.author .head .userImg image {
-  width: 100%;
-  height: 100%;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
 }
 .author .head .right {
   width: 77%;
-  margin-left: 30rpx;
+  position: relative;
 }
 .author .head .right .box {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: space-evenly;
-  -webkit-justify-content: space-evenly;
-          justify-content: space-evenly;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
+  box-sizing: border-box;
+  padding-left: 20rpx;
+  padding-top: 20rpx;
+  padding-right: 20rpx;
+  font-size: 28rpx;
 }
-.author .head .right .rightBtm {
-  margin-top: 20rpx;
+.author .head .right .box .rightBtm {
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
@@ -46,17 +39,71 @@
   -webkit-justify-content: space-between;
           justify-content: space-between;
 }
-.author .head .right .rightBtm image {
+.author .head .right .box .rightBtm image {
   width: 60rpx;
   height: 60rpx;
 }
-.author .head .right .rightBtm .focusBtn {
+.author .head .right .box .rightBtm .focusBtn {
   width: 80%;
   height: 40rpx;
   border-radius: 40rpx;
   color: white;
   background-color: red;
   padding: 10rpx 0;
+}
+.author .head .right .box .location {
+  margin-top: 10rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  font-size: 25rpx;
+}
+.author .head .right .box .location .t-icon {
+  width: 19px;
+  height: 19px;
+  margin-right: 10rpx;
+}
+.author .head .right .box .location .province {
+  margin-right: 10rpx;
+}
+.author .head .right .right_uname {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+}
+.author .head .right .right_uname .user_name {
+  font-size: 41rpx;
+  font-weight: bolder;
+}
+.author .desc {
+  margin: 20rpx;
+}
+.author .box-thr {
+  margin-bottom: 30rpx;
+  font-size: 28rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0 40rpx;
+}
+.author .box-thr .le {
+  width: 50%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: space-evenly;
+  -webkit-justify-content: space-evenly;
+          justify-content: space-evenly;
+}
+.author .content {
+  background-color: white;
 }
 .author .authorMsg {
   width: 100%;
