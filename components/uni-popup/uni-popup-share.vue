@@ -75,15 +75,15 @@ export default {
 		/**
 		 * 选择内容
 		 */
-		select() {
-			// console.log('点击了', item.name, index);
-			this.$emit(
-				'select',{},
-				() => {
-					this.popup.close();
-				}
-			);
-		},
+		// select() {
+		// 	// console.log('点击了', item.name, index);
+		// 	this.$emit(
+		// 		'select',{},
+		// 		() => {
+		// 			this.popup.close();
+		// 		}
+		// 	);
+		// },
 		/**
 		 * 关闭窗口
 		 */

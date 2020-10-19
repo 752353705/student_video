@@ -2,34 +2,39 @@
 	<view class="listPage">
 		<!-- 搜索框 -->
 		<view class="searchBox height">
-			<view class="serach " @click="goSearch">
+			<view class="serach text-center item-center panel-center " @click="goSearch">
 				<u-icon size="40" name="search"></u-icon>
 				<span>搜索</span>
 			</view>
 		</view>
 		
 		<!-- 赛事 类型说明 height -->
-		<view class="game_type height">
-			<view class="le">
-				<view >
-					<image class="img_box" src="" :mode="aspectFit"></image>
+		<view class="game_type height panel-between item-center box-boder ma-t30 ma-b20"
+			v-if="game_type_state"
+			>
+			<view class="le panel-start item-center">
+				<view class="ma-r20" >
+					<image class="img_box" :src="gameMsg.logo" :mode="aspectFit"></image>
 				</view>
-				<view class="body">
-					<view class="name">红书杯大赛</view>
-					<view class="desc">拍视频,赢大奖</view>
+				<view class="body ma-l20 panel-center">
+					<view class="name">{{gameMsg.subjectTitle}}</view>
+					<view class="desc ma-t20 fo-20">{{gameMsg.introduction}}</view>
 				</view>
 			</view>
-			<view class="btn" @click="goGame">
+			<!-- <view class="btn fo-20 box-boder" @click="goGame">
+				其他大赛
+			</view> -->
+			<view class="btn fo-20 box-boder" @click="goGameDetail">
 				去参赛
 			</view>
 		</view>
-		
 		
 		<!-- 视频分类 -->
 		<!-- <swiperTabHead class="height" ref="swipertab" :flex="true" 
 			:tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" 
 			:top="top"></swiperTabHead> -->
 		<!-- <view class=""></view> -->
+		
 		<!-- 小喇叭 进行通知 -->
 		<!-- <u-notice-bar class="height notice" 
 			  mode="horizontal" 
@@ -40,12 +45,11 @@
 		<!-- 轮播滑动页面 -->
 		<!-- <swiper style="" :style="{height:mescroll_height}" :current="tabIndex" @change="tabChange"> -->
 			<!-- <swiper-item :emptyOption="emptyOption" style="box-sizing: border-box;padding: 0 10rpx;" v-for="(tab,i) in tabBars" :key="i"> -->
-				<mescroll-item :mescrollBot="mescrollBot" 
-					:kw="kw" @showUseroperation="showUseroperation" 
+				<mescroll-item ref="mescroll" :mescrollBot="mescrollBot" 
+					:kw="kw" :subjectId="gameMsg.subjectId" @showUseroperation="showUseroperation" 
 					@closeUseroperation="closeUseroperation" :waterFullHeight="mescroll_height" 
 					:i="i" :index="tabIndex" :tabs="tabBars"
 					@getListVideo="getListVideo" 
-					
 				>
 				</mescroll-item>
 			<!-- </swiper-item> -->
@@ -58,17 +62,17 @@
 	import MescrollItem from "@/components/mescroll-swiper-item.vue";
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import MescrollEmpty from '@/components/mescroll-uni/components/mescroll-empty.vue';
-	import {apiSearch} from "@/API/mock.js"
 	// 引入tabHead 切换
 	import swiperTabHead from "@/components/swiper-tab-head.vue";
 	export default {
 		mixins: [MescrollMixin], // 使用mixin
 		data() {
 			return {
+				// 判断是否有赛事展示
+				game_type_state:false,
+				
 				// 视频滚动区域距离底部的距离
 				// mescrollBot:'200',
-				// 视频的数据
-				// videolist:[],
 				// 请求数据的关键词
 				kw:"listTxt",
 				// notice:[
@@ -92,6 +96,8 @@
 					{ name:"图文",id:"listTxt" },
 					// { name:"跳蚤市场",id:"listUsed" },
 				], 
+				// 用户当前浏览的 赛事id logo
+				gameMsg:''
 			}
 		},
 		components:{
@@ -99,8 +105,10 @@
 			MescrollItem,
 			swiperTabHead,
 		},
-		onLoad() {
+		onLoad(option) {
 			let _this = this
+			// 获取内存中当前赛事信息
+			this.gameMsg = JSON.parse(uni.getStorageSync('gameMsg'))
 			// 设置滚动区域的高度
 			uni.getSystemInfo({
 				success(res) {
@@ -120,6 +128,24 @@
 				}
 			});
 		},
+		onShow() {
+			// 判断内存中是否有赛事缓存
+			if(!uni.getStorageSync('gameMsg')){
+				// 没有赛事缓存  通过分享首次进入
+				this.game_type_state = false
+				this.$refs.mescroll.refash();
+				return
+			}else{
+				this.game_type_state = true
+			}
+			
+			let now_gameMsg = JSON.parse(uni.getStorageSync('gameMsg'))
+			if(now_gameMsg.subjectId !== this.gameMsg.subjectId){
+				console.log('赛事id改变 重新更新列表')
+				this.gameMsg = now_gameMsg
+				this.$refs.mescroll.refash();
+			}
+		},
 		onReady() {
 			
 		},
@@ -127,29 +153,34 @@
 			if (res.from === 'button') {
 				// 来自页面内转发按钮
 				console.log(res.target)
+			}else{
+				// 分享tabbar页面，直接运用小程序原生菜单中的分享按钮
+				uni.showShareMenu({})
 			}
-			return {
-				title: '首页分享',
-				path: '/page/list/list'
-			}
-		},
-		onShow() {
-			// console.log('list页面 onshow 进行页面的刷新')
-			
+			// return {
+			// 	title: '首页分享',
+			// 	path: '/page/list/list'
+			// }
 		},
 		methods: {
-			// 用户点击比赛跳转到大赛界面
-			goGame(){
+			// 用户点击比赛跳转到大赛详情界面
+			goGameDetail(){
 				console.log('跳转大赛')
 				uni.navigateTo({
+					url:`/pages/Introduction/gameDetail?subjectId=${this.gameMsg.subjectId}`
+				})
+			},
+			// 用户重新筛选其他类型大赛
+			goGame(){
+				uni.switchTab({
 					url:'/pages/Introduction/Introduction'
 				})
 			},
 			
-			// 控制签到弹窗的显隐
-			showSigin(){
-				this.$refs.popup_sigin.close()
-			},
+			// // 控制签到弹窗的显隐
+			// showSigin(){
+			// 	this.$refs.popup_sigin.close()
+			// },
 			// 控制 首页 用户操作弹窗的显隐
 			showUseroperation(btntop,btnleft){
 				// console.log('list 中 按钮显示的位置',"btntop ==>",btntop,"btnleft ==>",btnleft)
@@ -188,9 +219,6 @@
 </script>
 
 <style  scoped lang="less">
-	// page{
-	// 	background-color: #f5f6fa;
-	// }
 	.listPage{
 		background-color: #f5f6fa;
 		box-sizing: border-box;
@@ -206,7 +234,6 @@
 		// 	box-sizing: border-box;
 		// 	padding-right: 20rpx;
 		// }
-		
 		.searchBox{
 			width: 100%;
 			height: 77rpx;
@@ -221,98 +248,69 @@
 				border-radius: 33rpx;
 				width: 69%;
 				height: 100%;
-				text-align: center;
+				// text-align: center;
 				color: #453a74;
-				
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				image{
-					width: 40rpx;
-					height:40rpx ;
-					margin-right: 13rpx;
-				}
+				// display: flex;
+				// align-items: center;
+				// justify-content: center;
+				// image{
+				// 	width: 40rpx;
+				// 	height:40rpx ;
+				// 	margin-right: 13rpx;
+				// }
 			}
 		}
-		
 		// 赛事分类
 		.game_type{
 			background-color: white;
-			margin-bottom: 20rpx;
+			// margin-bottom: 20rpx;
 			position: sticky;
-			margin-top: 30rpx;
+			// margin-top: 30rpx;
 			top: 133rpx;
 			left: 0;
 			z-index: 20;
-			// width: 99%;
 			height: 168rpx;
-			// background-color: red;
-			box-sizing: border-box;
-			padding-left: 20rpx;
-			padding-top: 20rpx;
-			padding-right: 20rpx;
-			padding-bottom: 20rpx;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			// 四周阴影
-			// box-shadow:0px 2px 5px 5px #dddddd;
-			
-			// box-shadow:0px 1px 10px 3px #dddddd;
-			
-			// box-shadow: 10px 10px 5px #dddddd;
-			
+			// box-sizing: border-box;
+			padding: 20rpx;
+			// padding-left: 20rpx;
+			// padding-top: 20rpx;
+			// padding-right: 20rpx;
+			// padding-bottom: 20rpx;
+			// display: flex;
+			// align-items: center;
+			// justify-content: space-between;
 			.le{
-				display: flex;
-				justify-content: flex-start;
-				align-items: center;
+				// display: flex;
+				// justify-content: flex-start;
+				// align-items: center;
 				.img_box{
-					background-color: yellow;
 					border-radius: 50%;
 					width: 100rpx;
 					height: 100rpx;
 				}
 				.body{
-					margin-left: 20rpx;
-					display: flex;
+					// margin-left: 20rpx;
+					// display: flex;
 					flex-direction: column;
-					justify-content: center;
+					// justify-content: center;
 					.name{
 						font-size: 30rpx;
 						font-weight: bold;
 					}
 					.desc{
 						color: #6d6d6d;
-						margin-top: 20rpx;
-						font-size: 20rpx;
+						// margin-top: 20rpx;
+						// font-size: 20rpx;
 					}
 				}
 			}
 			.btn{
-				box-sizing: border-box;
-				// padding-left: 16rpx;
-				// padding-top: 10rpx;
-				// padding-right: 16rpx;
-				// padding-bottom: 10rpx;
+				// box-sizing: border-box;
 				padding: 10rpx 16rpx;
 				border: 1px solid black;
 				border-radius: 10rpx;
-				font-size: 20rpx;
+				// font-size: 20rpx;
 			}
 		}
-		
-		// .pop{
-		// 	.imgBox{
-		// 		width: 100%;
-		// 		display: flex;
-		// 		justify-content: center;
-		// 		align-items: center;
-		// 		.img{
-		// 			width: 62.5rpx;
-		// 			height: 62.5rpx;
-		// 			margin-top: 20rpx;
-		// 		}
-		// 	}
-		// }
 	}
 </style>

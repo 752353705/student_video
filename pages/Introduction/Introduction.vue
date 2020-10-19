@@ -9,7 +9,6 @@
 					<text style="font-size: 13px;line-height: 20rpx;">筛选</text>
 				</view>
 			</picker>
-			
 			<!-- 标题 -->
 			<view class="title">
 				大赛简介
@@ -40,17 +39,21 @@
 			</view>
 		</view>
 		
+		
 		<!-- 赛事列表 -->
-		<view class="cont">
+			<!-- 如果没有赛事 -->
+			<view v-if="game_list.length == 0" style="color: white;text-align: center;margin-top: 30rpx;" >
+				—— 暂无赛事 ——
+			</view>
+		
+		<view class="cont" v-else>
 			<view class="item" v-for="(item,index) in game_list" :key="index"
-				@tap="golist(item.subjectId)"
+				@tap="golist(index)"
 				>
 				<view class="cricle1"></view>
 				<view class="cricle2"></view>
 				<view class="cricle3"></view>
 				<view class="cricle4"></view>
-				
-				
 				<view class="head">
 					<view class="type">
 						{{item.subjectTypeName}}
@@ -81,6 +84,19 @@
 						<text style="font-size: 23rpx;">报名中</text>
 					</view>
 				</view>
+				<!-- 访问量 -->
+				<view class="foot">
+					<view v-if="item.hotStatus == 1" class="hot">
+						热门
+					</view>
+					<text class="iconfont iconscan"></text>
+					<text style="font-size: 20rpx;margin-right: 13px;">{{item.views}}</text>
+					
+					<!-- 参赛人数 -->
+					<text class="iconfont iconshoujihao"></text>
+					<text style="font-size: 20rpx;">{{item.gameUsers}}</text>
+				</view>
+				
 			</view>
 		</view>
 	</view>
@@ -95,7 +111,7 @@
 				// 判断是否有下一页
 				nextpage:false,
 				// 判断当前tab展示的类型
-				tab_act:0,
+				tab_act:1,
 				// tab 包含类型
 				tab_list:[
 					'即将开始',
@@ -109,9 +125,7 @@
 				value:0,
 				// 筛选的类型
 				id:'',
-				
-				// index: 0,
-				// 广告轮播图
+				// 轮播图广告图
 				ad:'',
 			}
 		},
@@ -137,27 +151,27 @@
 		onLoad() {
 			let _this = this 
 			this.api._get('subject/type',{},function(res){
-				console.log('请求大赛类型',res)
+				// console.log('请求大赛类型',res)
 				_this.game_type = [{id:'',typeName:'全部'}].concat(res.data) 
 			})
 			// 即将开始的大赛
-			this.noStart('')
+			this.proceed('')
 			// 获取 轮播图广告
 			this.getAd()
-			
 		},
 		methods:{
 			// 获取广告位轮播图
 			getAd(){
 				let _this = this
 				this.api._get('subject/ads',{},function(res){
-					console.log('请求轮播图',res)
+					// console.log('请求轮播图',res)
 					_this.ad = res.data
 				})
 			},
+			
 			// 筛选大赛类型
 			bindPickerChange(e) {
-				console.log('picker发送选择改变，携带值为', e)
+				// console.log('picker发送选择改变，携带值为', e)
 				this.value = e.detail.value
 				this.id = this.game_type[e.detail.value].id 
 				if(this.tab_act == 0){
@@ -170,20 +184,26 @@
 					// 结束的大赛
 					this.end(this.id)
 				}
-				
 			},
+			
 			// 跳转到作品列表
-			golist(subjectId){
+			golist(index){
 				let _this = this
 				// 触发页面之间的事件
-				console.log('跳转到作品列表')
-				uni.navigateTo({
-					url:`/pages/Introduction/gameDetail?subjectId=${subjectId}`,
-					success() {
-						_this.$eventHub.$emit('subjectId',subjectId);
-					}
+				// console.log('跳转到作品列表')
+				uni.switchTab({
+					url:`/pages/list/list`
 				})
+				// _this.subjectId= subjectId
+				let gameMsg = {
+					subjectId:this.game_list[index].subjectId,
+					logo:this.game_list[index].logoUrl,
+					subjectTitle:this.game_list[index].subjectTitle,
+					introduction:this.game_list[index].introduction,
+				}
+				uni.setStorageSync('gameMsg',JSON.stringify(gameMsg))
 			},
+			
 			hot(index){
 				if(index === this.tab_act) return;
 				this.tab_act = index
@@ -198,7 +218,8 @@
 					this.end(this.id)
 				}
 			},
-			// id 是用于判断是否进行筛选
+			
+	// id 是用于判断是否进行筛选
 			// 即将开始的大赛
 			noStart(id,reach){
 				let _this = this 
@@ -207,7 +228,7 @@
 					pageNum:this.pageNum,
 					pageSize:10
 				},function(res){
-					console.log('请求即将开始的大赛',res)
+					// console.log('请求即将开始的大赛',res)
 					if(reach == 1){
 						// 代表用户进行的 上拉加载
 						_this.game_list = _this.game_list.concat(res.data.list)
@@ -225,6 +246,8 @@
 					
 				})
 			},
+			
+			// 请求进行中的大赛
 			proceed(id,reach){
 				let _this = this 
 				this.api._get('subject/onGoing',{
@@ -232,7 +255,7 @@
 					pageNum:this.pageNum,
 					pageSize:10
 				},function(res){
-					console.log('请求进行中的大赛',res)
+					// console.log('请求进行中的大赛',res)
 					if(reach == 1){
 						// 代表用户进行的 上拉加载
 						_this.game_list = _this.game_list.concat(res.data.list)
@@ -240,6 +263,17 @@
 						// 用户进行 筛选 
 						_this.game_list = res.data.list
 					}
+					
+					
+					// 将进行中的第一个赛事进行本地存储，作为作品中用于展示的部分
+					let gameMsg = {
+						subjectId:res.data.list[0].subjectId,
+						logo:res.data.list[0].logoUrl,
+						subjectTitle:res.data.list[0].subjectTitle,
+						introduction:res.data.list[0].introduction,
+					}
+					uni.setStorageSync('gameMsg',JSON.stringify(gameMsg))
+					
 					//判断是否有下一页 
 					if (res.data.list == 10) {
 						_this.pageNum++;
@@ -251,6 +285,8 @@
 					
 				})
 			},
+			
+			// 请求已结束的大赛
 			end(id,reach){
 				let _this = this 
 				this.api._get('subject/finished',{
@@ -258,7 +294,7 @@
 					pageNum:this.pageNum,
 					pageSize:10
 				},function(res){
-					console.log('请求进行中的大赛',res)
+					// console.log('请求进行中的大赛',res)
 					if(reach == 1){
 						// 代表用户进行的 上拉加载
 						_this.game_list = _this.game_list.concat(res.data.list)
@@ -363,10 +399,11 @@
 				border-radius: 20rpx;
 				border: 1px solid #2565a2;
 				width: 99%;
-				height: 207rpx;
+				// height: 207rpx;
 				margin: auto;
 				margin-bottom: 30rpx;
 				background-color: #274c90;
+				// 为每个卡片设置内凹
 				.cricle1{
 					width: 47rpx;
 					height: 40rpx;
@@ -414,10 +451,6 @@
 						border: 1px solid #9ce0ff;
 						border-radius: 10rpx;
 						padding: 7rpx 14rpx;
-						// padding-left: 20rpx;
-						// padding-right: 20rpx;
-						// padding-top: 20rpx;
-						// padding-bottom: 20rpx;
 					}
 					.game_name{
 						width: 79%;
@@ -449,35 +482,31 @@
 						align-items: center;
 					}
 				}
+				
+				// 浏览人数
+				.foot{
+					display: flex;
+					justify-content: flex-start;
+					align-items: center;
+					margin-top: 20rpx;
+					.hot{
+						color: red;
+						box-sizing: border-box;
+						padding-left: 8rpx;
+						padding-top: 4rpx;
+						padding-right: 8rpx;
+						padding-bottom: 4rpx;
+						border: 1rpx solid red;
+						margin-right: 20rpx;
+						font-size: 20rpx;
+						border-radius: 10rpx;
+					}
+					.see{
+						font-size: 20rpx;
+					}
+				}
+			
 			}
-			// 为每个卡片设置内凹
-			
-			
-			
-			
-			
-			// .item::before,
-			// .item::after {
-			// 		position: absolute;
-			// 		top: 0%;
-			// 		margin-top: -5px;
-			// 		content: '';
-			// 		width: 14px;
-			// 		height: 14px;
-			// 		background-color: #0e171e;
-			// 		// border: 1px solid #2565a2;
-			// 		border-left-color: transparent;
-			// 		border-bottom-color: transparent;
-			// 		border-radius: 50%;
-			// }
-			// .item::before {
-			// 		left: -6px;
-			// 		transform: rotate(45deg);
-			// }
-			// .item::after {
-			// 	right: -6px;
-			// 	transform: rotate(-135deg);
-			// }
 		}
 	}
 </style>

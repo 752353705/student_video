@@ -15,8 +15,8 @@
 			</button>
 			
 			<view class="rule">
-				登录代表您已同意
-				<text style="color: #f83f20;">小驴帮儿用户协议、隐私协议</text>
+				<!-- 登录代表您已同意 -->
+				<!-- <text style="color: #f83f20;">小驴帮儿用户协议、隐私协议</text> -->
 			</view>
 	</view>
 </template>
@@ -51,10 +51,10 @@ export default {
 							"user":e.detail.userInfo,
 						},function(res){
 							console.log('login 微信登录 发送post请求',res);
-							// uni.setStorageSync('user_name', res.data.userName);
-							// uni.setStorageSync('user_img', res.data.avatarUrl);
+							uni.setStorageSync('user_name', res.data.userName);
+							uni.setStorageSync('user_img', res.data.avatarUrl);
 							uni.setStorageSync('token', res.data.token);
-							
+							uni.setStorageSync('user_phone', res.data.phone);
 							uni.hideLoading()
 							// 请求成功之后跳转到我的界面
 							if(!res.data.phone){
@@ -86,7 +86,6 @@ export default {
 </script>
 
 <style lang="less">
-
 .container {
 	padding: 0 86rpx;
 	.wechatapp {
@@ -94,8 +93,8 @@ export default {
 		text-align: center;
 		.app-img {
 			display: block;
-			width: 138rpx;
-			height: 138rpx;
+			width: 216rpx;
+			height: 216rpx;
 			border-radius: 20rpx;
 			margin: auto;
 			image{
@@ -112,7 +111,7 @@ export default {
 		}
 	}
 	.wechatapp.login {
-		padding: 87rpx 0 150rpx;
+		padding: 87rpx 0rpx;
 		margin-bottom: 100rpx;
 	}
 }
@@ -143,7 +142,7 @@ export default {
 	margin-right: 0;
 	color: white;
 	border: none;
-	background: #26c81f;
+	background: #ff9933;
 }
 
 .btn.login::after {

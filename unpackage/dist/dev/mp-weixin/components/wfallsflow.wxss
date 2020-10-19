@@ -99,6 +99,8 @@
   border-radius: 50%;
   overflow: hidden;
   margin-right: 10rpx;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
 }
 .list-container .list .item .item_foot .left .user_img image.data-v-0450caea {
   width: 100%;

@@ -94,7 +94,7 @@
 			line-height: 91rpx;
 			text-align: center;
 			color: white;
-			background-color: #ff2440;
+			background-color: #ff9933;
 			margin: 63rpx auto;
 			border-radius: 30rpx;
 		}

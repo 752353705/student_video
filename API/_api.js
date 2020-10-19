@@ -1,18 +1,8 @@
 // 将所有的 网络请求进行集中处理
 let token = wx.getStorageSync('token') || ''
 // 测试
-// let api_root = 'http://47.93.148.235:8082/wx/'
-// 线上
-// let api_root = 'https://xsh.taihangyizhan.com/wx/'
-// let api_root = 'http://c84n0poo.xiaomy.net/wx/'
-
-// 本地
-// let api_root = 'http://lvpeng.free.qydev.com/wx/'
-let api_root = 'http://192.168.0.103:8082/wx/'
-// let api_root = 'http://172.20.10.4:8082/wx/'
-
-// 'https://xsh.taihangyizhan.com/wx/'
-
+// let api_root = 'http://192.168.0.103:8082/wx/'
+let api_root = 'https://xsh.taihangyizhan.com/wx/'
 // 发送 get 请求
 function _get(url, data, success, fail, complete) {
 	// 请求开始弹出正在加载弹框
@@ -26,15 +16,11 @@ function _get(url, data, success, fail, complete) {
 	uni.request({
 		url: api_root + url, //仅为示例，并非真实接口地址。
 		header: {
-			'content-type': 'application/json', //自定义请求头信息
+			'Content-Type': 'application/json', //自定义请求头信息
 			'X-Xsh-Token': wx.getStorageSync('token') || '',
-			// 商城版
-			// 'X-Dts-Token': 
 		},
 		data: data,
 		success: (res) => {
-			
-			
 			//判断返回的状态码
 			if (res.statusCode !== 200 || typeof res.data !== 'object') {
 				if (!msg) {
@@ -42,12 +28,9 @@ function _get(url, data, success, fail, complete) {
 						title: '友情提示',
 						content: '网络请求出错',
 						success: function(res) {
-							// uni.navigateBack({
-							// 	delta: 1
-							// })
+							
 						}
 					})
-					console.log('get网络请求出错 res')
 					fail && fail();
 				}
 				return false;
@@ -64,15 +47,11 @@ function _get(url, data, success, fail, complete) {
 			success && success(res.data);
 		},
 		fail: function(res) {
-			console.log('get请求',res)
 			uni.showModal({
 				title: '友情提示',
 				content: '网络繁忙,请重试',
 				success: function(res) {
-					// uni.navigateBack({
-					// 	delta: 1
-					// })
-					console.log('res',res)
+
 				}
 			})
 			fail && fail(res.data);
@@ -92,21 +71,16 @@ function _post(url, data, success, fail, complete) {
 		header: {
 			'Content-Type': 'application/json',
 			'X-Xsh-Token': wx.getStorageSync('token') || '',
-			// 商城版
-			// 'X-Dts-Token': 
 		},
 		method: 'POST',
 		data: data,
 		success: res => {
-			// console.log('post 请求结果==》res',res)
 			if (res.statusCode !== 200) {
 				uni.showModal({
 					title: '友情提示',
 					content: '网络请求出错',
 					success: function(res) {
-						// uni.navigateBack({
-						// 	delta: 1
-						// })
+					
 					}
 				})
 				fail && fail();
@@ -128,15 +102,10 @@ function _post(url, data, success, fail, complete) {
 					content: res.data.errmsg,
 					success: function(res) {
 
-						// uni.navigateBack({
-						// 	delta: 1
-						// })
 					}
 				})
 				return false;
 			}
-			// 成功执行
-			// console.log('post res',res)
 			success && success(res.data)
 		},
 		fail: res => {
@@ -168,8 +137,6 @@ function _put(url, data, success, fail, complete) {
 		header: {
 			'Content-Type': 'application/json',
 			'X-Xsh-Token': wx.getStorageSync('token') || '',
-			// 商城版
-			// 'X-Dts-Token': 
 		},
 		method: 'PUT',
 		data: data,
@@ -180,9 +147,7 @@ function _put(url, data, success, fail, complete) {
 					title: '友情提示',
 					content: '网络请求出错',
 					success: function(res) {
-						// uni.navigateBack({
-						// 	delta: 1
-						// })
+						
 					}
 				})
 				fail && fail();
@@ -203,9 +168,7 @@ function _put(url, data, success, fail, complete) {
 					title: '友情提示',
 					content: res.data.errmsg,
 					success: function(res) {
-						// uni.navigateBack({
-						// 	delta: 1
-						// })
+						
 					}
 				})
 				return false;
@@ -241,21 +204,16 @@ export const _del = function(url, data, success, fail, complete) {
 		header: {
 			'Content-Type': 'application/json',
 			'X-Xsh-Token': wx.getStorageSync('token') || '',
-			// 商城版
-			// 'X-Dts-Token': 
 		},
 		method: 'DELETE',
 		data: data,
 		success: res => {
-			// console.log('post 请求结果==》res',res)
 			if (res.statusCode !== 200) {
 				uni.showModal({
 					title: '友情提示',
 					content: '网络请求出错',
 					success: function(res) {
-						// uni.navigateBack({
-						// 	delta: 1
-						// })
+						
 					}
 				})
 				fail && fail();
@@ -277,9 +235,6 @@ export const _del = function(url, data, success, fail, complete) {
 					content: res.data.errmsg,
 					success: function(res) {
 
-						// uni.navigateBack({
-						// 	delta: 1
-						// })
 					}
 				})
 				return false;

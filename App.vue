@@ -33,14 +33,18 @@ export default {
 };
 </script>
 
-<style lang="scss">
-@import 'uview-ui/index.scss';
+<style lang="less">
+// @import 'uview-ui/index.scss';
 // 阿里字体 彩色 图标设置
 @import './assets/svg/iconfont-weapp-icon.css';
 @import './assets/iconfont/iconfont.css';
 
 // 常用样式的文件
-@import './common.css';
+@import './common.less';
+
+
+// 页面整体颜色
+@bg_color:#ff9933;
 
 /*每个页面公共css */
 .html,

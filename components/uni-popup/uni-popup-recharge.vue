@@ -9,7 +9,7 @@
 			</view>
 		</view>
 		<view class="rule">
-			充值代表已阅读并同意 <text style="color:#efab26 ;">《用户充和协议》</text>
+			<!-- 充值代表已阅读并同意 <text style="color:#efab26 ;">《用户充和协议》</text> -->
 		</view>
 	</view>
 </template>
@@ -58,30 +58,33 @@ export default {
 			
 			let fee = this.floatMul(_this.priceArr[index].price,100)
 			let hGold = this.priceArr[index].num
-			
-			// this.userPay()
-			this.api._post(`user/prepay?userId=${this.userId}&fee=${fee}&hGold=${hGold}`,{
-				
-			},function(res){
-				console.log('测试支付',res.data)
-				uni.requestPayment({
-					provider: 'wxpay', //服务提供商 通过uni.getProvider获取
-					timeStamp:res.data.timeStamp , //时间戳
-					nonceStr:res.data.nonceStr , //随机字符串
-					// 统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=xx。
-					package: res.data.packageValue,
-					signType: res.data.signType, //签名算法
-					paySign: res.data.paySign, //签名
-					success: function(res) {
-						console.log('支付接口成功 调用',res);
-					},
-					fail: function(err) {
-						console.log('fail:',err);
-					}
-				});
-			},function(err){
-				console.log('err',err)
+			// 跳转到 支付页面
+			uni.navigateTo({
+				url:`/pages/recharge/pay?userId=${this.userId}&fee=${fee}&hGold=${hGold}`
 			})
+			// this.userPay()
+			// this.api._post(`user/prepay?userId=${this.userId}&fee=${fee}&hGold=${hGold}`,{
+				
+			// },function(res){
+			// 	console.log('测试支付',res.data)
+			// 	uni.requestPayment({
+			// 		provider: 'wxpay', //服务提供商 通过uni.getProvider获取
+			// 		timeStamp:res.data.payResult.timeStamp , //时间戳
+			// 		nonceStr:res.data.payResult.nonceStr , //随机字符串
+			// 		// 统一下单接口返回的 prepay_id 参数值，提交格式如：prepay_id=xx。
+			// 		package: res.data.payResult.packageValue,
+			// 		signType: res.data.payResult.signType, //签名算法
+			// 		paySign: res.data.payResult.paySign, //签名
+			// 		success: function(res) {
+			// 			console.log('支付接口成功 调用',res);
+			// 		},
+			// 		fail: function(err) {
+			// 			console.log('fail:',err);
+			// 		}
+			// 	});
+			// },function(err){
+			// 	console.log('err',err)
+			// })
 		},
 		// 精确乘法
 		floatMul(arg1,arg2)   {

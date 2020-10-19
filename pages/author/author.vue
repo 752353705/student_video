@@ -21,8 +21,8 @@
 						<view class="location">
 							<view class="t-icon" :class=" avatarItem.gender == 2 ?  'iconbianzu' : 'iconziyuan' ">
 							</view>
-							<view class="province">{{avatarItem.province}}</view>
-							<view class="city">{{avatarItem.city}}</view>
+							<view class="province">{{avatarItem.province || '' }}</view>
+							<view class="city">{{avatarItem.city || '' }}</view>
 						</view>
 					</view>
 				</view>
@@ -38,12 +38,12 @@
 				<!-- 关注 -->
 				<view class="le">
 					<view class="focus t_c" @click="goFans(1)">
-						<view class="">{{avatarItem.fansNumber || 0}}</view>
+						<view class="">{{avatarItem.followedNumber || 0}}</view>
 						<view class="">关注</view>
 					</view>
 					<!-- 粉丝 -->
 					<view class="fans t_c" @click="goFans(2)">
-						<view class="">{{avatarItem.followedNumber || 0}}</view>
+						<view class="">{{avatarItem.fansNumber  || 0}}</view>
 						<view class="">粉丝</view>
 					</view>
 					<!-- 获赞与收藏 -->
@@ -78,7 +78,6 @@
 <script>
 	// 使用 mescroll
 	import MescrollItem from "@/components/mescroll-swiper-item.vue";
-	// import {apiSearch} from "@/API/mock.js"
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import wfallsFlow from '../../components/wfallsflow.vue'
 	// 引入tabHead 切换
@@ -350,7 +349,14 @@
 	}
 	// 用户自己的简介
 	.desc{
-		margin: 20rpx;
+		// margin: 20rpx;
+		overflow:hidden; 
+		text-overflow:ellipsis;
+		display:-webkit-box;
+		/* autoprefixer: off */
+		-webkit-box-orient:vertical;
+		/* autoprefixer: on */
+		-webkit-line-clamp:1; 
 	}
 	// 关注 收藏
 	.box-thr{

@@ -11,8 +11,6 @@
 	"libVersion": "",
 	"appid": "wx35ae62ee04cc537b",
 	"projectname": "student_video",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -46,57 +44,8 @@
 				},
 				{
 					"id": -1,
-					"name": "pages/my/setting",
-					"pathName": "pages/my/setting",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/find/find",
-					"pathName": "pages/find/find",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/my/my",
-					"pathName": "pages/my/my",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/myData/myData",
-					"pathName": "pages/myData/myData",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/myData/myIntroduction",
-					"pathName": "pages/myData/myIntroduction",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/myData/myName",
-					"pathName": "pages/myData/myName",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/myData/myGender",
-					"pathName": "pages/myData/myGender",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/myData/myBirthday",
-					"pathName": "pages/myData/myBirthday",
+					"name": "pages/playVideo/txtDetail",
+					"pathName": "pages/playVideo/txtDetail",
 					"scene": null
 				}
 			]

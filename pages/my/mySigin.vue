@@ -10,26 +10,10 @@
 					v-for="(item,index) in sigin_data"
 					:key="index"
 					>
-					<!-- 遮罩层 处理还没到期的签到 
-						判断当前签到没有
-						-->
-				<!-- 	<view
-						:class="index < continuousSignNumber ? '' : !act_btn && index === continuousSignNumber ? '' : 'bg' "
-						>
-					</view> -->
-					<!-- 已签到的图标 -->
-					<!-- <block v-if="index < continuousSignNumber ">
-						<image class="dui" src="/static/dui.png" mode=""></image>
-					</block> -->
-					
 					<view class="day text-center w-100">{{item.day}}</view>
 					<view class="body text-center">
-						<!-- 签到的图标 -->
-						<!-- <image :src="index < continuousSignNumber ? '/static/n_sigin.png' : '/static/sigin.png' " 
-							> -->
 						<image :src="index < continuousSignNumber ? '/static/dui.png' : '/static/sigin.png' ">
 						</image>
-						
 						<view class="money">{{item.money}}H币</view>
 					</view>
 				</view>
@@ -58,22 +42,22 @@
 						money:1
 					},{
 						day:'第 2 天',
-						money:2
+						money:1
 					},{
 						day:'第 3 天',
-						money:3
+						money:1
 					},{
 						day:'第 4 天',
-						money:4
+						money:1
 					},{
 						day:'第 5 天',
-						money:5
+						money:1
 					},{
 						day:'第 6 天',
-						money:6
+						money:1
 					},{
 						day:'第 7 天',
-						money:7
+						money:1
 					},
 				],
 				// 当前连续签到的天数
@@ -148,7 +132,6 @@
 			border-radius: 50rpx;
 			
 			.main{
-				// flex-wrap: wrap;
 				box-sizing: border-box;
 				// 当前要签到的样式
 				.item{
@@ -159,16 +142,6 @@
 					margin-top: 20rpx;
 					margin-right: 20rpx;
 					flex-direction: column;
-					// 还未到签到时间的遮罩
-					// .bg{
-					// 	position: absolute;
-					// 	top: 0;
-					// 	left:0;
-					// 	width: 100%;
-					// 	height: 100%;
-					// 	background-color: #FAFAFA;
-					// 	opacity: 0.5;
-					// }
 					// 表示已经签到的 对勾
 					.dui{
 						width: 140rpx;
@@ -180,11 +153,9 @@
 						transform: translate(-50%,-50%);
 					}
 					.day{
-						
 						padding-top: 10rpx;
 						height: 40rpx;
 						font-weight: bold;
-						// background-color: #f23030;
 					}
 					.body{
 						width: 211rpx;
@@ -195,7 +166,6 @@
 							height: 60rpx;
 						}
 						.money{
-							// font-weight: bold;
 							color: #b1b1b3;
 						}
 					}

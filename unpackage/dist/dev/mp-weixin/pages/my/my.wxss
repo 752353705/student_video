@@ -105,6 +105,13 @@ button.data-v-0be17cc6::after {
 }
 .my .desc.data-v-0be17cc6 {
   margin: 20rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  /* autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /* autoprefixer: on */
+  -webkit-line-clamp: 1;
 }
 .my .box-thr.data-v-0be17cc6 {
   margin-bottom: 30rpx;

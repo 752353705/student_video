@@ -92,7 +92,7 @@
 				for (let i = 1; i <= 12; i++) {
 					this.months.push(i)
 				}
-				// console.log('获取完整月份',this.months)
+				console.log('获取完整月份',this.months)
 			},
 			getDays() {
 				this.days = []
@@ -116,7 +116,7 @@
 			sure() {
 				for (const [index, val] of this.months.entries()) {
 					if (val < 10) {
-						this.months[index] = '0' + val
+						// this.months[index] = '0' + val
 					}
 				}
 				for (const [index, val] of this.days.entries()) {

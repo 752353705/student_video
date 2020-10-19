@@ -28,14 +28,14 @@
   position: absolute;
   left: 30rpx;
   top: 20rpx;
-  font-size: 35rpx;
+  font-size: 29rpx;
   color: #858585;
 }
 .histroy {
   position: absolute;
   right: 30rpx;
   top: 20rpx;
-  font-size: 35rpx;
+  font-size: 29rpx;
   color: #858585;
 }
 .uni-recharge-content {
@@ -69,14 +69,33 @@
   -webkit-align-items: center;
           align-items: center;
 }
+.uni-recharge-content-box.act {
+  color: #ff9933;
+  border: 1rpx solid #ff9933;
+}
 .uni-recharge-content-box .p1 {
   font-size: 36rpx;
   font-weight: bold;
   color: black;
 }
+.uni-recharge-content-box .p1.act {
+  color: #ff9933;
+}
 .uni-recharge-content-box .p2 {
   font-size: 33rpx;
   color: #7b7b7b;
+}
+.uni-recharge-content-box .p2.act {
+  color: #ff9933;
+}
+.btn {
+  width: 67%;
+  line-height: 91rpx;
+  text-align: center;
+  color: white;
+  background-color: #ff9933;
+  margin: 150rpx auto;
+  border-radius: 30rpx;
 }
 .rule {
   text-align: center;

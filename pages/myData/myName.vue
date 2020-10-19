@@ -1,16 +1,15 @@
 <template>
 	<view>
-		<input type="text" value="" 
+		<input type="text" :value="value" 
 			placeholder="添加一个名字"
 			placeholder-style="color:#a3a3a3"
 			@input="input"
+			maxlength="6"
 			/>
-		
 		<!-- 保存按钮 -->
 		<view class="btn" @click="submit">
 			保存
 		</view>
-		
 	</view>
 </template>
 
@@ -21,15 +20,15 @@
 				value:''
 			}
 		},
+		onLoad(option) {
+			this.value = option.name
+		},
 		methods:{
 			input(e){
-				// console.log('e',e)
 				this.value = e.detail.value
-				// this.num = e.detail.cursor
 			},
 			// 用户进行提交
 			submit(){
-				console.log('提交')
 				this.api._put('user',{
 					userName:this.value
 				},(res)=>{
@@ -63,7 +62,7 @@
 		line-height: 91rpx;
 		text-align: center;
 		color: white;
-		background-color: #ff2440;
+		background-color: #ff9933;
 		margin: 20rpx auto;
 		border-radius: 30rpx;
 	}

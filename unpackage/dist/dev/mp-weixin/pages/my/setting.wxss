@@ -29,9 +29,10 @@
 .setting .head .ri.data-v-3f1c30b4 {
   width: 125rpx;
   height: 125rpx;
-  background-color: red;
   border-radius: 50%;
   overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
 }
 .setting .head .ri image.data-v-3f1c30b4 {
   width: 100%;
@@ -61,8 +62,8 @@
           align-items: center;
 }
 .setting .content .list_item .left_icon .t-icon.data-v-3f1c30b4 {
-  width: 30px ;
-  height: 30px ;
+  width: 25px ;
+  height: 25px ;
   margin-right: 20rpx;
 }
 

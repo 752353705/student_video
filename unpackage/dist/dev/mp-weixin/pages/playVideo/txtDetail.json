@@ -1,16 +1,14 @@
 {
-  "navigationStyle": "custom",
+  "navigationBarTitleText": "作品详情",
   "usingComponents": {
     "sin-barrage": "/components/sin-barrage/sin-barrage",
     "u-icon": "/node-modules/uview-ui/components/u-icon/u-icon",
+    "u-badge": "/node-modules/uview-ui/components/u-badge/u-badge",
     "uni-popup": "/components/uni-popup/uni-popup",
-    "user-comment": "/components/user-comment",
     "uni-popup-share": "/components/uni-popup/uni-popup-share",
     "uni-popup-comments": "/components/uni-popup/uni-popup-comments",
     "uni-popup-gifts": "/components/uni-popup/uni-popup-gifts",
     "uni-popup-recharge": "/components/uni-popup/uni-popup-recharge",
-    "like-button": "/components/like-button/like-button",
-    "qrcode-poster": "/components/zhangyu-qrcode-poster/zhangyu-qrcode-poster",
     "uni-popup-rank": "/components/uni-popup/uni-popup-rank"
   }
 }

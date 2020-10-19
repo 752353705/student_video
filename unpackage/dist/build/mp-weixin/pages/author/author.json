@@ -1,5 +1,5 @@
 {
-  "navigationStyle": "custom",
+  "navigationBarTitleText": "用户信息",
   "usingComponents": {
     "wfalls-flow": "/components/wfallsflow",
     "mescroll-item": "/components/mescroll-swiper-item",

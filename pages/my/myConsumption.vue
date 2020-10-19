@@ -14,13 +14,28 @@
 			<view class="item" v-else v-for="(item,index) in hisList"
 				:key="index"
 				>
-				<view class="left">
-					<view class="name">{{item.getRoute}}</view>
-					<view class="time">{{item.createTime}}</view>
-				</view>
-				<view class="right">
-					+{{item.hgoldNumber}}H币
-				</view>
+				
+				<!-- 获取记录 -->
+				<block v-if="item.getRoute">
+					<view class="left">
+						<view class="name">{{item.getRoute}}</view>
+						<view class="time">{{item.createTime}}</view>
+					</view>
+					<view class="right">
+						+{{item.hgoldNumber}}H币
+					</view>
+				</block>
+				
+				<!-- 消费记录 -->
+				<block v-else>
+					<view class="left">
+						<view style="font-size: 33rpx;" >{{item.createTime}}</view>
+					</view>
+					<view class="right">
+						 -{{item.goldNumber}} H币
+					</view>
+				</block>
+				
 			</view>
 		</view>
 	</view>
@@ -34,8 +49,8 @@
 			return {
 				tabIndex: 0, // 当前tab的下标
 				tabBars:[
-					{ name:"获取记录",id:"chongzhi" },
-					{ name:"消费记录",id:"xiaofei" },
+					{ name:"获取记录",id:"0" },
+					{ name:"消费记录",id:"1" },
 				], 
 				hisList:[],
 				// 进行上拉请求加载时
@@ -53,10 +68,13 @@
 			this.getHgold()
 		},
 		onReachBottom(){
-			console.log('上拉加载')
 			// 当当前的数据 条数大于十条的时候，下拉到底部 重新请求数据
 			if(this.nextpage){
-				this.getHgold()
+				if(this.tabIndex == 0){
+					this.getHgold()
+				}else{
+					this.delHgold()
+				}
 			}
 		},
 		methods:{
@@ -72,30 +90,27 @@
 				this.g_pageNum = 1
 				this.d_pageNum = 1
 				
-				console.log('点击的 id',this.tabBars[this.tabIndex].id)
+				// console.log('点击的 id',this.tabBars[this.tabIndex].id)
 				// 根据用户点击的 不同的 按钮id 来渲染 不同的数据
 				this.hisList = []
-				
-				if(this.tabBars[this.tabIndex].id == 'chongzhi'){
-					// 请求充值的接口，渲染数据
-					// console.log('请求获取数据')
+				if(this.tabBars[this.tabIndex].id == '0'){
+					// 请求获取记录的接口，渲染数据
 					this.getHgold()
-				}else if(this.tabBars[this.tabIndex].id == 'xiaofei') {
+				}else if(this.tabBars[this.tabIndex].id == '1') {
 					// 请求 消费记录的接口 渲染数据
-					// console.log('请求消费数据')
 					this.delHgold()
 				}
 			},
+			
 			// 获取 记录 的接口
 			getHgold(){
 				this.api._get('hgold/get/list',{
 					 pageNum:this.g_pageNum,
 					 pageSize:10,
 				},(res)=>{
-					// console.log('获取充值记录的接口')
 					this.hisList = this.hisList.concat(res.data.list)
 					// 判断返回的 数据条数 用来看是否有下一页
-					if (this.hisList.length == 10) {
+					if (res.data.list == 10) {
 						this.g_pageNum++;
 						this.nextpage = true
 					}else{
@@ -106,15 +121,16 @@
 			
 			//消费记录的接口
 			delHgold(){
-				// 请求获取记录的接口
-				this.api._get('user/rechargeList',{
+				// 请求消费记录的接口
+				
+				// 目前是充值接口 需要改
+				this.api._get('hgold/lose/list',{
 					 pageNum:this.d_pageNum,
 					 pageSize:10,
 				},(res)=>{
-					// console.log('获取充值记录的接口')
-					this.hisList = this.hisList.concat(res.data.list)
+					this.hisList = this.hisList.concat(res.list)
 					// 判断返回的 数据条数 用来看是否有下一页
-					if (this.hisList.length == 10) {
+					if (res.list.length == 10) {
 						this.d_pageNum++;
 						this.nextpage = true
 					}else{
@@ -125,8 +141,6 @@
 			},
 		}
 	}
-	
-	
 </script>
 
 <style scoped lang="less">
@@ -153,12 +167,10 @@
 				justify-content: space-between;
 				align-items: center;
 				height: 100rpx;
-				
 				.left{
 					.name{
 						font-size: 35rpx;
 					}
-					
 					.time{
 						font-size: 25rpx;
 						color:#8f8f8f ;
@@ -167,7 +179,6 @@
 				.right{
 					font-size: 37rpx;
 				}
-				
 			}
 		}
 		.item:last-child{

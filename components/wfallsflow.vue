@@ -379,6 +379,9 @@ export default {
 						border-radius: 50%;
 						overflow: hidden;
 						margin-right: 10rpx;
+						// iOS端圆角设置失效
+								-webkit-backface-visibility: hidden;
+								-webkit-transform: translate3d(0, 0, 0);
 						image {
 							width: 100%;
 							height: 100%;

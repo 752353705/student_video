@@ -10,10 +10,16 @@
 			<!-- 底部的操作按钮 -->
 			<view v-if="btnShow" class="btn">
 				<view class="clear" @tap.stop="clear">一键清空</view>
-				<view :class="operList.length != 0 ? '' : 'del'" @tap.stop="del">删除</view>
+				<!-- :class="operList.length != 0 ? '' : 'del'" -->
+				<view v-if="operList.length == 0" class="clear del" >
+					删除
+				</view>
+				<view v-else class="clear"  @tap.stop="del">
+					删除
+				</view>
 			</view>
 			<!-- 用户收藏的 作品展示 -->
-			<checkbox-group class="box" data-id="999" @change="checkboxChange">
+			<checkbox-group class="box"  @change="checkboxChange">
 				<!-- 多选按钮 用于用户对 自己的收藏进行操作  @tap="clickOper"  -->
 				<label class="item" v-for="(item, index) in colSumList" :key="item.id" :data-index="index">
 					<checkbox :value="item.collectionId" v-if="btnShow" />
@@ -41,7 +47,7 @@
 							</view>
 							<view class="f_item">
 								<text class="iconfont iconxinxi"></text>
-								<text style="margin-left: 10rpx;">{{ item.commentNum }}</text>
+								<text style="margin-left: 10rpx;">{{ item.commentNum || 0 }}</text>
 							</view>
 							<view class="f_item ">
 								<text class="iconfont icondianzan"></text>
@@ -56,20 +62,16 @@
 </template>
 
 <script module="img" lang="wxs">
-// 控制 二级评论 的时间格式
-function changeimg(img){
-	// console.log('img',img)
-	if(!img){
-		return ''
+	// 解析收藏的作品图片格式
+	function changeimg(img){
+		if(!img){
+			return ''
+		}
+		return img.split(',').slice(0,4)
 	}
-	// console.log('处理图片的语言',img.split(',').slice(0,4))
-	return img.split(',').slice(0,4)
-	// return time
-}
-
-module.exports = {
-	changeImg: changeimg,
-}
+	module.exports = {
+		changeImg: changeimg,
+	}
 </script>
 
 <script>
@@ -82,7 +84,6 @@ export default {
 			// 默认的头像 和用户名
 			uname: '',
 			uimg: '',
-
 			// 控制底部按钮、多选框的隐藏
 			btnShow: false,
 			// 获取的收藏列表
@@ -90,7 +91,7 @@ export default {
 			// 用户要进行选择的数据
 			operList: [],
 			// 用户点击的 每一项所处的  index
-			indexList: [],
+			// indexList: [],
 			// 判断是否有下一页
 			nextpage:false
 		};
@@ -98,25 +99,15 @@ export default {
 	onLoad() {
 		this.uname = uni.getStorageSync('user_name');
 		this.uimg = uni.getStorageSync('user_img');
+		this.getData();
 	},
 	onShow() {
-		this.getData();
-	},
-	onPullDownRefresh() {
-		console.log('下拉刷新');
-		this.getData();
-		setTimeout(function() {
-			uni.stopPullDownRefresh();
-		}, 0);
+		
 	},
 	onReachBottom(){
-		console.log('上拉加载')
-		// 当当前的数据 条数大于十条的时候，下拉到底部 重新请求数据
 		if(this.nextpage){
 			this.getData()
 		}
-		
-		
 	},
 	methods: {
 		// 请求数据
@@ -128,27 +119,11 @@ export default {
 					pageSize: 10
 				},
 				res => {
-					// console.log('请求收藏列表',res, res.data);
 					let val = res.data;
-
-					// 进行判断方式有 null
-					// for (let key in val) {
-					// 	if (!val[key]) {
-					// 		// 该项为空
-					// 		val[key] = [];
-					// 	}
-					// }
-
-					console.log('val', val);
-
 					// 将这三大类进行 拼接
 					// this.colSumList = val.videoList.concat(val.articleList).concat(val.secondGoodsList);
 					// this.colSumList = val.itemList
 					this.colSumList = this.colSumList.concat(val.itemList)
-
-					// 处理 所返回的 图片
-					// console.log('colSumList', this.colSumList);
-
 					// 判断返回的 数据条数 用来看是否有下一页
 					if (this.colSumList.length == 10) {
 						this.pageNum++;
@@ -161,21 +136,17 @@ export default {
 		},
 
 		// 判断用户点击的 具体操作的 那一项
-		clickOper(e) {
-			if (this.btnShow) return;
-			console.log('点击操作 e', e);
-		},
+		// clickOper(e) {
+		// 	if (this.btnShow) return;
+		// },
 
 		// 用户点击进入到详情页面
 		jumpDetail(e) {
-			// console.log('kw',kw,'item',item)
-			// console.log('e',e.currentTarget.dataset)
 			// 当用户没有点击操作按钮时进行
 			if (this.btnShow) {
 				console.log('e', e);
-				// 储存用户 点击的 那一项 的 index
-				this.indexList.push(e.currentTarget.dataset.index);
-
+				// 用户 点击的 那一项 的 index
+				// this.indexList.push(e.currentTarget.dataset.index);
 				return;
 			}
 
@@ -188,9 +159,6 @@ export default {
 			} else if (item.content) {
 				uni.navigateTo({
 					url: `/pages/playVideo/txtDetail?txtId=${item.id}`
-
-					// 测试二手 记得修改过来
-					// url:`/pages/playVideo/usedDetail?txtId=8`
 				});
 			} else if (item.goodsDescribe) {
 				uni.navigateTo({
@@ -198,8 +166,6 @@ export default {
 					url: `/pages/playVideo/usedDetail?usedId=${item.id}`
 				});
 			}
-
-			console.log('跳转到详情页进行查看');
 		},
 
 		// 用户点击编辑按钮
@@ -208,48 +174,49 @@ export default {
 			this.btnShow = !this.btnShow;
 			if (!this.btnShow) {
 				// 用户取消操作，将操作数据清空
+				// this.operList = '';
 				this.operList = [];
-				this.indexList = [];
 			}
 		},
 		// 用户进行选择 操作
 		checkboxChange: function(e) {
-			console.log('用户进行选择 多选', e);
-
-			// 获取用户选择的数据
-			this.operList = e.detail.value.join(',');
-
-			// var items = this.items,
-			// 	values = e.detail.value;
-			// for (var i = 0, lenI = items.length; i < lenI; ++i) {
-			// 	const item = items[i];
-			// 	if (values.includes(item.value)) {
-			// 		this.$set(item, 'checked', true);
-			// 	} else {
-			// 		this.$set(item, 'checked', false);
-			// 	}
-			// }
+			this.operList = e.detail.value
 		},
+		
 		// 用户点击进行删除  ,
 		del() {
-			this.api._del(`collection?ids=${this.operList}`, {}, res => {
-				console.log('删除成功', res.data);
-
-				// 针对用户点击的那一项，将数组中的进行去除
-				this.indexList.forEach(item => {
-					// 根据每一个的 index 进行删除
-					this.colSumList.splice(item, 1);
-				});
-				this.indexList = [];
+			this.api._del(`collection?ids=${this.operList.join(',')}`, {}, res => {
+				for(let i=0;i<this.operList.length;i++){
+					this.colSumList.forEach((item,index) => {
+						console.log('item',item)
+						// 如果数据列表中 的  collectionId 和 item相同 则进行删除
+						if(item.collectionId == this.operList[i]){
+							this.colSumList.splice(index,1)
+						}
+					});
+				}
+				this.operList = [];
 			});
 		},
+		
 		// 清空按钮
 		clear() {
-			this.api._del(`collection/all`, {}, res => {
-				console.log('清空', res.data);
-				// 将列表中的数据进行清空
-				this.colSumList = [];
-			});
+			let _this = this
+			uni.showModal({
+				title:'确定清空记录?',
+				success(res) {
+					if (res.confirm) {
+						_this.api._del(`collection/all`, {}, delres => {
+							console.log('清空', delres.data);
+							// 将列表中的数据进行清空
+							_this.colSumList = [];
+							_this.operList = [];
+						});
+					} else if (res.cancel) {
+						console.log('用户点击取消');
+					}
+				}
+			})
 		}
 	}
 };
@@ -257,17 +224,9 @@ export default {
 
 <style scoped lang="less">
 .myColl {
-	// position: fixed;
-	// top: 0;
-	// bottom: 0;
-	// right: 0;
-	// left: 0;
 	padding-bottom: 50px;
 	padding-top: 14px;
-	// background-color: #f2f2f2;
 	box-sizing: border-box;
-	// padding: 0 20rpx;
-
 	// 空布局
 	.empty {
 		width: 200px;
@@ -280,9 +239,15 @@ export default {
 
 	// 用户进行操作的按钮
 	.operation {
-		position: absolute;
+		position: fixed;
 		top: 21rpx;
 		right: 51rpx;
+		background-color: #eae4e4;
+		width: 100%;
+		width: 102rpx;
+		line-height: 26px;
+		text-align: center;
+		border-radius: 20rpx;
 	}
 	// 底部的操作按钮
 	.btn {
@@ -299,12 +264,14 @@ export default {
 		align-items: center;
 		color: black;
 		.clear{
+			text-align: center;
 			width: 50%;
-		}
-		.del {
+			&.del {
 			color: #cbcbcb;
-			width: 50%;
+			// width: 50%;
 		}
+		}
+		
 	}
 	// 展示盒子
 	.box {
@@ -317,7 +284,6 @@ export default {
 			padding-bottom: 20rpx;
 			display: flex;
 			justify-content: flex-start;
-			// border-bottom: 1px solid red;
 			// 绘制 0.5的 分界线
 			.cont {
 				width: 100%;
@@ -334,7 +300,6 @@ export default {
 				image {
 					width: 80rpx;
 					height: 80rpx;
-					// background-color: red;
 					border-radius: 50%;
 					margin-right: 20rpx;
 				}
@@ -357,7 +322,6 @@ export default {
 				display: -webkit-box;
 				-webkit-line-clamp: 4;
 				-webkit-box-orient: vertical;
-
 				margin: 20rpx 0;
 			}
 			// 作品 图片
@@ -369,7 +333,6 @@ export default {
 				image {
 					width: 104px;
 					height: 104px;
-					// background-color: yellow;
 					margin-right: 21rpx;
 				}
 			}

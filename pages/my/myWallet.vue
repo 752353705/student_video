@@ -37,6 +37,7 @@
 					})
 				}
 			},
+			
 			// 进行充值
 			goRecharge(){
 				console.log('进行充值')
@@ -44,6 +45,7 @@
 					url:`/pages/recharge/recharge?money=${this.userInfo.goldNumber}&userId=${this.userInfo.userId}`
 				})
 			},
+			
 			// 查看明细
 			goDetail(){
 				console.log('查看明细')
@@ -66,8 +68,6 @@
 			border-radius: 25rpx;
 			padding-left: 47rpx;
 			padding-top: 39rpx;
-			// padding-right: 20rpx;
-			// padding-bottom: 20rpx;
 			background-image:linear-gradient(to bottom, #373737, #1f1f1f);
 			.tit{
 				font-size: 26rpx;
@@ -89,7 +89,7 @@
 			text-align: center;
 			border-radius: 30rpx;
 			margin: 100rpx auto;
-			background-color: #f83f20;
+			background-color: #ff9933;
 			color: white;
 		}
 	}

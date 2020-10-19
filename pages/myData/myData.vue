@@ -36,7 +36,6 @@
 						:style=" userInfo.personalProfile ? 'color: #9c9c9c' : '' "
 						>
 						{{userInfo.personalProfile || '有趣的简介会吸引更多的粉丝哦' }}
-						
 					</text>
 					<text class="iconfont iconfanhui"></text>
 				</view>
@@ -52,13 +51,6 @@
 			    >
 			    </min-picker>
 			</min-popup>
-		<!-- 	<view class="item">
-				<view class="le">名字</view>
-				<view class="ri">
-					<text style="margin-right: 10rpx;">名字</text>
-					<text class="iconfont iconfanhui"></text>
-				</view>
-			</view> -->
 		</view>
 	</view>
 </template>
@@ -70,19 +62,14 @@
 		data(){
 			return {
 				// 日期插件 显隐
-				startTime:[2018,6,1],
-				endTime:[2046],
+				startTime:[1990,6,1],
+				endTime:[2020],
 				show:false,
 				
 				userInfo:'',
 				time:'暂无',
 				// 选择器当前的下标
 				value:0,
-				date:[
-					['2001年','2002年','2003年'],
-					['1月','2月','3月'],
-					['1','2','3'],
-				]
 			}
 		},
 		components:{
@@ -106,26 +93,24 @@
 			// 确认事件
 			sure(e){
 			    console.log(e)
-					this.time = e.a + '-' + e.b + '-' + e.c
+					this.userInfo.birthday = e.a + '-' + e.b + '-' + e.c
 			   // 将生日进行提交
 				 this.api._put('user',{
-				 	birthday:this.time
+				 	birthday:this.userInfo.birthday
 				 },(res)=>{
-				 	// uni.navigateBack({
-				 	// 	delta:1
-				 	// })
+					 
 				 })
 			},
+			
 			// picker显示
 			showPop(){
 			    this.show = true
 			},
+			
 			// 关闭picker
 			close(){
 			    this.show = false
 			},
-			
-			
 			
 			// 获取当前用户的个人资料
 			getUsInfo(){
@@ -138,24 +123,28 @@
 					})
 				}
 			},
+			
 			// 跳转到 修改个人名字
 			changName(){
 				uni.navigateTo({
-					url:'/pages/myData/myName'
+					url:'/pages/myData/myName?name=' + this.userInfo.userName
 				})
 			},
+			
 			// 跳转到 修改个人简介
 			changIntro(){
 				uni.navigateTo({
 					url:'/pages/myData/myIntroduction?personalProfile=' + this.userInfo.personalProfile 
 				})
 			},
+			
 			// 跳转到 修改性别
 			changGender(){
 				uni.navigateTo({
 					url:'/pages/myData/myGender?gender=' + this.userInfo.gender
 				})
 			},
+			
 		}
 	}
 </script>
@@ -165,10 +154,12 @@
 		.user_img{
 			width: 162rpx;
 			height: 162rpx;
-			// background-color: red;
 			margin: 80rpx auto;
 			border-radius: 50%;
 			overflow: hidden;
+			// iOS端圆角设置失效
+					-webkit-backface-visibility: hidden;
+					-webkit-transform: translate3d(0, 0, 0);
 			image{
 				width: 100%;
 				height: 100%;
@@ -179,7 +170,6 @@
 			box-sizing: border-box;
 			padding-left: 44rpx;
 			padding-right: 44rpx;
-			
 			.item{
 				display: flex;
 				justify-content: space-between;

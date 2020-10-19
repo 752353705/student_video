@@ -23,7 +23,7 @@
 				<!-- 当前可以进行选择的图片个数 -->
 				<view class="shownum">
 					<!-- <text>{{ count }}/6</text> -->
-					<text>{{ images.length }}/6</text>
+					<text>{{ images.length }}/{{nowCount}}</text>
 				</view>
 				<!-- 展示选中的图片  -->
 				<view class="cont_box">
@@ -31,13 +31,14 @@
 						<image :src="item.url" mode="aspectFit"></image>
 						<image class="img" @tap.stop="clear(num,index)" src="../../static/close_video.png" mode=""></image>
 					</view>
-					<view v-if="!(images.length > 5)" class="content" @tap.stop="getImg">
+					<view v-if="!(images.length == nowCount)" class="content" @tap.stop="getImg">
 						<!-- 十字图案 -->
 						<view class="cross"></view>
 					</view>
 				</view>
 			</view>
-			<view class="btn" @tap.stop="pushImg">发布</view>
+			<view v-if="!btn_statue" class="btn" @tap.stop="pushImg">发布</view>
+			<view v-else class="btn" style="background-color: #BBBBBB;" >发布中...</view>
 			<!-- 上传进度显示 
 				当上传完毕之后，进度环消失
 			 -->
@@ -71,9 +72,11 @@ export default {
 
 			num: 0,
 			count: 0, // 最多可以选择的图片张数
+			nowCount: 1, // 最多可以选择的图片张数
 			uploader: '',
 			videos: [],
-			showCir: false, //进度环是否显示
+			// showCir: false, //进度环是否显示
+			btn_statue: false, //进度环是否显示
 			percent: 0, //上传进度环的显示
 			title: '', //文章的标题
 			areaVal: '' //文本域内的文字
@@ -148,6 +151,18 @@ export default {
 
 		// 进行图片的上传
 		pushImg() {
+			// 判断 用户是否进行了完整的 填写
+			if (this.images.length == 0 || this.title.length == 0 || this.areaVal.length == 0) {
+				uni.showToast({
+					title: '请填写完整之后上传',
+					icon: 'none'
+				});
+				return;
+			}
+			// 开始了上传 改变按钮的状态
+			this.btn_statue = true
+			
+			
 			// return new Promise((res,rej) => {
 				// 在进行上传的时候 要保证 imgArr 为 空
 				// 防止 用户在已经上传了 之后 又进行修改 然后重新上传
@@ -157,7 +172,7 @@ export default {
 				let _this = this;
 				
 				uni.showLoading({
-					title:'正在上传..'
+					title:'正在发布..'
 				})
 				
 				// 改变 当前 所选图片结构
@@ -250,6 +265,14 @@ export default {
 						uni.navigateTo({
 							url:`/pages/playVideo/txtDetail?txtId=${res.data}`
 						})
+						_this.areaVal = ''
+						_this.count = 0
+						_this.title = ''
+						_this.topic = ''
+						_this.images = []
+						_this.imgArr = []
+						// 上传成功
+						_this.btn_statue = false
 					}
 				);
 			// }
@@ -314,7 +337,7 @@ export default {
 			var that = this;
 			var count = that.count; // 最多可以选择的图片张数
 			uni.chooseImage({
-				count: 6 - count, // 最多可以选择的图片张数
+				count: that.nowCount - that.count, // 最多可以选择的图片张数
 				sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
 				sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
 				success: function(res) {
@@ -343,7 +366,7 @@ export default {
 	}
 };
 </script>
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .pused {
 	overflow: auto;
 

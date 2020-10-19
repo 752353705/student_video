@@ -1,80 +1,96 @@
 <template>
 	<view>
-		<view class="user_cmt" v-for="(item,index) in msgList" :key="item.id">
-			<!-- 用户的评论 -->
-				<view class="user_img" @click="goAuthor(item.avatarUrl)">
-					<image :src="item.avatarUrl" mode=""></image>
-				</view>
-				<view class="content">
-					<view class="user_head" @click="goAuthor(item.avatarUrl)">
-						{{item.userName || '用户名'}}
+		<scroll-view   enable-flex="true"
+			scroll-y="true"  lower-threshold="80"
+			@scrolltolower="scrolltolower" style="height: 320px;overflow: hidden;"
+			>
+			<view class="user_cmt"
+				v-for="(item,index) in msgList" :key="item.id"
+				>
+				<!-- 用户的评论 -->
+					<view class="user_img" @click="goAuthor(item.userId)">
+						<image :src="item.avatarUrl" mode=""></image>
 					</view>
-					<view class="user_body" @click="reply(index,index2)">
-						{{item.content || '用户说的话'}}
-					</view>
-					<!-- 时间  回复   点赞数 -->
-					<view class="user_footer">
-						<view class="left">
-							<view class="time">
-								{{time.changetime(item.createTime) || item.createTime }}
+					<view class="content">
+						
+						
+						<view class="user_head" style="width: 110rpx;" @click="goAuthor(item.userId)">
+							{{item.userName || '用户名'}}
+						</view>
+						<!-- 暂时隐藏评论回复-->
+						<!-- @click="reply(index,index2)" -->
+						<view class="user_body">
+							{{item.content || '用户说的话'}}
+						</view>
+						<!-- 时间  回复   点赞数 -->
+						<view class="user_footer">
+							<view class="left">
+								<view class="time">
+									{{time.changetime(item.createTime) || item.createTime }}
+								</view>
+							</view>
+							<view class="cmt_right" :id=" 'right' + index "  @click="seeActive(item.id,index)">
+								<!-- 未点赞 -->
+								<u-icon v-if="!item.liked" color="#93979a" size="40" name="thumb-up"></u-icon>
+								<u-icon v-else size="40" name="thumb-up-fill" color="#ff6347" ></u-icon>
+								<text style="margin-left: 10rpx;" :style="item.liked ? 'color:#ff6347;' : 'color:#93979a;' ">
+									{{item.praseCount || ''}}
+								</text>
 							</view>
 						</view>
-						<view class="cmt_right" :id=" 'right' + index "  @click="seeActive(item.id,index)">
-							<!-- 未点赞 -->
-							<u-icon v-if="!item.liked" size="40" name="thumb-up"></u-icon>
-							<u-icon v-else size="40" name="thumb-up-fill" color="#ff6347" ></u-icon>
-							<view>{{item.praseCount || ''}}</view>
-						</view>
-					</view>
-					
-					
-					<!-- 判断是否有二级回复 -->
-					<view class="two" v-if="item.replyList.length !== 0" >
 						
-						<view class="two_cmt" v-for="(item2,index2) in item.replyList" :key="index">
-							<!-- 用户的评论 -->
-								<view class="user_img" @click="goAuthor(item2.avatarUrl)">
-									<image :src="item2.avatarUrl" mode=""></image>
-								</view>
-								<view class="content two_content">
-									<view class="user_head" @click="goAuthor(item2.avatarUrl)">
-										{{item2.userName || '用户名'}}
+						
+						<!-- 判断是否有二级回复 -->
+						<view class="two" v-if="item.replyList.length !== 0" >
+							
+							<view class="two_cmt" v-for="(item2,index2) in item.replyList" :key="item2.id">
+								<!-- 用户的评论 -->
+									<view class="user_img" @click="goAuthor(item2.userId)">
+										<image :src="item2.avatarUrl" mode=""></image>
 									</view>
-								<!-- 用于区分用户的 回复状态 -->
-									<!-- 二级回复 是对当前 一级的回复 -->
-									<view  v-if="true" class="user_body" @click="reply(index,index2)">
-										{{item2.content || '用户说的话'}}
-									</view>
-									<!-- 回复同等级的 二级回复 -->
-									<view  v-else class="user_body" @click="reply(index,index2)">
-										{{threereplayname + item2.content || '用户说的话'}}
-									</view>
-									<!-- 时间  回复   点赞数 -->
-									<view class="user_footer">
-										<view class="left">
-											<view class="time">
-												{{time.changetime(item2.createTime) || item2.createTime}}
+									<view class="content two_content">
+										<view class="user_head" @click="goAuthor(item2.userId)">
+											{{item2.userName || '用户名'}}
+										</view>
+									<!-- 用于区分用户的 回复状态 -->
+										<!-- 二级回复 是对当前 一级的回复 -->
+										<view  v-if="true" class="user_body" @click="reply(index,index2)">
+											{{item2.content || '用户说的话'}}
+										</view>
+										<!-- 回复同等级的 二级回复 -->
+										<view  v-else class="user_body" @click="reply(index,index2)">
+											{{threereplayname + item2.content || '用户说的话'}}
+										</view>
+										<!-- 时间  回复   点赞数 -->
+										<view class="user_footer">
+											<view class="left">
+												<view class="time">
+													{{time.changetime(item2.createTime) || item2.createTime}}
+												</view>
+											</view>
+											<view class="cmt_right" @click="replaySec(index,index2)">
+												<!-- 未点赞 -->
+												<u-icon color="#93979a" v-if="!item2.liked" size="40" name="thumb-up"></u-icon>
+												<!-- 点赞 -->
+												<u-icon v-else size="40" name="thumb-up-fill" color="#ff6347" ></u-icon>
+												<text style="margin-left: 10rpx;" :style="item2.liked ? 'color:#ff6347;' : 'color:#93979a;'">
+													{{item2.praseCount || ''}}
+												</text>
 											</view>
 										</view>
-										<view class="cmt_right" @click="replaySec(index,index2)">
-											<!-- 未点赞 -->
-											<u-icon v-if="!item2.liked" size="40" name="thumb-up"></u-icon>
-											<!-- 点赞 -->
-											<u-icon v-else size="40" name="thumb-up-fill" color="#ff6347" ></u-icon>
-											<text>{{item2.praseCount || ''}}</text>
-										</view>
 									</view>
-								</view>
-						</view>
+							</view>
+							
+							<!-- 当当前 评论 回复 数目超过三个 之后 显示 展开更多回复 -->
+							<!-- <view class="replay" v-if="item.replyList.length > 3" @click="showTwo">
+								—展开更多回复—
+							</view> -->
 						
-						<!-- 当当前 评论 回复 数目超过三个 之后 显示 展开更多回复 -->
-						<!-- <view class="replay" v-if="item.replyList.length > 3" @click="showTwo">
-							—展开更多回复—
-						</view> -->
-					
+						</view>
 					</view>
-				</view>
-		</view>
+			</view>
+		
+		</scroll-view >
 	</view>
 </template>
 
@@ -82,7 +98,18 @@
 	// 控制 二级评论 的时间格式 
 	function changetime(time){
 		if(!time){
-			return ''
+			// time = new Date()
+			var date = getDate(getDate().getTime())
+			// 月
+			var months = date.getMonth() + 1
+			// 日
+			var day = date.getDate()
+			// 小时
+			var hour = date.getHours()
+			// 分钟
+			var minutes = date.getMinutes()
+			
+			return months + '-' + day + ' ' + hour + ':' + minutes
 		}
 		//那一天
 		time1 = time.split(' ')[0].split('-')[1] 
@@ -147,16 +174,28 @@
 		components: {
 			
 		},
+		onReachBottom:function() {
+			console.log('上拉加载')
+		},
 		methods:{
+			scrolltolower(){
+				// console.log('滚动到底部uni-popup')
+				// 调用发起请求 请求下一页数据
+				this.$emit('getComment')
+				
+			},
 			// 是否显示二级评论
 			showTwo(){
 				console.log('显示二级评论')
 				//点击展开显示更多
 			},
 			//跳转到作者页
-			goAuthor(avatarUrl){
+			goAuthor(userId){
+				let avatarItem = {
+					userId:userId
+				}
 				uni.navigateTo({
-				   url: "/pages/author/author?avatarUrl=" + avatarUrl
+				   url: "/pages/author/author?item=" + JSON.stringify(avatarItem)
 				});
 			},
 			reply(index,index2){
@@ -272,6 +311,9 @@
 			border-radius: 50%;
 			margin-right: 31rpx;
 			overflow: hidden;
+			// iOS端圆角设置失效
+					-webkit-backface-visibility: hidden;
+					-webkit-transform: translate3d(0, 0, 0);
 			image{
 				width: 100%;
 				height: 100%;
@@ -284,18 +326,26 @@
 			// 底部0.5px 的底线
 			position:relative;
 			padding-bottom:25rpx;
+			
+			// 用户说的话
+			.user_body{
+				width: 87%;
+				word-break:break-all;
+			}
+			
 			.user_footer{
 				width: 100%;	
 				display: flex;
 				justify-content: space-between;
 				.cmt_right{
 					position: absolute;
-					top: 10rpx;
+					top: 0rpx;
 					right: 10rpx;
 					display: flex;
-					flex-direction: column;
-					justify-content: center;
+					// flex-direction: column;
+					justify-content: flex-start;
 					align-items: center;
+					width: 80rpx;
 				}
 				// image{
 				// 	width: 40rpx;
@@ -337,6 +387,9 @@
 			height: 1px;
 			background: gray;
 			transform: scaleY(0.5);
+		}
+		.content::after:last-child {
+			background: white;
 		}
 	}
 </style>

@@ -45,6 +45,7 @@
   overflow: hidden;
   box-sizing: border-box;
   padding-left: 20rpx;
+  margin-top: 20rpx;
 }
 .pused .topic.data-v-f0c1b4c4 {
   margin-top: 20rpx;
@@ -74,6 +75,15 @@
 .pused .topic.act .le .tag.data-v-f0c1b4c4 {
   background-color: #5994e2;
 }
+.pused .txt_area.data-v-f0c1b4c4 {
+  width: 100%;
+  height: 278.47rpx;
+  background-color: #f2f2f2;
+  border-radius: 20rpx;
+  margin-top: 32rpx;
+  box-sizing: border-box;
+  padding: 30rpx;
+}
 .pused .uni-popup-message-text.data-v-f0c1b4c4 {
   width: 100%;
   font-size: 14px;
@@ -90,15 +100,6 @@
   -webkit-align-items: flex-start;
           align-items: flex-start;
   overflow: hidden;
-}
-.pused .uni-popup-message-text .txt_area.data-v-f0c1b4c4 {
-  width: 100%;
-  height: 278.47rpx;
-  background-color: #f2f2f2;
-  border-radius: 20rpx;
-  margin-top: 32rpx;
-  box-sizing: border-box;
-  padding: 30rpx;
 }
 .pused .uni-popup-message-text .tit.data-v-f0c1b4c4 {
   margin-top: 10px;
@@ -179,7 +180,6 @@
   width: 100%;
 }
 .pused .uni-popup-message-text .img_box .cont_box .content.data-v-f0c1b4c4 {
-  margin-top: 76rpx;
   color: white;
   font-size: 30rpx;
   position: relative;
@@ -222,7 +222,7 @@
   height: 83.66rpx;
   text-align: center;
   line-height: 83.66rpx;
-  background-color: #fe2c53;
+  background-color: #ff9933;
   border-radius: 40rpx;
   color: white;
   font-size: 36rpx;

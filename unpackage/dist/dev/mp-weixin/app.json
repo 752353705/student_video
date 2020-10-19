@@ -22,28 +22,14 @@
     "pages/my/myCollection",
     "pages/my/myHistory",
     "pages/my/myConsumption",
-    "pages/zan/zan",
-    "pages/newfocus/newfocus",
-    "pages/commt/commt",
-    "pages/publish/publishVideo",
-    "pages/publish/topic",
     "pages/publish/publishNotice",
-    "pages/publish/publishUsed",
     "pages/recharge/recharge",
+    "pages/recharge/pay",
     "pages/recharge/rechHis",
     "pages/rank/rank",
     "pages/changeTxt/changeTxt"
   ],
-  "subPackages": [
-    {
-      "root": "packageA",
-      "pages": [
-        "pages/mySigin",
-        "pages/myFocus",
-        "pages/myFans"
-      ]
-    }
-  ],
+  "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#FFFFFF",
@@ -54,19 +40,25 @@
     "borderStyle": "black",
     "backgroundColor": "#fdfdfd",
     "color": "#8a8a8a",
-    "selectedColor": "#ff5266",
+    "selectedColor": "#ff9933",
     "list": [
+      {
+        "pagePath": "pages/Introduction/Introduction",
+        "iconPath": "/static/tabbar/game.png",
+        "selectedIconPath": "/static/tabbar/game_active.png",
+        "text": "大赛"
+      },
       {
         "pagePath": "pages/list/list",
         "iconPath": "/static/tabbar/index.png",
         "selectedIconPath": "/static/tabbar/index_active.png",
-        "text": "首页"
+        "text": "作品"
       },
       {
         "pagePath": "pages/publish/publishNotice",
         "iconPath": "/static/tabbar/add.png",
         "selectedIconPath": "/static/tabbar/add_active.png",
-        "text": "发布作品"
+        "text": "发布"
       },
       {
         "pagePath": "pages/my/my",
@@ -75,26 +67,6 @@
         "text": "我的"
       }
     ]
-  },
-  "preloadRule": {
-    "packageA/pages/mySigin": {
-      "network": "all",
-      "packages": [
-        "packageA"
-      ]
-    },
-    "packageA/pages/myFans": {
-      "network": "all",
-      "packages": [
-        "packageA"
-      ]
-    },
-    "packageA/pages/myFocus": {
-      "network": "all",
-      "packages": [
-        "packageA"
-      ]
-    }
   },
   "permission": {
     "scope.userLocation": {
@@ -105,7 +77,6 @@
     "mescroll-body": "/components/mescroll-uni/mescroll-body",
     "mescroll-uni": "/components/mescroll-uni/mescroll-uni",
     "uni-popup": "/components/uni-popup/uni-popup",
-    "uni-popup-dialog": "/components/uni-popup/uni-popup-dialog",
-    "c-circle": "/components/cCircle"
+    "uni-popup-dialog": "/components/uni-popup/uni-popup-dialog"
   }
 }

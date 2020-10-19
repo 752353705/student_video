@@ -30,11 +30,11 @@
 		</block>
 
 		<!-- 商品的瀑布流 -->
-		<block v-if="showType == 2">
-			<!-- <mescroll-empty @emptyclick="emptyClick" v-if="goods.length === 0" :option="emptyOption"></mescroll-empty> -->
+		<!-- <block v-if="showType == 2">
+			<mescroll-empty @emptyclick="emptyClick" v-if="goods.length === 0" :option="emptyOption"></mescroll-empty>
 			<block v-if="goods.length === 0"></block>
 			<block v-else><shop-waterfall style="{height:400px}" :list="goods"></shop-waterfall></block>
-		</block>
+		</block> -->
 	</mescroll-uni>
 </template>
 
@@ -43,14 +43,14 @@ import MescrollEmpty from '@/components/mescroll-uni/components/mescroll-empty.v
 import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
 import MescrollMoreItemMixin from '@/components/mescroll-uni/mixins/mescroll-more-item.js';
 import wfallsFlow from '@/components/wfallsflow.vue';
-import shopWaterfall from '@/components/shop-waterfall.vue';
+// import shopWaterfall from '@/components/shop-waterfall.vue';
 
 export default {
 	mixins: [MescrollMixin, MescrollMoreItemMixin], // 注意此处还需使用MescrollMoreItemMixin (必须写在MescrollMixin后面)
 	components: {
 		MescrollEmpty,
 		wfallsFlow,
-		shopWaterfall
+		// shopWaterfall
 	},
 	data() {
 		return {
@@ -58,8 +58,6 @@ export default {
 			title:'',
 			// 默认 不进行拼接
 			state:true,
-			
-			
 			video_src: '',
 			// 下拉
 			downOption: {
@@ -92,7 +90,11 @@ export default {
 			type: String,
 			default: 'listVideo'
 		},
-
+		// 赛事	id
+		subjectId: {
+			type:String,
+			default:''
+		},
 		// 空布局时的提示
 		emptyOption: {
 			type: Object,
@@ -129,11 +131,9 @@ export default {
 		}
 	},
 	mounted() {
-		console.log('swiper item 进行挂载 this.uId',this.uId,this.$props.kw)
+		// console.log('swiper item 进行挂载 this.uId',this.uId,this.$props.kw)
 	},
 	computed: {
-		
-
 		// 将空页面的布局 对 data中 的数据进行赋值
 		changeEmpty() {
 			// console.log('swiper item 进行挂载',this.$props.videolist)
@@ -142,6 +142,12 @@ export default {
 		}
 	},
 	methods: {
+		// 控制页面数据进行主动刷新
+		refash(){
+			console.log('组件更新')
+			this.mescroll.resetUpScroll(false)
+		},
+		
 		// 控制用户操作弹窗的显隐
 		showUseroperation(btntop, btnleft) {
 			this.$emit('showUseroperation', btntop, btnleft);
@@ -157,7 +163,6 @@ export default {
 		},
 		/*上拉加载的回调: 其中page.num:当前页 从1开始, page.size:每页数据条数,默认10 */
 		upCallback(page) {
-			
 			if (page.num == 1) {
 				this.goods = [];
 			}
@@ -187,6 +192,7 @@ export default {
 					: ''
 			},0)
 		},
+		
 		// 下拉加载发起请求
 		// 请求用户进行搜索的内容
 		// getSearch(title,pageNum,state){
@@ -250,11 +256,13 @@ export default {
 		// 请求 首页文章 数据
 		getListTxt(pageNum) {
 			let _this = this;
+			console.log('文章 subjectId',this.subjectId)
 			this.api._get(
 				'article/list',
 				{
 					pageNum: pageNum,
-					pageSize: '10'
+					pageSize: '10',
+					subjectId:this.subjectId
 				},
 				function(res) {
 					console.log('请求首页的文章 成功', res.data);

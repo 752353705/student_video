@@ -4,6 +4,8 @@
   margin: 80rpx auto;
   border-radius: 50%;
   overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
 }
 .my_data .user_img image.data-v-2c0e1d06 {
   width: 100%;

@@ -7,8 +7,8 @@
 }
 .container .wechatapp .app-img {
   display: block;
-  width: 138rpx;
-  height: 138rpx;
+  width: 216rpx;
+  height: 216rpx;
   border-radius: 20rpx;
   margin: auto;
 }
@@ -24,7 +24,7 @@
   color: #333;
 }
 .container .wechatapp.login {
-  padding: 87rpx 0 150rpx;
+  padding: 87rpx 0rpx;
   margin-bottom: 100rpx;
 }
 .control {
@@ -58,7 +58,7 @@
   margin-right: 0;
   color: white;
   border: none;
-  background: #26c81f;
+  background: #ff9933;
 }
 .btn.login::after {
   display: none;

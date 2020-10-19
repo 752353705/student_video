@@ -34,7 +34,6 @@
 		methods:{
 			// 用户输入 简介
 			input(e){
-				// console.log('e',e)
 				this.value = e.detail.value
 				this.num = e.detail.cursor
 			},
@@ -68,8 +67,6 @@
 		background-color: white;
 		border-radius: 30rpx;
 		margin: 80rpx auto;
-		
-		
 	}
 	.num{
 		position: absolute;
@@ -82,7 +79,7 @@
 		line-height: 91rpx;
 		text-align: center;
 		color: white;
-		background-color: #ff2440;
+		background-color: #ff9933;
 		margin: 20rpx auto;
 		border-radius: 30rpx;
 	}

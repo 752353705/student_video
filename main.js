@@ -18,18 +18,16 @@ import uniPopupDialog from './components/uni-popup/uni-popup-dialog.vue'
 Vue.component('uniPopupDialog',uniPopupDialog)
 
 // 引入进度环组件
-import cCircle from './components/cCircle.vue'
-Vue.component('cCircle',cCircle)
+// import cCircle from './components/cCircle.vue'
+// Vue.component('cCircle',cCircle)
 
 // 将网络请求集中进行处理
 import {api} from './API/_api.js'
 Vue.prototype.api = api
+// import {new_api} from './API/new_api.js'
+// Vue.prototype.new_api = new_api
 
 // 页面之间 进行返回的 时候，修改上一个页面栈中的数据
-Vue.prototype.$eventHub = new Vue();
-
-
-
 
 Vue.config.productionTip = false
 App.mpType = 'app'

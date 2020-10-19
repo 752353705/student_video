@@ -2,26 +2,27 @@
 	<view>
 		<!-- 有粉丝 -->
 		<block v-if="list.length !=0">
-			<view class="fans" v-for="(item,index) in list" :key="index">
+			<view class="fans" v-for="(item,index) in list" :key="index"
+				@click="goAuthor(index)"
+				>
 				<view class="left">
 					<view class="img">
 						<image :src="item.avatarUrl" mode=""></image>
 					</view>
 					<view class="name">{{item.userName}}</view>
 				</view>
-				<view v-if="!item.followed" class="focus" @click="focusOn(index)">
+				<view v-if="!item.followed" class="focus" @click.stop="focusOn(index)">
 					关注
 				</view>
-				<view v-else class="focus focuson" @click="focusOn(index)">
+				<view v-else class="focus focuson" @click.stop="focusOn(index)">
 					已关注
 				</view>
 			</view>
 		</block>
 		<!-- 暂无关注 -->
 		<block v-else>
-		<image class="empty" src="../../static/dingdan.png" mode=""></image>
+			<image class="empty" src="../../static/dingdan.png" mode=""></image>
 		</block>
-		
 	</view>
 </template>
 
@@ -41,17 +42,11 @@
 		},
 		onLoad(option) {
 			// 渲染 粉丝列表或者关注列表
-			console.log('当前 粉丝 列表')
 			this.userId = option.userId
-			// this.name = option.name
-			// uni.setNavigationBarTitle({
-			//     title: option.name
-			// });
-		
 		},
 		onShow() {
 			let _this = this 
-			console.log('myFans onshow')
+			// console.log('myFans onshow')
 				// 获取当前 关注我的 列表
 				if(this.userId){
 					this.getOtherFans()
@@ -60,7 +55,7 @@
 				}
 		},
 		onReachBottom(){
-			console.log('上拉加载')
+			// console.log('上拉加载')
 			// 当当前的数据 条数大于十条的时候，下拉到底部 重新请求数据
 			if(!this.nextpage) return;
 			if(this.userId){
@@ -70,6 +65,17 @@
 			}
 		},
 		methods:{
+			// 用户跳转到他人 主页面
+			goAuthor(index) {
+				let item = {
+					avatarUrl: this.list[index].avatarUrl,
+					userId: this.list[index].userId
+				};
+				uni.navigateTo({
+					url: `/pages/author/author?item=${JSON.stringify(item)}`
+				});
+			},
+			
 			// 获取我的粉丝列表
 			getMyFans(){
 				this.api._get(
@@ -79,8 +85,7 @@
 						pageSize: 10
 					},
 					(res) => {
-						console.log('获取我的粉丝列表 res ===>', res);
-				
+						// console.log('获取我的粉丝列表 res ===>', res);
 						this.list = this.list.concat(res.data.list);
 						if (this.colSumList.length == 10) {
 							this.pageNum++;
@@ -88,10 +93,10 @@
 						}else{
 							this.nextpage = false
 						}
-						
 					}
 				);
 			},
+			
 			// 获取其他人的粉丝
 			getOtherFans(){
 				this.api._get(
@@ -102,12 +107,12 @@
 						pageSize: 10
 					},
 					(res) => {
-						console.log('获取其他人的粉丝列表 res ===>', res);
-				
+						// console.log('获取其他人的粉丝列表 res ===>', res);
 						this.list = res.data.list;
 					}
 				);
 			},
+			
 			focusOn(index){
 				let _this = this
 				if(!this.list[index].followed){
@@ -135,20 +140,18 @@
 										followedId: _this.list[index].userId //被关注的 作者id
 									},
 									function(res) {
-										console.log('进行关注成功', res);
+										// console.log('进行关注成功', res);
 										_this.list[index].followed = !_this.list[index].followed;
 									}
 								);
-					
-								// _this.focus = true //用户取消关注
 							} else if (res.cancel) {
 								console.log('用户点击取消');
 							}
 						}
 					});
-					
 				}
 			},
+			
 		}
 	}
 </script>
@@ -191,10 +194,6 @@
 		border: 1px solid red;
 		color: red;
 		padding: 6rpx 35rpx;
-		// padding-top: 10rpx;
-		// padding-right: 10rpx;
-		// padding-bottom: 10rpx;
-		// padding-left: 10rpx;
 		border-radius: 40rpx;
 		font-size: 27rpx;
 	}
@@ -211,8 +210,7 @@
 	bottom: 0;
 	width: 100%;
 	height: 1px;
-	 border-bottom:1px solid black;
-	/* 如果不用 background-color, 使用 border-top:1px solid #f00; 效果是一样的*/
+	border-bottom:1px solid black;
 	-webkit-transform: scaleY(.5);
 	transform:scaleY(.5);
 }
