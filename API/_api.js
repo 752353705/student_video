@@ -1,7 +1,7 @@
 // 将所有的 网络请求进行集中处理
 let token = wx.getStorageSync('token') || ''
 // 测试
-// let api_root = 'http://192.168.0.103:8082/wx/'
+// let api_root = 'http://133edfa4.cpolar.io/wx/'
 let api_root = 'https://xsh.taihangyizhan.com/wx/'
 // 发送 get 请求
 function _get(url, data, success, fail, complete) {
@@ -101,7 +101,7 @@ function _post(url, data, success, fail, complete) {
 					title: '友情提示',
 					content: res.data.errmsg,
 					success: function(res) {
-
+						fail && fail(res.data);
 					}
 				})
 				return false;

@@ -23,7 +23,7 @@
 		<view class="msgBox">
 			<!-- 用户的头像 -->
 			<view class="img_user"><image :src="userImg" mode=""></image></view>
-			<view class="msg">
+			<view class="msg" :style=" { height:lineHeight } " >
 				<!-- <image src="/static/signature.png" mode=""></image> -->
 				<text class="iconfont iconxie" style="margin-right: 10rpx;color: #858585;"></text>
 				<!-- <input type="text" 
@@ -32,20 +32,28 @@
 					@confirm="send"
 					/> -->
 
-				<!-- 多行换行输入 -->
-				<textarea
-					show-confirm-bar="false"
-					type="text"
+				<!-- 多行换行输入
 					:placeholder="replayVal"
 					placeholder-style="color:#858585;"
 					placeholder-class="place_holder"
+				 -->
+				<textarea
+					:placeholder="replayVal"
+					:show-confirm-bar="false"
+					:adjust-position="true"
+					type="text"
 					cursor-spacing="15"
 					:value="val"
 					:focus="inputfocus"
 					@input="sendVal"
 					@confirm="send"
+					@linechange="linechange"
 				></textarea>
 				
+			<!-- 	<editor :placeholder="replayVal"
+					@input="sendVal"
+					>
+				</editor> -->
 				
 				
 			</view>
@@ -92,6 +100,9 @@ export default {
 	inject: ['popup'],
 	data() {
 		return {
+			// 文本域的行数
+			lineHeight:'66rpx',
+			
 			// 输入框是否聚焦
 			inputfocus: false,
 			// 上拉加载
@@ -134,8 +145,8 @@ export default {
 		userComment
 	},
 	created() {
-		console.log('创建 uni-popup-comments');
-		console.log('当前的时间 data==>', new Date());
+		// console.log('创建 uni-popup-comments');
+		// console.log('当前的时间 data==>', new Date());
 	},
 	mounted() {
 		let _this = this;
@@ -151,9 +162,26 @@ export default {
 			}
 		});
 
-		console.log('txtDetail 传递过来的参数', this.msg);
+		// 获取当前的节点信息
+
 	},
 	methods: {
+		// 当文本框的行数改变
+		linechange(e){
+			// console.log('行数发生改变，高度变化',e,e.detail.lineHeight)
+			// 当前文本框的行数 e.detail.lineHeight
+			// 当前文本框的高度 e.detail.heightRpx
+			if(e.detail.lineCount == 0){
+				return
+			} else if(e.detail.lineCount < 3){
+				this.lineHeight = e.detail.lineCount * 66 + 'rpx'
+			} else {
+				this.lineHeight = 2 * 66 + 'rpx'
+			}
+			
+			
+		},
+		
 		// 传递给子组件的方法，用于用户对其修改当前页面中的数据
 		changeMsgList(index, index2) {
 			console.log('uni-pop');
@@ -637,17 +665,29 @@ export default {
 			// padding-top: 35rpx;
 		}
 
-		textarea {
+		editor {
 			// background-color: red;
 			width: 100%;
 			height: 100%;
-			padding-top: 16rpx;
+			color: rgba(0, 0, 0, 0.5);
+			font-style: normal;
+			min-height: 0 !important;
+			
+			// padding-top: 16rpx;
+			// overflow: auto;
 		}
 		
-		textarea::-webkit-input-placeholder {
-		       color: #ddd;
-		       text-align: right;
-		   }
+		textarea {
+			width: 100%;
+			height: 100%;
+			padding-top: 16rpx;
+			// overflow-x:hidden;
+			// overflow: auto;
+		}
+		
+		 
+
+		
 		
 	}
 }
@@ -667,5 +707,6 @@ export default {
 	font-size: 50rpx;
 	color: black;
 }
+
 
 </style>

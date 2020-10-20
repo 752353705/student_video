@@ -17,10 +17,10 @@
 				</swiper>
 			</view>
 
-			<view class="rank" @click="rank">排行榜</view>
+			<view class="rank" @click="rankPopup">排行榜</view>
 
-			<view class="uni-share-button-box">
-				<view class="recharge" @click="recharge">
+			<view  class="uni-share-button-box">
+				<view v-if="!is_IOS" class="recharge" @click="recharge">
 					充值
 					<u-icon size="28" name="arrow-right"></u-icon>
 				</view>
@@ -40,6 +40,10 @@ export default {
 	inject: ['popup'],
 	data() {
 		return {
+			// 控制IOS端 充值礼物方面禁止，不显示相应界面
+			is_IOS:false,
+			
+			
 			// 控制是显示送礼物的界面还是显示充值的界面
 			// show:true,
 			giftList:[]
@@ -48,8 +52,25 @@ export default {
 	created() {
 		// 创建的时候，请求礼物数据信息
 		this.getGift()
+		this.getPhoneType()
 	},
 	methods: {
+		// 获取用户当前的使用环境
+		getPhoneType(){
+			switch(uni.getSystemInfoSync().platform){
+				case 'android':
+					 console.log('运行Android上')
+					 break;
+				case 'ios':
+					 console.log('运行iOS上')
+					 this.is_IOS = true
+					 break;
+				default:
+					 console.log('运行在开发者工具上')
+					 break;
+			}
+		},
+		
 		/**
 		 * 请求礼物数据
 		 * */
@@ -68,9 +89,9 @@ export default {
 		/**
 		 * 当前送礼物的排行信息
 		 * */
-		rank() {
+		rankPopup() {
 			console.log('获取排行');
-			this.$emit('rank', {}, () => {
+			this.$emit('rankPopup', {}, () => {
 				console.log('showRank 页面显示充值弹窗');
 			});
 		},

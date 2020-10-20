@@ -9,7 +9,7 @@
 			</view>
 		</view>
 		
-		<view class="btn" @tap="goRecharge">
+		<view v-if="!is_IOS" class="btn" @tap="goRecharge">
 			去充值
 		</view>
 	</view>
@@ -19,13 +19,32 @@
 	export default {
 		data(){
 			return {
+				// 控制IOS端 充值礼物方面禁止，不显示相应界面
+				is_IOS: false,
 				userInfo:''
 			}
 		},
 		onLoad() {
 			this.getUsInfo()
+			this.getPhoneType()
 		},
 		methods:{
+			// 获取用户当前的使用环境
+			getPhoneType() {
+				switch (uni.getSystemInfoSync().platform) {
+					case 'android':
+						console.log('运行Android上');
+						break;
+					case 'ios':
+						console.log('运行iOS上');
+						this.is_IOS = true;
+						break;
+					default:
+						console.log('运行在开发者工具上');
+						break;
+				}
+			},
+			
 			// 获取用户信息
 			getUsInfo(){
 				if(uni.getStorageSync('token')){

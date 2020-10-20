@@ -37,15 +37,16 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "pages/list/list",
-					"pathName": "pages/list/list",
-					"query": "",
+					"name": "pages/playVideo/txtDetail",
+					"pathName": "pages/playVideo/txtDetail",
+					"query": "txtId=25066",
 					"scene": null
 				},
 				{
 					"id": -1,
-					"name": "pages/playVideo/txtDetail",
-					"pathName": "pages/playVideo/txtDetail",
+					"name": "pages/myData/myData",
+					"pathName": "pages/myData/myData",
+					"query": "txtId=25066",
 					"scene": null
 				}
 			]

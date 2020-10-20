@@ -223,6 +223,15 @@
 				this.tab_act = index
 			},
 			jumpList(){
+				// 将该赛事进行储存
+				let gameMsg = {
+					subjectId:this.game_detail.subjectId,
+					logo:this.game_detail.logoUrl,
+					subjectTitle:this.game_detail.subjectTitle,
+					introduction:this.game_detail.introduction,
+				}
+				uni.setStorageSync('gameMsg',JSON.stringify(gameMsg))
+				
 				uni.switchTab({
 					url:'/pages/publish/publishNotice'
 				})

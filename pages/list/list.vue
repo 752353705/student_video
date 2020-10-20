@@ -17,7 +17,9 @@
 					<image class="img_box" :src="gameMsg.logo" :mode="aspectFit"></image>
 				</view>
 				<view class="body ma-l20 panel-center">
+					<!--  -->
 					<view class="name">{{gameMsg.subjectTitle}}</view>
+					<!--  -->
 					<view class="desc ma-t20 fo-20">{{gameMsg.introduction}}</view>
 				</view>
 			</view>
@@ -294,11 +296,19 @@
 					flex-direction: column;
 					// justify-content: center;
 					.name{
+						width: 380rpx;
 						font-size: 30rpx;
 						font-weight: bold;
+						overflow:hidden;
+						white-space:nowrap;
+						text-overflow:ellipsis;
 					}
 					.desc{
+						width: 380rpx;
 						color: #6d6d6d;
+						overflow:hidden;
+						white-space:nowrap;
+						text-overflow:ellipsis;
 						// margin-top: 20rpx;
 						// font-size: 20rpx;
 					}

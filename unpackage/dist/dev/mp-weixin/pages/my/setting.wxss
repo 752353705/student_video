@@ -62,8 +62,8 @@
           align-items: center;
 }
 .setting .content .list_item .left_icon .t-icon.data-v-3f1c30b4 {
-  width: 25px ;
-  height: 25px ;
+  width: 25px;
+  height: 25px;
   margin-right: 20rpx;
 }
 

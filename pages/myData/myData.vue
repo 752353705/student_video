@@ -62,7 +62,7 @@
 		data(){
 			return {
 				// 日期插件 显隐
-				startTime:[1990,6,1],
+				startTime:[1940,1,1],
 				endTime:[2020],
 				show:false,
 				

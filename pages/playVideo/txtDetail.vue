@@ -25,15 +25,15 @@
 			<!-- 当前作品的排名 -->
 			<view class="txt_rank" @tap="goRank">
 				<view class="rank_item">
-					<view class="num">{{ txtItem.goldNumber }}</view>
+					<view class="num">{{ rank.goldNumber }}</view>
 					<view class="desc">投票</view>
 				</view>
 				<view class="rank_item">
-					<view class="num">{{ txtItem.ranking }}</view>
+					<view class="num">{{ rank.ranking }}</view>
 					<view class="desc">排名</view>
 				</view>
 				<view class="rank_item">
-					<view class="num">{{ txtItem.lastOneGoldNumber }}</view>
+					<view class="num">{{ rank.lastOneGoldNumber }}</view>
 					<view class="desc">距离上一名</view>
 				</view>
 			</view>
@@ -102,7 +102,10 @@
 					<view style="position: relative;" class="comments icon" @click="getComment">
 						<text class="iconfont iconxinxi"></text>
 						<!-- <view class="icon_num ma-t10">{{ txtItem.commentNum || '' }}</view> -->
-						<u-badge :count="txtItem.commentNum || 0" size="mini" :offset="offset"></u-badge>
+						<u-badge :count="txtItem.commentNum || 0" size="mini" 
+							:offset="offset"  overflow-count="99"
+							>
+						</u-badge>
 					</view>
 					<!-- 收藏 -->
 					<view class="comments icon" @tap.stop="collection">
@@ -123,7 +126,10 @@
 		<!-- 生成海报图 -->
 		<qrcode-poster ref="poster" title="海报标题" subTitle="海报副标题" price="10" @close="close(index)"></qrcode-poster>
 		<!-- 送礼物弹出框 -->
-		<uni-popup ref="popupGifts" type="share"><uni-popup-gifts title="礼物" @rank="rank" @recharge="recharge" @select="selectgift"></uni-popup-gifts></uni-popup>
+		<uni-popup ref="popupGifts" type="share">
+			<uni-popup-gifts title="礼物" @rankPopup="rankPopup" @recharge="recharge" @select="selectgift">
+			</uni-popup-gifts>
+		</uni-popup>
 		<!-- 评论弹出框 -->
 		<uni-popup ref="popupComments" type="share">
 			<uni-popup-comments
@@ -165,9 +171,10 @@ import uniPopupRank from '@/components/uni-popup/uni-popup-rank.vue';
 export default {
 	data() {
 		return {
+			// 控制IOS端 充值礼物方面禁止，不显示相应界面
+			is_IOS:false,
 			// 控制角标的位置
 			offset: [-12, -12],
-
 			// 控制礼物弹窗的显隐
 			sinBar: true,
 			// 送礼物的数据
@@ -192,6 +199,9 @@ export default {
 					txt: '距离上一名'
 				}
 			],
+			// 排名数据
+			rank:[],
+			
 			money: 0,
 			fanlist: [],
 			clt: false, //表示用户没有进行收藏
@@ -237,6 +247,10 @@ export default {
 			withShareTicket: true,
 			menus: ['shareAppMessage', 'shareTimeline']
 		});
+		
+			// 获取当前用户的使用环境
+			this.getPhoneType()
+		
 	},
 	onShow() {
 		this.api._post(
@@ -247,6 +261,8 @@ export default {
 			},
 			function(res) {}
 		);
+		this.getRank()
+	
 	},
 	// 触发页面的转发事件
 	onShareAppMessage: function(res) {
@@ -282,6 +298,30 @@ export default {
 	},
 
 	methods: {
+		// 获取用户当前的使用环境
+		getPhoneType(){
+			switch(uni.getSystemInfoSync().platform){
+				case 'android':
+					 console.log('运行Android上')
+					 break;
+				case 'ios':
+					 console.log('运行iOS上')
+					 this.is_IOS = true
+					 break;
+				default:
+					 console.log('运行在开发者工具上')
+					 break;
+			}
+		},
+		// 获取当前作品的排名状况
+		getRank(){
+			this.api._get(`article/ranking/${this.txtId}`, {}, res => {
+				console.log('获取当前作品排行', res);
+				this.rank = res.data
+				
+			});
+		},
+		
 		// 获取用户刷礼物的记录
 		getUserGift(articleId) {
 			this.api._get(`gift/article/user/gift/${articleId}`, {}, res => {
@@ -323,7 +363,7 @@ export default {
 		},
 
 		// 显示送礼物排行榜弹窗
-		rank(e, done) {
+		rankPopup(e, done) {
 			this.$refs.popupRank.open();
 			done();
 		},
@@ -545,13 +585,32 @@ export default {
 								// console.log('赠送礼物成功',res)
 								if (res.data.errno === 507) {
 									// 调用获取用户金币
-									_this.recharge();
+									
+									// 当前用户金币不足
+									if(!_this.is_IOS){
+										// 用户使用的是 安卓
+										_this.recharge();
+									}else {
+										// 使用的是 ios
+										uni.showModal({
+											title:'当前H币不足',
+											
+										})
+									}
+									
 								} else {
-									uni.showToast({
-										icon: 'none',
-										duration: 2000,
-										title: `加油成功`
-									});
+									wx.hideLoading()
+									
+									setTimeout(function(){
+										uni.showToast({
+											icon: 'none',
+											duration: 2000,
+											title: `加油成功`
+										},500);
+									})
+									
+									_this.getRank()
+									
 								}
 							}
 						);
@@ -882,6 +941,7 @@ page {
 			.txtContent {
 				text-indent: 2em;
 				box-sizing: border-box;
+				word-break: break-all;
 			}
 			// 粉丝团
 			.fans {

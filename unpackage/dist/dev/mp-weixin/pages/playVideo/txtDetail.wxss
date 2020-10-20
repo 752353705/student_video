@@ -147,6 +147,7 @@ page {
 .txt_detail .uni_vdplayer .txtMain .txtContent.data-v-145cf910 {
   text-indent: 2em;
   box-sizing: border-box;
+  word-break: break-all;
 }
 .txt_detail .uni_vdplayer .txtMain .fans.data-v-145cf910 {
   margin-top: 20rpx;

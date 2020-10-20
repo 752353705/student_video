@@ -246,6 +246,22 @@ export default {
 					success: res => {
 						if (res.statusCode == 200) {
 							console.log('文件上传成功', res);
+							let data =  JSON.parse(res.data)
+							// 当图片信息敏感的时候
+							if(data.errno == 500 ){
+								
+								uni.hideLoading()
+								// 回复按钮状态
+								_this.btn_statue = false
+								return	uni.showModal({
+									title:`图片信息不合法，请重新选择`
+								})
+								
+								
+							}
+							
+							
+							
 							// console.log('上传成功',JSON.parse(res.data).data);
 							// if( !_this.chooseImg){
 							console.log('向imgArr 添加图片');
@@ -320,13 +336,11 @@ export default {
 					function(res){
 						console.log(res);
 						uni.hideLoading()
+						_this.btn_statue = false
 						// 提示上传结果
 						uni.showToast({
 							title: '发布失败',
 							icon: 'none',
-							success() {
-								
-							}
 						});
 					}
 				);
