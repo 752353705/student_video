@@ -156,7 +156,7 @@
 	}
 </script>
 
-<style lang="less">
+<style lang="scss">
 	// 空布局
 	.empty {
 		width: 200px;

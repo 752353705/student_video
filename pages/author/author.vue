@@ -270,7 +270,7 @@
 	}
 </script>
 
-<style lang="less">
+<style lang="scss">
 .author{
 	width: 100%;
 	color: white;

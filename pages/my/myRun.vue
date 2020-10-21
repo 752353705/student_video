@@ -519,7 +519,7 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .run {
 	// position: fixed;
 	// top: 0;

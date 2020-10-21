@@ -230,7 +230,7 @@ export default {
 };
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .myColl {
 	padding-bottom: 50px;
 	padding-top: 14px;

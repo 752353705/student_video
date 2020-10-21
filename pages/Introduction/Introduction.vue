@@ -321,7 +321,7 @@
 	}
 </style>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 	.iconfont{
 		margin-right: 10rpx;
 	}

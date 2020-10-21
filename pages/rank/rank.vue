@@ -49,7 +49,7 @@
 	}
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 	.rank{
 		box-sizing: border-box;
 		padding-left: 20rpx;

@@ -119,7 +119,7 @@
 	}
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 	.head{
 	  width: 100%;
 	  height: 500rpx;
@@ -165,7 +165,7 @@
 	  width: 80%;
 	  height: 100rpx;
 	  line-height: 100rpx;
-		background-color: #ff9933;
+		background-color: $bg-color;
 		border-radius: 30rpx;
 	}
 

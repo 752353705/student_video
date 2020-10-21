@@ -621,7 +621,7 @@ export default {
 			height: 83.66rpx;
 			text-align: center;
 			line-height: 83.66rpx;
-			background-color: #ff9933;
+			background-color: $bg-color;
 			border-radius: 40rpx;
 			color: white;
 			font-size: 36rpx;

@@ -292,7 +292,7 @@
 		}
 	}
 </script>
-<style lang="less">
+<style lang="scss">
 	.user_cmt{
 		display: flex;
 		justify-content: start;

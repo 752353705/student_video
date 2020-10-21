@@ -15,6 +15,12 @@
 // 引入uView的全局SCSS主题文件
 @import 'uview-ui/theme.scss';
 
+// 当前页面 以及按钮的主色调
+$bg-color: #ff9933; 
+
+
+
+
 /* 颜色变量 */
 
 /* 行为相关颜色 */
@@ -88,10 +94,6 @@ $base-color: #fa436a;
 /* 文字尺寸 */
 $font-sm: 24upx;
 $font-base: 28upx;
-// 当前页面 以及按钮的主色调
-$bg-color: #ff9933;;
-
-
 $font-lg: 32upx;
 
 /*文字颜色*/

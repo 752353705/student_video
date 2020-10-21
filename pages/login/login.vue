@@ -85,7 +85,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="scss">
 .container {
 	padding: 0 86rpx;
 	.wechatapp {
@@ -142,7 +142,7 @@ export default {
 	margin-right: 0;
 	color: white;
 	border: none;
-	background: #ff9933;
+	background: $bg-color;
 }
 
 .btn.login::after {

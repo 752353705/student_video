@@ -58,7 +58,7 @@
 	}
 </style>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 	.textarea{
 		padding-left: 20rpx;
 		padding-top: 20rpx;
@@ -79,7 +79,7 @@
 		line-height: 91rpx;
 		text-align: center;
 		color: white;
-		background-color: #ff9933;
+		background-color: $bg-color;
 		margin: 20rpx auto;
 		border-radius: 30rpx;
 	}

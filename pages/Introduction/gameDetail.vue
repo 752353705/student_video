@@ -246,7 +246,7 @@
 	}
 </style>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 	// 设置灰色边框
 	.boder{
 		width: 10rpx;

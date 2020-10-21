@@ -777,7 +777,7 @@ page {
 }
 </style>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .t-icon {
 	width: 25px;
 	height: 25px;

@@ -76,7 +76,7 @@
 	}
 </script>
 
-<style lang="less">
+<style lang="scss">
 	// 控制 小喇叭的 样式
 	.data-v-7d5e07c6{
 		position: sticky;

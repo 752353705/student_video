@@ -95,7 +95,7 @@
 	}
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 	.csp{
 		// 空布局
 		.empty {

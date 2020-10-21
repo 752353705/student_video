@@ -105,7 +105,7 @@
 	}
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 	.sigin{
 		position: fixed;
 		top: 0;

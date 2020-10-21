@@ -149,7 +149,7 @@
 	}
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 	.my_data{
 		.user_img{
 			width: 162rpx;

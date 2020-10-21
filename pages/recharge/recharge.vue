@@ -120,7 +120,7 @@
 	}
 </script>
 
-<style lang="less">
+<style lang="scss">
 // 充值界面
 .uni-popup-recharge {
 	background-color: white;
@@ -178,8 +178,8 @@
 	
 	// 用户当前激活的
 	&.act{
-		color:  #ff9933;
-		border: 1rpx solid  #ff9933;
+		color:  $bg-color;
+		border: 1rpx solid  $bg-color;
 	}
 	
 	.p1 {
@@ -187,14 +187,14 @@
 		font-weight: bold;
 		color: black;
 		&.act{
-			color:  #ff9933;
+			color:  $bg-color;
 		}
 	}
 	.p2 {
 		font-size: 33rpx;
 		color: #7b7b7b;
 		&.act{
-			color:  #ff9933;
+			color:  $bg-color;
 		}
 	}
 }
@@ -204,7 +204,7 @@
 		line-height: 91rpx;
 		text-align: center;
 		color: white;
-		background-color: #ff9933;
+		background-color: $bg-color;
 		margin: 150rpx auto;
 		border-radius: 30rpx;
 	}

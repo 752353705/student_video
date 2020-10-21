@@ -220,7 +220,7 @@
 	}
 </script>
 
-<style  scoped lang="less">
+<style  scoped lang="scss">
 	.listPage{
 		background-color: #f5f6fa;
 		box-sizing: border-box;

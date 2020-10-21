@@ -234,7 +234,7 @@
 	}
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 	.pop{
 		.imgBox{
 			width: 100%;

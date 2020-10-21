@@ -47,7 +47,7 @@
 	}
 </style>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 	input{
 		width: 89%;
 		height: 90rpx;
@@ -62,7 +62,7 @@
 		line-height: 91rpx;
 		text-align: center;
 		color: white;
-		background-color: #ff9933;
+		background-color: $bg-color;
 		margin: 20rpx auto;
 		border-radius: 30rpx;
 	}

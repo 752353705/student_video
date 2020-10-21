@@ -59,7 +59,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="scss">
 .container {
 	padding: 0 86rpx;
 	.wechatapp {

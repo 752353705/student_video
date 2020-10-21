@@ -76,7 +76,7 @@
 	}
 </script>
 
-<style lang="less"	scoped>
+<style lang="scss"	scoped>
 	.wallet{
 		.card{
 			color: white;
@@ -108,7 +108,7 @@
 			text-align: center;
 			border-radius: 30rpx;
 			margin: 100rpx auto;
-			background-color: #ff9933;
+			background-color: $bg-color;
 			color: white;
 		}
 	}

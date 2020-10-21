@@ -38,7 +38,7 @@
 					placeholder-class="place_holder"
 				 -->
 				<textarea
-					:placeholder="replayVal"
+					
 					:show-confirm-bar="false"
 					:adjust-position="true"
 					type="text"

@@ -290,7 +290,7 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 // 自定义的删除按钮
 .waterbtn {
 	position: absolute;

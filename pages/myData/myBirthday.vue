@@ -46,7 +46,7 @@ page {
 }
 </style>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .gender {
 	box-sizing: border-box;
 	padding-top: 52rpx;
@@ -83,7 +83,7 @@ page {
 		line-height: 91rpx;
 		text-align: center;
 		color: white;
-		background-color: #ff9933;
+		background-color: $bg-color;
 		margin: 63rpx auto;
 		border-radius: 30rpx;
 	}
