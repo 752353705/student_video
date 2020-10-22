@@ -25,15 +25,19 @@
 			<!-- 当前作品的排名 -->
 			<view class="txt_rank" @tap="goRank">
 				<view class="rank_item">
-					<view class="num">{{ rank.goldNumber }}</view>
-					<view class="desc">投票</view>
+					<view class="num">{{ rank.goldNumber || 0 }}</view>
+					<view class="desc">票数</view>
 				</view>
 				<view class="rank_item">
-					<view class="num">{{ rank.ranking }}</view>
+					<view class="num">{{ rank.ranking || 1 }}</view>
 					<view class="desc">排名</view>
 				</view>
 				<view class="rank_item">
-					<view class="num">{{ rank.lastOneGoldNumber }}</view>
+					<view class="num">
+						<text style="font-size: 14px;font-weight: normal;margin-right: 10rpx;">差 </text>
+						{{ rank.lastOneGoldNumber || 0 }}
+						<text style="font-size: 14px;font-weight: normal;margin-left: 10rpx;"> 票</text>
+					</view>
 					<view class="desc">距离上一名</view>
 				</view>
 			</view>
@@ -784,7 +788,7 @@ page {
 }
 .txt_detail {
 	box-sizing: border-box;
-	padding-bottom: 76rpx;
+	padding-bottom: 100px;
 	// background-color: white;
 	.uni_vdplayer {
 		position: relative;
@@ -828,7 +832,8 @@ page {
 		.txt_rank {
 			width: 92%;
 			height: 134rpx;
-			background-color: white;
+			// background-color: white;
+			background-color: #fcf0c2;
 			// background-image: linear-gradient(to bottom, #f2e2b6, #caac70);
 			margin: 30rpx auto;
 			display: flex;
@@ -845,10 +850,12 @@ page {
 				.num {
 					font-size: 47rpx;
 					font-weight: bold;
+					color: $bg-color;
 				}
 				.desc {
 					font-size: 26rpx;
-					color: #cacaca;
+					// color: #cacaca;
+					color: #595a5e;
 				}
 			}
 			.rank_item:nth-child(3) {

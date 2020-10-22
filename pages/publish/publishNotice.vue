@@ -39,11 +39,13 @@
 		
 		<!-- 文章标题 -->
 		<input class="input" type="text" @input="titInput" name="title" 
-			:value="title" placeholder="标题"  maxlength="10"
+			:value="title" placeholder="添加标题会有更多赞哦" 
 		/>
 		
 		<!-- 用户填写的内容 -->
-		<textarea :show-confirm-bar="false" name="area" :value="areaVal" class="txt_area" @input="areaInput" placeholder="#输入内容" :maxlength="-1" />
+		<textarea :show-confirm-bar="false" name="area" 
+			:value="areaVal" class="txt_area" @input="areaInput" 
+			placeholder="说说此刻心情" :maxlength="-1" />
 		
 		
 		
@@ -442,8 +444,8 @@ export default {
 	padding-bottom: 100px;
 	// 文章标题
 	.input {
-		background-color: #f2f2f2;
-		width: 80%;
+		// background-color: #f2f2f2;
+		width: 100%;
 		height: 73rpx;
 		line-height: 73rpx;
 		border-radius: 30rpx;
@@ -485,11 +487,14 @@ export default {
 	.txt_area {
 		width: 100%;
 		height: 278.47rpx;
-		background-color: #f2f2f2;
+		// background-color: #f2f2f2;
 		border-radius: 20rpx;
-		margin-top: 32rpx;
+		margin-top: 5rpx;
 		box-sizing: border-box;
 		padding: 30rpx;
+		padding-left: 20rpx;
+		border-top: 1rpx solid #f2f2f2;
+		border-bottom: 1rpx solid #f2f2f2;
 	}
 	
 	// 文章内容
@@ -589,7 +594,8 @@ export default {
 					position: relative;
 					width: 203.58rpx;
 					height: 189.58rpx;
-					background-color: #f2f2f2;
+					// background-color: #f2f2f2;
+					border: 1rpx solid #f2f2f2;
 					text-align: center;
 					margin-right: 20rpx;
 					display: flex;
@@ -643,17 +649,17 @@ export default {
 // 上传的十字图案
 .cross {
 	background: #888888;
-	height: 89.58rpx;
+	height: 61rpx;
 	position: relative;
-	width: 9.88rpx;
+	width: 6rpx;
 }
 .cross:after {
 	background-color: #888888;
 	content: '';
-	height: 9.88rpx;
-	left: -37.77rpx;
+	height: 6rpx;
+	left: -27rpx;
 	position: absolute;
-	top: 39.77rpx;
-	width: 89.58rpx;
+	top: 28rpx;
+	width: 61rpx;
 }
 </style>

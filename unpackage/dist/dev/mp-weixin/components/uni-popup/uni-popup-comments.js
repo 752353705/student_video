@@ -293,13 +293,11 @@ __webpack_require__.r(__webpack_exports__);
       // 当前文本框的高度 e.detail.heightRpx
       if (e.detail.lineCount == 0) {
         return;
-      } else if (e.detail.lineCount < 3) {
+      } else if (e.detail.lineCount < 4) {
         this.lineHeight = e.detail.lineCount * 66 + 'rpx';
       } else {
-        this.lineHeight = 2 * 66 + 'rpx';
+        this.lineHeight = 3 * 66 + 'rpx';
       }
-
-
     },
 
     // 传递给子组件的方法，用于用户对其修改当前页面中的数据

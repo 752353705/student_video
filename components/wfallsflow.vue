@@ -5,6 +5,7 @@
 				<!-- 每一个作品 -->
 				<!-- <view class="item" v-for="(item,index) of list.list" :key="index" -->
 				<view class="item" v-for="(item, index) of list.list" :key="item.id" 
+					 threshold="300"
 					:data-index="index" :data-listindex="listIndex"
 					@longpress="longpress" @click="jump(item)">
 					<!-- :data-videoId='item.videoId' -->

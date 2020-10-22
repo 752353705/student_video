@@ -22,36 +22,13 @@
 			"current": -1,
 			"list": []
 		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
 		"game": {
-			"current": -1,
-			"list": []
-		},
-		"gamePlugin": {
 			"current": -1,
 			"list": []
 		},
 		"miniprogram": {
 			"current": -1,
-			"list": [
-				{
-					"id": 0,
-					"name": "pages/playVideo/txtDetail",
-					"pathName": "pages/playVideo/txtDetail",
-					"query": "txtId=25067",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/publish/publishNotice",
-					"pathName": "pages/publish/publishNotice",
-					"query": "txtId=25067",
-					"scene": null
-				}
-			]
+			"list": []
 		}
 	}
 }

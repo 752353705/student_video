@@ -41,7 +41,7 @@ page {
 }
 .txt_detail.data-v-145cf910 {
   box-sizing: border-box;
-  padding-bottom: 76rpx;
+  padding-bottom: 100px;
 }
 .txt_detail .uni_vdplayer.data-v-145cf910 {
   position: relative;
@@ -62,7 +62,7 @@ page {
 .txt_detail .uni_vdplayer .txt_rank.data-v-145cf910 {
   width: 92%;
   height: 134rpx;
-  background-color: white;
+  background-color: #fcf0c2;
   margin: 30rpx auto;
   display: -webkit-box;
   display: -webkit-flex;
@@ -82,10 +82,11 @@ page {
 .txt_detail .uni_vdplayer .txt_rank .rank_item .num.data-v-145cf910 {
   font-size: 47rpx;
   font-weight: bold;
+  color: #ff9933;
 }
 .txt_detail .uni_vdplayer .txt_rank .rank_item .desc.data-v-145cf910 {
   font-size: 26rpx;
-  color: #cacaca;
+  color: #595a5e;
 }
 .txt_detail .uni_vdplayer .txt_rank .rank_item.data-v-145cf910:nth-child(3) {
   border: none;
