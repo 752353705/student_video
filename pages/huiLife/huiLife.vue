@@ -32,9 +32,9 @@
 			</view>
 		</view>
 		<!-- 商家入驻 -->
-		<view class="tenants" @click="goTenants" >
+		<!-- <view class="tenants" @click="goTenants" >
 			入驻
-		</view>
+		</view> -->
 		
 	</view>
 </template>
