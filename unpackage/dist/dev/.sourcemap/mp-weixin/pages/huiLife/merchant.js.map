@@ -1,0 +1,1 @@
+{"version":3,"sources":["uni-app:///main.js"],"names":["createPage","Page"],"mappings":";;;;wEAAA,qBACA,sBACA,+C,mDACAA,EAAWC,a","file":"pages/huiLife/merchant.js","sourcesContent":["import 'uni-pages';\nimport Vue from 'vue'\nimport Page from './pages/huiLife/merchant.vue'\ncreatePage(Page)"],"sourceRoot":""}
