@@ -11,8 +11,8 @@
 						<view class="img"><image :src="item.avatarUrl" mode=""></image></view>
 						<view class="name">{{ item.userName }}</view>
 					</view>
-					<view v-if="!item.followed" class="focus" @click.stop="focusOn(index)">已关注</view>
-					<view v-else class="focus focuson" @click.stop="focusOn(index)">关注</view>
+					<view v-if="item.followed" class="focus focuson" @click.stop="focusOn(index)">已关注</view>
+					<view v-else class="focus " @click.stop="focusOn(index)">关注</view>
 				</view>
 			</block>
 			
@@ -49,14 +49,24 @@ export default {
 	},
 	onLoad(option) {
 		this.userId = option.userId
+		this.name = option.userName
 	},
 	onShow() {
 		let _this = this;
+		this.list = []
 		// 获取粉丝列表
 			// 如果有用户id 则是获取别人的
 			if(this.userId){
+				console.log('别人的关注')
+				uni.setNavigationBarTitle({
+					title: this.name + '的关注'
+				})
 				this.getOtherFans()
 			}else{
+				console.log('自己的关注')
+				uni.setNavigationBarTitle({
+					title: uni.getStorageSync('user_name') + '的关注'
+				})
 				this.getMyFans()
 			}
 	},
@@ -92,10 +102,12 @@ export default {
 		
 		// 点击用户头像跳转到发布者的详情页
 		goAuthor(index) {
+			console.log('index',index)
 			let item = {
 				avatarUrl: this.list[index].avatarUrl,
-				userId: this.list[index].userId
+				userId: this.list[index].followedId
 			};
+			console.log('item',item)
 			uni.navigateTo({
 				url: `/pages/author/author?item=${JSON.stringify(item)}`
 			});
@@ -116,26 +128,26 @@ export default {
 				);
 			} else {
 				// 用户已经进行了关注，此时再进行点击表示用户是否要取消关注
-				uni.showModal({
-					content: '取消关注',
-					success: function(res) {
-						if (res.confirm) {
+				// uni.showModal({
+					// content: '取消关注',
+					// success: function(res) {
+					// 	if (res.confirm) {
 							// console.log('用户点击确定');
 							_this.api._post(
 								'follow',
 								{
-									followedId: _this.list[index].userId //被关注的 作者id
+									followedId: _this.list[index].followedId //被关注的 作者id
 								},
 								function(res) {
 									// console.log('进行关注成功', res);
 									_this.list[index].followed = !_this.list[index].followed
 								}
 							);
-						} else if (res.cancel) {
-							// console.log('用户点击取消');
-						}
-					}
-				});
+						// } else if (res.cancel) {
+						// 	// console.log('用户点击取消');
+						// }
+					// }
+				// });
 			}
 		}
 		
@@ -165,22 +177,29 @@ export default {
 			border-radius: 50%;
 			margin-right: 40rpx;
 			overflow: hidden;
+			// iOS端圆角设置失效
+					-webkit-backface-visibility: hidden;
+					-webkit-transform: translate3d(0, 0, 0);
 			image {
 				width: 100%;
 				height: 100%;
 			}
 		}
 	}
+	// 关注
 	.focus {
-		border: 1px solid red;
-		color: red;
+		border: 1px solid #ff234f;;
+		color: #ff234f;
 		padding: 6rpx 35rpx;
 		border-radius: 40rpx;
 		font-size: 27rpx;
+		font-weight: bold;
 	}
+	// 已关注
 	.focuson {
-		background-color: #ff2440;
-		color: white;
+		color: #989898;
+		font-weight: bold;
+		border: 1px solid #989898;
 	}
 }
 // 绘制0.5px的底线

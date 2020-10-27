@@ -16,7 +16,7 @@
 		</view>
 		
 		<!-- 赛事轮播展示 -->
-		<swiper :indicator-dots="true" :autoplay="true" 
+		<swiper :indicator-dots="false" :autoplay="true" 
 			:interval="3000" :duration="1000" :circular="true"
 			>
 			<swiper-item v-for="(item,index) in ad" :key="item.adId">

@@ -38,7 +38,7 @@
 						{{ rank.lastOneGoldNumber || 0 }}
 						<text style="font-size: 14px;font-weight: normal;margin-left: 10rpx;"> 票</text>
 					</view>
-					<view class="desc">距离上一名</view>
+					<view class="desc">超过上一名</view>
 				</view>
 			</view>
 
@@ -69,7 +69,14 @@
 
 				<!-- 粉丝团  @click="gofansLis"-->
 				<view v-if="fanlist.length > 0" class="fans">
-					<view class="tit">粉丝团</view>
+					<view class="tit_box">
+						<image src="/static/rankBg.png" 
+							style=""
+							mode="">
+						</image>
+						<view class="tit">粉丝团</view>
+					</view>
+					
 					<view class="img_list">
 						<!-- 粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团粉丝团 -->
 						<image :src="item.avatarUrl" mode="" v-for="(item, index) in fanlist" class="item" :key="index"></image>
@@ -83,10 +90,10 @@
 			<!-- 修改为底部操作 -->
 			<view class="btm w-100 bg-w box-boder pa-l40 pa-r10 panel-between item-center ">
 				<view class="le">
-					<view class="msg item-center" @click="getComment">
-						<!-- <image src="/static/signature.png" mode=""></image> -->
+					<!-- @click="getComment" -->
+					<view class="msg item-center" >
 						<text class="iconfont iconxie" style="margin-right: 10rpx;"></text>
-						<text>写评论</text>
+						<text>评论升级...</text>
 					</view>
 				</view>
 				<view class="ri item-start">
@@ -103,14 +110,13 @@
 					<view class="gift icon" @click="sendGift(index)"><text class="t-icon iconliwu"></text></view>
 
 					<!-- 评论   点击评论显示评论弹出框-->
-					<view style="position: relative;" class="comments icon" @click="getComment">
+					<!-- <view style="position: relative;" class="comments icon" @click="getComment">
 						<text class="iconfont iconxinxi"></text>
-						<!-- <view class="icon_num ma-t10">{{ txtItem.commentNum || '' }}</view> -->
 						<u-badge :count="txtItem.commentNum || 0" size="mini" 
 							:offset="offset"  overflow-count="99"
 							>
 						</u-badge>
-					</view>
+					</view> -->
 					<!-- 收藏 -->
 					<view class="comments icon" @tap.stop="collection">
 						<text v-if="!txtItem.collectionStatus" class="iconfont iconshoucang1"></text>
@@ -609,12 +615,25 @@ export default {
 										uni.showToast({
 											icon: 'none',
 											duration: 2000,
-											title: `加油成功`
+											title: `加油成功`,
+											success() {
+												// wx.hideLoading()
+												setTimeout(function(){
+													_this.getRank()
+													
+													// 重新弹出 谁谁送礼物的 弹框
+													_this.sinBar = true;
+													// console.log('头像',uni.getStorageSync('user_img'))
+													_this.list = [{
+														avatarImage: uni.getStorageSync('user_img'),
+														giftImage: e.item.giftImage,
+														giftName: e.item.giftName
+													}]
+												},2000)
+											}
 										},500);
+										
 									})
-									
-									_this.getRank()
-									
 								}
 							}
 						);
@@ -953,10 +972,31 @@ page {
 			// 粉丝团
 			.fans {
 				margin-top: 20rpx;
-				.tit {
-					font-size: 35rpx;
-					font-weight: bold;
+				.tit_box{
+					position: relative;
+					width: 100%;
+					height: 139rpx;
+					margin: 50rpx 0;
+					image{
+						width: 80%;
+						height: 139rpx;
+						position: absolute;
+						left: 50%;
+						top: 50%;
+						transform: translate(-50%,-50%);
+					}
+					.tit {
+						position: absolute;
+						left: 50%;
+						top: 50%;
+						transform: translate(-50%,-50%);
+						text-align: center;
+						font-size: 35rpx;
+						font-weight: bold;
+						color: $bg-color;
+					}
 				}
+				
 				.img_list {
 					margin-top: 20rpx;
 					width: 100%;

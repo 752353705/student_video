@@ -1,6 +1,7 @@
 <template>
 	<view class="author">
-		<view class="height" style="background-image: linear-gradient(to bottom, #192936, #786f68);height: 257px;" >
+		<view class="height" 
+			style="background-image: linear-gradient(to bottom, #192936, #786f68);height: 526rpx;" >
 			<!-- 头部 -->
 			<view class="head pa-r40 pa-b20 pa-l40  box-boder">
 				<view class="userImg " @click="jump">
@@ -15,7 +16,7 @@
 					<view class="box">
 						<view class="rightBtm">
 							<view v-if="!avatarItem.followed" class="focusBtn t_c" @click="focusOn">关注</view>
-							<view v-else class="focusBtn t_c" @click="focusOn">已关注</view>
+							<view v-else class="focusBtn t_c focusonBtn" @click="focusOn">已关注</view>
 						</view>
 						<!-- <view class="code">{{user_phone.slice(0,3) || '' }}****{{user_phone.slice(7) || ''}}</view> -->
 						<view class="location">
@@ -37,12 +38,12 @@
 			<view class="box-thr ma-t10 item-center">
 				<!-- 关注 -->
 				<view class="le">
-					<view class="focus t_c" @click="goFans(1)">
+					<view class="focus t_c" @click="goFocus">
 						<view class="">{{avatarItem.followedNumber || 0}}</view>
 						<view class="">关注</view>
 					</view>
 					<!-- 粉丝 -->
-					<view class="fans t_c" @click="goFans(2)">
+					<view class="fans t_c" @click="goFans">
 						<view class="">{{avatarItem.fansNumber  || 0}}</view>
 						<view class="">粉丝</view>
 					</view>
@@ -252,20 +253,16 @@
 				this.tabIndex = index;
 				this.kw = this.tabBars[this.tabIndex].id
 			},
-			goFans(num){
-				// 判断是进入关注列表还是进入粉丝列表
-				if(num == 1){
-					// 进入 关注列表
-					uni.navigateTo({
-						url:`/pages/my/myFocus?userId=${this.avatarItem.userId}`
-					})
-				}else if(num == 2){
-					// 进入 粉丝列表
-					uni.navigateTo({
-						url:`/pages/my/myFans?userId=${this.avatarItem.userId}`
-					})
-				}
-			}
+			goFans(){
+				uni.navigateTo({
+					url:`/pages/my/myFans?userId=${this.avatarItem.userId}&userName=${this.avatarItem.userName}`
+				})
+			},
+			goFocus(){
+				uni.navigateTo({
+					url:`/pages/my/myFocus?userId=${this.avatarItem.userId}&userName=${this.avatarItem.userName}`
+				})
+			},
 		}
 	}
 </script>
@@ -309,9 +306,16 @@
 						width: 80%;
 						height: 40rpx;
 						border-radius: 40rpx;
-						color: white;
-						background-color: red;
+						border: 1px solid #ff234f;;
+						color: #ff234f;
 						padding: 10rpx 0;
+						font-weight: bold;
+					}
+					// 已关注
+					.focusonBtn {
+						color: #989898;
+						font-weight: bold;
+						border: 1px solid #989898;
 					}
 				}
 				// .code{

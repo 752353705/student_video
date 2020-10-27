@@ -13,7 +13,13 @@
 			<view v-for="(item, index) in useList" :key="index" @click="open(index)">
 				<view class="list_item" v-if="index !== 2">
 					<view class="left_icon">
-						<text class="t-icon" :class="item.icon"></text>
+						<!-- 当index为1 时 换为本地图标 -->
+						<image v-if="index == 1" 
+							src="/static/sigin.png" style="width:25px ;height: 25px;margin-right: 20rpx;" 
+							mode="">
+						</image>
+						<text v-else class="t-icon" :class="item.icon"></text>
+						
 						<text>{{ item.txt }}</text>
 					</view>
 					<view v-if="index !== 1" class="iconfont iconfanhui"></view>

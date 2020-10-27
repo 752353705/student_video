@@ -39,7 +39,7 @@
   "tabBar": {
     "borderStyle": "black",
     "backgroundColor": "#fdfdfd",
-    "color": "#8a8a8a",
+    "color": "#b8b8b8",
     "selectedColor": "#ff9933",
     "list": [
       {
@@ -76,7 +76,6 @@
   "usingComponents": {
     "mescroll-body": "/components/mescroll-uni/mescroll-body",
     "mescroll-uni": "/components/mescroll-uni/mescroll-uni",
-    "uni-popup": "/components/uni-popup/uni-popup",
-    "uni-popup-dialog": "/components/uni-popup/uni-popup-dialog"
+    "uni-popup": "/components/uni-popup/uni-popup"
   }
 }

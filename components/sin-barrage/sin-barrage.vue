@@ -5,7 +5,7 @@
 				<image class="barrage-image" :src="item.avatarImage"></image>
 				<view class="barrage-text">
 					<text class="" :style="{ color: color, background: background, opacity: opacity }">{{ item.text }}</text>
-					<view>{{ item.giftName }}</view>
+					<view>赠送 {{ item.giftName }}</view>
 				</view>
 				<image class="barrage-image" :src="item.giftImage"></image>
 			</view>
@@ -61,7 +61,12 @@ export default {
 			len: 0
 		};
 	},
+	mounted() {
+		console.log('重新挂载')
+	},
 	created() {
+		console.log('list 滚动礼物',this.list)
+		
 		// 定义次数
 		let intNum = 0;
 		time1 = setInterval(() => {

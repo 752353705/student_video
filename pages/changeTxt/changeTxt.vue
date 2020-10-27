@@ -1,30 +1,8 @@
 <template>
 	<view class="pused">
-		<!-- 文章标题 -->
-		<input class="input" type="text" @input="titInput" name="title" :value="title" placeholder="标题" />
+		
 		<view class="uni-popup-message-text">
-			<!-- 文章内容 -->
-			<textarea :show-confirm-bar="false" name="area" :value="areaVal" class="txt_area" @input="areaInput" placeholder="#输入内容" :maxlength="-1" />
-
-			<!-- 文章封面 -->
-		<!-- 	<view class="tit" style="color:#8d8696;">
-				选择最靓的封面吧(未进行选择默认第一张做封面)
-			</view>
-			<view v-if="!TImg" class=" coverImg" @click="getNtImg">
-				<view class="cross"></view>
-			</view>
-			
-			<view v-else class="cover_content" @tap.stop="detailImg(1)" style="background-color: black;">
-				<image :src="TImg"  mode="aspectFit" />
-				<cover-image class="img" @click.stop="clear(1)" src="../../static/close_video.png" mode=""></cover-image>
-			</view> -->
-
 			<view class="img_box">
-				<!-- 当前可以进行选择的图片个数 -->
-				<view class="shownum">
-					<!-- <text>{{ count }}/6</text> -->
-					<text>{{ images.length }}/{{nowCount}}</text>
-				</view>
 				<!-- 展示选中的图片  -->
 				<view class="cont_box">
 					<view @tap.stop="detailImg" style="background-color: black;" class="content" v-for="(item, index) in images" :key="index">
@@ -39,13 +17,27 @@
 			</view>
 			<view v-if="!btn_statue" class="btn" @tap.stop="pushImg">发布</view>
 			<view v-else class="btn" style="background-color: #BBBBBB;" >发布中...</view>
-			<!-- 上传进度显示 
-				当上传完毕之后，进度环消失
-			 -->
-			<!-- <cCircle v-if="showCir" class="c_circle" :size="60" :percent="percent">
-				<span slot="content" style="color: #32CDA5;">{{ percent }}%</span>
-			</cCircle> -->
 		</view>
+		<!-- 文章标题 -->
+		<input class="input" type="text" @input="titInput" name="title" 
+			:value="title" placeholder="添加标题会有更多赞哦" 
+		/>
+		<!-- 用户填写的内容 -->
+		<textarea :show-confirm-bar="false" name="area" 
+			:value="areaVal" class="txt_area" @input="areaInput" 
+			placeholder="说说此刻心情" :maxlength="-1" />
+		
+		<!-- 滚动选择赛事的类型 -->
+		<!-- <picker @change="bindPickerChange" :value="value" :range="game_type" range-key="subjectTitle"> -->
+			<!-- 文章话题 -->
+			<view class="topic" :class="oldItem.subjectName ? 'act' : '' ">
+				<view class="le">
+					<view class="tag">#</view>
+					{{oldItem.subjectName || '参与话题'}}
+				</view>
+				<!-- <view class="iconfont iconfanhui"></view> -->
+			</view>
+		<!-- </picker> -->
 	</view>
 </template>
 
@@ -53,6 +45,8 @@
 export default {
 	data() {
 		return {
+			// 赛事类型
+			game_type:'',
 			// 用户选择的文章的封面图
 			TImg:'',
 			// 判断用户是否是要进行修改操作
@@ -90,36 +84,29 @@ export default {
 			// 发起请求获取文章内容
 			this.getTxtDetail(option.txtid);
 		}
+		// 获取发布文章的 话题
+		// this.api._get('subject/onGoing',{
+		// 	subjectTypeId:'',
+		// 	pageNum:1,
+		// 	pageSize:10
+		// },(res) =>{
+		// 	console.log('请求大赛类型',res)
+		// 	this.game_type = res.data.list
+		// })
+		
+		
 	},
 	onHide() {},
 	onReady() {},
 	methods: {
-		// 选择封面图
-		getNtImg(){
-			let that = this
-			uni.chooseImage({
-				count: 1, // 最多可以选择的图片张数
-				sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-				sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-				success: function(res) {
-					// 判断所选图片 每张不能超过 1 M
-					console.log('选择的图片', res);
-					res.tempFiles.forEach((item, index) => {
-						if (item.size > 1024 * 1024) {
-							uni.showToast({
-								title: '封面图片大小超过1m,请重新选择',
-								icon: 'none'
-							});
-						}
-					});
-			
-					// 将选择的 图片本地地址进行存储
-					res.tempFilePaths.forEach(item => {
-						that.TImg = item
-					});
-				}
-			});
-		},
+		// 筛选大赛类型
+		// bindPickerChange(e) {
+		// 	console.log('picker发送选择改变，携带值为', e)
+		// 	this.value = e.detail.value
+		// 	this.topic = this.game_type[e.detail.value].subjectTitle
+		// 	this.subjectId = this.game_type[e.detail.value].subjectId
+		// },
+	
 		// 用户要进行信息修改，根据文章ID获取文章的详细信息
 		getTxtDetail(txtid) {
 			let _this = this;
@@ -255,15 +242,15 @@ export default {
 					'article',
 					{
 						id: _this.oldItem.id,
-						coverUrl:_this.TImg || _this.imgArr[0], //封面图
+						coverUrl: _this.imgArr[0], //封面图
 						content: _this.areaVal, //内容
 						title: _this.title, //标题
 						images: _this.imgArr.join(',') //图片
 					},
 					function(res) {
 						console.log(res);
-						uni.navigateTo({
-							url:`/pages/playVideo/txtDetail?txtId=${res.data}`
+						uni.switchTab({
+							url:`/pages/my/my`
 						})
 						_this.areaVal = ''
 						_this.count = 0
@@ -375,16 +362,59 @@ export default {
 	padding-bottom: 100px;
 	// 文章标题
 	.input {
-		background-color: #f2f2f2;
-		width: 80%;
+		// background-color: #f2f2f2;
+		width: 100%;
 		height: 73rpx;
 		line-height: 73rpx;
 		border-radius: 30rpx;
 		overflow: hidden;
 		box-sizing: border-box;
 		padding-left: 20rpx;
+		margin-top: 20rpx;
 	}
-
+	// 当前文章话题
+	.topic{
+		margin-top: 20rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.le{
+			.tag{
+				display: inline-block;
+				width: 32rpx;
+				text-align: center;
+				border-radius: 50%;
+				line-height: 32rpx;
+				background-color: black;
+				color: white;
+				margin-right: 10rpx;
+			}
+		}
+		// 当用户选择好了话题之后
+		&.act{
+			.le{
+				color: #5994e2;
+				.tag{
+					background-color: #5994e2;
+				}
+			}
+		}
+	}
+	
+	// 上传图片的描述
+	.txt_area {
+		width: 100%;
+		height: 278.47rpx;
+		// background-color: #f2f2f2;
+		border-radius: 20rpx;
+		margin-top: 5rpx;
+		box-sizing: border-box;
+		padding: 30rpx;
+		padding-left: 20rpx;
+		border-top: 1rpx solid #f2f2f2;
+		border-bottom: 1rpx solid #f2f2f2;
+	}
+	
 	// 文章内容
 	.uni-popup-message-text {
 		width: 100%;
@@ -395,16 +425,7 @@ export default {
 		flex-direction: column;
 		align-items: flex-start;
 		overflow: hidden;
-		// 上传图片的描述
-		.txt_area {
-			width: 100%;
-			height: 278.47rpx;
-			background-color: #f2f2f2;
-			border-radius: 20rpx;
-			margin-top: 32rpx;
-			box-sizing: border-box;
-			padding: 30rpx;
-		}
+		
 		
 		// 封面
 		.tit {
@@ -485,13 +506,14 @@ export default {
 				flex-wrap: wrap;
 				width: 100%;
 				.content {
-					margin-top: 76rpx;
+					// margin-top: 76rpx;
 					color: white;
 					font-size: 30rpx;
 					position: relative;
 					width: 203.58rpx;
 					height: 189.58rpx;
-					background-color: #f2f2f2;
+					// background-color: #f2f2f2;
+					border: 1rpx solid #f2f2f2;
 					text-align: center;
 					margin-right: 20rpx;
 					display: flex;
@@ -523,7 +545,7 @@ export default {
 			height: 83.66rpx;
 			text-align: center;
 			line-height: 83.66rpx;
-			background-color: #fe2c53;
+			background-color: $bg-color;
 			border-radius: 40rpx;
 			color: white;
 			font-size: 36rpx;
@@ -545,17 +567,17 @@ export default {
 // 上传的十字图案
 .cross {
 	background: #888888;
-	height: 89.58rpx;
+	height: 61rpx;
 	position: relative;
-	width: 9.88rpx;
+	width: 6rpx;
 }
 .cross:after {
 	background-color: #888888;
 	content: '';
-	height: 9.88rpx;
-	left: -37.77rpx;
+	height: 6rpx;
+	left: -27rpx;
 	position: absolute;
-	top: 39.77rpx;
-	width: 89.58rpx;
+	top: 28rpx;
+	width: 61rpx;
 }
 </style>

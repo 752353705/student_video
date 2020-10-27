@@ -1,7 +1,9 @@
 <template>
 	<view>
 		<view class="my box-boder">
-			<view class="height" style="background-image: linear-gradient(to bottom, #192936, #786f68);height: 257px;" >
+			<view class="height" 
+				style="background-image: linear-gradient(to bottom, #192936, #786f68);height: 526rpx;" 
+				>
 				<!-- 头部 -->
 				<view class="head pa-r40 pa-b20 pa-l40  box-boder">
 					<view class="userImg " @click="jump">
@@ -79,7 +81,7 @@
 				:txtid="txtid" 
 				:operleft="operleft" type="success"  message="成功消息" duration="0" 
 				:operType="kw"
-				@closeUseroperation="closeUseroperation"
+				@closeUseroperation="closeUseroperation" @myDelArticle="myDelArticle"
 				/>
 		</uni-popup>
 	</view>
@@ -109,7 +111,8 @@
 				// 控制操作窗口的弹窗
 				opertop:"300rpx",
 				operleft:"100rpx",
-				txtid:'',//用户长按要操作的文章id
+				//用户长按要操作的文章id
+				txtid:'',
 				// 测试
 				swiper_height: "", // 需要固定swiper的高度
 				tabIndex: 0, // 当前tab的下标
@@ -124,6 +127,10 @@
 				act:0,
 				//用户手机
 				user_phone:'', 
+				
+				// 用户要进行删除的坐标
+				column:'',
+				row:'',
 			};
 		},
 		components:{
@@ -148,6 +155,7 @@
 			}else{
 				this.showsigin = false
 			}
+			//
 			this.$refs.mescroll.refash();
 		},
 		onHide() {
@@ -155,6 +163,13 @@
 			this.$refs.popup_useoperation.close()
 		},
 		methods:{
+			// 进行了删除操作，将该作品进行删除
+			myDelArticle(){
+				this.$refs.mescroll.swiperDelArticle(this.txtid)
+				this.$refs.mescroll.refash();
+			},
+			
+			
 			// 跳转到设置界面
 			goSetting(){
 				uni.navigateTo({
@@ -185,25 +200,33 @@
 			},
 			// 控制用户操作弹窗的显隐
 			showUseroperation(txtid,location){
+				console.log('显示')
 				this.opertop = JSON.parse(location).btntop
 				this.operleft = JSON.parse(location).btnleft
 				this.txtid = txtid
 				this.$refs.popup_useoperation.open()
+				
+				// 用户长按要删除的第几个,将坐标存储起来
+				// this.column = JSON.parse(location).column
+				// this.row = JSON.parse(location).row
 			},
 			// 用户关闭弹窗
 			closeUseroperation(){
+				console.log('关闭')
 				this.$refs.popup_useoperation.close()
 			},
 			// 跳转查看关注、粉丝
 			goFans(num){
-				console.log('跳转到粉丝列表')
+				
 				// 判断是进入关注列表还是进入粉丝列表
 				if(num == 1){
+					console.log('跳转到 关注列表')
 					// 进入 关注列表
 					uni.navigateTo({
 						url:`/pages/my/myFocus`
 					})
 				}else if(num == 2){
+					console.log('跳转到 粉丝列表')
 					// 进入 粉丝列表
 					uni.navigateTo({
 						url:`/pages/my/myFans`

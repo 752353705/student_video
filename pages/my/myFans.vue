@@ -11,11 +11,11 @@
 					</view>
 					<view class="name">{{item.userName}}</view>
 				</view>
-				<view v-if="!item.followed" class="focus" @click.stop="focusOn(index)">
-					关注
-				</view>
-				<view v-else class="focus focuson" @click.stop="focusOn(index)">
+				<view v-if="item.followed" class="focus focuson" @click.stop="focusOn(index)">
 					已关注
+				</view>
+				<view v-else class="focus " @click.stop="focusOn(index)">
+					关注
 				</view>
 			</view>
 		</block>
@@ -43,14 +43,22 @@
 		onLoad(option) {
 			// 渲染 粉丝列表或者关注列表
 			this.userId = option.userId
+			this.name = option.userName
 		},
 		onShow() {
 			let _this = this 
+			this.list = []
 			// console.log('myFans onshow')
 				// 获取当前 关注我的 列表
 				if(this.userId){
+					uni.setNavigationBarTitle({
+						title: this.name + '的粉丝'
+					})
 					this.getOtherFans()
 				}else{
+					uni.setNavigationBarTitle({
+						title: uni.getStorageSync('user_name') + '的粉丝'
+					})
 					this.getMyFans()
 				}
 		},
@@ -129,10 +137,10 @@
 					);
 				}else{
 					// 用户已经进行了关注，此时再进行点击表示用户是否要取消关注
-					uni.showModal({
-						content: '确认不在关注',
-						success: function(res) {
-							if (res.confirm) {
+					// uni.showModal({
+						// content: '确认不在关注',
+						// success: function(res) {
+						// 	if (res.confirm) {
 								// console.log('用户点击确定');
 								_this.api._post(
 									'follow',
@@ -144,11 +152,11 @@
 										_this.list[index].followed = !_this.list[index].followed;
 									}
 								);
-							} else if (res.cancel) {
-								console.log('用户点击取消');
-							}
-						}
-					});
+							// } else if (res.cancel) {
+							// 	console.log('用户点击取消');
+							// }
+						// }
+					// });
 				}
 			},
 			
@@ -184,22 +192,29 @@
 			border-radius: 50%;
 			margin-right: 40rpx;
 			overflow: hidden;
+			// iOS端圆角设置失效
+					-webkit-backface-visibility: hidden;
+					-webkit-transform: translate3d(0, 0, 0);
 			image{
 				width: 100%;
 				height: 100%;
 			}
 		}
 	}
-	.focus{
-		border: 1px solid red;
-		color: red;
+	// 关注
+	.focus {
+		border: 1px solid #ff234f;;
+		color: #ff234f;
 		padding: 6rpx 35rpx;
 		border-radius: 40rpx;
 		font-size: 27rpx;
+		font-weight: bold;
 	}
-	.focuson{
-		background-color: #ff2440;
-		color: white;
+	// 已关注
+	.focuson {
+		color: #989898;
+		font-weight: bold;
+		border: 1px solid #989898;
 	}
 }
 // 绘制0.5px的底线

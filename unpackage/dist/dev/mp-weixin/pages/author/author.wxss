@@ -79,9 +79,15 @@
   width: 80%;
   height: 40rpx;
   border-radius: 40rpx;
-  color: white;
-  background-color: red;
+  border: 1px solid #ff234f;
+  color: #ff234f;
   padding: 10rpx 0;
+  font-weight: bold;
+}
+.author .head .right .box .rightBtm .focusonBtn {
+  color: #989898;
+  font-weight: bold;
+  border: 1px solid #989898;
 }
 .author .head .right .box .location {
   margin-top: 10rpx;

@@ -352,7 +352,7 @@ page{
   position: fixed;
   bottom: 0;
   left: 0;
-  background-color: #244b8d;
+  background-color: #336699;
   z-index: 20;
 }
 

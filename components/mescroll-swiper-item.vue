@@ -23,7 +23,7 @@
 				:option="emptyOption"></mescroll-empty> -->
 			<block v-else>
 				<!-- 渲染 视频的 瀑布流 -->
-				<wfalls-flow @showUseroperation="showUseroperation" @closeUseroperation="closeUseroperation" 
+				<wfalls-flow ref="waterflow" @showUseroperation="showUseroperation" @closeUseroperation="closeUseroperation" 
 					style="{height:400px}" :list="goods" :kw="kw" 
 					@jump="jump"></wfalls-flow>
 			</block>
@@ -142,6 +142,19 @@ export default {
 		}
 	},
 	methods: {
+		// 触发瀑布流中删除的方法
+		swiperDelArticle(txtid){
+			// 删除当前 goods中 相同id 的文章
+			// this.$refs.waterflow.delArticle(column,row)
+			
+			this.goods.forEach((item,index) => {
+				if(item.id === txtid){
+					this.goods.splice(index,1)
+				}
+			})
+			
+		},
+		
 		// 控制页面数据进行主动刷新
 		refash(){
 			console.log('组件更新')
@@ -265,8 +278,12 @@ export default {
 					subjectId:this.subjectId
 				},
 				function(res) {
-					console.log('请求首页的文章 成功', res.data);
-					_this.goods = _this.goods.concat(res.data.list);
+					console.log('请求首页的文章 成功', res.data,pageNum);
+					if(pageNum > 1){
+						_this.goods = _this.goods.concat(res.data.list);
+					}else {
+						_this.goods = res.data.list
+					}
 					
 					console.log('请求首页的文章 _this.goods', _this.goods);
 					
@@ -336,7 +353,11 @@ export default {
 				},
 				function(res) {
 					console.log('请求我的文章 成功', res.data);
-					_this.goods = _this.goods.concat(res.data.list);
+					if(pageNum > 1){
+						_this.goods = _this.goods.concat(res.data.list);
+					}else {
+						_this.goods = res.data.list
+					}
 					_this.mescroll.endSuccess(res.data.list.length);
 					// 如果进行网络请求出错，则 取消当前 正在加载的 提示
 				},

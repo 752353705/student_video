@@ -13,13 +13,11 @@
 			v-if="game_type_state"
 			>
 			<view class="le panel-start item-center">
-				<view class="ma-r20" >
+				<view class="ma-r20"  >
 					<image class="img_box" :src="gameMsg.logo" :mode="aspectFit"></image>
 				</view>
-				<view class="body ma-l20 panel-center">
-					<!--  -->
+				<view class="body  panel-center">
 					<view class="name">{{gameMsg.subjectTitle}}</view>
-					<!--  -->
 					<view class="desc ma-t20 fo-20">{{gameMsg.introduction}}</view>
 				</view>
 			</view>
@@ -27,7 +25,7 @@
 				其他大赛
 			</view> -->
 			<view class="btn fo-20 box-boder" @click="goGameDetail">
-				去参赛
+				详情
 			</view>
 		</view>
 		
@@ -109,8 +107,27 @@
 		},
 		onLoad(option) {
 			let _this = this
-			// 获取内存中当前赛事信息
-			this.gameMsg = JSON.parse(uni.getStorageSync('gameMsg'))
+			
+			
+			// 判断当前有没有赛事 信息
+			// if(!uni.getStorageSync('gameMsg')){
+			// 	// 没有赛事信息
+			// 	this.api._get('subject/indexSubject',{},(res) => {
+			// 		console.log('大赛参数res',res)
+			// 		let gameMsg = {
+			// 			subjectId:res.data.subjectId,
+			// 			logo:res.data.logoUrl,
+			// 			subjectTitle:res.data.subjectTitle,
+			// 			introduction:res.data.introduction,
+			// 		}
+			// 		uni.setStorageSync('gameMsg',JSON.stringify(gameMsg))
+			// 	})
+			// }else {
+			// 	// 有信息
+			// 	this.gameMsg = JSON.parse(uni.getStorageSync('gameMsg'))
+			// }
+			
+			
 			// 设置滚动区域的高度
 			uni.getSystemInfo({
 				success(res) {
@@ -134,9 +151,27 @@
 			// 判断内存中是否有赛事缓存
 			if(!uni.getStorageSync('gameMsg')){
 				// 没有赛事缓存  通过分享首次进入
-				this.game_type_state = false
-				this.$refs.mescroll.refash();
-				return
+				this.api._get('subject/indexSubject',{},(res) => {
+					console.log('大赛参数res',res)
+					let gameMsg = {
+						subjectId:res.data.subjectId,
+						logo:res.data.logoUrl,
+						subjectTitle:res.data.subjectTitle,
+						introduction:res.data.introduction,
+					}
+					uni.setStorageSync('gameMsg',JSON.stringify(gameMsg))
+					let now_gameMsg = JSON.parse(uni.getStorageSync('gameMsg'))
+					if(now_gameMsg.subjectId !== this.gameMsg.subjectId){
+						console.log('赛事id改变 重新更新列表')
+						this.gameMsg = now_gameMsg
+						this.game_type_state = true
+						this.$refs.mescroll.refash();
+					}
+					return
+				})
+				// this.game_type_state = false
+				// this.$refs.mescroll.refash();
+				// return
 			}else{
 				this.game_type_state = true
 			}
@@ -287,8 +322,11 @@
 				// align-items: center;
 				.img_box{
 					border-radius: 50%;
-					width: 100rpx;
+					width: 130rpx;
 					height: 100rpx;
+					// iOS端圆角设置失效
+							-webkit-backface-visibility: hidden;
+							-webkit-transform: translate3d(0, 0, 0);
 				}
 				.body{
 					// margin-left: 20rpx;

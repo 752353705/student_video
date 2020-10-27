@@ -65,8 +65,10 @@
 }
 .listPage .game_type .le .img_box.data-v-7d5e07c6 {
   border-radius: 50%;
-  width: 100rpx;
+  width: 130rpx;
   height: 100rpx;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
 }
 .listPage .game_type .le .body.data-v-7d5e07c6 {
   -webkit-box-orient: vertical;

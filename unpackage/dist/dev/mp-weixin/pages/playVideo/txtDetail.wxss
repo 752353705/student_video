@@ -186,9 +186,31 @@ page {
 .txt_detail .uni_vdplayer .txtMain .fans.data-v-145cf910 {
   margin-top: 20rpx;
 }
-.txt_detail .uni_vdplayer .txtMain .fans .tit.data-v-145cf910 {
+.txt_detail .uni_vdplayer .txtMain .fans .tit_box.data-v-145cf910 {
+  position: relative;
+  width: 100%;
+  height: 139rpx;
+  margin: 50rpx 0;
+}
+.txt_detail .uni_vdplayer .txtMain .fans .tit_box image.data-v-145cf910 {
+  width: 80%;
+  height: 139rpx;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.txt_detail .uni_vdplayer .txtMain .fans .tit_box .tit.data-v-145cf910 {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  text-align: center;
   font-size: 35rpx;
   font-weight: bold;
+  color: #ff9933;
 }
 .txt_detail .uni_vdplayer .txtMain .fans .img_list.data-v-145cf910 {
   margin-top: 20rpx;

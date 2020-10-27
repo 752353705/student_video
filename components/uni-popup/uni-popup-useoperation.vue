@@ -148,8 +148,9 @@
 								icon:'none',
 								title: '删除成功',
 							})
-							// 然后刷新当前的瀑布流
-							
+							uni.hideLoading()
+							// 然后删除当前列表中的作品
+							_this.$emit('myDelArticle');
 						})
 					}else if(_this.operType == 'myUsed'){
 						this.api._del(`secondGoods/${_this.txtid}`,{},function(res){

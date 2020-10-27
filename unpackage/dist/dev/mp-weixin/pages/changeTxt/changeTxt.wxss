@@ -37,14 +37,53 @@
   padding-bottom: 100px;
 }
 .pused .input.data-v-7e49de88 {
-  background-color: #f2f2f2;
-  width: 80%;
+  width: 100%;
   height: 73rpx;
   line-height: 73rpx;
   border-radius: 30rpx;
   overflow: hidden;
   box-sizing: border-box;
   padding-left: 20rpx;
+  margin-top: 20rpx;
+}
+.pused .topic.data-v-7e49de88 {
+  margin-top: 20rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.pused .topic .le .tag.data-v-7e49de88 {
+  display: inline-block;
+  width: 32rpx;
+  text-align: center;
+  border-radius: 50%;
+  line-height: 32rpx;
+  background-color: black;
+  color: white;
+  margin-right: 10rpx;
+}
+.pused .topic.act .le.data-v-7e49de88 {
+  color: #5994e2;
+}
+.pused .topic.act .le .tag.data-v-7e49de88 {
+  background-color: #5994e2;
+}
+.pused .txt_area.data-v-7e49de88 {
+  width: 100%;
+  height: 278.47rpx;
+  border-radius: 20rpx;
+  margin-top: 5rpx;
+  box-sizing: border-box;
+  padding: 30rpx;
+  padding-left: 20rpx;
+  border-top: 1rpx solid #f2f2f2;
+  border-bottom: 1rpx solid #f2f2f2;
 }
 .pused .uni-popup-message-text.data-v-7e49de88 {
   width: 100%;
@@ -62,15 +101,6 @@
   -webkit-align-items: flex-start;
           align-items: flex-start;
   overflow: hidden;
-}
-.pused .uni-popup-message-text .txt_area.data-v-7e49de88 {
-  width: 100%;
-  height: 278.47rpx;
-  background-color: #f2f2f2;
-  border-radius: 20rpx;
-  margin-top: 32rpx;
-  box-sizing: border-box;
-  padding: 30rpx;
 }
 .pused .uni-popup-message-text .tit.data-v-7e49de88 {
   margin-top: 10px;
@@ -151,13 +181,12 @@
   width: 100%;
 }
 .pused .uni-popup-message-text .img_box .cont_box .content.data-v-7e49de88 {
-  margin-top: 76rpx;
   color: white;
   font-size: 30rpx;
   position: relative;
   width: 203.58rpx;
   height: 189.58rpx;
-  background-color: #f2f2f2;
+  border: 1rpx solid #f2f2f2;
   text-align: center;
   margin-right: 20rpx;
   display: -webkit-box;
@@ -194,7 +223,7 @@
   height: 83.66rpx;
   text-align: center;
   line-height: 83.66rpx;
-  background-color: #fe2c53;
+  background-color: #ff9933;
   border-radius: 40rpx;
   color: white;
   font-size: 36rpx;
@@ -214,17 +243,17 @@
 }
 .cross.data-v-7e49de88 {
   background: #888888;
-  height: 89.58rpx;
+  height: 61rpx;
   position: relative;
-  width: 9.88rpx;
+  width: 6rpx;
 }
 .cross.data-v-7e49de88:after {
   background-color: #888888;
   content: '';
-  height: 9.88rpx;
-  left: -37.77rpx;
+  height: 6rpx;
+  left: -27rpx;
   position: absolute;
-  top: 39.77rpx;
-  width: 89.58rpx;
+  top: 28rpx;
+  width: 61rpx;
 }
 

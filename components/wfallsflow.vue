@@ -200,6 +200,10 @@ export default {
 			let location = {}
 			location.btntop = btntop
 			location.btnleft = btnleft
+			// 获取长按的元素的 index 坐标
+			location.column = e.currentTarget.dataset.listindex
+			location.row = e.currentTarget.dataset.index
+			
 			location = JSON.stringify(location)
 			
 			// 将 操作弹框的位置 以及 文章 id 传递过去
@@ -219,6 +223,15 @@ export default {
 			this.$emit('closeUseroperation');
 			// this.$refs.popup_useoperation.close()
 		},
+		// 进行删除作品
+		delArticle(column,row){
+			// 进行数组的修改
+			this.viewList[column].list.splice(row,1)
+			// 重新渲染瀑布流
+			this.init();
+		},
+		
+		
 		init() {
 			console.log('瀑布流组件中进行 初始化组件');
 			this.viewList = [{ list: [] }, { list: [] }];

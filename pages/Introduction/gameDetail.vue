@@ -71,45 +71,15 @@
 					</view>
 				</view>
 				<view class="player_img">
-					<image v-for="(item,index) in game_user" :key="item.userId"
+					<image v-for="(item,index) in game_user_part" :key="item.userId"
 						:src="item.avatarUrl" mode=""
 						>
 					</image>
+					<!-- 当参赛选手人数大于  5 时，显示省略号 -->
+					<text v-if="game_user.length > 5" >...</text>
 				</view>
 			</view>
-			
-			<!-- 比赛的进度 -->
-			<!-- <view class="game_progress">
-				<view class="tit">流程进度</view>
-				<view class="item">
-					<view class="le">
-						<view class="num">1</view>
-						<view class="state">可报名</view>
-					</view>
-					<view class="ri">
-						未执行
-					</view>
-				</view>
-				<view class="item">
-					<view class="le">
-						<view class="num">1</view>
-						<view class="state">可报名</view>
-					</view>
-					<view class="ri">
-						未执行
-					</view>
-				</view>
-				<view class="item">
-					<view class="le">
-						<view class="num">1</view>
-						<view class="state">可报名</view>
-					</view>
-					<view class="ri">
-						未执行
-					</view>
-				</view>
-			</view> -->
-			
+
 			<!-- 当前大赛的简介 -->
 			<view class="Introduction">
 				<view class="tit">比赛简介</view>
@@ -198,30 +168,51 @@
 				// 大赛详情
 				game_detail:'',
 				// 当前大赛的参赛人员
-				game_user:'',
+				game_user:[],
+				// 展示一部分大赛参赛人员
+				game_user_part:[],
+				
 				tab_msg:['详情','参赛选手']
 			}
 		},
 		onLoad(option) {
-			let _this = this 
-			// console.log('onload ',option)
-			this.api._get(`subject/${option.subjectId}`,{},function(res){
-				// console.log('获取大赛详情',res)
-				_this.game_detail = res.data
-				uni.setNavigationBarTitle({
-					title:_this.game_detail.subjectTitle
-				})
-			})
-			this.api._get(`subject/players/${option.subjectId}`,{},function(res){
-				// console.log('获取大赛参赛人员',res)
-				_this.game_user = res.data
-			})
+			
+			// 获取大赛的详情
+			this.getGameDetail(option.subjectId)
+			// 获取大赛的参赛人员
+			this.getGamePlayers(option.subjectId)
 		},
 		methods:{
+			// 获取大赛详情
+			getGameDetail(subjectId){
+				this.api._get(`subject/${subjectId}`,{},(res) => {
+					// console.log('获取大赛详情',res)
+					this.game_detail = res.data
+					uni.setNavigationBarTitle({
+						title:this.game_detail.subjectTitle
+					})
+				})
+			},
+			
+			// 获取参赛人员
+			getGamePlayers(subjectId){
+				this.api._get(`subject/players/${subjectId}`,{},(res) => {
+					// 参加大赛的全部人员
+					this.game_user = res.data
+					// 当参赛人数大于 4 的时候 进行截取显示一部分
+					if(this.game_user.length > 5){
+						this.game_user_part = res.data.slice(0,5)
+					}else {
+						this.game_user_part = res.data
+					}
+				})
+			},
+			// 当前激活选中的 tab
 			tabAct(index){
 				if(index == this.tab_act) return ;
 				this.tab_act = index
 			},
+			// 进行报名，跳转到 上传作品页面
 			jumpList(){
 				// 将该赛事进行储存
 				let gameMsg = {
@@ -570,7 +561,7 @@
 			position: fixed;
 			bottom: 0;
 			left: 0;
-			background-color: #244b8d;
+			background-color: #336699;
 			z-index: 20;
 		}
 	}

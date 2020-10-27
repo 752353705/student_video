@@ -1,20 +1,22 @@
 <template>
 	<view style="position: relative;">
-		<textarea 
-			class="textarea"
-			:value="value" 
-			placeholder="有趣的个人简介会吸引更多粉丝哦" 
-			placeholder-style="color:#9c9c9c;margin-left:20rpx"
-			maxlength="60"
-			@input="input"
-			>
-			<!-- 最多的字数 -->
-		</textarea>
+		<view style="position: relative;">
+			<textarea
+				class="textarea"
+				:value="value" 
+				placeholder="有趣的个人简介会吸引更多粉丝哦" 
+				placeholder-style="color:#9c9c9c;margin-left:20rpx"
+				maxlength="60"
+				@input="input"
+				>
+				<!-- 最多的字数 -->
+			</textarea>
 			<view class="num">{{num}}/60</view>
+		</view>
 			
 		<!-- 保存按钮 -->	
 		<view class="btn" @click="submit">
-			保存
+			保 存
 		</view>
 			
 	</view>
@@ -70,8 +72,8 @@
 	}
 	.num{
 		position: absolute;
-		bottom:187rpx;
-		right: 75rpx;
+		bottom:21rpx;
+		right: 94rpx;
 		color: #9c9c9c;
 	}
 	.btn{

@@ -69,21 +69,25 @@
   border-radius: 50%;
   margin-right: 40rpx;
   overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
 }
 .fans .left .img image {
   width: 100%;
   height: 100%;
 }
 .fans .focus {
-  border: 1px solid red;
-  color: red;
+  border: 1px solid #ff234f;
+  color: #ff234f;
   padding: 6rpx 35rpx;
   border-radius: 40rpx;
   font-size: 27rpx;
+  font-weight: bold;
 }
 .fans .focuson {
-  background-color: #ff2440;
-  color: white;
+  color: #989898;
+  font-weight: bold;
+  border: 1px solid #989898;
 }
 .fans:after {
   content: "  ";
