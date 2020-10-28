@@ -60,6 +60,24 @@
 						<text class="icon t-icon iconxiangce"></text>
 						<text>商户相册</text>
 					</view>
+					<!-- 图片展示 -->
+						<!-- 头部大图 -->
+						<view class="first_img">
+							<image data-num='0' @click="previewImage"
+								src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg" mode=""></image>
+						</view>
+						<!-- 底部三张小图 -->
+						<view class="photo_btm_img">
+							<view class="photo_item" 
+								v-for="(item,index) in [1,2,3] "
+								:key="index" :data-num="index + 1"
+								@click="previewImage"
+								>
+								<image src="http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg" mode=""></image>
+							</view>
+						</view>
+						
+						
 				</view>
 				<!-- 使用说明 -->
 				<view class="use_msg">
@@ -67,6 +85,9 @@
 						<text class="icon t-icon iconshiyongbangzhu"></text>
 						<text>使用说明</text>
 					</view>
+					<!-- <view class="use_desc">
+						
+					</view> -->
 				</view>
 				
 			</view>
@@ -84,11 +105,29 @@
 	export default {
 		data() {
 			return {
-				
+				// 当前店铺的照片
+				photoList:[
+					'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg',
+					'https://img.alicdn.com/imgextra/i3/2888462616/O1CN01ERra5J1VCAbZaKI5n_!!0-item_pic.jpg_430x430q90.jpg',
+					'https://gd3.alicdn.com/imgextra/i3/819381730/O1CN01YV4mXj1OeNhQIhQlh_!!819381730.jpg_400x400.jpg',
+					'https://img.alicdn.com/imgextra/i4/3470687433/O1CN0124mMQOSERr18L1h_!!3470687433.jpg_430x430q90.jpg',
+				]
 			}
 		},
 		methods:{
-			
+			// 预览商户相册图片
+			previewImage(e){
+				console.log('图片预览',e.currentTarget.dataset.num)
+				var num = e.currentTarget.dataset.num
+				// var url = this.photoList[num]; //获取当前页面的轮播图数据
+				//uniapp预览轮播图
+				uni.previewImage({
+					current:num, //预览图片的下标
+					urls:this.photoList, //预览图片的地址，必须要数组形式，如果不是数组形式就转换成数组形式就可以
+					loop:true,
+					longPressActions:true
+				})
+			}
 		}
 	}
 </script>
@@ -249,12 +288,43 @@
 					margin-top: 20rpx;
 					border-radius: 10rpx;
 					width: 100%;
-					height: 300rpx;
+					// height: 300rpx;
 					background-color: white;
+					// 商户相册头部
 					.photo_tit{
 						display: flex;
 						align-items: center;
 						justify-content: flex-start;
+						margin-bottom: 20rpx;
+					}
+					// 相片展示
+					.first_img{
+						width: 100%;
+						height: 310rpx;
+						margin-bottom: 20rpx;
+						border-radius: 20rpx;
+						overflow: hidden;
+						image{
+							width: 100%;
+							height: 100%;
+						}
+					}
+					.photo_btm_img{
+						display: flex;
+						justify-content: space-between;
+						align-items: flex-start;
+						width: 100%;
+						height: 157rpx;
+						.photo_item{
+							width: 30%;
+							height: 100%;
+							border-radius: 20rpx;
+							overflow: hidden;
+							image{
+								width: 100%;
+								height: 100%;
+							}
+						}
 					}
 				}
 				// 使用说明

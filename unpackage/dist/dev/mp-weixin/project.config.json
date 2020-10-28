@@ -11,6 +11,8 @@
 	"libVersion": "",
 	"appid": "wx35ae62ee04cc537b",
 	"projectname": "student_video",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -53,7 +55,6 @@
 					"id": -1,
 					"name": "pages/huiLife/tenants",
 					"pathName": "pages/huiLife/tenants",
-					"query": "",
 					"scene": null
 				}
 			]

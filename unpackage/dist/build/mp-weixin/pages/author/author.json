@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "用户信息",
-  "usingComponents": {
-    "wfalls-flow": "/components/wfallsflow",
-    "mescroll-item": "/components/mescroll-swiper-item",
-    "swiper-tab-head": "/components/swiper-tab-head"
-  }
-}

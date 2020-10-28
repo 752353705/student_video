@@ -32,19 +32,47 @@
 			</view>
 		</view>
 		<!-- 商家入驻 -->
-		<!-- <view class="tenants" @click="goTenants" >
-			入驻
-		</view> -->
+		<view class="tenants" :class="enter_style ? 'tenants_scroll' : '' " @click="goTenants" >
+			<image src="/static/ruzhu.png" mode=""></image>
+		</view>
 		
 	</view>
 </template>
 
 <script>
+	import QQMapWX from '@/components/qqmap-wx-jssdk.js'
+	// 获取用户的地理位置
+	let qqmapsdk = new QQMapWX({
+	  // 申请的key
+	  key: 'F4VBZ-MYUL3-QYE3K-YWSDQ-VZTDZ-6NFPZ'
+	});
 	export default {
 		data() {
 			return {
+				// 监听页面滚动控制按钮的位置
+				enter_style:false,
 				
 			};
+		},
+		onLoad() {
+			uni.getLocation({
+			    type: 'wgs84',
+			    success: function (res) {
+						console.log('当前位置的经度：' + res.longitude);
+						console.log('当前位置的纬度：' + res.latitude);
+			    }
+			});
+		},
+		onPageScroll(){
+			// console.log('页面滚动了')
+			if(!this.enter_style){
+				this.enter_style = true
+			}else{
+				setTimeout(()=>{
+					this.enter_style = false
+				},5000)
+			}
+			
 		},
 		methods:{
 			// 跳转到商家详情页面
@@ -115,10 +143,10 @@
 						.head{
 							.type{
 								background-color: #fcf2f0;
-								color: #ba766b;
+								color: #ec4a3d;
 								margin-right: 20rpx;
 								padding: 5rpx 13rpx;
-								font-size: 20rpx;
+								font-size: 23rpx;
 								// padding-top: 5rpx;
 								// padding-left: 5rpx;
 								// padding-right: 5rpx;
@@ -132,7 +160,7 @@
 						}
 						// 商家地点
 						.location{
-							margin-top: 10rpx;
+							margin-top: 20rpx;
 							display: flex;
 							justify-content: space-between;
 							color: #525252;
@@ -140,8 +168,8 @@
 						}
 						// 当前热销简介
 						.foot{
-							margin-top: 10rpx;
-							color: #ba766b;
+							margin-top: 21rpx;
+							color: #ec4a3d;
 							font-size: 27rpx;
 						}
 					}
@@ -152,11 +180,22 @@
 		.tenants{
 			width: 100rpx;
 			height: 100rpx;
-			background-color: red;
 			position: fixed;
 			bottom: 200rpx;
-			right: 20rpx;
+			right: 0rpx;
 			z-index: 10;
+			transform: translateX(-30rpx);
+			transition: transform 0.4s;
+			
+			image{
+				width: 100%;
+				height: 100%;
+			}
+		}
+		.tenants_scroll{
+			// right: -44rpx;
+			transform: translateX(44rpx);
+			transition: transform 0.4s;
 		}
 	}
 </style>
