@@ -55,6 +55,7 @@ button.data-v-01d108ae {
 .tenants .head_img.data-v-01d108ae {
   width: 100%;
   height: 400rpx;
+  overflow: hidden;
 }
 .tenants .head_img image.data-v-01d108ae {
   width: 100%;

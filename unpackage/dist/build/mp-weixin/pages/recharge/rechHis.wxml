@@ -1,0 +1,21 @@
+<wxs module="time">
+// 控制 二级评论 的时间格式 
+function changetime(arg1, arg2){
+	var t1 = 0,
+		t2 = 0,
+		r1, r2;
+		
+		console.log('11',arg1.toString().split("."))
+		
+		// t1 = arg1.toString().split(".")[1].length
+		// t2 = arg2.toString().split(".")[1].length
+	r1 = Number(arg1.toString().replace(".", ""));
+	r2 = Number(arg2.toString().replace(".", ""));
+	return (r1 / r2) * Math.pow(10, t2 - t1);
+}
+
+module.exports = {
+	changetime: changetime,
+}
+</wxs>
+<view class="csp data-v-04766eed"><view class="cont data-v-04766eed"><block wx:if="{{hisList.length==0}}"><block class="data-v-04766eed"><image class="empty data-v-04766eed" src="../../static/dingdan.png" mode></image></block></block><block wx:else><block wx:for="{{hisList}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view class="item data-v-04766eed"><view class="left data-v-04766eed"><view class="time data-v-04766eed">{{item.createTime}}</view></view><view class="right data-v-04766eed">{{'+'+time.changetime(item.money,100)+'元'}}</view></view></block></block></view></view>

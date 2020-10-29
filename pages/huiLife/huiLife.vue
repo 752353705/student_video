@@ -2,7 +2,9 @@
 	<view class="life">
 		<!-- 首页的图片样式 -->
 		<view class="img_box">
-			<image src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2319343996,1107396922&fm=26&gp=0.jpg" mode=""></image>
+			<image src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2319343996,1107396922&fm=26&gp=0.jpg" 
+				mode="widthFix">
+			</image>
 		</view>
 		<!-- 商家展示 -->
 		<view class="merchant">
@@ -13,7 +15,9 @@
 					@click="jumpDetail"
 					>
 					<view class="le">
-						<image src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg" mode=""></image>
+						<image src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg"
+						 mode="widthFix">
+						</image>
 					</view>
 					<view class="ri">
 						<view class="head">
@@ -51,7 +55,11 @@
 			return {
 				// 监听页面滚动控制按钮的位置
 				enter_style:false,
-				
+				timeout:false,
+				// 默认第一页进行加载
+				pageNum: 1,
+				// 判断是否有下一页
+				nextpage:false
 			};
 		},
 		onLoad() {
@@ -63,14 +71,34 @@
 			    }
 			});
 		},
+		onReachBottom() {
+			console.log('上拉加载')
+			if(!this.nextpage) return;
+			// if(this.userId){
+			// 	this.getOtherFans()
+			// }else{
+			// 	this.getMyFans()
+			// }
+		},
 		onPageScroll(){
 			// console.log('页面滚动了')
 			if(!this.enter_style){
 				this.enter_style = true
 			}else{
-				setTimeout(()=>{
-					this.enter_style = false
-				},5000)
+				// 判断是否已经有了定时器
+				if(!this.timeout){
+					// 没有
+					this.timeout = true
+					console.log('设置定时器')
+					setTimeout(()=>{
+						this.enter_style = false
+						this.timeout = false
+					},5000)
+				}else{
+					// 有了
+					// clearTimeout(timer)
+					return
+				}
 			}
 			
 		},

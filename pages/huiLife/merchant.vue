@@ -2,7 +2,10 @@
 	<view class="merchant">
 		<!-- 当前商家的背景图 -->
 		<view class="bg">
-			<image src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg" mode=""></image>
+			<image 
+				src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg"
+				mode="widthFix">
+			</image>
 		</view>
 		
 		<!-- 商家的信息以及菜品展示 -->
@@ -21,11 +24,13 @@
 					</view>
 					<!-- 当前店铺的商标 -->
 					<view class="logo">
-						<image src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg" mode=""></image>
+						<image src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg" 
+							mode="widthFix">
+						</image>
 					</view>
 					<!-- 打电话的图标 -->
 					<view class="phone">
-						<text class="t-icon icondianhua"></text>
+						<text @click="callPhone" class="t-icon icondianhua"></text>
 					</view>
 					
 				</view>
@@ -41,7 +46,9 @@
 						:key="index"
 						>
 						<view class="le">
-							<image src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2319343996,1107396922&fm=26&gp=0.jpg" mode=""></image>
+							<image src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2319343996,1107396922&fm=26&gp=0.jpg" 
+								mode="widthFix">
+							</image>
 						</view>
 						<view class="ri">
 							<view class="ri_tit">小锅套餐</view>
@@ -64,7 +71,9 @@
 						<!-- 头部大图 -->
 						<view class="first_img">
 							<image data-num='0' @click="previewImage"
-								src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg" mode=""></image>
+								src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg"
+								mode="widthFix">
+							</image>
 						</view>
 						<!-- 底部三张小图 -->
 						<view class="photo_btm_img">
@@ -73,7 +82,9 @@
 								:key="index" :data-num="index + 1"
 								@click="previewImage"
 								>
-								<image src="http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg" mode=""></image>
+								<image src="http://img0.imgtn.bdimg.com/it/u=2396068252,4277062836&fm=26&gp=0.jpg"
+									mode="widthFix">
+								</image>
 							</view>
 						</view>
 						
@@ -93,15 +104,30 @@
 			</view>
 		</view>
 		<!-- 底部的获取优惠的按钮 -->
-		<view class="btn">
-			<view class="get_code">获取优惠码</view>
+		<view v-if="!hasCode" class="btn">
+			<view class="get_code"
+				@click="getCode"
+				>
+				获取优惠码
+			</view>
 		</view>
 		
-		
+		<view v-else class="btn">
+			<view class="get_code"
+				@click="showCode"
+				>
+				到店了出示优惠码
+			</view>
+		</view>
+		<!-- 优惠码弹框 -->
+		<uni-popup ref="popupHuicode" type="center" maskAlpha="1">
+			<uni-popup-huicode :codesrc="codesrc" title="优惠二维码"></uni-popup-huicode>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
+	import uniPopupHuicode from '@/components/uni-popup/uni-popup-huicode.vue';
 	export default {
 		data() {
 			return {
@@ -111,8 +137,17 @@
 					'https://img.alicdn.com/imgextra/i3/2888462616/O1CN01ERra5J1VCAbZaKI5n_!!0-item_pic.jpg_430x430q90.jpg',
 					'https://gd3.alicdn.com/imgextra/i3/819381730/O1CN01YV4mXj1OeNhQIhQlh_!!819381730.jpg_400x400.jpg',
 					'https://img.alicdn.com/imgextra/i4/3470687433/O1CN0124mMQOSERr18L1h_!!3470687433.jpg_430x430q90.jpg',
-				]
+				],
+				// 判断是否获取了优惠码
+				hasCode:false,
+				// 优惠码地址
+				codesrc:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2852594709,2202399704&fm=26&gp=0.jpg',
+				
+				
 			}
+		},
+		components:{
+			uniPopupHuicode
 		},
 		methods:{
 			// 预览商户相册图片
@@ -127,7 +162,31 @@
 					loop:true,
 					longPressActions:true
 				})
-			}
+			},
+			// 获取优惠码
+			getCode(){
+				let _this = this 
+				uni.showToast({
+					title:'领取成功',
+					icon:'none',
+					success() {
+						console.log('获取优惠码')
+						// 发起获取优惠码的请求
+						_this.hasCode = true
+						
+					}
+				})
+			},
+			// 展示二维码
+			showCode(){
+				this.$refs.popupHuicode.open();
+			},
+			// 用户点击进行拨打电话
+			callPhone(){
+				uni.makePhoneCall({
+				    phoneNumber: '15930245253' 
+				});
+			},
 		}
 	}
 </script>
@@ -153,6 +212,7 @@
 		.bg{
 			width: 100%;
 			height: 370rpx;
+			overflow: hidden;
 			image{
 				width: 100%;
 				height: 100%;

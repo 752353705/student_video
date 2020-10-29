@@ -3,7 +3,7 @@
 		<!-- 头部的邀请入驻图 -->
 		<view class="head_img">
 			<image src="https://img.alicdn.com/imgextra/i4/3470687433/O1CN0124mMQOSERr18L1h_!!3470687433.jpg_430x430q90.jpg" 
-				mode="">
+				mode="widthFix">
 			</image>
 		</view>
 		<!-- 入驻填写的详细内容 -->
@@ -124,7 +124,10 @@
 				}
 					
 				// 一切填好进行提交
-				 
+				 uni.showToast({
+				 	title:'入驻成功',
+					icon:'none'
+				 })
 			}
 		}
 	}
@@ -160,6 +163,7 @@
 		.head_img{
 			width: 100%;
 			height: 400rpx;
+			overflow: hidden;
 			image{
 				width: 100%;
 				height: 100%;

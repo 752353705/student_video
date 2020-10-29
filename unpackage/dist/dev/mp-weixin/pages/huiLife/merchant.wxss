@@ -45,6 +45,7 @@ page{
 .merchant .bg.data-v-467f20d8 {
   width: 100%;
   height: 370rpx;
+  overflow: hidden;
 }
 .merchant .bg image.data-v-467f20d8 {
   width: 100%;
