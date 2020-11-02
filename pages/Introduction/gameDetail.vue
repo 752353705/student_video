@@ -1,6 +1,5 @@
 <template>
 	<view class="game_detail">
-		
 		<!-- 当前比赛的 图片简介 -->
 		<swiper :indicator-dots="false" :autoplay="true"
 			:interval="3000" :duration="1000" :circular="true"
@@ -38,8 +37,7 @@
 					</view>
 					<view class="ri">
 						<view class="ri_l">
-							<view class="host">举办方</view>
-							<view class="loca">{{game_detail.subjectAddress}}</view>
+							<view class="host">{{game_detail.subjectAddress}}</view>
 						</view>
 						<view class="iconfont iconfanhui"></view>
 					</view>
@@ -58,7 +56,7 @@
 						<text style="color: #2ca4e1;margin-right: 10rpx;" class="icon iconfont iconlouceng"></text>
 						<text>主办方</text>
 					</view>
-					<view class="">{{game_detail.subjectSponsorName}}</view>
+					<view style="width: 60%;word-break: break-all;">{{game_detail.subjectSponsorName}}</view>
 				</view>
 			</view>
 			<!-- 参赛选手 -->
@@ -83,53 +81,10 @@
 			<!-- 当前大赛的简介 -->
 			<view class="Introduction">
 				<view class="tit">比赛简介</view>
-				<!-- 赛制 -->
-				<view class="format">
-					<view class="head">
-						<view class="boder"></view>
-						<view style="font-size: 30rpx;">赛制</view>
-					</view>
-					<view class="desc">指定系列B03，瑞士轮4轮出四强</view>
-				</view>
-				<!-- 费用 -->
-				<view class="cost">
-					<view class="head">
-						<view class="boder"></view>
-						<view style="font-size: 30rpx;">费用</view>
-					</view>
-					<view class="desc">0</view>
-				</view>
 				<!-- 奖品 -->
 				<view class="prize">
-					<view class="head">
-						<view class="boder"></view>
-						<view style="font-size: 30rpx;">奖品</view>
-					</view>
 					<!-- 后端传递的富文本内容 -->
 					<rich-text :nodes="game_detail.subjectContent"></rich-text>
-				</view>
-				<!-- 联系方式 -->
-				<view class="contact">
-					<view class="head">
-						<view class="boder"></view>
-						<view style="font-size: 30rpx;">联系方式</view>
-					</view>
-					<view class="weixin">
-						<text>微信: 1111</text>
-					</view>
-					<view class="phone">
-						<text>电话: 2222</text>
-					</view>
-				</view>
-				<!-- 备注 -->
-				<view class="note">
-					<view class="head">
-						<view class="boder"></view>
-						<view style="font-size: 30rpx;">备注</view>
-					</view>
-					<view class="body">
-						备注备注备注备注备注备注备注
-					</view>
 				</view>
 			</view>
 		</block>
@@ -153,8 +108,8 @@
 			</view>
 		</block>
 		
-		<!-- 报名按钮 -->
-		<view class="btn" @click="jumpList">
+		<!-- 报名按钮 v-if="hasBtn" -->
+		<view class="btn" @click="jumpList" >
 			立即报名
 		</view>
 	</view>
@@ -172,10 +127,13 @@
 				// 展示一部分大赛参赛人员
 				game_user_part:[],
 				
-				tab_msg:['详情','参赛选手']
+				tab_msg:['详情','参赛选手'],
+				hasBtn:false,
 			}
 		},
 		onLoad(option) {
+			// 获取是否显示立即报名按钮
+			this.btnStyle()
 			
 			// 获取大赛的详情
 			this.getGameDetail(option.subjectId)
@@ -183,6 +141,18 @@
 			this.getGamePlayers(option.subjectId)
 		},
 		methods:{
+			// 获取是否显示报名按钮
+			btnStyle(){
+				this.api._get(`parame/config/uploadArticle`,{},(res)=>{
+					console.log('res 报名按钮',res)
+					if(res.data.parameStatus == 1){
+						this.hasBtn = true
+					}else{
+						this.hasBtn = false
+					}
+				})
+			},
+			
 			// 获取大赛详情
 			getGameDetail(subjectId){
 				this.api._get(`subject/${subjectId}`,{},(res) => {
@@ -226,6 +196,11 @@
 				uni.switchTab({
 					url:'/pages/publish/publishNotice'
 				})
+				
+				// uni.navigateTo({
+				// 	url:'/pages/publish/publishNotice'
+				// })
+				
 			},
 		}
 	}

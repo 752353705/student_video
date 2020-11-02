@@ -174,16 +174,19 @@
 		"backgroundColorTop": "#FFFFFF"
 	},
 	"tabBar": {
+		// "custom":true,
 		"borderStyle": "black",
 		"backgroundColor": "#fdfdfd",
 		"color": "#b8b8b8",
 		"selectedColor": "#ff9933",
-		"list": [{
+		"list": [
+			{
 				"pagePath": "pages/Introduction/Introduction",
 				"iconPath": "/static/tabbar/game.png",
 				"selectedIconPath": "/static/tabbar/game_active.png",
 				"text": "大赛"
-			},{
+			},
+			{
 				"pagePath": "pages/list/list",
 				"iconPath": "/static/tabbar/index.png",
 				"selectedIconPath": "/static/tabbar/index_active.png",
