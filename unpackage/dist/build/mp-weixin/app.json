@@ -58,6 +58,7 @@
         "text": "作品"
       },
       {
+<<<<<<< HEAD
         "pagePath": "pages/publish/publishNotice",
         "iconPath": "/static/tabbar/add.png",
         "selectedIconPath": "/static/tabbar/add_active.png",
@@ -70,6 +71,8 @@
         "text": "惠生活"
       },
       {
+=======
+>>>>>>> masterCopy
         "pagePath": "pages/my/my",
         "iconPath": "static/tabbar/my.png",
         "selectedIconPath": "static/tabbar/my_active.png",

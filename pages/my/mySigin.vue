@@ -42,22 +42,22 @@
 						money:1
 					},{
 						day:'第 2 天',
-						money:1
+						money:2
 					},{
 						day:'第 3 天',
-						money:1
+						money:3
 					},{
 						day:'第 4 天',
-						money:1
+						money:4
 					},{
 						day:'第 5 天',
-						money:1
+						money:5
 					},{
 						day:'第 6 天',
-						money:1
+						money:6
 					},{
 						day:'第 7 天',
-						money:1
+						money:7
 					},
 				],
 				// 当前连续签到的天数
