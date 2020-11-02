@@ -55,6 +55,12 @@
         "text": "作品"
       },
       {
+        "pagePath": "pages/publish/publishNotice",
+        "iconPath": "/static/tabbar/add.png",
+        "selectedIconPath": "/static/tabbar/add_active.png",
+        "text": "发布"
+      },
+      {
         "pagePath": "pages/my/my",
         "iconPath": "static/tabbar/my.png",
         "selectedIconPath": "static/tabbar/my_active.png",
