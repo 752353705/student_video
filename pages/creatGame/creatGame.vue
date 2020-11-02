@@ -1,19 +1,19 @@
 <template>
 	<view class="creat_game">
 		
-		<!-- 活动设置 -->
+		<!-- 大赛设置 -->
 		<view class="game_set">
 			<!-- 标题 -->
 			<view class="head">
 				<view class="tag"></view>
-				<text class="text">活动设置</text>
+				<text class="text">大赛设置</text>
 			</view>
-			<!-- 活动主题 -->
+			<!-- 大赛主题 -->
 			<view class="game_theme">
 				<!-- 标题 -->
 				<view class="game_theme_hint">
 					<text class="must">*</text>
-					<text>活动主题图</text>
+					<text>大赛主题图</text>
 					<text class="hint">(建议尺寸750*600)</text>
 				</view>
 				<!-- 图片 -->
@@ -27,7 +27,7 @@
 						更换
 					</view>
 				</view>
-				<!-- 活动名称 -->
+				<!-- 大赛名称 -->
 				<view class="game_name">
 					<view class="le">
 						<text class="must">*</text>
@@ -46,6 +46,36 @@
 					<view class="le">
 						<text class="must">*</text>
 						<text>分享标题</text>
+					</view>
+					<view class="ri">
+						<input type="text" value=""
+							dir='rtl'
+							maxlength="30"
+							placeholder="请输入(限30字)"
+							placeholder-class="place_style"
+							/>
+					</view>
+				</view>
+				<!-- 举办地点 -->
+				<view class="game_name">
+					<view class="le">
+						<text class="must">*</text>
+						<text>举办地点</text>
+					</view>
+					<view class="ri">
+						<input type="text" value=""
+							dir='rtl'
+							maxlength="30"
+							placeholder="请输入(限30字)"
+							placeholder-class="place_style"
+							/>
+					</view>
+				</view>
+				<!-- 主办方 -->
+				<view class="game_name">
+					<view class="le">
+						<text class="must">*</text>
+						<text>主办方</text>
 					</view>
 					<view class="ri">
 						<input type="text" value=""
@@ -81,8 +111,28 @@
 			</view>
 		</view>
 		
+		<!-- 大赛简介 -->
+		<view class="detail_game">
+			<!-- 标题 -->
+			<view class="head">
+				<view class="tag"></view>
+				<text class="text">大赛简介</text>
+			</view>
+			<!-- 大赛简介填写 -->
+			<view class="textarea">
+				<textarea value="" 
+					placeholder="输入大赛简介" 
+					maxlength="-1"
+					/>
+			</view>
+			
+			
+		</view>
 		
-		
+		<!-- 底部按钮 -->
+		<view class="btm_btn">
+			
+		</view>
 		
 		<!-- 时间选择器 -->
 		<min-popup heightSize="500" :show="show" @close='close'>
@@ -94,8 +144,6 @@
 		    >
 		    </min-picker>
 		</min-popup>
-		
-		
 	</view>
 </template>
 
@@ -158,7 +206,7 @@
 	}
 	
 	.creat_game{
-		// 活动设置
+		// 大赛设置
 		.game_set{
 			margin-top: 30rpx;
 			box-sizing: border-box;
@@ -184,7 +232,7 @@
 					font-size: 30rpx;
 				}
 			}
-			// 活动主题图
+			// 大赛主题图
 			.game_theme{
 				margin-top: 40rpx;
 				.game_theme_hint{
@@ -219,7 +267,7 @@
 						font-size: 28rpx;
 					}
 				}
-				// 活动名称
+				// 大赛名称
 				.game_name{
 					display: flex;
 					justify-content: space-between;
@@ -263,5 +311,50 @@
 				
 			}
 		}
+		// 大赛简介
+		.detail_game{
+			margin-top: 30rpx;
+			box-sizing: border-box;
+			padding-top: 30rpx;
+			padding-right: 30rpx;
+			padding-bottom: 30rpx;
+			padding-left: 30rpx;
+			background-color: white;
+			// 标题
+			.head{
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				.tag{
+					width: 10rpx;
+					height: 40rpx;
+					background-color: #ff8800;
+					border-radius: 10rpx;
+				}
+				.text{
+					margin-left: 20rpx;
+					font-weight: bolder;
+					font-size: 30rpx;
+				}
+			}
+			// 大赛简介
+			.textarea{
+				textarea{
+					margin-top: 30rpx;
+					box-sizing: border-box;
+					padding-top: 30rpx;
+					padding-right: 30rpx;
+					padding-bottom: 30rpx;
+					padding-left: 30rpx;
+					width: 100%;
+					background-color: #f4f5f9;
+				}
+				
+			}
+			
+			
+		}
+	
+	
 	}
 </style>

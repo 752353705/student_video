@@ -158,4 +158,45 @@ page{
   width: 67%;
   text-align: right;
 }
+.creat_game .detail_game {
+  margin-top: 30rpx;
+  box-sizing: border-box;
+  padding-top: 30rpx;
+  padding-right: 30rpx;
+  padding-bottom: 30rpx;
+  padding-left: 30rpx;
+  background-color: white;
+}
+.creat_game .detail_game .head {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+          justify-content: flex-start;
+}
+.creat_game .detail_game .head .tag {
+  width: 10rpx;
+  height: 40rpx;
+  background-color: #ff8800;
+  border-radius: 10rpx;
+}
+.creat_game .detail_game .head .text {
+  margin-left: 20rpx;
+  font-weight: bolder;
+  font-size: 30rpx;
+}
+.creat_game .detail_game .textarea textarea {
+  margin-top: 30rpx;
+  box-sizing: border-box;
+  padding-top: 30rpx;
+  padding-right: 30rpx;
+  padding-bottom: 30rpx;
+  padding-left: 30rpx;
+  width: 100%;
+  background-color: #f4f5f9;
+}
 
