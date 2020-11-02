@@ -91,9 +91,9 @@
 			<view class="btm w-100 bg-w box-boder pa-l40 pa-r10 panel-between item-center ">
 				<view class="le">
 					<!-- @click="getComment" -->
-					<view class="msg item-center" >
+					<view class="msg item-center" @click="getComment" >
 						<text class="iconfont iconxie" style="margin-right: 10rpx;"></text>
-						<text>评论升级...</text>
+						<text>进行评论</text>
 					</view>
 				</view>
 				<view class="ri item-start">
@@ -110,13 +110,13 @@
 					<view class="gift icon" @click="sendGift(index)"><text class="t-icon iconliwu"></text></view>
 
 					<!-- 评论   点击评论显示评论弹出框-->
-					<!-- <view style="position: relative;" class="comments icon" @click="getComment">
+					<view style="position: relative;" class="comments icon" @click="getComment">
 						<text class="iconfont iconxinxi"></text>
 						<u-badge :count="txtItem.commentNum || 0" size="mini" 
 							:offset="offset"  overflow-count="99"
 							>
 						</u-badge>
-					</view> -->
+					</view>
 					<!-- 收藏 -->
 					<view class="comments icon" @tap.stop="collection">
 						<text v-if="!txtItem.collectionStatus" class="iconfont iconshoucang1"></text>

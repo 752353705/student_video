@@ -280,7 +280,13 @@ export default {
 								_this.pushAll();
 							}
 						} else {
-							console.log('res ==》', res);
+							uni.hideLoading()
+							uni.showToast({
+								title:'出错请重新上传',
+								icon:'none'
+							})
+							_this.btn_statue = false
+							
 						}
 					}
 				});

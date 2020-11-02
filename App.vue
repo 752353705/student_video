@@ -4,6 +4,33 @@ export default {
 		return {};
 	},
 	onLaunch: function() {
+		// 隐藏发布的 tabbar
+		// uni.setTabBarItem({
+		// 	index:2,
+		// 	pagePath: "pages/publish/publishNotice",
+		// 	iconPath: "/static/tabbar/add.png",
+		// 	selectedIconPath: "/static/tabbar/add_active.png",
+		// 	text: "发布"
+		// })
+		
+		// if(true){
+		// 	uni.setTabBarItem({
+		// 		index:2,
+		// 		pagePath: "pages/publish/publishNotice",
+		// 		iconPath: "/static/tabbar/add.png",
+		// 		selectedIconPath: "/static/tabbar/add_active.png",
+		// 		text: "发布"
+		// 	})
+		// }else{
+		// 	uni.setTabBarItem({
+		// 		index:2,
+		// 		pagePath: "",
+		// 		iconPath: "",
+		// 		selectedIconPath: "",
+		// 		text: ""
+		// 	})
+		// }
+		
 		// 小程序强制更新
 		console.log('小程序进行强制更新');
 		const updateManager = uni.getUpdateManager();
