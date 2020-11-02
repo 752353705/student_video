@@ -185,7 +185,13 @@
 				"navigationBarTitleText": "诚邀商户入驻"
 			}
 		}
-   ],
+       ,{
+            "path" : "pages/creatGame/creatGame",
+            "style" : {
+							"navigationBarTitleText": "创建大赛"
+						}
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarBackgroundColor": "#FFFFFF",
