@@ -63,9 +63,9 @@
   height: 168rpx;
   padding: 20rpx;
 }
-.listPage .game_type .le .img_box.data-v-7d5e07c6 {
+.listPage .game_type .le .img_box image.data-v-7d5e07c6 {
   border-radius: 50%;
-  width: 130rpx;
+  width: 100rpx;
   height: 100rpx;
   -webkit-backface-visibility: hidden;
   -webkit-transform: translate3d(0, 0, 0);
@@ -75,6 +75,7 @@
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
           flex-direction: column;
+  padding-left: 20rpx;
 }
 .listPage .game_type .le .body .name.data-v-7d5e07c6 {
   width: 380rpx;

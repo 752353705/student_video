@@ -41,14 +41,15 @@ page{
 .introduction.data-v-6b8ac646 {
   color: white;
 }
-.introduction swiper.data-v-6b8ac646 {
+.introduction .swiper.data-v-6b8ac646 {
   height: 423rpx;
-  margin-top: 103rpx;
+  margin-top: 139rpx;
 }
-.introduction swiper swiper-item.data-v-6b8ac646 {
+.introduction .swiper .swiper-item.data-v-6b8ac646 {
+  height: 100%;
   position: relative;
 }
-.introduction swiper swiper-item image.data-v-6b8ac646 {
+.introduction .swiper .swiper-item image.data-v-6b8ac646 {
   position: absolute;
   top: 50%;
   -webkit-transform: translateY(-50%);

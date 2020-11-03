@@ -56,7 +56,7 @@
 						<text style="color: #2ca4e1;margin-right: 10rpx;" class="icon iconfont iconlouceng"></text>
 						<text>主办方</text>
 					</view>
-					<view style="width: 60%;word-break: break-all;">{{game_detail.subjectSponsorName}}</view>
+					<view style="width: 60%;word-break: break-all;text-align: center;">{{game_detail.subjectSponsorName}}</view>
 				</view>
 			</view>
 			<!-- 参赛选手 -->
@@ -84,7 +84,10 @@
 				<!-- 奖品 -->
 				<view class="prize">
 					<!-- 后端传递的富文本内容 -->
-					<rich-text :nodes="game_detail.subjectContent"></rich-text>
+					<rich-text :nodes="game_detail.subjectContent"
+						space="ensp"
+						>
+					</rich-text>
 				</view>
 			</view>
 		</block>

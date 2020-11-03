@@ -12,9 +12,9 @@
 		<view class="game_type height panel-between item-center box-boder ma-t30 ma-b20"
 			v-if="game_type_state"
 			>
-			<view class="le panel-start item-center">
-				<view class="ma-r20"  >
-					<image class="img_box" :src="gameMsg.logo" :mode="aspectFit"></image>
+			<view class="le panel-start item-center" style="width: 80%;">
+				<view class="img_box"  >
+					<image class="img" :src="gameMsg.logo" mode="scaleToFill"></image>
 				</view>
 				<view class="body  panel-center">
 					<view class="name">{{gameMsg.subjectTitle}}</view>
@@ -107,8 +107,6 @@
 		},
 		onLoad(option) {
 			let _this = this
-			
-			
 			// 判断当前有没有赛事 信息
 			// if(!uni.getStorageSync('gameMsg')){
 			// 	// 没有赛事信息
@@ -126,8 +124,6 @@
 			// 	// 有信息
 			// 	this.gameMsg = JSON.parse(uni.getStorageSync('gameMsg'))
 			// }
-			
-			
 			// 设置滚动区域的高度
 			uni.getSystemInfo({
 				success(res) {
@@ -213,11 +209,6 @@
 					url:'/pages/Introduction/Introduction'
 				})
 			},
-			
-			// // 控制签到弹窗的显隐
-			// showSigin(){
-			// 	this.$refs.popup_sigin.close()
-			// },
 			// 控制 首页 用户操作弹窗的显隐
 			showUseroperation(btntop,btnleft){
 				// console.log('list 中 按钮显示的位置',"btntop ==>",btntop,"btnleft ==>",btnleft)
@@ -285,54 +276,32 @@
 				border-radius: 33rpx;
 				width: 69%;
 				height: 100%;
-				// text-align: center;
 				color: #453a74;
-				// display: flex;
-				// align-items: center;
-				// justify-content: center;
-				// image{
-				// 	width: 40rpx;
-				// 	height:40rpx ;
-				// 	margin-right: 13rpx;
-				// }
 			}
 		}
 		// 赛事分类
 		.game_type{
 			background-color: white;
-			// margin-bottom: 20rpx;
 			position: sticky;
-			// margin-top: 30rpx;
 			top: 133rpx;
 			left: 0;
 			z-index: 20;
 			height: 168rpx;
-			// box-sizing: border-box;
 			padding: 20rpx;
-			// padding-left: 20rpx;
-			// padding-top: 20rpx;
-			// padding-right: 20rpx;
-			// padding-bottom: 20rpx;
-			// display: flex;
-			// align-items: center;
-			// justify-content: space-between;
 			.le{
-				// display: flex;
-				// justify-content: flex-start;
-				// align-items: center;
 				.img_box{
-					border-radius: 50%;
-					width: 130rpx;
-					height: 100rpx;
-					// iOS端圆角设置失效
-							-webkit-backface-visibility: hidden;
-							-webkit-transform: translate3d(0, 0, 0);
+					image{
+						border-radius: 50%;
+						width: 100rpx;
+						height: 100rpx;
+						// iOS端圆角设置失效
+						-webkit-backface-visibility: hidden;
+						-webkit-transform: translate3d(0, 0, 0);
+					}
 				}
 				.body{
-					// margin-left: 20rpx;
-					// display: flex;
 					flex-direction: column;
-					// justify-content: center;
+					padding-left: 20rpx;
 					.name{
 						width: 380rpx;
 						font-size: 30rpx;
@@ -347,17 +316,13 @@
 						overflow:hidden;
 						white-space:nowrap;
 						text-overflow:ellipsis;
-						// margin-top: 20rpx;
-						// font-size: 20rpx;
 					}
 				}
 			}
 			.btn{
-				// box-sizing: border-box;
 				padding: 10rpx 16rpx;
 				border: 1px solid black;
 				border-radius: 10rpx;
-				// font-size: 20rpx;
 			}
 		}
 	}
