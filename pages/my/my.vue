@@ -131,6 +131,8 @@
 				// 用户要进行删除的坐标
 				column:'',
 				row:'',
+				// 显示次数
+				showNum: 1
 			};
 		},
 		components:{
@@ -155,8 +157,14 @@
 			}else{
 				this.showsigin = false
 			}
-			//
-			this.$refs.mescroll.refash();
+			//判断用户什么情况下进行下拉刷新
+			if (this.showNum != 1) {
+				console.log('进行下拉更新');
+				// 第二次进入在进行下拉
+				this.$refs.mescroll.refash();
+			} else {
+				this.showNum = 2;
+			}
 		},
 		onHide() {
 			// 当页面 隐藏之后 关闭操作弹窗
