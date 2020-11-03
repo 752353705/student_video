@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
 	"description": "项目配置文件。",
 	"packOptions": {
 		"ignore": []
@@ -12,8 +11,6 @@
 	"libVersion": "",
 	"appid": "wx35ae62ee04cc537b",
 	"projectname": "student_video",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -42,41 +39,16 @@
 					"id": -1,
 					"name": "pages/creatGame/creatGame",
 					"pathName": "pages/creatGame/creatGame",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/my/my",
+					"pathName": "pages/my/my",
 					"scene": null
 				}
 			]
 		}
 	}
-=======
-  "description": "项目配置文件。",
-  "packOptions": {
-    "ignore": []
-  },
-  "setting": {
-    "urlCheck": false,
-    "minified": false
-  },
-  "compileType": "miniprogram",
-  "libVersion": "",
-  "appid": "wx35ae62ee04cc537b",
-  "projectname": "student_video",
-  "condition": {
-    "search": {
-      "current": -1,
-      "list": []
-    },
-    "conversation": {
-      "current": -1,
-      "list": []
-    },
-    "game": {
-      "current": -1,
-      "list": []
-    },
-    "miniprogram": {
-      "current": -1,
-      "list": []
-    }
-  }
->>>>>>> master
 }

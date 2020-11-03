@@ -1,6 +1,7 @@
 
 page{
 	background-color: #f7f7f7;
+	padding-bottom: 100rpx;
 }
 
 @charset "UTF-8";
@@ -188,6 +189,9 @@ page{
   margin-left: 20rpx;
   font-weight: bolder;
   font-size: 30rpx;
+}
+.creat_game .detail_game .textarea {
+  position: relative;
 }
 .creat_game .detail_game .textarea textarea {
   margin-top: 30rpx;

@@ -30,7 +30,8 @@
     "pages/changeTxt/changeTxt",
     "pages/huiLife/huiLife",
     "pages/huiLife/merchant",
-    "pages/huiLife/tenants"
+    "pages/huiLife/tenants",
+    "pages/creatGame/creatGame"
   ],
   "subPackages": [],
   "window": {
@@ -58,27 +59,18 @@
         "text": "作品"
       },
       {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> master
         "pagePath": "pages/publish/publishNotice",
         "iconPath": "/static/tabbar/add.png",
         "selectedIconPath": "/static/tabbar/add_active.png",
         "text": "发布"
       },
       {
-<<<<<<< HEAD
         "pagePath": "pages/huiLife/huiLife",
         "iconPath": "/static/tabbar/huiLife.png",
         "selectedIconPath": "/static/tabbar/huiLife_active.png",
         "text": "惠生活"
       },
       {
-=======
->>>>>>> masterCopy
-=======
->>>>>>> master
         "pagePath": "pages/my/my",
         "iconPath": "static/tabbar/my.png",
         "selectedIconPath": "static/tabbar/my_active.png",

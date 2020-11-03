@@ -44,7 +44,7 @@
 				<!-- 分享标题 -->
 				<view class="game_name">
 					<view class="le">
-						<text class="must">*</text>
+						<!-- <text class="must">*</text> -->
 						<text>分享标题</text>
 					</view>
 					<view class="ri">
@@ -120,10 +120,18 @@
 			</view>
 			<!-- 大赛简介填写 -->
 			<view class="textarea">
-				<textarea value="" 
+				<!-- <textarea value="" 
 					placeholder="输入大赛简介" 
 					maxlength="-1"
-					/>
+					/> -->
+				<jinEdit placeholder="请输入内容" @editOk="editOk" 
+					uploadFileUrl="/#"
+					>
+				</jinEdit>
+				<!-- 	<editor id="editor" class="ql-container" 
+						placeholder="输入大赛详情" @ready="onEditorReady"
+						>
+					</editor> -->
 			</view>
 			
 			
@@ -131,7 +139,15 @@
 		
 		<!-- 底部按钮 -->
 		<view class="btm_btn">
-			
+			<view class="">
+				预览
+			</view>
+			<view class="">
+				存草稿
+			</view>
+			<view class="">
+				发布
+			</view>
 		</view>
 		
 		<!-- 时间选择器 -->
@@ -148,6 +164,7 @@
 </template>
 
 <script>
+	import jinEdit from '@/components/jin-edit/jin-edit.vue'
 	import minPopup from '@/components/min-picker/min-popup.vue'
 	import minPicker from '@/components/min-picker/min-picker.vue'
 	export default {
@@ -165,9 +182,15 @@
 		},
 		components:{
 			minPopup,
-			minPicker
+			minPicker,
+			jinEdit,
 		},
 		methods:{
+			// 点击保存文章详情
+			editOk(res) {
+			  console.log('文章详情',res.html)
+			},
+			
 			// 获取选择的日期
 			// 取消事件
 			cancel(){
@@ -195,6 +218,7 @@
 <style>
 	page{
 		background-color: #f7f7f7;
+		padding-bottom: 100rpx;
 	}
 </style>
 
@@ -339,6 +363,7 @@
 			}
 			// 大赛简介
 			.textarea{
+				position: relative;
 				textarea{
 					margin-top: 30rpx;
 					box-sizing: border-box;
