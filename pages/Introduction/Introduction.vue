@@ -19,7 +19,9 @@
 		<swiper class="swiper" :indicator-dots="false" :autoplay="true" 
 			:interval="3000" :duration="1000" :circular="true"
 			>
-			<swiper-item class="swiper-item" v-for="(item,index) in ad" :key="item.adId">
+			<swiper-item class="swiper-item" v-for="(item,index) in ad" :key="item.adId"
+				@click="jumpList" :data-subjectId="item.subjectId"
+				>
 				<image
 					style="width: 100%;height: 100%;"
 					:src="item.image" 
@@ -202,6 +204,13 @@
 					introduction:this.game_list[index].introduction,
 				}
 				uni.setStorageSync('gameMsg',JSON.stringify(gameMsg))
+			},
+			// 点击轮播图跳转到作品列表
+			jumpList(e){
+				// console.log('广告跳转 e',e.currentTarget.dataset.subjectid)
+				uni.navigateTo({
+					url:`/pages/Introduction/gameDetail?subjectId=${e.currentTarget.dataset.subjectid}`
+				})
 			},
 			
 			hot(index){
