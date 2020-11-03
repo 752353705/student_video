@@ -1,0 +1,1 @@
+{"version":3,"sources":["uni-app:///main.js"],"names":["createPage","Page"],"mappings":";;;;wEAAA,qBACA,sBACA,kD,mDACAA,EAAWC,a","file":"pages/creatGame/creatGame.js","sourcesContent":["import 'uni-pages';\nimport Vue from 'vue'\nimport Page from './pages/creatGame/creatGame.vue'\ncreatePage(Page)"],"sourceRoot":""}
