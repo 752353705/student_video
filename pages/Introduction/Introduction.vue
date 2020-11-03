@@ -16,10 +16,10 @@
 		</view>
 		
 		<!-- 赛事轮播展示 -->
-		<swiper :indicator-dots="false" :autoplay="true" 
+		<swiper class="swiper" :indicator-dots="false" :autoplay="true" 
 			:interval="3000" :duration="1000" :circular="true"
 			>
-			<swiper-item v-for="(item,index) in ad" :key="item.adId">
+			<swiper-item class="swiper-item" v-for="(item,index) in ad" :key="item.adId">
 				<image
 					style="width: 100%;height: 100%;"
 					:src="item.image" 
@@ -327,10 +327,11 @@
 	}
 	.introduction{
 		color: white;
-		swiper{
+		.swiper{
 			height: 423rpx;
-			margin-top: 103rpx;
-			swiper-item {
+			margin-top: 139rpx;
+			.swiper-item {
+				height: 100%;
 				position: relative;
 				image {
 					position: absolute;
