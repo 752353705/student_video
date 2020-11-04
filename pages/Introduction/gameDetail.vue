@@ -110,6 +110,10 @@
 				</view>
 			</view>
 		</block>
+		<view v-if="game_user.length == 0 && tab_act !== 0" class="">
+			<view style="text-align: center;margin-top: 40rpx;color: white;">—— 暂无参赛人员 ——</view>
+		</view>
+		
 		
 		<!-- 报名按钮 v-if="hasBtn" -->
 		<view class="btn" @click="jumpList" >

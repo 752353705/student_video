@@ -61,7 +61,7 @@
 					<view>{{ txtItem.title }}</view>
 					<view class="type" @click="goGameDetail">
 						<view class="mark">#</view>
-						{{ txtItem.subjectName || '' }}
+						<view class="txt">{{ txtItem.subjectName || '' }}</view>
 					</view>
 				</view>
 				<!-- 文章内容 -->
@@ -944,7 +944,13 @@ page {
 					border-radius: 20rpx;
 					color: #5d91e5;
 					padding: 10rpx 15rpx;
-
+					
+					.txt{
+						width: 200rpx;
+						overflow: hidden;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+					}
 					// padding-left: 14rpx;
 					// padding-right: 15rpx;
 					// padding-top: 10rpx;
