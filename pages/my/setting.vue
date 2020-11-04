@@ -61,7 +61,7 @@ export default {
 				{ icon: 'iconIcon', txt: '充值' },
 				{ icon: 'iconwodeshoucang', txt: '我的收藏' },
 				{ icon: 'iconliulanjilu-tianchong', txt: '浏览记录' },
-				{ icon: 'iconliulanjilu-tianchong', txt: '创建大赛' },
+				{ icon: 'iconzuzhichuangjian', txt: '创建大赛' },
 				{ icon: 'icontuichudenglu', txt: '退出登录' }
 				// {icon:"iconpaotuibeifen",txt:'跑腿'},
 			]
@@ -152,7 +152,7 @@ export default {
 			}else if( num === 5 ) {
 				// 用户进行创建大赛
 				uni.navigateTo({
-					url: '/pages/creatGame/creatGame'
+					url: '/pages/creatGame/gameTemplate'
 				});
 			}
 			else if (num === 6) {

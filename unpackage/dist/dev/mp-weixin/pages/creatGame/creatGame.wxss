@@ -1,7 +1,7 @@
 
 page{
 	background-color: #f7f7f7;
-	padding-bottom: 100rpx;
+	padding-bottom: 135rpx;
 }
 
 @charset "UTF-8";
@@ -40,12 +40,14 @@ page{
   color: red;
   margin-right: 10rpx;
 }
+button {
+  border-radius: 0;
+}
 .creat_game .game_set {
   margin-top: 30rpx;
   box-sizing: border-box;
   padding-top: 30rpx;
   padding-right: 30rpx;
-  padding-bottom: 30rpx;
   padding-left: 30rpx;
   background-color: white;
 }
@@ -119,9 +121,49 @@ page{
   border-bottom: 1rpx solid #f7f7f7;
 }
 .creat_game .game_set .game_theme .game_name .ri {
-  width: 67%;
+  width: 32%;
 }
 .creat_game .game_set .game_theme .game_name .ri .place_style {
+  text-align: right;
+}
+.creat_game .game_set .game_theme .game_location {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  margin-top: 20rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #f7f7f7;
+}
+.creat_game .game_set .game_theme .game_location .ri {
+  width: 33%;
+}
+.creat_game .game_set .game_theme .game_location .ri .place_style {
+  text-align: right;
+}
+.creat_game .game_set .game_theme .game_host {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  margin-top: 20rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #f7f7f7;
+}
+.creat_game .game_set .game_theme .game_host .ri {
+  width: 33%;
+}
+.creat_game .game_set .game_theme .game_host .ri .place_style {
   text-align: right;
 }
 .creat_game .game_set .game_theme .game_start_time {
@@ -202,5 +244,129 @@ page{
   padding-left: 30rpx;
   width: 100%;
   background-color: #f4f5f9;
+}
+.creat_game .institution {
+  margin-top: 30rpx;
+  box-sizing: border-box;
+  padding-top: 30rpx;
+  padding-right: 30rpx;
+  padding-left: 30rpx;
+  background-color: white;
+}
+.creat_game .institution .head {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+          justify-content: flex-start;
+}
+.creat_game .institution .head .tag {
+  width: 10rpx;
+  height: 40rpx;
+  background-color: #ff8800;
+  border-radius: 10rpx;
+}
+.creat_game .institution .head .text {
+  margin-left: 20rpx;
+  font-weight: bolder;
+  font-size: 30rpx;
+}
+.creat_game .institution .institution_detail {
+  margin-top: 40rpx;
+}
+.creat_game .institution .institution_detail .institution_name {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  margin-top: 20rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #f7f7f7;
+}
+.creat_game .institution .institution_detail .institution_name .ri {
+  width: 33%;
+}
+.creat_game .institution .institution_detail .institution_name .ri .place_style {
+  text-align: right;
+}
+.creat_game .institution .institution_detail .institution_phone {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  margin-top: 20rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1rpx solid #f7f7f7;
+}
+.creat_game .institution .institution_detail .institution_phone .ri {
+  width: 33%;
+}
+.creat_game .institution .institution_detail .institution_phone .ri .place_style {
+  text-align: right;
+}
+.creat_game .institution .institution_detail .institution_location {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  margin-top: 20rpx;
+  padding-bottom: 20rpx;
+}
+.creat_game .institution .institution_detail .institution_location .ri {
+  width: 33%;
+}
+.creat_game .institution .institution_detail .institution_location .ri .place_style {
+  text-align: right;
+}
+.creat_game .btm_btn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  height: 100rpx;
+}
+.creat_game .btm_btn .preview {
+  background-color: #ffffff;
+  text-align: center;
+  width: 40%;
+  line-height: 100rpx;
+  border-top: 1rpx solid  #f8f8f8;
+  border-right: 1rpx solid  #f8f8f8;
+}
+.creat_game .btm_btn .draft {
+  background-color: #ffffff;
+  text-align: center;
+  width: 20%;
+  line-height: 100rpx;
+  border-top: 1rpx solid  #f8f8f8;
+}
+.creat_game .btm_btn .release {
+  text-align: center;
+  width: 60%;
+  color: white;
+  background-color: #ff8b02;
+  line-height: 100rpx;
 }
 

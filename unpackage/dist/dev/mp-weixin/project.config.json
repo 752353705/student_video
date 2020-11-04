@@ -39,13 +39,6 @@
 					"id": -1,
 					"name": "pages/creatGame/creatGame",
 					"pathName": "pages/creatGame/creatGame",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/my/my",
-					"pathName": "pages/my/my",
 					"scene": null
 				}
 			]

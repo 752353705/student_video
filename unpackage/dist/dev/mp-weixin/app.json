@@ -31,7 +31,9 @@
     "pages/huiLife/huiLife",
     "pages/huiLife/merchant",
     "pages/huiLife/tenants",
-    "pages/creatGame/creatGame"
+    "pages/creatGame/creatGame",
+    "pages/creatGame/gameTemplate",
+    "pages/creatGame/gamePreview"
   ],
   "subPackages": [],
   "window": {
