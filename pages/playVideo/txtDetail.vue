@@ -148,11 +148,28 @@
 				@changeComment="changeComment"
 				@changeMsgList="changeMsgList"
 				@getComment="getComment"
+				@showDetailComment="showDetailComment"
 				title="评论"
 				type="txt"
 				:txtId="txtId"
 			></uni-popup-comments>
 		</uni-popup>
+		
+		<!-- 评论详情 弹出框 -->
+		<uni-popup ref="popupDetailComments" type="share">
+			<uni-popup-detail-comments
+				:msgList="msgList"
+				@changeCommentsNum="changeCommentsNum"
+				@changeComment="changeComment"
+				@changeMsgList="changeMsgList"
+				@getComment="getComment"
+				@showDetailComment="showDetailComment"
+				title="评论详情"
+				type="txt"
+				:txtId="txtId"
+			></uni-popup-detail-comments>
+		</uni-popup>
+		
 		<!-- 转发弹出框 -->
 		<uni-popup ref="popupShare" type="share"><uni-popup-share title="分享到"></uni-popup-share></uni-popup>
 		<!-- 充值弹框 -->
@@ -172,6 +189,7 @@ import sinBarrage from '@/components/sin-barrage/sin-barrage.vue';
 // import userComment from '@/components/user-comment.vue';
 import uniPopupShare from '@/components/uni-popup/uni-popup-share.vue';
 import uniPopupComments from '@/components/uni-popup/uni-popup-comments.vue';
+import uniPopupDetailComments from '@/components/uni-popup/uni-pupup-detail-comments.vue';
 import uniPopupGifts from '@/components/uni-popup/uni-popup-gifts.vue';
 import uniPopupRecharge from '@/components/uni-popup/uni-popup-recharge.vue';
 import uniPopupRank from '@/components/uni-popup/uni-popup-rank.vue';
@@ -240,11 +258,13 @@ export default {
 		uniPopupComments,
 		uniPopupGifts,
 		uniPopupRecharge,
+		uniPopupDetailComments,
 		// likeButton,
 		// QrcodePoster,
-		uniPopupRank
+		uniPopupRank,
 	},
 	onLoad(option) {
+		
 		this.txtId = option.txtId;
 		// 获取礼物弹幕信息
 		this.getGift(option.txtId);
@@ -260,7 +280,8 @@ export default {
 		
 			// 获取当前用户的使用环境
 			this.getPhoneType()
-		
+	
+		// this.$refs.popupRank.open();
 	},
 	onShow() {
 		this.api._post(
@@ -308,6 +329,11 @@ export default {
 	},
 
 	methods: {
+		// 显示评论详情弹窗
+		showDetailComment(){
+			console.log('主页全部回复')
+				this.$refs.popupDetailComments.open()
+		},
 		// 获取用户当前的使用环境
 		getPhoneType(){
 			switch(uni.getSystemInfoSync().platform){
@@ -328,10 +354,8 @@ export default {
 			this.api._get(`article/ranking/${this.txtId}`, {}, res => {
 				console.log('获取当前作品排行', res);
 				this.rank = res.data
-				
 			});
 		},
-		
 		// 获取用户刷礼物的记录
 		getUserGift(articleId) {
 			this.api._get(`gift/article/user/gift/${articleId}`, {}, res => {
@@ -339,7 +363,6 @@ export default {
 				this.giftRank = res.data;
 			});
 		},
-
 		// 用户点击大赛类型跳转到 该大赛详情
 		goGameDetail() {
 			uni.navigateTo({
@@ -364,14 +387,12 @@ export default {
 			// console.log('隐藏弹窗')
 			this.sinBar = false;
 		},
-
 		// 跳转到排行榜详情
 		goRank() {
 			uni.navigateTo({
 				url: `/pages/rank/rank?articleId=${this.txtItem.id}`
 			});
 		},
-
 		// 显示送礼物排行榜弹窗
 		rankPopup(e, done) {
 			this.$refs.popupRank.open();
@@ -397,7 +418,6 @@ export default {
 				}
 			);
 		},
-
 		// 点击粉丝团 跳转到 粉丝列表
 		gofansLis() {
 			uni.navigateTo({
@@ -497,7 +517,6 @@ export default {
 				_this.$refs.popupRecharge.open();
 			});
 		},
-
 		// 显示充值弹框
 		recharge(e, done) {
 			this.getHgold();
@@ -738,7 +757,6 @@ export default {
 				}
 			}
 		},
-
 		// 控制转发弹窗
 		confirmShare() {
 			// console.log('转发 ref',)

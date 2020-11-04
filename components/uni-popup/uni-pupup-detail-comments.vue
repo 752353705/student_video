@@ -10,7 +10,7 @@
 				<u-divider>快来抢沙发啊~</u-divider>
 			</view>
 
-			<user-comment
+			<user-detail-comment
 				v-else
 				style="width: 100%;margin-top: 36rpx;"
 				@reply="reply"
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import userComment from '../user-comment.vue';
+import userDetailComment from '@/components/user-detail-comment.vue' ;
 export default {
 	name: 'UniPopupShare',
 	props: {
@@ -145,7 +145,7 @@ export default {
 		};
 	},
 	components: {
-		userComment
+		userDetailComment
 	},
 	created() {
 		// console.log('创建 uni-popup-comments');

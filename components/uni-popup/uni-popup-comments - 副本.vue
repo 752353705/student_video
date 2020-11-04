@@ -16,7 +16,6 @@
 				@reply="reply"
 				@changeMsgList="changeMsgList"
 				@getComment="getComment"
-				@showDetailComment="showDetailComment"
 				:msgList="msgList"
 				:type="type"
 				:threereplayname="threereplayname"
@@ -169,10 +168,6 @@ export default {
 
 	},
 	methods: {
-		showDetailComment(){
-		
-			this.$emit('showDetailComment')
-		},
 		// 当文本框的行数改变
 		linechange(e){
 			// console.log('行数发生改变，高度变化',e,e.detail.lineHeight)
