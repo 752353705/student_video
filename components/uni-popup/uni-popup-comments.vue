@@ -6,7 +6,9 @@
 		</view>
 		<view class="uni-share-content" style="height: 400px;">
 			<!-- 当没有评论的时候 -->
-			<view v-if="msgList.length === 0" class="user_cmt" style="margin-top: 29px;"><u-divider>快来抢沙发啊~</u-divider></view>
+			<view v-if="msgList.length === 0" class="user_cmt" style="margin-top: 29px;">
+				<u-divider>快来抢沙发啊~</u-divider>
+			</view>
 
 			<user-comment
 				v-else

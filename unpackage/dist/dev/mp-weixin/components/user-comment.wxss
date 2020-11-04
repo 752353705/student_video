@@ -125,7 +125,7 @@
   -webkit-transform: scaleY(0.5);
           transform: scaleY(0.5);
 }
-.user_cmt .content::after:last-child {
+.user_cmt:last-child .content::after {
   background: white;
 }
 

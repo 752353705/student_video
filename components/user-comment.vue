@@ -12,9 +12,10 @@
 						<image :src="item.avatarUrl" mode=""></image>
 					</view>
 					<view class="content">
-						
-						
-						<view class="user_head" style="width: 110rpx;" @click="goAuthor(item.userId)">
+						<view class="user_head" 
+							style="width: 40%;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" 
+							@click="goAuthor(item.userId)"
+							>
 							{{item.userName || '用户名'}}
 						</view>
 						<!-- 暂时隐藏评论回复-->
@@ -42,7 +43,6 @@
 						
 						<!-- 判断是否有二级回复 -->
 						<view class="two" v-if="item.replyList.length !== 0" >
-							
 							<view class="two_cmt" v-for="(item2,index2) in item.replyList" :key="item2.id">
 								<!-- 用户的评论 -->
 									<view class="user_img" @click="goAuthor(item2.userId)">
@@ -388,8 +388,10 @@
 			background: gray;
 			transform: scaleY(0.5);
 		}
-		.content::after:last-child {
-			background: white;
-		}
+		 
+	}
+	
+	.user_cmt:last-child .content::after {
+		background: white;
 	}
 </style>

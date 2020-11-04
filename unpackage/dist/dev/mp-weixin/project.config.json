@@ -36,7 +36,15 @@
 		},
 		"miniprogram": {
 			"current": -1,
-			"list": []
+			"list": [
+				{
+					"id": -1,
+					"name": "pages/playVideo/txtDetail",
+					"pathName": "pages/playVideo/txtDetail",
+					"query": "txtId=4",
+					"scene": null
+				}
+			]
 		}
 	}
 }

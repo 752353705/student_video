@@ -168,6 +168,12 @@ page {
   color: #5d91e5;
   padding: 10rpx 15rpx;
 }
+.txt_detail .uni_vdplayer .txtMain .txtTitle .type .txt.data-v-145cf910 {
+  width: 200rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .txt_detail .uni_vdplayer .txtMain .txtTitle .type .mark.data-v-145cf910 {
   font-size: 21rpx;
   margin-right: 12rpx;

@@ -102,7 +102,7 @@
 				goodsList: [],
 				helpKeyword: [],
 				defaultKeyword: {
-					keyword:'输入搜索内容'
+					keyword:'输入文章标题'
 				},
 				page: 1,
 				size: 10,
