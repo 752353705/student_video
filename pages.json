@@ -154,18 +154,55 @@
 			"style": {
 				"navigationBarTitleText": "充值记录"
 			}
-		},{
-				"path" : "pages/rank/rank",
-				"style" : {
-					"navigationBarTitleText": "排行榜"
-				}
+		},
+		{
+			"path" : "pages/rank/rank",
+			"style" : {
+				"navigationBarTitleText": "排行榜"
 			}
-			,{
-				"path" : "pages/changeTxt/changeTxt",
-				"style" : {
-					"navigationBarTitleText": "文章修改"
-				}
+		},
+		{
+			"path" : "pages/changeTxt/changeTxt",
+			"style" : {
+				"navigationBarTitleText": "文章修改"
 			}
+		},
+		{
+			"path" : "pages/huiLife/huiLife",
+			"style" : {
+				"navigationBarTitleText": "惠生活"
+			}
+		},
+		{
+			"path" : "pages/huiLife/merchant",
+			"style" : {
+				"navigationBarTitleText": "优选商家"
+			}
+		},
+		{
+			"path" : "pages/huiLife/tenants",
+			"style" : {
+				"navigationBarTitleText": "诚邀商户入驻"
+			}
+		},
+		{
+			"path" : "pages/creatGame/creatGame",
+			"style" : {
+				"navigationBarTitleText": "创建大赛"
+			}
+		},
+		{
+			"path" : "pages/creatGame/gameTemplate",
+			"style" : {
+				"navigationBarTitleText": "大赛模板"
+			}
+		},
+		{
+			"path" : "pages/creatGame/gamePreview",
+			"style" : {
+				"navigationBarTitleText": "大赛预览"
+			}
+		}
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -197,6 +234,12 @@
 				"iconPath": "/static/tabbar/add.png",
 				"selectedIconPath": "/static/tabbar/add_active.png",
 				"text": "发布"
+			},
+			{
+				"pagePath": "pages/huiLife/huiLife",
+				"iconPath": "/static/tabbar/huiLife.png",
+				"selectedIconPath": "/static/tabbar/huiLife_active.png",
+				"text": "惠生活"
 			},
 			{
 				"pagePath": "pages/my/my",

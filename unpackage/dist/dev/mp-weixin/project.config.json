@@ -11,8 +11,6 @@
 	"libVersion": "",
 	"appid": "wx35ae62ee04cc537b",
 	"projectname": "student_video",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
@@ -28,7 +26,19 @@
 		},
 		"miniprogram": {
 			"current": -1,
+<<<<<<< HEAD
 			"list": []
+=======
+			"list": [
+				{
+					"id": -1,
+					"name": "pages/playVideo/txtDetail",
+					"pathName": "pages/playVideo/txtDetail",
+					"query": "txtId=5",
+					"scene": null
+				}
+			]
+>>>>>>> createGame
 		}
 	}
 }

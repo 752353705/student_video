@@ -132,7 +132,7 @@
 				column:'',
 				row:'',
 				// 显示次数
-				showNum: 1
+				showNum:1,
 			};
 		},
 		components:{
@@ -158,13 +158,15 @@
 				this.showsigin = false
 			}
 			//判断用户什么情况下进行下拉刷新
-			if (this.showNum != 1) {
-				console.log('进行下拉更新');
+			if(this.showNum != 1){
+				console.log('进行下拉更新')
 				// 第二次进入在进行下拉
 				this.$refs.mescroll.refash();
-			} else {
-				this.showNum = 2;
+				
+			}else{
+				this.showNum = 2
 			}
+			
 		},
 		onHide() {
 			// 当页面 隐藏之后 关闭操作弹窗

@@ -1,0 +1,37 @@
+<wxs module="time">
+// 控制 二级评论 的时间格式
+function changetime(time){
+	if(!time){
+		// time = new Date()
+		var date = getDate(getDate().getTime())
+		// 月
+		var months = date.getMonth() + 1
+		// 日
+		var day = date.getDate()
+		// 小时
+		var hour = date.getHours()
+		// 分钟
+		var minutes = date.getMinutes()
+
+		return months + '-' + day + ' ' + hour + ':' + minutes
+	}
+	//那一天
+	time1 = time.split(' ')[0].split('-')[1]
+	time2 = time.split(' ')[0].split('-')[2]
+
+	//具体小时时间
+	//因为后端传递 数据时 中间多了个空格
+	time3 = time.split(' ')[1].split(':')[0]
+	time4 = time.split(' ')[1].split(':')[1]
+	// // 当用户 是在 当天发边的评论并且在当天显示
+	// console.log('返回聊天记录时间',time1 + '-' + time2)
+
+	return time1 + '-' + time2 + ' ' +  time3 + ":" + time4
+	// return time
+}
+
+module.exports = {
+	changetime: changetime,
+}
+</wxs>
+<view class="data-v-264f448c"><scroll-view style="height:320px;overflow:hidden;" enable-flex="true" scroll-y="true" lower-threshold="80" data-event-opts="{{[['scrolltolower',[['scrolltolower',['$event']]]]]}}" bindscrolltolower="__e" class="data-v-264f448c"><view class="wrap data-v-264f448c"><view class="comment data-v-264f448c"><view class="top data-v-264f448c"><view class="left data-v-264f448c"><view class="heart-photo data-v-264f448c"><image src="{{detailMsgList.avatarUrl}}" mode class="data-v-264f448c"></image></view><view class="user-info data-v-264f448c"><view class="name data-v-264f448c">{{detailMsgList.userName}}</view><view class="date data-v-264f448c">{{time.changetime(detailMsgList.createTime)}}</view></view></view><view data-event-opts="{{[['tap',[['seeActive',['$0','$1'],['detailMsgList.id','detail_index']]]]]}}" class="{{['right data-v-264f448c',(detailMsgList.liked)?'highlight':'']}}" bindtap="__e">{{''+detailMsgList.praseCount+''}}<block wx:if="{{!detailMsgList.liked}}"><u-icon class="like data-v-264f448c" vue-id="a3984ae8-1" name="thumb-up" color="#9a9a9a" size="{{30}}" bind:__l="__l"></u-icon></block><block wx:if="{{detailMsgList.liked}}"><u-icon class="like data-v-264f448c" vue-id="a3984ae8-2" name="thumb-up-fill" size="{{30}}" bind:__l="__l"></u-icon></block></view></view><view class="content data-v-264f448c">{{detailMsgList.content}}</view></view><view class="all-reply data-v-264f448c"><view class="all-reply-top data-v-264f448c">{{"全部回复（"+detailMsgList.replyList.length+"）"}}</view><block wx:for="{{detailMsgList.replyList}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view class="item data-v-264f448c"><view class="comment data-v-264f448c"><view class="top data-v-264f448c"><view class="left data-v-264f448c"><view class="heart-photo data-v-264f448c"><image src="{{item.avatarUrl}}" mode class="data-v-264f448c"></image></view><view class="user-info data-v-264f448c"><view class="name data-v-264f448c">{{item.userName}}</view><view class="date data-v-264f448c">{{time.changetime(item.createTime)}}</view></view></view><view data-event-opts="{{[['tap',[['replaySec',['$0',index],['detail_index']]]]]}}" class="{{['right data-v-264f448c',(detailMsgList.replyList[index].liked)?'highlight':'']}}" bindtap="__e"><view class="num data-v-264f448c">{{item.praseCount}}</view><block wx:if="{{!item.liked}}"><u-icon class="like data-v-264f448c" vue-id="{{'a3984ae8-3-'+index}}" name="thumb-up" size="{{30}}" color="#9a9a9a" bind:__l="__l"></u-icon></block><block wx:if="{{item.liked}}"><u-icon class="like data-v-264f448c" vue-id="{{'a3984ae8-4-'+index}}" name="thumb-up-fill" size="{{30}}" bind:__l="__l"></u-icon></block></view></view><view class="content data-v-264f448c">{{''+item.content+''}}</view></view></view></block></view></view></scroll-view></view>

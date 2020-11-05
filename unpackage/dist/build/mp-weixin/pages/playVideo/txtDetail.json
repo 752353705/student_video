@@ -9,6 +9,7 @@
     "uni-popup-comments": "/components/uni-popup/uni-popup-comments",
     "uni-popup-gifts": "/components/uni-popup/uni-popup-gifts",
     "uni-popup-recharge": "/components/uni-popup/uni-popup-recharge",
+    "uni-popup-detail-comments": "/components/uni-popup/uni-pupup-detail-comments",
     "uni-popup-rank": "/components/uni-popup/uni-popup-rank"
   }
 }

@@ -92,7 +92,7 @@
 				for (let i = 1; i <= 12; i++) {
 					this.months.push(i)
 				}
-				console.log('获取完整月份',this.months)
+				// console.log('获取完整月份',this.months)
 			},
 			getDays() {
 				this.days = []

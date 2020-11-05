@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-divider": "/node-modules/uview-ui/components/u-divider/u-divider",
+    "user-detail-comment": "/components/user-detail-comment"
+  }
+}

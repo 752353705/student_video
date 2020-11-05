@@ -61,6 +61,7 @@ export default {
 				{ icon: 'iconIcon', txt: '充值' },
 				{ icon: 'iconwodeshoucang', txt: '我的收藏' },
 				{ icon: 'iconliulanjilu-tianchong', txt: '浏览记录' },
+				{ icon: 'iconzuzhichuangjian', txt: '创建大赛' },
 				{ icon: 'icontuichudenglu', txt: '退出登录' }
 				// {icon:"iconpaotuibeifen",txt:'跑腿'},
 			]
@@ -138,7 +139,23 @@ export default {
 				uni.navigateTo({
 					url: `/pages/recharge/recharge?money=${this.userInfo.goldNumber}&userId=${this.userInfo.userId}`
 				});
-			} else if (num === 5) {
+			} else if (num === 3) {
+				// 用户进入我的收藏
+				uni.navigateTo({
+					url: '/pages/my/myCollection'
+				});
+			} else if (num === 4) {
+				// 用户进入浏览记录
+				uni.navigateTo({
+					url: '/pages/my/myHistory'
+				});
+			}else if( num === 5 ) {
+				// 用户进行创建大赛
+				uni.navigateTo({
+					url: '/pages/creatGame/gameTemplate'
+				});
+			}
+			else if (num === 6) {
 				// 显示退出登录
 				uni.showModal({
 					title: '提示',
@@ -168,22 +185,13 @@ export default {
 						console.log('调用接口失败');
 					}
 				});
-			} else if (num === 3) {
-				// 用户进入我的收藏
-				uni.navigateTo({
-					url: '/pages/my/myCollection'
-				});
-			} else if (num === 4) {
-				// 用户进入浏览记录
-				uni.navigateTo({
-					url: '/pages/my/myHistory'
-				});
-			} else if (num === 6) {
-				// 用户进入 跑腿中
-				uni.navigateTo({
-					url: '/pages/my/myRun'
-				});
-			}
+			}  
+			// else if (num === 6) {
+			// 	// 用户进入 跑腿中
+			// 	uni.navigateTo({
+			// 		url: '/pages/my/myRun'
+			// 	});
+			// }
 		}
 	}
 };
