@@ -87,10 +87,10 @@ page.data-v-264f448c {
   color: #9a9a9a;
 }
 .comment .highlight.data-v-264f448c {
-  color: #5677fc;
+  color: #ff6347;
 }
 .comment .highlight .num.data-v-264f448c {
-  color: #5677fc;
+  color: #ff6347;
 }
 .all-reply.data-v-264f448c {
   margin-top: 10rpx;

@@ -158,7 +158,8 @@
 		<!-- 评论详情 弹出框 -->
 		<uni-popup ref="popupDetailComments" type="share">
 			<uni-popup-detail-comments
-				:msgList="msgList"
+				:detail_index="detail_index"
+				:detailMsgList="detailMsgList"
 				@changeCommentsNum="changeCommentsNum"
 				@changeComment="changeComment"
 				@changeMsgList="changeMsgList"
@@ -247,9 +248,13 @@ export default {
 			timeStamp: 0,
 			// 请求评论的页数
 			pageNum: 1,
+			// 评论整体
 			msgList: [],
+			// 评论详情
+			detailMsgList:{},
 			//判断是否有下一页
-			commentState: true
+			commentState: true,
+			detail_index:''
 		};
 	},
 	components: {
@@ -330,9 +335,12 @@ export default {
 
 	methods: {
 		// 显示评论详情弹窗
-		showDetailComment(){
-			console.log('主页全部回复')
-				this.$refs.popupDetailComments.open()
+		showDetailComment(index){
+			let _this = this 
+			this.detail_index = index
+			// Object.assign(_this.detailMsgList,_this.msgList[index],{})
+			_this.detailMsgList = _this.msgList[index]
+			this.$refs.popupDetailComments.open()
 		},
 		// 获取用户当前的使用环境
 		getPhoneType(){

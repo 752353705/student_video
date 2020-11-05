@@ -138,13 +138,6 @@
   height: 40rpx;
   margin-right: 20rpx;
 }
-.msgBox .msg editor.data-v-e997dafe {
-  width: 100%;
-  height: 100%;
-  color: rgba(0, 0, 0, 0.5);
-  font-style: normal;
-  min-height: 0 !important;
-}
 .msgBox .msg textarea.data-v-e997dafe {
   width: 100%;
   height: 100%;
@@ -163,5 +156,8 @@
 .iconfont.data-v-e997dafe {
   font-size: 50rpx;
   color: black;
+}
+.plcolor.data-v-e997dafe {
+  color: #bbb;
 }
 

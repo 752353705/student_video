@@ -6,10 +6,9 @@
 		</view>
 		<view class="uni-share-content" style="height: 400px;">
 			<!-- 当没有评论的时候 -->
-			<view v-if="msgList.length === 0" class="user_cmt" style="margin-top: 29px;">
+			<view v-if="detailMsgList.length === 0" class="user_cmt" style="margin-top: 29px;">
 				<u-divider>快来抢沙发啊~</u-divider>
 			</view>
-
 			<user-detail-comment
 				v-else
 				style="width: 100%;margin-top: 36rpx;"
@@ -17,7 +16,8 @@
 				@changeMsgList="changeMsgList"
 				@getComment="getComment"
 				@showDetailComment="showDetailComment"
-				:msgList="msgList"
+				:detailMsgList="detailMsgList"
+				:detail_index="detail_index"
 				:type="type"
 				:threereplayname="threereplayname"
 			/>
@@ -29,18 +29,8 @@
 			<view class="msg" :style=" { height:lineHeight } " >
 				<!-- <image src="/static/signature.png" mode=""></image> -->
 				<text class="iconfont iconxie" style="margin-right: 10rpx;color: #858585;"></text>
-				<!-- <input type="text" 
-					:placeholder="replayVal" cursor-spacing="15" 
-					:value="val" :focus="inputfocus" @input="sendVal" 
-					@confirm="send"
-					/> -->
-
-				<!-- 多行换行输入
-					:placeholder="replayVal"
-					placeholder-style="color:#858585;"
-					placeholder-class="place_holder"
-				 -->
 				<textarea
+					:placeholder=" '回复' + detailMsgList.userName "
 					maxlength="100"
 					:show-confirm-bar="false"
 					:adjust-position="true"
@@ -48,17 +38,11 @@
 					cursor-spacing="15"
 					:value="val"
 					:focus="inputfocus"
+					@blur="blur"
 					@input="sendVal"
 					@confirm="send"
 					@linechange="linechange"
 				></textarea>
-				
-			<!-- 	<editor :placeholder="replayVal"
-					@input="sendVal"
-					>
-				</editor> -->
-				
-				
 			</view>
 			<!-- 发表评论按钮 -->
 			<view @click="send" :style="send_btn_style ? 'color: #6ac4f9;' : 'color: #858585;'">发送</view>
@@ -69,15 +53,21 @@
 </template>
 
 <script>
-import userDetailComment from '@/components/user-detail-comment.vue' ;
+import userDetailComment from '@/components/user-detail-comment.vue';
 export default {
 	name: 'UniPopupShare',
 	props: {
 		// 当前评论
-		msgList: {
-			type: Array
+		detailMsgList: {
+			type: Object
 		},
-
+		// 当前评论排第几
+		detail_index:{
+			type:Number
+		},
+		// msgList: {
+		// 	type: Array
+		// },
 		// 表示当前是哪类的评论，
 		// 视频 二手 文章
 		type: {
@@ -127,13 +117,11 @@ export default {
 			// 用户头像
 			userImg: '',
 			//动态修改输入框中的值，进行用户之间的交流互评
-			replayVal: '留下你的精彩评论吧',
 			// 控制发送请求 是视频评论 还是 进行回复
 			sendStyle: true, //默认是 对视频进行评论
 			commentId: '', //进行评论回复的ID
 			replayIndex: '', //进行评论的 在msgList中的index
 			// 当进行三级评论时，储存评论的用户名
-			threereplayname: '回复 旭东：',
 
 			twoShow: false,
 			val: '',
@@ -169,9 +157,10 @@ export default {
 
 	},
 	methods: {
-		showDetailComment(){
+		showDetailComment(index){
+			console.log('index popup',index)
 		
-			this.$emit('showDetailComment')
+			this.$emit('showDetailComment',index)
 		},
 		// 当文本框的行数改变
 		linechange(e){
@@ -234,53 +223,6 @@ export default {
 				}
 			);
 		},
-		// 获取文章页面的评论
-		// getTxtCmt(pageNum) {
-		// 	let _this = this;
-		// 	this.api._get(
-		// 		'article/comment/list',
-		// 		{
-		// 			pageNum: pageNum,
-		// 			pageSize: 10,
-		// 			articleId: _this.txtId
-		// 		},
-		// 		function(res) {
-		// 			console.log('请求文章评论 ===》 res', res.data.list);
-		// 			// 修改默认的页数
-		// 			// 参数一：当前页获取的数据量
-		// 			_this.mescroll.endSuccess(res.data.list.length);
-
-		// 			// console.log('_this.msgList ===》',_this.msgList,"res.data.list ==>",res.data.list)
-		// 			// 进行数组之间的拼接 如果请求回的内容相同 ，则不进行拼接
-		// 			if (JSON.stringify(_this.msgList) == JSON.stringify(res.data.list)) return false;
-		// 			_this.msgList = _this.msgList.concat(res.data.list);
-		// 			// console.log('请求下一页拼接后的数组 _this.msgList ===》',_this.msgList)
-		// 		}
-		// 	);
-		// },
-		// 获取 二手 页面的评论
-		getUsedCmt(pageNum) {
-			let _this = this;
-			this.api._get(
-				'secondGoods/commentList',
-				{
-					pageNum: pageNum,
-					pageSize: 10,
-					goodsId: _this.usedId
-				},
-				function(res) {
-					console.log('请求二手评论 ===》 res', res.data.list);
-					// 参数一：当前页获取的数据量
-					_this.mescroll.endSuccess(res.data.list.length);
-
-					// console.log('_this.msgList ===》',_this.msgList,"res.data.list ==>",res.data.list)
-					// 进行数组之间的拼接 如果请求回的内容相同 ，则不进行拼接
-					if (JSON.stringify(_this.msgList) == JSON.stringify(res.data.list)) return false;
-					_this.msgList = _this.msgList.concat(res.data.list);
-					// console.log('请求下一页拼接后的数组 _this.msgList ===》',_this.msgList)
-				}
-			);
-		},
 		// 将评论推入列表中
 		sendVal(e) {
 			this.val = e.detail.value;
@@ -291,6 +233,10 @@ export default {
 				this.send_btn_style = false;
 			}
 		},
+		// 输入框失焦
+		blur(){
+			this.inputfocus = false;
+		},
 		// 发送评论  判断是 对视频进行的评论还是评论回复
 		send() {
 			let _this = this;
@@ -298,88 +244,11 @@ export default {
 			if (this.val === '' || !this.val.trim()) return;
 			// 根据传递过来的 type类型 判断 当前评论为 那个部分的
 			this.type == 'video' ? this.sendVideoCmt() : this.type == 'txt' ? this.sendTxtCmt() : this.type == 'used' ? this.sendUsedCmt() : '';
-		},
-		//给视频 发送评论
-		sendVideoCmt() {
-			let _this = this;
-			if (this.sendStyle) {
-				//对当前视频进行评论
-				this.api._post(
-					'comment/add',
-					{
-						videoId: _this.videoId, //视频ID
-						content: _this.val
-					},
-					function(res) {
-						console.log('发表评论成功 res==>', res);
-						// 发表言论成功后，修改列表的距离
-						_this.msgList.unshift({
-							avatarUrl: uni.getStorageSync('user_img'),
-							userName: uni.getStorageSync('user_name'),
-							content: _this.val,
-							createTime: '',
-							praseCount: ''
-						});
-						_this.val = '';
-						// 添加了言论之后，修改当前的 评论数量
-						_this.$emit('changeCommentsNum');
-					}
-				);
-			} else {
-				// 进行评论的回复
-				this.api._post(
-					'comment/addReply',
-					{
-						commentId: _this.commentId, //评论中的ID
-						content: _this.val
-					},
-					function(res) {
-						console.log('进行评论回复 res==>', res);
-						_this.sendStyle = true;
-						// 对评论列表进行修改，
-						_this.msgList[_this.replayIndex].replyList.unshift({
-							content: _this.val,
-							avatarUrl: uni.getStorageSync('user_img'),
-							userName: uni.getStorageSync('user_name'),
-							createTime: '',
-							praseCount: ''
-						});
-						console.log('评论的回复 msgList ==》', _this.msgList);
-						_this.val = '';
-					}
-				);
-			}
+			this.reply()
 		},
 		//给文章 发送评论
 		sendTxtCmt() {
 			let _this = this;
-			if (this.sendStyle) {
-				//对当前文章进行评论
-				this.api._post(
-					'article/comment',
-					{
-						articleId: _this.txtId, //文章ID
-						content: _this.val
-					},
-					function(res) {
-						console.log('发表文章评论成功 res==>', res);
-						// 隐藏当前的 评论的空布局
-
-						// 发表言论成功后，修改评论数据
-						_this.$emit('changeComment', {
-							val: _this.val,
-							commentId: res.data
-						});
-
-						_this.val = '';
-						_this.replayVal = '留下你的精彩评论吧';
-						_this.sendStyle = true;
-						_this.send_btn_style = false;
-						// 添加了言论之后，修改当前的 评论数量
-						_this.$emit('changeCommentsNum');
-					}
-				);
-			} else {
 				// 进行评论的回复
 				this.api._post(
 					'article/comment/addReply',
@@ -401,90 +270,16 @@ export default {
 						// console.log('评论的回复 msgList ==》', _this.msgList);
 						_this.val = '';
 						_this.replayVal = '留下你的精彩评论吧';
-					}
-				);
-			}
-		},
-		//给二手 发送 评论
-		sendUsedCmt() {
-			let _this = this;
-			if (this.sendStyle) {
-				//对当前 二手 进行评论
-				this.api._post(
-					'secondGoods/addComment',
-					{
-						goodsId: _this.usedId, //视频ID
-						content: _this.val
-					},
-					function(res) {
-						console.log('发表文章评论成功 res==>', res);
-						// 发表言论成功后，修改列表的距离
-						_this.msgList.unshift({
-							avatarUrl: uni.getStorageSync('user_img'),
-							userName: uni.getStorageSync('user_name'),
-							content: _this.val,
-							createTime: '',
-							praseCount: ''
-						});
-						_this.val = '';
-						// 添加了言论之后，修改当前的 评论数量
-						_this.$emit('changeCommentsNum');
-					}
-				);
-			} else {
-				// 进行评论的回复
-				this.api._post(
-					'secondGoods/addCommentReply',
-					{
-						commentId: _this.commentId, //评论中的ID
-						content: _this.val
-					},
-					function(res) {
-						console.log('进行二手评论回复 res==>', res);
-						_this.sendStyle = true;
-						// 对评论列表进行修改，
-						_this.msgList[_this.replayIndex].replyList.unshift({
-							content: _this.val,
-							avatarUrl: uni.getStorageSync('user_img'),
-							userName: uni.getStorageSync('user_name'),
-							createTime: '',
-							praseCount: ''
-						});
-						console.log('评论的回复 msgList ==》', _this.msgList);
-						_this.val = '';
-					}
-				);
-			}
-		},
+					})
+			},
+	
 		// 进行评论的回复
 		reply(index, index2) {
-			// console.log('父级中 reply')
+			
+			console.log('父级中 reply')
 			// 首先要确定是 给那个类型的进行二级评论
-			this.type == 'video' ? this.replyVideoCmt(index, index2) : this.type == 'txt' ? this.replyTxtCmt(index, index2) : this.type == 'used' ? this.replyUsedCmt(index, index2) : '';
-		},
-		// 给 视频页面 的评论进行回复
-		replyVideoCmt(index, index2) {
-			if (index2 == undefined) {
-				// console.log('对视频评论进行回复')
-				// 对视频评论进行回复
-				// 修改输入框中的值
-				this.replayVal = '回复 @' + this.msgList[index].userName;
-				this.commentId = this.msgList[index].id;
-				this.sendStyle = false;
-				// 修改评论的序号
-				this.replayIndex = index;
-				// 拉起输入框，进行聚焦
-				this.inputfocus = true;
-			} else {
-				// 对 二级评论机型回复
-				console.log('进行二级回复', this.msgList[index].replyList[index2]);
-				this.replayVal = '回复 @' + this.msgList[index].replyList[index2].userName; //用于显示进行二级回复的用户名
-				// this.replayVal = '回复 @' + "旭东"  //用于显示进行二级回复的用户名
-				this.commentId = this.msgList[index].id;
-				this.sendStyle = false;
-				this.replayIndex = index;
-				this.inputfocus = true;
-			}
+			this.type == 'video' ? this.replyVideoCmt(this.detail_index, index2) : this.type == 'txt' ? this.replyTxtCmt(this.detail_index, index2) : this.type == 'used' ? this.replyUsedCmt(this.detail_index, index2) : '';
+			console.log('父级中 reply')
 		},
 		// 给 文章页面 的评论进行回复
 		replyTxtCmt(index, index2) {
@@ -494,8 +289,8 @@ export default {
 				// 对视频评论进行回复
 
 				// 修改输入框中的值
-				this.replayVal = '回复 @' + this.msgList[index].userName;
-				this.commentId = this.msgList[index].id;
+				this.replayVal = '回复 @' + this.detailMsgList.userName;
+				this.commentId = this.detailMsgList.id;
 				this.sendStyle = false;
 
 				// 修改评论的序号
@@ -505,11 +300,11 @@ export default {
 				this.inputfocus = true;
 			} else {
 				// 对 二级评论机型回复
-				console.log('进行二级回复', this.msgList[index].replyList[index2]);
-				this.replayVal = '回复 @' + this.msgList[index].replyList[index2].userName; //用于显示进行二级回复的用户名
+				console.log('进行二级回复', this.detailMsgList.replyList[index2]);
+				this.replayVal = '回复 @' + this.detailMsgList.replyList[index2].userName; //用于显示进行二级回复的用户名
 				// this.replayVal = '回复 @' + "旭东"  //用于显示进行二级回复的用户名
 
-				this.commentId = this.msgList[index].id;
+				this.commentId = this.detailMsgList.id;
 				this.sendStyle = false;
 
 				this.replayIndex = index;
@@ -517,37 +312,7 @@ export default {
 				this.inputfocus = true;
 			}
 		},
-		// 给二手页面 的评论进行回复
-		replyUsedCmt(index, index2) {
-			if (index2 == undefined) {
-				// console.log('对视频评论进行回复')
-				// 对视频评论进行回复
-
-				// 修改输入框中的值
-				this.replayVal = '回复 @' + this.msgList[index].userName;
-				this.commentId = this.msgList[index].id;
-				this.sendStyle = false;
-
-				// 修改评论的序号
-				this.replayIndex = index;
-
-				// 拉起输入框，进行聚焦
-				this.inputfocus = true;
-			} else {
-				// 对 二级评论机型回复
-				console.log('进行二级回复', this.msgList[index].replyList[index2]);
-				this.replayVal = '回复 @' + this.msgList[index].replyList[index2].userName; //用于显示进行二级回复的用户名
-				// this.replayVal = '回复 @' + "旭东"  //用于显示进行二级回复的用户名
-
-				this.commentId = this.msgList[index].id;
-				this.sendStyle = false;
-
-				this.replayIndex = index;
-
-				this.inputfocus = true;
-			}
-		},
-
+		
 		// 选择内容
 		select(item, index) {
 			this.$emit(
@@ -659,29 +424,11 @@ export default {
 		justify-content: start;
 		align-items: center;
 		bottom: 20rpx;
-		
-		// overflow: hidden;
-		
 		image {
 			width: 40rpx;
 			height: 40rpx;
 			margin-right: 20rpx;
-			
-			// padding-top: 35rpx;
 		}
-
-		editor {
-			// background-color: red;
-			width: 100%;
-			height: 100%;
-			color: rgba(0, 0, 0, 0.5);
-			font-style: normal;
-			min-height: 0 !important;
-			
-			// padding-top: 16rpx;
-			// overflow: auto;
-		}
-		
 		textarea {
 			width: 100%;
 			height: 100%;
@@ -689,14 +436,8 @@ export default {
 			// overflow-x:hidden;
 			// overflow: auto;
 		}
-		
-		 
-
-		
-		
 	}
 }
-
 .close {
 	position: absolute;
 	top: 14rpx;
@@ -707,11 +448,12 @@ export default {
 		height: 60rpx;
 	}
 }
-
 .iconfont {
 	font-size: 50rpx;
 	color: black;
 }
 
-
+.plcolor{
+color: #bbb;
+}
 </style>

@@ -9,7 +9,6 @@
 			<view v-if="msgList.length === 0" class="user_cmt" style="margin-top: 29px;">
 				<u-divider>快来抢沙发啊~</u-divider>
 			</view>
-
 			<user-comment
 				v-else
 				style="width: 100%;margin-top: 36rpx;"
@@ -29,18 +28,8 @@
 			<view class="msg" :style=" { height:lineHeight } " >
 				<!-- <image src="/static/signature.png" mode=""></image> -->
 				<text class="iconfont iconxie" style="margin-right: 10rpx;color: #858585;"></text>
-				<!-- <input type="text" 
-					:placeholder="replayVal" cursor-spacing="15" 
-					:value="val" :focus="inputfocus" @input="sendVal" 
-					@confirm="send"
-					/> -->
-
-				<!-- 多行换行输入
-					:placeholder="replayVal"
-					placeholder-style="color:#858585;"
-					placeholder-class="place_holder"
-				 -->
 				<textarea
+					:placeholder="replayVal"
 					maxlength="100"
 					:show-confirm-bar="false"
 					:adjust-position="true"
@@ -48,17 +37,21 @@
 					cursor-spacing="15"
 					:value="val"
 					:focus="inputfocus"
+					@blur="blur"
 					@input="sendVal"
 					@confirm="send"
 					@linechange="linechange"
 				></textarea>
-				
-			<!-- 	<editor :placeholder="replayVal"
+			<!-- 	<u-input 
+					style="width: 100%;"
+					v-model="val" 
+					type="textarea"
+					height="28" 
+					placeholder="请输入评论"
 					@input="sendVal"
-					>
-				</editor> -->
-				
-				
+					@confirm="send"
+					@linechange="linechange"
+					/> -->
 			</view>
 			<!-- 发表评论按钮 -->
 			<view @click="send" :style="send_btn_style ? 'color: #6ac4f9;' : 'color: #858585;'">发送</view>
@@ -169,9 +162,10 @@ export default {
 
 	},
 	methods: {
-		showDetailComment(){
+		showDetailComment(index){
+			console.log('index popup',index)
 		
-			this.$emit('showDetailComment')
+			this.$emit('showDetailComment',index)
 		},
 		// 当文本框的行数改变
 		linechange(e){
@@ -290,6 +284,10 @@ export default {
 			} else {
 				this.send_btn_style = false;
 			}
+		},
+		// 输入框失焦
+		blur(){
+			this.inputfocus = false;
 		},
 		// 发送评论  判断是 对视频进行的评论还是评论回复
 		send() {
@@ -659,29 +657,11 @@ export default {
 		justify-content: start;
 		align-items: center;
 		bottom: 20rpx;
-		
-		// overflow: hidden;
-		
 		image {
 			width: 40rpx;
 			height: 40rpx;
 			margin-right: 20rpx;
-			
-			// padding-top: 35rpx;
 		}
-
-		editor {
-			// background-color: red;
-			width: 100%;
-			height: 100%;
-			color: rgba(0, 0, 0, 0.5);
-			font-style: normal;
-			min-height: 0 !important;
-			
-			// padding-top: 16rpx;
-			// overflow: auto;
-		}
-		
 		textarea {
 			width: 100%;
 			height: 100%;
@@ -689,14 +669,8 @@ export default {
 			// overflow-x:hidden;
 			// overflow: auto;
 		}
-		
-		 
-
-		
-		
 	}
 }
-
 .close {
 	position: absolute;
 	top: 14rpx;
@@ -707,11 +681,12 @@ export default {
 		height: 60rpx;
 	}
 }
-
 .iconfont {
 	font-size: 50rpx;
 	color: black;
 }
 
-
+.plcolor{
+color: #bbb;
+}
 </style>

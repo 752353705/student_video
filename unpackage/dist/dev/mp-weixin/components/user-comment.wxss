@@ -79,10 +79,10 @@
   color: #9a9a9a;
 }
 .comment .right .top .highlight.data-v-089c92d0 {
-  color: #5677fc;
+  color: #ff6347;
 }
 .comment .right .top .highlight .num.data-v-089c92d0 {
-  color: #5677fc;
+  color: #ff6347;
 }
 .comment .right .content.data-v-089c92d0 {
   margin-bottom: 10rpx;

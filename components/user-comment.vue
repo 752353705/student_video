@@ -1,139 +1,206 @@
 <template>
 	<view>
-		<scroll-view   enable-flex="true"
-			scroll-y="true"  lower-threshold="80"
-			@scrolltolower="scrolltolower" style="height: 320px;overflow: hidden;"
-			>
-		<view class="comment" v-for="(res, index) in commentList" :key="res.id">
-			<view class="left"><image :src="res.url" mode="aspectFill"></image></view>
-			<view class="right">
-				<view class="top">
-					<view class="name">{{ res.name }}</view>
-					<view class="like" :class="{ highlight: res.isLike }">
-						<view class="num">{{ res.likeNum }}</view>
-						<u-icon v-if="!res.isLike" name="thumb-up" :size="30" color="#9a9a9a" @click="getLike(index)"></u-icon>
-						<u-icon v-if="res.isLike" name="thumb-up-fill" :size="30" @click="getLike(index)"></u-icon>
+		<scroll-view enable-flex="true" scroll-y="true" lower-threshold="80" @scrolltolower="scrolltolower" style="height: 320px;overflow: hidden;">
+			<view class="comment" 
+				v-for="(item, index) in msgList" :key="item.id"
+				>
+				<view class="left"><image :src="item.avatarUrl" mode="aspectFill"></image></view>
+				<view class="right">
+					<view class="top">
+						<view class="name">{{ item.userName || '用户名' }}</view>
+						<view class="like" :class="{ highlight: item.liked }"
+							@click="seeActive(item.id,index)"
+							>
+							<view class="num">{{item.praseCount || ''}}</view>
+							<u-icon v-if="!item.liked" name="thumb-up" :size="30" color="#9a9a9a" ></u-icon>
+							<u-icon v-if="item.liked" name="thumb-up-fill" :size="30"></u-icon>
+						</view>
 					</view>
-				</view>
-				<view class="content">{{ res.contentText }}</view>
-				<view class="reply-box">
-					<view class="item" v-for="(item, index) in res.replyList" :key="item.index">
-						<view class="username">{{ item.name }}</view>
-						<view class="text">{{ item.contentStr }}</view>
+					<view class="content" @click="reply(index,index2)">
+						{{item.content || '用户说的话'}}
 					</view>
-					<view class="all-reply" @tap="toAllReply" v-if="res.replyList != undefined">
-						共{{ res.allReply }}条回复
-						<u-icon class="more" name="arrow-right" :size="26"></u-icon>
+					
+					<block>
+						<view class="reply-box" 
+							v-if="item.replyList.length !== 0"
+							>
+							<view class="item" 
+								v-for="(item2,index2) in comment.sec_cmt(item.replyList) " :key="item2.id"
+								>
+								<view class="username">{{item2.userName || '用户名'}}</view>
+								<view class="text">{{item2.content || '用户说的话'}}</view>
+							</view>
+							<view class="all-reply" @tap="toAllReply(index)" v-if="item.replyList != undefined">
+								<!-- 共{{ res.allReply }}条回复 -->
+								共 {{item.replyList.length}} 条回复
+								<u-icon class="more" name="arrow-right" :size="26"></u-icon>
+							</view>
+						</view>
+					</block>
+					
+					
+					<view class="bottom">
+						{{time.changetime(item.createTime) || item.createTime }}
+						<view class="reply" @click="reply(index,index2)">回复</view>
 					</view>
-				</view>
-				<view class="bottom">
-					{{ res.date }}
-					<view class="reply">回复</view>
 				</view>
 			</view>
-		</view>
-		</scroll-view >
+		</scroll-view>
 	</view>
 </template>
+
+<!-- 二级评论显示个数 -->
+<script module="comment" lang="wxs">
+// 控制 二级评论 的时间格式
+function sec_cmt(msg){
+
+	var sec_cmt = msg.slice(0,3)
+	return sec_cmt
+}
+
+module.exports = {
+	sec_cmt: sec_cmt,
+}
+</script>
+
+<script module="time" lang="wxs">
+// 控制 二级评论 的时间格式
+function changetime(time){
+	if(!time){
+		// time = new Date()
+		var date = getDate(getDate().getTime())
+		// 月
+		var months = date.getMonth() + 1
+		// 日
+		var day = date.getDate()
+		// 小时
+		var hour = date.getHours()
+		// 分钟
+		var minutes = date.getMinutes()
+
+		return months + '-' + day + ' ' + hour + ':' + minutes
+	}
+	//那一天
+	time1 = time.split(' ')[0].split('-')[1]
+	time2 = time.split(' ')[0].split('-')[2]
+
+	//具体小时时间
+	//因为后端传递 数据时 中间多了个空格
+	time3 = time.split(' ')[1].split(':')[0]
+	time4 = time.split(' ')[1].split(':')[1]
+	// // 当用户 是在 当天发边的评论并且在当天显示
+	// console.log('返回聊天记录时间',time1 + '-' + time2)
+
+	return time1 + '-' + time2 + ' ' +  time3 + ":" + time4
+	// return time
+}
+
+module.exports = {
+	changetime: changetime,
+}
+</script>
 
 <script>
 export default {
 	data() {
 		return {
-			commentList: []
+			
 		};
 	},
+	props: {
+		msgList: {
+			type: Array //实际请求获取的用户评论数据
+		},
+		threereplayname: {
+			type: String,
+			default: ''
+		},
+		// 判断是 那个的 评论点赞
+		type: {
+			type: String
+		}
+	},
 	created() {
-		this.getComment();
+		console.log('user-comment  ==> msgList', this.$props.msgList);
+		
+		// 获取当前的时间
+		var time = new Date();
+		// 今天的时间
+		// 月份
+		var month = time.getMonth() + 1;
+		// 几号
+		var date = time.getDate();
+		// 小时
+		var hour = time.getHours();
+		//分钟
+		var minu = time.getMinutes();
+		// console.log('组件中获取当前的时间 month ==> ',month,"date ==》",date)
+
+		// this.nowtime = month + '-' + date + ' ' + hour + ':' + minu
+		this.nowtime = month + '-' + date;
 	},
 	methods: {
-		scrolltolower(){
-			console.log('滚动到底部uni-popup 再次获取数据')
+		// 获取下一页评论
+		scrolltolower() {
+			// console.log('滚动到底部uni-popup 再次获取数据');
 			// 调用发起请求 请求下一页数据
-			// this.$emit('getComment')
-			
+			this.$emit('getComment')
 		},
 		// 跳转到全部回复
-		toAllReply() {
+		toAllReply(index) {
 			// 弹出全部回复弹框
-			this.$emit('showDetailComment')
-			
+			this.$emit('showDetailComment',index);
 		},
 		// 点赞
-		getLike(index) {
-			this.commentList[index].isLike = !this.commentList[index].isLike;
-			if (this.commentList[index].isLike == true) {
-				this.commentList[index].likeNum++;
-			} else {
-				this.commentList[index].likeNum--;
-			}
+		seeActive(id,index){
+			this.type == 'video'
+				? this.seeVideoActive(id,index)
+				: this.type == 'txt'
+				? this.seeTxtActive(id,index)
+				: this.type == 'used'
+				? this.seeUsedActive(id,index)
+				: ''
 		},
-		// 评论列表
-		getComment() {
-			this.commentList = [
-				{
-					id: 1,
-					name: '叶轻眉',
-					date: '12-25 18:58',
-					contentText: '我不信伊朗会没有后续反应，美国肯定会为今天的事情付出代价的',
-					url: 'https://cdn.uviewui.com/uview/template/SmilingDog.jpg',
-					allReply: 12,
-					likeNum: 33,
-					isLike: false,
-					replyList: [
-						{
-							name: 'uview',
-							contentStr: 'uview是基于uniapp的一个UI框架，代码优美简洁，宇宙超级无敌彩虹旋转好用，用它！'
-						},
-						{
-							name: '粘粘',
-							contentStr: '今天吃什么，明天吃什么，晚上吃什么，我只是一只小猫咪为什么要烦恼这么多'
-						}
-					]
-				},
-				{
-					id: 2,
-					name: '叶轻眉1',
-					date: '01-25 13:58',
-					contentText: '我不信伊朗会没有后续反应，美国肯定会为今天的事情付出代价的',
-					allReply: 0,
-					likeNum: 11,
-					isLike: false,
-					url: 'https://cdn.uviewui.com/uview/template/niannian.jpg',
-				},
-				{
-					id: 3,
-					name: '叶轻眉2',
-					date: '03-25 13:58',
-					contentText: '我不信伊朗会没有后续反应，美国肯定会为今天的事情付出代价的',
-					allReply: 0,
-					likeNum: 21,
-					isLike: false,
-					allReply: 2,
-					url: '../../../static/logo.png',
-					replyList: [
-						{
-							name: 'uview',
-							contentStr: 'uview是基于uniapp的一个UI框架，代码优美简洁，宇宙超级无敌彩虹旋转好用，用它！'
-						},
-						{
-							name: '豆包',
-							contentStr: '想吃冰糖葫芦粘豆包，但没钱5555.........'
-						}
-					]
-				},
-				{
-					id: 4,
-					name: '叶轻眉3',
-					date: '06-20 13:58',
-					contentText: '我不信伊朗会没有后续反应，美国肯定会为今天的事情付出代价的',
-					url: 'https://cdn.uviewui.com/uview/template/SmilingDog.jpg',
-					allReply: 0,
-					likeNum: 150,
-					isLike: false
-				}
-			];
-		}
+		// 对视频 页面的 评论进行点赞
+		seeVideoActive(id,index){
+			let _this = this
+			this.api._post("comment/likeComment",{
+				"commentId":id
+			},function(res){
+				console.log('进行评论点赞')
+				// 对列表中显示的数据进行修改 应当调用父级的方法对其进行修改
+				_this.$emit('changeMsgList',index)
+			})
+		},
+		// 对 文章 的 评论 进行点赞
+		seeTxtActive(id,index){
+			let _this = this
+			this.api._post(`article/comment/liked/${id}`,{},function(res){
+				console.log('进行评论点赞')
+				// 对列表中显示的数据进行修改 应当调用父级的方法对其进行修改
+				_this.$emit('changeMsgList',index)
+			})
+		},
+		// 对 二手 进行点赞
+		seeUsedActive(id,index){
+			let _this = this
+			this.api._post(`secondGoods/comment/liked/${id}`,{},function(res){
+				console.log('进行二手评论点赞')
+				// 对列表中显示的数据进行修改 应当调用父级的方法对其进行修改
+				_this.$emit('changeMsgList',index)
+			})
+		},
+		
+		// 进行二级评论
+		reply(index,index2){
+			// console.log('user-comment 进行 评论回复',index,index2)
+			// 当进行回复时，要获取进行回复的对象
+			// 改变input中的提示
+			// console.log('回复' + e.currentTarget.dataset.name)
+			this.$emit('reply',index,index2)
+			// 然后将回复的评论放到二级评论中
+		},
+		
 	}
 };
 </script>
@@ -173,9 +240,9 @@ export default {
 				}
 			}
 			.highlight {
-				color: #5677fc;
+				color: #ff6347;
 				.num {
-					color: #5677fc;
+					color: #ff6347;
 				}
 			}
 		}
