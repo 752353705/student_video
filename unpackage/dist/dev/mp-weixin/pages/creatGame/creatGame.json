@@ -1,8 +1,3 @@
 {
-  "navigationBarTitleText": "创建大赛",
-  "usingComponents": {
-    "min-popup": "/components/min-picker/min-popup",
-    "min-picker": "/components/min-picker/min-picker",
-    "jin-edit": "/components/jin-edit/jin-edit"
-  }
+  "navigationBarTitleText": "创建大赛"
 }
