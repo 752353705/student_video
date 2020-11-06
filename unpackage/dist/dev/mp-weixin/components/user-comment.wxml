@@ -11,7 +11,6 @@ module.exports = {
 }
 </wxs>
 <wxs module="time">
-// 控制 二级评论 的时间格式
 function changetime(time){
 	if(!time){
 		// time = new Date()

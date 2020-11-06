@@ -30,7 +30,7 @@
 				<!-- <image src="/static/signature.png" mode=""></image> -->
 				<text class="iconfont iconxie" style="margin-right: 10rpx;color: #858585;"></text>
 				<textarea
-					:placeholder=" '回复' + detailMsgList.userName "
+					:placeholder=" '回复: ' + detailMsgList.userName "
 					maxlength="100"
 					:show-confirm-bar="false"
 					:adjust-position="true"

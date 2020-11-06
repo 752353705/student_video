@@ -63,8 +63,8 @@ module.exports = {
 }
 </script>
 
+<!-- 控制 二级评论 的时间格式 -->
 <script module="time" lang="wxs">
-// 控制 二级评论 的时间格式
 function changetime(time){
 	if(!time){
 		// time = new Date()
@@ -121,7 +121,8 @@ export default {
 		}
 	},
 	created() {
-		console.log('user-comment  ==> msgList', this.$props.msgList);
+		// console.log('user-comment  ==> msgList', this.$props.msgList);
+		
 		
 		// 获取当前的时间
 		var time = new Date();

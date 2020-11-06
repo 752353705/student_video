@@ -13,10 +13,10 @@
 			v-if="game_type_state"
 			>
 			<view class="le panel-start item-center" style="width: 80%;">
-				<view class="img_box"  >
+				<view class="img_box" @click="goGameDetail" >
 					<image class="img" :src="gameMsg.logo" mode="scaleToFill"></image>
 				</view>
-				<view class="body  panel-center">
+				<view class="body  panel-center" @click="goGameDetail">
 					<view class="name">{{gameMsg.subjectTitle}}</view>
 					<view class="desc ma-t20 fo-20">{{gameMsg.introduction}}</view>
 				</view>

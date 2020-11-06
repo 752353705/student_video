@@ -451,14 +451,14 @@ export default {
 		downImg(imgsrc) {
 			console.log('用户长按图片进行下载');
 			//判断用户授权
-			wx.downloadFile({
+			uni.downloadFile({
 				url: imgsrc,
 				success: res => {
 					console.log('downloadFile成功', res);
 					// wx.showLoading({
 					//   title: '获取资源中',
 					// })
-					wx.saveImageToPhotosAlbum({
+					uni.saveImageToPhotosAlbum({
 						filePath: res.tempFilePath,
 						success: file => {
 							console.log('saveVideoToPhotosAlb、um成功', file);
@@ -469,8 +469,8 @@ export default {
 							});
 						},
 						fail: err => {
-							// console.log('saveVideoToPhotosAlbum失败',err)
-							if (err.errMsg === 'saveVideoToPhotosAlbum:fail auth deny') {
+							console.log('saveVideoToPhotosAlbum失败',err)
+							if (err.errMsg == 'saveImageToPhotosAlbum:fail auth deny') {
 								wx.showModal({
 									title: '提示',
 									content: '需要您授权保存相册',
