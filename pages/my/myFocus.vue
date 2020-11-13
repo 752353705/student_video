@@ -210,7 +210,7 @@ export default {
 	bottom: 0;
 	width: 100%;
 	height: 1px;
-	border-bottom: 1px solid black;
+	border-bottom: 1px solid #989898;
 	/* 如果不用 background-color, 使用 border-top:1px solid #f00; 效果是一样的*/
 	-webkit-transform: scaleY(0.5);
 	transform: scaleY(0.5);

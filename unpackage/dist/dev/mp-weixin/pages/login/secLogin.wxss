@@ -39,8 +39,8 @@
 }
 .container .wechatapp .app-img {
   display: block;
-  width: 138rpx;
-  height: 138rpx;
+  width: 195rpx;
+  height: 195rpx;
   border-radius: 20rpx;
   margin: auto;
 }
@@ -56,8 +56,7 @@
   color: #333;
 }
 .container .wechatapp.login {
-  padding: 87rpx 0 200rpx;
-  margin-bottom: 100rpx;
+  padding: 87rpx 0 100rpx;
 }
 .control {
   display: -webkit-box;
@@ -77,7 +76,7 @@
   height: 80rpx;
   padding: 0;
   margin-top: 68rpx;
-  border-radius: 40rpx;
+  border-radius: 20rpx;
   line-height: 80rpx;
   text-align: center;
   font-size: 32rpx;
@@ -92,7 +91,7 @@
   margin-right: 0;
   color: white;
   border: none;
-  background: #f83f20;
+  background: #ff9933;
 }
 .btn.login_phone {
   margin-top: 72rpx;
@@ -101,7 +100,21 @@
   border: none;
   background: #838180;
 }
+.btn.no_login {
+  margin-right: 0;
+  color: #9b9b9b;
+  border: none;
+  background: none;
+  font-size: 28rpx;
+  margin-top: 20rpx;
+}
+.btn.no_login::after {
+  display: none;
+}
 .btn.login::after {
   display: none;
+}
+button {
+  background-color: none;
 }
 

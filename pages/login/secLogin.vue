@@ -12,7 +12,12 @@
 			>
 				微信登录
 			</button>
-			
+			<button class="btn no_login"
+				lang="zh_CN" 
+				@click="back"
+			>
+				暂不登录
+			</button>
 	</view>
 </template>
 
@@ -24,6 +29,12 @@ export default {
 		};
 	},
 	methods: {
+		// 暂不登录
+		back(){
+			uni.switchTab({
+				url:'/pages/list/list'
+			})
+		},
 		// 获取手机号
 		getPhone(e) {
 			console.log('获取用户的手机号',e)
@@ -67,8 +78,8 @@ export default {
 		text-align: center;
 		.app-img {
 			display: block;
-			width: 138rpx;
-			height: 138rpx;
+			width: 195rpx;
+			height: 195rpx;
 			border-radius: 20rpx;
 			margin: auto;
 			image{
@@ -85,8 +96,8 @@ export default {
 		}
 	}
 	.wechatapp.login {
-		padding: 87rpx 0 200rpx;
-		margin-bottom: 100rpx;
+		padding: 87rpx 0 100rpx;
+		// margin-bottom: 100rpx;
 	}
 }
 
@@ -101,7 +112,7 @@ export default {
 	height: 80rpx;
 	padding: 0;
 	margin-top: 68rpx;
-	border-radius: 40rpx;
+	border-radius: 20rpx;
 	line-height: 80rpx;
 	text-align: center;
 	font-size: 32rpx;
@@ -118,7 +129,7 @@ export default {
 	margin-right: 0;
 	color: white;
 	border: none;
-	background: #f83f20;
+	background: $bg-color;
 }
 .btn.login_phone {
 	margin-top: 72rpx;
@@ -127,9 +138,22 @@ export default {
 	border: none;
 	background: #838180;
 }
+.btn.no_login {
+	margin-right: 0;
+	color: #9b9b9b;
+	border: none;
+	background: none;
+	font-size: 28rpx;
+	margin-top: 20rpx;
+}
 
+.btn.no_login::after {
+	display: none;
+}
 .btn.login::after {
 	display: none;
 }
-
+button{
+	background-color:none;
+}
 </style>

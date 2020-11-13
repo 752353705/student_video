@@ -1,16 +1,12 @@
 <template>
 	<view class="wallet">
 		<view class="card">
-			<view class="tit">账户余额（H币）</view>
+			<view class="tit">账户余额（票数）</view>
 			<view class="money">{{userInfo.goldNumber}}</view>
 			<view class="detail" @click="goDetail">
 				查看明细
 				<text class="iconfont iconfanhui"></text>
 			</view>
-		</view>
-		
-		<view v-if="!is_IOS" class="btn" @tap="goRecharge">
-			去充值
 		</view>
 	</view>
 </template>
@@ -19,32 +15,13 @@
 	export default {
 		data(){
 			return {
-				// 控制IOS端 充值礼物方面禁止，不显示相应界面
-				is_IOS: false,
 				userInfo:''
 			}
 		},
 		onLoad() {
 			this.getUsInfo()
-			this.getPhoneType()
 		},
 		methods:{
-			// 获取用户当前的使用环境
-			getPhoneType() {
-				switch (uni.getSystemInfoSync().platform) {
-					case 'android':
-						console.log('运行Android上');
-						break;
-					case 'ios':
-						console.log('运行iOS上');
-						this.is_IOS = true;
-						break;
-					default:
-						console.log('运行在开发者工具上');
-						break;
-				}
-			},
-			
 			// 获取用户信息
 			getUsInfo(){
 				if(uni.getStorageSync('token')){
@@ -56,15 +33,6 @@
 					})
 				}
 			},
-			
-			// 进行充值
-			goRecharge(){
-				console.log('进行充值')
-				uni.navigateTo({
-					url:`/pages/recharge/recharge?money=${this.userInfo.goldNumber}&userId=${this.userInfo.userId}`
-				})
-			},
-			
 			// 查看明细
 			goDetail(){
 				console.log('查看明细')

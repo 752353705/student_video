@@ -14,6 +14,14 @@
 				微信授权用户信息
 			</button>
 			
+			<button class="btn no_login" 
+				lang="zh_CN" 
+				@click="back"
+			>
+				暂不登录
+			</button>
+			
+			
 			<view class="rule">
 				<!-- 登录代表您已同意 -->
 				<!-- <text style="color: #f83f20;">小驴帮儿用户协议、隐私协议</text> -->
@@ -29,6 +37,13 @@ export default {
 		};
 	},
 	methods: {
+		// 暂不登录
+		back(){
+			uni.switchTab({
+				url:'/pages/list/list'
+			})
+		},
+		
 		// 微信登录
 		login(e) {
 			console.log('登录e 个人信息',e.detail.userInfo)
@@ -149,6 +164,19 @@ export default {
 	display: none;
 }
 
+.btn.no_login {
+	margin-right: 0;
+	color: #9b9b9b;
+	border: none;
+	background: none;
+	font-size: 28rpx;
+	margin-top: 20rpx;
+}
+
+.btn.no_login::after {
+	display: none;
+}
+
 .auth-title {
 	text-align: center;
 	margin-bottom: 30rpx;
@@ -160,5 +188,8 @@ export default {
 	position: fixed;
 	bottom: 60rpx;
 	text-align: center;
+}
+button{
+	background-color:none;
 }
 </style>

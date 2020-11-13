@@ -84,9 +84,17 @@
 					</view>
 				</view>
 			</view>
-			<!-- 返回上一级页面的按钮 -->
-			<!-- <text class="iconfont iconleft back" @click="back"></text> -->
-
+			
+			<!-- 投票按钮 -->
+			<view class="sendTicket" 
+				:id="!scroll_style ? 'animat' : ''"
+				:class="scroll_style ? 'sendTicket_scroll' : ''"
+				@click="sendGift(index)"
+				>
+				<image src="/static/cheer.png" mode=""></image>
+			</view>
+			
+			
 			<!-- 修改为底部操作 -->
 			<view class="btm w-100 bg-w box-boder pa-l40 pa-r10 panel-between item-center ">
 				<view class="le">
@@ -100,15 +108,17 @@
 					<!-- 喜欢 -->
 					<view class="like icon" @click="getLike(1)" type="success">
 						<!-- 不喜欢 -->
-						<u-icon v-if="!txtItem.praseStatus" name="heart" size="52"></u-icon>
+						<u-icon v-if="!txtItem.praseStatus" color="#323131" name="heart" size="52"></u-icon>
 						<!-- 喜欢 -->
 						<u-icon v-else name="heart-fill" color="red" size="52"></u-icon>
 						<!-- <view class="icon_num ma-t10">{{ txtItem.praseCount || '' }}</view> -->
 					</view>
 
 					<!-- 送礼物 -->
-					<view class="gift icon" @click="sendGift(index)"><text class="t-icon iconliwu"></text></view>
-
+					<!-- <view class="gift icon" @click="sendGift(index)">
+						<text class="t-icon iconliwu"></text>
+					</view> -->
+					
 					<!-- 评论   点击评论显示评论弹出框-->
 					<view style="position: relative;" class="comments icon" @click="getComment">
 						<text class="iconfont iconxinxi"></text>
@@ -124,8 +134,8 @@
 					</view>
 
 					<!-- 转发 -->
-					<view style="position: relative;" class="forwarding icon" @click="confirmShare">
-						<text class="iconfont iconforward-null"></text>
+					<view style="position: relative;" class=" icon" @click="confirmShare">
+						<text class="iconfont iconzhuanfa forwarding" ></text>
 						<!-- <view class="icon_num ma-t10">{{ txtItem.forwardCount }}</view> -->
 						<!-- <u-badge :count="txtItem.forwardCount || 0 " size="mini" is-center="true" >
 						</u-badge> -->
@@ -134,10 +144,10 @@
 			</view>
 		</view>
 		<!-- 生成海报图 -->
-		<qrcode-poster ref="poster" title="海报标题" subTitle="海报副标题" price="10" @close="close(index)"></qrcode-poster>
+		<!-- <qrcode-poster ref="poster" title="海报标题" subTitle="海报副标题" price="10" @close="close(index)"></qrcode-poster> -->
 		<!-- 送礼物弹出框 -->
 		<uni-popup ref="popupGifts" type="share">
-			<uni-popup-gifts title="礼物" @rankPopup="rankPopup" @recharge="recharge" @select="selectgift">
+			<uni-popup-gifts title="投票" @rankPopup="rankPopup" @recharge="recharge" @select="selectgift">
 			</uni-popup-gifts>
 		</uni-popup>
 		<!-- 评论弹出框 -->
@@ -172,11 +182,23 @@
 		</uni-popup>
 		
 		<!-- 转发弹出框 -->
-		<uni-popup ref="popupShare" type="share"><uni-popup-share title="分享到"></uni-popup-share></uni-popup>
+		<uni-popup ref="popupShare" type="share">
+			<uni-popup-share title="分享到"></uni-popup-share>
+		</uni-popup>
+		<!-- 收藏提醒 -->
+		<uni-popup ref="popup" type="message">
+			<uni-popup-message type="success" :message="collection_msg" :duration="2000"></uni-popup-message>
+		</uni-popup>
+		
+		
 		<!-- 充值弹框 -->
-		<uni-popup ref="popupRecharge" type="share"><uni-popup-recharge :money="money" title="分享到"></uni-popup-recharge></uni-popup>
+		<!-- <uni-popup ref="popupRecharge" type="share">
+			<uni-popup-recharge :money="money" title="分享到"></uni-popup-recharge>
+		</uni-popup> -->
 		<!-- 送礼排行 -->
-		<uni-popup ref="popupRank" type="share"><uni-popup-rank title="排行榜" :articleId="txtId"></uni-popup-rank></uni-popup>
+		<uni-popup ref="popupRank" type="share">
+			<uni-popup-rank title="排行榜" :articleId="txtId"></uni-popup-rank>
+		</uni-popup>
 	</view>
 </template>
 
@@ -188,11 +210,12 @@ import sinBarrage from '@/components/sin-barrage/sin-barrage.vue';
 // import QrcodePoster from '@/components/zhangyu-qrcode-poster/zhangyu-qrcode-poster.vue';
 // 引入送礼物、评论、转发弹出框 排行榜
 // import userComment from '@/components/user-comment.vue';
+import uniPopupMessage from '@/components/uni-popup/uni-popup-message.vue'
 import uniPopupShare from '@/components/uni-popup/uni-popup-share.vue';
 import uniPopupComments from '@/components/uni-popup/uni-popup-comments.vue';
 import uniPopupDetailComments from '@/components/uni-popup/uni-pupup-detail-comments.vue';
 import uniPopupGifts from '@/components/uni-popup/uni-popup-gifts.vue';
-import uniPopupRecharge from '@/components/uni-popup/uni-popup-recharge.vue';
+// import uniPopupRecharge from '@/components/uni-popup/uni-popup-recharge.vue';
 import uniPopupRank from '@/components/uni-popup/uni-popup-rank.vue';
 
 // 引入双击红心特效
@@ -200,6 +223,9 @@ import uniPopupRank from '@/components/uni-popup/uni-popup-rank.vue';
 export default {
 	data() {
 		return {
+			collection_msg:'',
+			// 监听页面滚动是控制送礼物的位置
+			scroll_style:false,
 			// 控制IOS端 充值礼物方面禁止，不显示相应界面
 			is_IOS:false,
 			// 控制角标的位置
@@ -258,18 +284,18 @@ export default {
 		};
 	},
 	components: {
+		uniPopupMessage,
 		sinBarrage,
 		uniPopupShare,
 		uniPopupComments,
 		uniPopupGifts,
-		uniPopupRecharge,
+		// uniPopupRecharge,
 		uniPopupDetailComments,
 		// likeButton,
 		// QrcodePoster,
 		uniPopupRank,
 	},
 	onLoad(option) {
-		
 		this.txtId = option.txtId;
 		// 获取礼物弹幕信息
 		this.getGift(option.txtId);
@@ -282,11 +308,8 @@ export default {
 			withShareTicket: true,
 			menus: ['shareAppMessage', 'shareTimeline']
 		});
-		
-			// 获取当前用户的使用环境
-			this.getPhoneType()
-	
-		// this.$refs.popupRank.open();
+		// 获取当前用户的使用环境
+		this.getPhoneType()
 	},
 	onShow() {
 		this.api._post(
@@ -332,8 +355,46 @@ export default {
 			imageUrl: this.imgArr[0]
 		};
 	},
-
+	// 页面滚动
+	onPageScroll() {
+		// console.log('页面进行滚动')
+		var timer
+		if (!this.scroll_style) {
+			this.scroll_style = true;
+		} else {
+			// 判断是否已经有了定时器
+			if (!this.timeout) {
+				// 没有
+				this.timeout = true;
+				// console.log('设置定时器');
+				timer = setTimeout(() => {
+					this.scroll_style = false;
+					this.timeout = false;
+				}, 3000);
+			} else {
+				// 有了
+				// console.log('销毁定时器');
+				clearTimeout(timer)
+				return;
+			}
+		}
+		
+	},
 	methods: {
+		// 调起订阅消息弹窗
+		// showSubscribeMessage(){
+		// 	// 调起订阅消息界面
+		// 	// 榜单更新
+		// 	uni.requestSubscribeMessage({
+		// 		tmplIds:['AKrQwYhNQInY7lp1YLHG0ovBMmQWXD2BQez7jRjI_0c'],
+		// 		success(res){
+		// 			console.log('订阅成功 res',res)
+		// 		},
+		// 		fail(err){
+		// 			console.log('订阅失败 err',err)
+		// 		}
+		// 	})
+		// },
 		// 显示评论详情弹窗
 		showDetailComment(index){
 			let _this = this 
@@ -443,7 +504,27 @@ export default {
 				},
 				function(res) {
 					_this.txtItem.collectionStatus = !_this.txtItem.collectionStatus;
-					// console.log('进行收藏成功', res);
+					console.log('进行收藏', res);
+					
+					if(_this.txtItem.collectionStatus){
+						console.log('进行收藏');
+						_this.collection_msg = '收藏成功'
+						_this.$refs.popup.open()
+						// uni.showLoading({
+						// 	title:'收藏成功',
+						// 	icon:'none',
+						// 	fail(err) {
+						// 		console.log('err',err)
+						// 	},
+						// 	success() {
+						// 		console.log('成功')
+						// 	}
+						// })
+					}else{
+						_this.collection_msg = '取消收藏'
+						_this.$refs.popup.open()
+					}
+					
 				}
 			);
 		},
@@ -525,11 +606,6 @@ export default {
 				_this.$refs.popupRecharge.open();
 			});
 		},
-		// 显示充值弹框
-		recharge(e, done) {
-			this.getHgold();
-			done();
-		},
 		// 当海报图生成之后，关闭分享弹窗
 		close(index) {
 			// console.log('海报图生成 关闭分享弹窗 this.$refs.popupShare ===>',this.$refs.popupShare)
@@ -538,24 +614,6 @@ export default {
 		// 控制页面评论数的改变
 		changeCommentsNum(num) {
 			this.txtItem.commentNum += 1;
-		},
-		// 返回上一页面
-		back() {
-			// 获取当前打开过的页面路由数组
-			let routes = getCurrentPages();
-			console.log('当前页面栈 routes', routes);
-
-			// 获取页面栈 如果页面栈层数 大于一 则跳转到上一页面反之直接进入首页
-			if (routes.length > 1) {
-				// 表示有上一级页面
-				uni.navigateBack({
-					delta: 1
-				});
-			} else {
-				uni.switchTab({
-					url: '/pages/list/list'
-				});
-			}
 		},
 		// 点击用户头像跳转到发布者的详情页
 		goAuthor() {
@@ -602,12 +660,13 @@ export default {
 		sendGift() {
 			// console.log('送礼物');
 			this.$refs.popupGifts.open();
+			// this.showSubscribeMessage()
 		},
 		selectgift(e, done) {
 			let _this = this;
 			uni.showModal({
 				title: '提示',
-				content: `您确定赠送${e.item.giftName}吗`,
+				content: `您确定投${e.item.goldNumber}票吗`,
 				success: function(res) {
 					if (res.confirm) {
 						// console.log('用户点击确定',uni.getProvider,);
@@ -622,19 +681,10 @@ export default {
 								// console.log('赠送礼物成功',res)
 								if (res.data.errno === 507) {
 									// 调用获取用户金币
-									
-									// 当前用户金币不足
-									if(!_this.is_IOS){
-										// 用户使用的是 安卓
-										_this.recharge();
-									}else {
-										// 使用的是 ios
-										uni.showModal({
-											title:'当前H币不足',
-											
-										})
-									}
-									
+									// 使用的是 ios
+									uni.showModal({
+										title:'当前票数不足',
+									})
 								} else {
 									wx.hideLoading()
 									
@@ -642,7 +692,7 @@ export default {
 										uni.showToast({
 											icon: 'none',
 											duration: 2000,
-											title: `加油成功`,
+											title: `投票成功`,
 											success() {
 												// wx.hideLoading()
 												setTimeout(function(){
@@ -654,7 +704,7 @@ export default {
 													_this.list = [{
 														avatarImage: uni.getStorageSync('user_img'),
 														giftImage: e.item.giftImage,
-														giftName: e.item.giftName
+														goldNumber: e.item.goldNumber
 													}]
 												},2000)
 											}
@@ -850,29 +900,6 @@ page {
 				}
 			}
 		}
-
-		// 测试
-		// .barrage-item{
-		// 	width: 286rpx;
-		// 	height: 100rpx;
-		// 	// display: flex;
-		// 	// justify-content: space-between;
-		// 	// align-items: center;
-		// 	.barrage-image{
-		// 		background-color: yellow;
-		// 		width: 60rpx;
-		// 		height: 60rpx;
-		// 		border-radius: 50%;
-		// 	}
-		// 	.body{
-		// 		display: inline;
-		// 		margin-left: 20rpx;
-		// 	}
-		// 	.img{
-		// 		display: inline;
-		// 	}
-		// }
-
 		// 当前作品的排名
 		.txt_rank {
 			width: 92%;
@@ -908,17 +935,69 @@ page {
 				padding: 0;
 			}
 		}
-		// 设置返回 上一页面 的按钮
-		.back {
-			width: 40rpx;
-			height: 40rpx;
-			position: absolute;
-			top: 67rpx;
-			left: 30rpx;
+		// 设置投票按钮
+		.sendTicket{
+			width: 80rpx;
+			height: 80rpx;
+			position: fixed;
+			bottom: 200rpx;
+			right: 10rpx;
+			// transform: translateX(-30rpx);
+			// transition: transform 0.4s;
+			image {
+				width: 100%;
+				height: 100%;
+			}
 		}
-		.iconleft {
-			font-size: 45rpx;
+		.sendTicket_scroll {
+			transform: translateX(44rpx);
+			transition: transform 0.4s;
 		}
+		
+		// 缩放动画
+		#animat{
+			// position:relative;
+			animation:mymove 5s infinite;
+			-webkit-animation:mymove 5s infinite; /*Safari and Chrome*/
+			animation-direction:alternate;/*轮流反向播放动画。*/
+			animation-timing-function: ease-in-out; /*动画的速度曲线*/
+			/* Safari 和 Chrome */
+			-webkit-animation:mymove 5s infinite;
+			-webkit-animation-direction:alternate;/*轮流反向播放动画。*/
+			-webkit-animation-timing-function: ease-in-out; /*动画的速度曲线*/
+		}
+		@keyframes mymove
+		{
+			0%{
+				transform: scale(1);  /*开始为原始大小*/
+			}
+			25%{
+				transform: scale(1.1); /*放大1.1倍*/
+			}
+			50%{
+				transform: scale(1);
+			}
+			75%{
+				transform: scale(1.1);
+			}
+		}
+		
+		@-webkit-keyframes mymove /*Safari and Chrome*/
+		{
+			0%{
+				transform: scale(1);  /*开始为原始大小*/
+			}
+			25%{
+				transform: scale(1.1); /*放大1.1倍*/
+			}
+			50%{
+				transform: scale(1);
+			}
+			75%{
+				transform: scale(1.1);
+			}
+		}
+		
 		// 文章其他信息
 		.txtMain {
 			color: black;
@@ -1078,8 +1157,11 @@ page {
 
 					.iconfont {
 						font-size: 50rpx;
+						color: #323131;
 					}
-
+					.forwarding{
+						font-size: 54rpx;
+					}
 					.iconforward-null {
 						// font-size: 80rpx;
 					}
@@ -1088,4 +1170,5 @@ page {
 		}
 	}
 }
+
 </style>

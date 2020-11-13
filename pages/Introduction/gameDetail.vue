@@ -48,7 +48,7 @@
 						<text style="color: #2ca4e1;margin-right: 10rpx;" class="icon iconfont iconshijian"></text>
 						<text>时间</text>
 					</view>
-					<view class="">{{game_detail.beginTime}}</view>
+					<view class="">{{ game_detail.beginTime.split(' ')[0] + ' 至 ' + game_detail.endTime.split(' ')[0] }}</view>
 				</view>
 				<!-- 主办方 -->
 				<view class="host boder_btm">
@@ -56,7 +56,10 @@
 						<text style="color: #2ca4e1;margin-right: 10rpx;" class="icon iconfont iconlouceng"></text>
 						<text>主办方</text>
 					</view>
-					<view style="width: 60%;word-break: break-all;text-align: center;">{{game_detail.subjectSponsorName}}</view>
+					<view style="word-break: break-all;">
+						<view class="">{{game_detail.subjectSponsorName.split(' ')[0]}}</view>
+						<view class="">{{game_detail.subjectSponsorName.split(' ')[1]}}</view>
+					</view>
 				</view>
 			</view>
 			<!-- 参赛选手 -->

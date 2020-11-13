@@ -11,20 +11,13 @@
 						<view class="uni-share-content-item" v-for="(i_item, i_index) in item" :key="i_item.giftId" @click.stop="select(i_item, i_index)">
 							<image class="uni-share-image" :src="i_item.giftImage" mode="aspectFill"></image>
 							<text class="uni-share-text">{{ i_item.giftName }}</text>
-							<text class="uni-share-text">{{ i_item.goldNumber }} H币</text>
+							<text class="uni-share-text">{{ i_item.goldNumber }} 票</text>
 						</view>
 					</swiper-item>
 				</swiper>
 			</view>
 
 			<view class="rank" @click="rankPopup">排行榜</view>
-
-			<view  class="uni-share-button-box">
-				<view v-if="!is_IOS" class="recharge" @click="recharge">
-					充值
-					<u-icon size="28" name="arrow-right"></u-icon>
-				</view>
-			</view>
 		</view>
 </template>
 
@@ -40,10 +33,6 @@ export default {
 	inject: ['popup'],
 	data() {
 		return {
-			// 控制IOS端 充值礼物方面禁止，不显示相应界面
-			is_IOS:false,
-			
-			
 			// 控制是显示送礼物的界面还是显示充值的界面
 			// show:true,
 			giftList:[]
@@ -52,25 +41,8 @@ export default {
 	created() {
 		// 创建的时候，请求礼物数据信息
 		this.getGift()
-		this.getPhoneType()
 	},
 	methods: {
-		// 获取用户当前的使用环境
-		getPhoneType(){
-			switch(uni.getSystemInfoSync().platform){
-				case 'android':
-					 console.log('运行Android上')
-					 break;
-				case 'ios':
-					 console.log('运行iOS上')
-					 this.is_IOS = true
-					 break;
-				default:
-					 console.log('运行在开发者工具上')
-					 break;
-			}
-		},
-		
 		/**
 		 * 请求礼物数据
 		 * */
@@ -95,16 +67,6 @@ export default {
 				console.log('showRank 页面显示充值弹窗');
 			});
 		},
-
-		recharge() {
-			console.log('gift 跳转到充值弹窗');
-			// 关闭 送礼物弹窗 显示充值弹窗
-
-			this.$emit('recharge', {}, () => {
-				console.log('playvideo 页面显示充值弹窗');
-			});
-		},
-
 		/**
 		 * 选择内容
 		 */
@@ -138,6 +100,8 @@ export default {
 	background-color: #171926;
 	color: white;
 	border-radius: 20rpx 20rpx 0 0;
+	padding-bottom: 57rpx;
+
 }
 .uni-share-title {
 	/* #ifndef APP-NVUE */

@@ -35,6 +35,7 @@
   background-color: #171926;
   color: white;
   border-radius: 20rpx 20rpx 0 0;
+  padding-bottom: 57rpx;
 }
 .uni-share-title.data-v-66f313da {
   display: -webkit-box;

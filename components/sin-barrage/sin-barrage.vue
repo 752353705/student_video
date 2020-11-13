@@ -5,7 +5,7 @@
 				<image class="barrage-image" :src="item.avatarImage"></image>
 				<view class="barrage-text">
 					<text class="" :style="{ color: color, background: background, opacity: opacity }">{{ item.text }}</text>
-					<view>赠送 {{ item.giftName }}</view>
+					<view>投 {{ item.goldNumber }} 票</view>
 				</view>
 				<image class="barrage-image" :src="item.giftImage"></image>
 			</view>
@@ -141,7 +141,7 @@ export default {
 		margin-top: 10rpx;
 
 		color: #ffffff;
-		padding: 10rpx 20rpx;
+		padding: 4rpx 10rpx;
 		border-radius: 30rpx;
 		background: #000000;
 		opacity: 0.8;

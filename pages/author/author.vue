@@ -1,9 +1,9 @@
 <template>
 	<view class="author">
 		<view class="height" 
-			style="background-image: linear-gradient(to bottom, #192936, #786f68);height: 526rpx;" >
+			style="background-image: linear-gradient(to bottom, #192936, #786f68);height: 424rpx;" >
 			<!-- 头部 -->
-			<view class="head pa-r40 pa-b20 pa-l40  box-boder">
+			<view class="head pa-r40 pa-l40  box-boder">
 				<view class="userImg " @click="jump">
 					<image class="w-100 h-100"  :src="avatarItem.avatarUrl || '/static/avatarUrl.png'" mode=""></image>
 				</view>
@@ -274,7 +274,8 @@
 	background-color: #786f68;
 	.head{
 		display: flex;
-		padding-top: 150rpx;
+		padding-top: 40rpx;
+		padding-bottom: 13rpx;
 		.userImg{
 			width: 150rpx;
 			height: 150rpx;
@@ -322,7 +323,7 @@
 				// 	font-size: 20rpx;
 				// }
 				.location{
-					margin-top: 10rpx;
+					margin-top: 25rpx;
 					display: flex;
 					align-items: center;
 					font-size: 25rpx;

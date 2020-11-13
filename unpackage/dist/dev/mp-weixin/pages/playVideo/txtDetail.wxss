@@ -92,15 +92,79 @@ page {
   border: none;
   padding: 0;
 }
-.txt_detail .uni_vdplayer .back.data-v-145cf910 {
-  width: 40rpx;
-  height: 40rpx;
-  position: absolute;
-  top: 67rpx;
-  left: 30rpx;
+.txt_detail .uni_vdplayer .sendTicket.data-v-145cf910 {
+  width: 80rpx;
+  height: 80rpx;
+  position: fixed;
+  bottom: 200rpx;
+  right: 10rpx;
 }
-.txt_detail .uni_vdplayer .iconleft.data-v-145cf910 {
-  font-size: 45rpx;
+.txt_detail .uni_vdplayer .sendTicket image.data-v-145cf910 {
+  width: 100%;
+  height: 100%;
+}
+.txt_detail .uni_vdplayer .sendTicket_scroll.data-v-145cf910 {
+  -webkit-transform: translateX(44rpx);
+          transform: translateX(44rpx);
+  -webkit-transition: -webkit-transform 0.4s;
+  transition: -webkit-transform 0.4s;
+  transition: transform 0.4s;
+  transition: transform 0.4s, -webkit-transform 0.4s;
+}
+.txt_detail .uni_vdplayer #animat.data-v-145cf910 {
+  animation: mymove-data-v-145cf910 5s infinite;
+  -webkit-animation: mymove-data-v-145cf910 5s infinite;
+  /*Safari and Chrome*/
+  animation-direction: alternate;
+  /*轮流反向播放动画。*/
+  animation-timing-function: ease-in-out;
+  /*动画的速度曲线*/
+  /* Safari 和 Chrome */
+  -webkit-animation: mymove-data-v-145cf910 5s infinite;
+  -webkit-animation-direction: alternate;
+  /*轮流反向播放动画。*/
+  -webkit-animation-timing-function: ease-in-out;
+  /*动画的速度曲线*/
+}
+@keyframes mymove-data-v-145cf910 {
+0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    /*开始为原始大小*/
+}
+25% {
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+    /*放大1.1倍*/
+}
+50% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+75% {
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+}
+}
+@-webkit-keyframes mymove-data-v-145cf910 /*Safari and Chrome*/ {
+0% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    /*开始为原始大小*/
+}
+25% {
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+    /*放大1.1倍*/
+}
+50% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+}
+75% {
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+}
 }
 .txt_detail .uni_vdplayer .txtMain.data-v-145cf910 {
   color: black;
@@ -280,5 +344,9 @@ page {
 }
 .txt_detail .uni_vdplayer .btm .ri .icon .iconfont.data-v-145cf910 {
   font-size: 50rpx;
+  color: #323131;
+}
+.txt_detail .uni_vdplayer .btm .ri .icon .forwarding.data-v-145cf910 {
+  font-size: 54rpx;
 }
 

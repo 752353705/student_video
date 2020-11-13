@@ -217,13 +217,13 @@ export default {
 		// 输入框失焦
 		blur(){
 			console.log('失焦')
-			this.inputfocus = false;
-			this.val = '';
-			this.replayVal = '留下你的精彩评论吧';
-			this.sendStyle = true;
-			this.send_btn_style = false;
-			
-			
+			if(!this.val){
+				this.inputfocus = false;
+				this.val = '';
+				this.replayVal = '留下你的精彩评论吧';
+				this.sendStyle = true;
+				this.send_btn_style = false;
+			}
 		},
 		// 发送评论  判断是 对视频进行的评论还是评论回复
 		send() {

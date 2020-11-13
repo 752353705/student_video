@@ -51,7 +51,7 @@
 .barrage .barrage-item {
   margin-top: 10rpx;
   color: #ffffff;
-  padding: 10rpx 20rpx;
+  padding: 4rpx 10rpx;
   border-radius: 30rpx;
   background: #000000;
   opacity: 0.8;

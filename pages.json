@@ -106,7 +106,14 @@
 			"style": {
 				"navigationBarTitleText": "签到"
 			}
-		},{
+		},
+		{
+			"path": "pages/my/invite",
+			"style": {
+				"navigationBarTitleText": "邀请有奖"
+			}
+		},
+		{
 			"path": "pages/my/myFocus",
 			"style": {
 				"navigationBarTitleText": "关注"
@@ -139,22 +146,6 @@
 				"navigationBarTitleText": "发布文章"
 			}
 		}, 
-		{
-			"path": "pages/recharge/recharge",
-			"style": {
-				"navigationBarTitleText": "充值"
-			}
-		},{
-			"path": "pages/recharge/pay",
-			"style": {
-				"navigationBarTitleText": "支付"
-			}
-		},{
-			"path": "pages/recharge/rechHis",
-			"style": {
-				"navigationBarTitleText": "充值记录"
-			}
-		},
 		{
 			"path" : "pages/rank/rank",
 			"style" : {

@@ -95,6 +95,17 @@
 .btn.login::after {
   display: none;
 }
+.btn.no_login {
+  margin-right: 0;
+  color: #9b9b9b;
+  border: none;
+  background: none;
+  font-size: 28rpx;
+  margin-top: 20rpx;
+}
+.btn.no_login::after {
+  display: none;
+}
 .auth-title {
   text-align: center;
   margin-bottom: 30rpx;
@@ -106,5 +117,8 @@
   position: fixed;
   bottom: 60rpx;
   text-align: center;
+}
+button {
+  background-color: none;
 }
 

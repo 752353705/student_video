@@ -39,7 +39,8 @@
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
-  padding-top: 150rpx;
+  padding-top: 40rpx;
+  padding-bottom: 13rpx;
 }
 .author .head .userImg {
   width: 150rpx;
@@ -90,7 +91,7 @@
   border: 1px solid #989898;
 }
 .author .head .right .box .location {
-  margin-top: 10rpx;
+  margin-top: 25rpx;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;

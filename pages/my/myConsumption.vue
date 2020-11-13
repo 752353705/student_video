@@ -22,7 +22,7 @@
 						<view class="time">{{item.createTime}}</view>
 					</view>
 					<view class="right">
-						+{{item.hgoldNumber}}H币
+						+{{item.hgoldNumber}} 票
 					</view>
 				</block>
 				
@@ -32,7 +32,7 @@
 						<view style="font-size: 33rpx;" >{{item.createTime}}</view>
 					</view>
 					<view class="right">
-						 -{{item.goldNumber}} H币
+						 -{{item.goldNumber}}  票
 					</view>
 				</block>
 				

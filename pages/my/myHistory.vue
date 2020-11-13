@@ -249,7 +249,7 @@ export default {
 		position: fixed;
 		top: 21rpx;
 		right: 51rpx;
-		background-color: #eae4e4;
+		// background-color: #eae4e4;
 		width: 100%;
 		width: 102rpx;
 		line-height: 26px;
@@ -289,10 +289,18 @@ export default {
 			.cont {
 				width: 100%;
 				padding-bottom: 50rpx;
-				border-bottom: 1px solid #969696;
+				position: relative;
 			}
-			.cont:last-child{
-				border: none;
+			.cont:after{
+				content: "  ";
+				position: absolute;
+				left: 0;
+				bottom: 0;
+				width: 100%;
+				height: 1px;
+				border-bottom:1px solid #ababab;
+				-webkit-transform: scaleY(.5);
+				transform:scaleY(.5);
 			}
 			// 作品详情 头部
 			.head {
@@ -349,6 +357,18 @@ export default {
 					align-items: center;
 				}
 			}
+		}
+		.item:last-child .cont::after{
+			content: "  ";
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			height: 1px;
+			border-bottom:1px solid white;
+			/* 如果不用 background-color, 使用 border-top:1px solid #f00; 效果是一样的*/
+			-webkit-transform: scaleY(.5);
+			transform:scaleY(.5);
 		}
 	}
 }

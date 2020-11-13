@@ -10,11 +10,14 @@
 		</view>
 		<!-- 展示框 -->
 		<view class="content">
-			<view v-for="(item, index) in useList" :key="index" @click="open(index)">
-				<view class="list_item" v-if="index !== 2">
+			<view v-for="(item, index) in useList" :key="index" 
+				@click="open" :data-id="item.id"
+				>
+				<!-- v-if="index !== 2" -->
+				<view class="list_item" >
 					<view class="left_icon">
 						<!-- 当index为1 时 换为本地图标 -->
-						<image v-if="index == 1" 
+						<image v-if="item.id == 'ticket_num' " 
 							src="/static/sigin.png" style="width:25px ;height: 25px;margin-right: 20rpx;" 
 							mode="">
 						</image>
@@ -22,7 +25,7 @@
 						
 						<text>{{ item.txt }}</text>
 					</view>
-					<view v-if="index !== 1" class="iconfont iconfanhui"></view>
+					<view v-if="item.id !== 'ticket_num'" class="iconfont iconfanhui"></view>
 					<text v-else>
 						{{ userInfo.goldNumber || '0' }}
 						<text class="iconfont iconfanhui"></text>
@@ -30,7 +33,7 @@
 				</view>
 
 				<!-- 当用户使用ios时，不显示充值 -->
-				<view class="list_item" v-if="!is_IOS && index == 2">
+			<!-- 	<view class="list_item" v-if="!is_IOS && index == 2">
 					<view class="left_icon">
 						<text class="t-icon" :class="item.icon"></text>
 						<text>{{ item.txt }}</text>
@@ -40,7 +43,7 @@
 						{{ userInfo.goldNumber || '0' }}
 						<text class="iconfont iconfanhui"></text>
 					</text>
-				</view>
+				</view> -->
 			</view>
 		</view>
 	</view>
@@ -56,14 +59,14 @@ export default {
 			userInfo: '',
 			user_phone: '',
 			useList: [
-				{ icon: 'iconweibiaoti--', txt: '个人资料' },
-				{ icon: 'iconzu', txt: 'H币' },
-				{ icon: 'iconIcon', txt: '充值' },
-				{ icon: 'iconwodeshoucang', txt: '我的收藏' },
-				{ icon: 'iconliulanjilu-tianchong', txt: '浏览记录' },
-				// { icon: 'iconzuzhichuangjian', txt: '创建大赛' },
-				{ icon: 'icontuichudenglu', txt: '退出登录' }
-				// {icon:"iconpaotuibeifen",txt:'跑腿'},
+				{ icon: 'iconweibiaoti--', txt: '个人资料', id:'user_msg' },
+				{ icon: 'iconzu', txt: '票数', id:'ticket_num' },
+				// { icon: 'iconIcon', txt: '充值', id:'recharge' },
+				{ icon: 'iconwodeshoucang', txt: '我的收藏', id:'collection' },
+				{ icon: 'iconliulanjilu-tianchong', txt: '浏览记录', id:'browse_his' },
+				// { icon: 'iconzuzhichuangjian', txt: '创建大赛', id:'create_game' },
+				{ icon: 'icontuichudenglu', txt: '退出登录', id:'exit' }
+				// {icon:"iconpaotuibeifen",txt:'跑腿', id:'run'},
 			]
 		};
 	},
@@ -112,7 +115,9 @@ export default {
 		},
 
 		// 进行弹窗的控制
-		open(num) {
+		open(e) {
+			console.log('e',e.currentTarget.dataset.id)
+			let id = e.currentTarget.dataset.id
 			let _this = this;
 
 			if (!this.user_phone) {
@@ -123,39 +128,29 @@ export default {
 				return;
 			}
 
-			if (num === 0) {
+			if (id === 'user_msg') {
 				// 跳转到资料编辑
 				uni.navigateTo({
 					url: '/pages/myData/myData'
 				});
 				// this.$refs.popup_user.open()
-			} else if (num === 1) {
+			} else if (id === 'ticket_num') {
 				// 用户进入 消费记录
 				uni.navigateTo({
 					url: '/pages/my/myWallet'
 				});
-			} else if (num === 2) {
-				// 用户跳转到 充值界面
-				uni.navigateTo({
-					url: `/pages/recharge/recharge?money=${this.userInfo.goldNumber}&userId=${this.userInfo.userId}`
-				});
-			} else if (num === 3) {
+			}  else if (id === 'collection') {
 				// 用户进入我的收藏
 				uni.navigateTo({
 					url: '/pages/my/myCollection'
 				});
-			} else if (num === 4) {
+			} else if (id === 'browse_his') {
 				// 用户进入浏览记录
 				uni.navigateTo({
 					url: '/pages/my/myHistory'
 				});
-			}else if( num === 5 ) {
-				// 用户进行创建大赛
-				uni.navigateTo({
-					url: '/pages/creatGame/gameTemplate'
-				});
 			}
-			else if (num === 6) {
+			else if (id === 'exit') {
 				// 显示退出登录
 				uni.showModal({
 					title: '提示',
@@ -186,7 +181,7 @@ export default {
 					}
 				});
 			}  
-			// else if (num === 6) {
+			// else if (id === 6) {
 			// 	// 用户进入 跑腿中
 			// 	uni.navigateTo({
 			// 		url: '/pages/my/myRun'
