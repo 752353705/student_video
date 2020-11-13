@@ -41,6 +41,7 @@
 								maxlength="30"
 								placeholder="请输入(限30字)"
 								placeholder-class="place_style"
+								class="input"
 								/>
 						</view>
 					</view>
@@ -453,7 +454,7 @@
 						font-size: 28rpx;
 					}
 				}
-				// 大赛名称
+				// 大赛名称  从右侧开始
 				.game_name{
 					display: flex;
 					justify-content: space-between;
@@ -462,8 +463,16 @@
 					padding-bottom: 20rpx;
 					border-bottom: 1rpx solid #f7f7f7;
 					.ri{
-						width: 32%;
-						.place_style{
+						// width: 32%;
+						flex: 1;
+						display: flex;
+						align-items: center;
+						justify-content: flex-end;
+						height: 100%;
+						text-align: right;
+						.input{
+							flex: 1;
+							height: 100%;
 							text-align: right;
 						}
 					}
