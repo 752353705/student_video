@@ -46,15 +46,24 @@
 }
 .barrage {
   position: fixed;
-  z-index: 30;
+  z-index: 10;
 }
 .barrage .barrage-item {
   margin-top: 10rpx;
+  position: relative;
   color: #ffffff;
   padding: 4rpx 10rpx;
   border-radius: 30rpx;
   background: #000000;
   opacity: 0.8;
+}
+.barrage .barrage-item .title {
+  position: absolute;
+  left: 0rpx;
+  top: -53rpx;
+  font-weight: bolder;
+  color: white;
+  -webkit-text-stroke: 1rpx #000000;
 }
 .barrage .barrage-item .barrage-image {
   display: inline-block;

@@ -5,7 +5,9 @@
 	},
 	"setting": {
 		"urlCheck": false,
-		"minified": false
+		"minified": false,
+		"postcss": false,
+		"es6": true
 	},
 	"compileType": "miniprogram",
 	"libVersion": "",
@@ -37,23 +39,8 @@
 			"list": [
 				{
 					"id": -1,
-					"name": "pages/my/myCollection",
-					"pathName": "pages/my/myCollection",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/my/my",
-					"pathName": "pages/my/my",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/my/myHistory",
-					"pathName": "pages/my/myHistory",
-					"query": "",
+					"name": "pages/huiLife/huiLife",
+					"pathName": "pages/huiLife/huiLife",
 					"scene": null
 				}
 			]

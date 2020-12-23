@@ -4,11 +4,12 @@
 		<view class="uni-share-title">
 			<text class="uni-share-title-text">{{ title }}</text>
 		</view>
+		<!-- 顶部 取消按钮 -->
+		<view class="close"><image src="../../static/cmt_close.png" mode="" @click="close"></image></view>
+		<!-- 主体 -->
 		<view class="uni-share-content" style="height: 400px;">
 			<!-- 当没有评论的时候 -->
-			<view v-if="msgList.length === 0" class="user_cmt" style="margin-top: 29px;">
-				<u-divider>快来抢沙发啊~</u-divider>
-			</view>
+			<view v-if="msgList.length === 0" class="user_cmt" style="margin-top: 29px;"><u-divider>快来抢沙发啊~</u-divider></view>
 			<user-comment
 				v-else
 				style="width: 100%;margin-top: 36rpx;"
@@ -22,48 +23,50 @@
 			/>
 		</view>
 		<!-- 用户的输入评论区 -->
-		<view class="msgBox">
+		<view class="msgBox" :style="{ bottom: btm }">
 			<!-- 用户的头像 -->
 			<view class="img_user"><image :src="userImg" mode=""></image></view>
-			<view class="msg" :style=" { height:lineHeight } " >
+			<view class="msg" :style="{ height: lineHeight }">
 				<!-- <image src="/static/signature.png" mode=""></image> -->
 				<text class="iconfont iconxie" style="margin-right: 10rpx;color: #858585;"></text>
 				<textarea
-					:placeholder="replayVal"
 					maxlength="100"
-					:show-confirm-bar="false"
-					:adjust-position="true"
-					type="text"
 					cursor-spacing="15"
+					type="text"
+					:adjust-position="false"
+					:placeholder="replayVal"
+					:show-confirm-bar="false"
 					:value="val"
 					:focus="inputfocus"
 					@blur="blur"
 					@input="sendVal"
 					@confirm="send"
 					@linechange="linechange"
-					@focus="focus"
+					@keyboardheightchange="keyboardheightchange"
 				></textarea>
-			<!-- 	<u-input 
-					style="width: 100%;"
-					v-model="val" 
-					type="textarea"
-					height="28" 
-					placeholder="请输入评论"
-					@input="sendVal"
-					@confirm="send"
-					@linechange="linechange"
-					/> -->
 			</view>
-			<!-- 发表评论按钮 -->
+			<!-- 选择表情按钮 -->
+			<view @click="showExpression" class="expression iconfont iconbiaoqing"></view>
+			<!-- 发表评论按钮   -->
 			<view @click="send" :style="send_btn_style ? 'color: #6ac4f9;' : 'color: #858585;'">发送</view>
+			<!-- 自定义表情列表 -->
+			<scroll-view scroll-y="true" enable-flex="true" class="express_body" v-if="express_show">
+				<view class="express_item" v-for="(item, index) in express_list" :key="index">
+					<!-- 相应的表情 -->
+					<view :data-item="item.des" @click="chooseExpress" 
+						class="t-icon" :class="item.icon"
+						>
+					</view>
+				</view>
+			</scroll-view>
 		</view>
-		<!-- 取消按钮 -->
-		<view class="close"><image src="../../static/cmt_close.png" mode="" @click="close"></image></view>
 	</view>
 </template>
 
 <script>
 import userComment from '../user-comment.vue';
+import express from '../../assets/express.js'
+
 export default {
 	name: 'UniPopupShare',
 	props: {
@@ -71,7 +74,6 @@ export default {
 		msgList: {
 			type: Array
 		},
-
 		// 表示当前是哪类的评论，
 		// 视频 二手 文章
 		type: {
@@ -97,9 +99,14 @@ export default {
 	inject: ['popup'],
 	data() {
 		return {
+			// 是否显示表情列表
+			express_show: false,
+			// 表情存储
+			express_list: express,
+
+			btm: '0',
 			// 文本域的行数
-			lineHeight:'66rpx',
-			
+			lineHeight: '66rpx',
 			// 输入框是否聚焦
 			inputfocus: false,
 			// 上拉加载
@@ -116,46 +123,26 @@ export default {
 			downOption: {
 				isLock: true
 			},
-			// 控制空布局的使用
-
 			// 用户头像
 			userImg: '',
 			//动态修改输入框中的值，进行用户之间的交流互评
-			replayVal: '留下你的精彩评论吧',
+			replayVal: '写评论...',
 			// 控制发送请求 是视频评论 还是 进行回复
 			sendStyle: true, //默认是 对视频进行评论
 			commentId: '', //进行评论回复的ID
 			replayIndex: '', //进行评论的 在msgList中的index
 			// 当进行三级评论时，储存评论的用户名
 			threereplayname: '回复 旭东：',
-
 			twoShow: false,
 			val: '',
 			// 控制发送按钮的 颜色
 			send_btn_style: false,
-
 			// msgList: [],
 			pageNum: 1 //默认从第0页开始请求
 		};
 	},
 	components: {
 		userComment
-	},
-	created() {
-		// this.val = 'hahha'
-		// this.val = ''
-		// this.focus()
-		// this.sendVal({
-		// 	detail:{
-		// 		value:'h'
-		// 	}
-		// })
-		// this.sendVal({
-		// 	detail:{
-		// 		value:''
-		// 	}
-		// })
-		// this.blur()
 	},
 	mounted() {
 		let _this = this;
@@ -172,22 +159,39 @@ export default {
 		});
 	},
 	methods: {
-		showDetailComment(index){
-			console.log('index popup',index)
-		
-			this.$emit('showDetailComment',index)
+		// 显示表情图案
+		showExpression() {
+			console.log('显示表情');
+			this.express_show = !this.express_show;
+			if(this.express_show){
+				this.btm = 361 + 'rpx';
+			}else{
+				this.btm = 0
+			}
+		},
+		// 选择表情图案
+		chooseExpress(e) {
+			console.log('选择表情,输入框中展示的是表情对应的字符', e);
+			this.val = this.val + '[' + e.currentTarget.dataset.item + ']' ; 
+			this.send_btn_style = true
+		},
+
+		showDetailComment(index) {
+			console.log('index popup', index);
+
+			this.$emit('showDetailComment', index);
 		},
 		// 当文本框的行数改变
-		linechange(e){
+		linechange(e) {
 			// console.log('行数发生改变，高度变化',e,e.detail.lineHeight)
 			// 当前文本框的行数 e.detail.lineHeight
 			// 当前文本框的高度 e.detail.heightRpx
-			if(e.detail.lineCount == 0){
-				return
-			} else if(e.detail.lineCount < 4){
-				this.lineHeight = e.detail.lineCount * 66 + 'rpx'
+			if (e.detail.lineCount == 0) {
+				return;
+			} else if (e.detail.lineCount < 4) {
+				this.lineHeight = e.detail.lineCount * 66 + 'rpx';
 			} else {
-				this.lineHeight = 3 * 66 + 'rpx'
+				this.lineHeight = 3 * 66 + 'rpx';
 			}
 		},
 		// 传递给子组件的方法，用于用户对其修改当前页面中的数据
@@ -201,7 +205,7 @@ export default {
 		},
 		// 将评论推入列表中
 		sendVal(e) {
-			console.log('输入')
+			console.log('输入操作', e);
 			this.val = e.detail.value;
 			if (this.val !== '' && this.val.trim()) {
 				// 评论中不为空或都是 空格
@@ -210,17 +214,32 @@ export default {
 				this.send_btn_style = false;
 			}
 		},
-		// 输入框聚焦
-		focus(e){
-			console.log('聚焦')
+		// 键盘高度发生变化
+		keyboardheightchange(e) {
+			console.log('键盘高度变了e', e.detail.height);
+			if (e.detail.height == 0) {
+				this.express_show = false;
+				this.btm = 0;
+			} else {
+				this.btm = e.detail.height * 2 + 10 + 'rpx';
+			}
 		},
 		// 输入框失焦
-		blur(){
-			console.log('失焦')
-			if(!this.val){
+		blur() {
+			console.log('失焦');
+			// 表情框隐藏
+			this.express_show = false;
+			this.btm = 0;
+			// if(this.express_show){
+			// 	this.btm = 361 + 'rpx';
+			// }else{
+			// 	this.btm = 0
+			// }
+			
+			if (!this.val) {
 				this.inputfocus = false;
 				this.val = '';
-				this.replayVal = '留下你的精彩评论吧';
+				this.replayVal = '写评论...';
 				this.sendStyle = true;
 				this.send_btn_style = false;
 			}
@@ -255,7 +274,7 @@ export default {
 						});
 
 						_this.val = '';
-						_this.replayVal = '留下你的精彩评论吧';
+						_this.replayVal = '写评论...';
 						_this.sendStyle = true;
 						_this.send_btn_style = false;
 						// 添加了言论之后，修改当前的 评论数量
@@ -283,7 +302,7 @@ export default {
 						// _this.$emit('changeComment',_this.val,_this.replayIndex);
 						// console.log('评论的回复 msgList ==》', _this.msgList);
 						_this.val = '';
-						_this.replayVal = '留下你的精彩评论吧';
+						_this.replayVal = '写评论...';
 					}
 				);
 			}
@@ -351,6 +370,7 @@ export default {
 	}
 };
 </script>
+
 <style lang="scss" scoped>
 .uni-popup-share {
 	position: relative;
@@ -406,6 +426,9 @@ export default {
 	bottom: 0;
 	left: 0;
 	color: black;
+	position: absolute;
+	left: 0;
+	z-index: 10;
 	.img_user {
 		width: 60rpx;
 		height: 60rpx;
@@ -423,7 +446,7 @@ export default {
 		}
 	}
 	.msg {
-		width: 70%;
+		width: 63%;
 		height: 66rpx;
 		box-sizing: border-box;
 		padding-left: 13rpx;
@@ -435,18 +458,40 @@ export default {
 		display: flex;
 		justify-content: start;
 		align-items: center;
-		bottom: 20rpx;
 		image {
 			width: 40rpx;
 			height: 40rpx;
 			margin-right: 20rpx;
 		}
 		textarea {
-			width: 100%;
+			width: 84%;
 			height: 100%;
 			padding-top: 16rpx;
-			// overflow-x:hidden;
-			// overflow: auto;
+		}
+	}
+	// 表情
+	.expression {
+		margin-right: 10rpx;
+	}
+	// 表情列表
+	.express_body {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 361rpx;
+		background-color: white;
+		display: flex;
+		// flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		.express_item {
+			margin-top: 27rpx;
+			margin-left: 65rpx;
+			margin-bottom: 20rpx;
+			width: 50rpx;
+			height: 50rpx;
 		}
 	}
 }
@@ -465,7 +510,21 @@ export default {
 	color: black;
 }
 
-.plcolor{
-color: #bbb;
+.plcolor {
+	color: #bbb;
 }
+
+// 控制表情图案的大小
+// .iconzhutou {
+// 	width: 32px;
+// 	height: 29px;
+// }
+// .iconqie {
+// 	width: 29px;
+// 	height: 28px;
+// }
+// .iconxiaochulei {
+// 	width: 36px;
+// 	height: 30px;
+// }
 </style>

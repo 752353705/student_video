@@ -1,1 +1,1 @@
-<view class="{{['uni-popup-message data-v-44d59b6c','uni-popup__'+[type]]}}"><text class="{{['uni-popup-message-text data-v-44d59b6c','uni-popup__'+[type]+'-text']}}">{{''+message+''}}</text></view>
+<view class="{{['uni-popup-message data-v-6dc2e942','uni-popup__'+[type]]}}"><text class="{{['uni-popup-message-text data-v-6dc2e942','uni-popup__'+[type]+'-text']}}">{{''+message+''}}</text></view>

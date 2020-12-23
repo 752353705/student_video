@@ -48,10 +48,10 @@
 						<view class="">粉丝</view>
 					</view>
 					<!-- 获赞与收藏 -->
-					<view class="collection t_c">
+				<!-- 	<view class="collection t_c">
 						<view class="">{{avatarItem.likedNumber || 0}}</view>
 						<view class="">获赞</view>
-					</view>
+					</view> -->
 					
 				</view>
 			</view>
@@ -372,7 +372,7 @@
 		box-sizing: border-box;
 		padding: 0 40rpx;
 		.le{
-			width: 50%;
+			width: 31%;
 			display: flex;
 			justify-content: space-evenly;
 		}

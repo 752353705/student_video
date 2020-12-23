@@ -1,0 +1,17 @@
+/**
+ * 转换数字形式
+ * */
+
+function numType(n){
+	if(n > 10000){
+		var t1 = (n / 10000).toFixed(1)
+		return t1 + 'w'
+	}else{
+		return n
+	}
+	
+}
+
+module.exports = {
+	numType: numType,
+}

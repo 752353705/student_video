@@ -1,0 +1,1 @@
+<view class="data-v-759184b2"><input type="text" placeholder="添加一个名字" placeholder-style="color:#a3a3a3" maxlength="6" data-event-opts="{{[['input',[['input',['$event']]]]]}}" value="{{value}}" bindinput="__e" class="data-v-759184b2"/><view data-event-opts="{{[['tap',[['submit',['$event']]]]]}}" class="btn data-v-759184b2" bindtap="__e">保存</view></view>

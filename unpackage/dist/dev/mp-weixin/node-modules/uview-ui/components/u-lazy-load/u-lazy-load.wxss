@@ -30,14 +30,6 @@
 /* 边框颜色 */
 /* 图片加载中颜色 */
 /* 行为相关颜色 */
-image.data-v-f135ec92 {
-  display: inline-block;
-  will-change: transform;
-}
-view.data-v-f135ec92,
-text.data-v-f135ec92 {
-  box-sizing: border-box;
-}
 .u-wrap.data-v-f135ec92 {
   background-color: #eee;
   overflow: hidden;

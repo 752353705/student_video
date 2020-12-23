@@ -1,33 +1,46 @@
 {
   "pages": [
     "pages/Introduction/Introduction",
+    "pages/home/home",
     "pages/Introduction/gameDetail",
+    "pages/Introduction/gameResult",
     "pages/list/list",
     "pages/find/find",
-    "pages/playVideo/txtDetail",
+    "pages/production/txtDetail",
     "pages/login/login",
     "pages/login/secLogin",
     "pages/author/author",
     "pages/my/my",
-    "pages/myData/myData",
-    "pages/myData/myIntroduction",
-    "pages/myData/myName",
-    "pages/myData/myGender",
-    "pages/myData/myBirthday",
-    "pages/my/myWallet",
     "pages/my/setting",
-    "pages/my/mySigin",
-    "pages/my/invite",
     "pages/my/myFocus",
     "pages/my/myFans",
-    "pages/my/myCollection",
-    "pages/my/myHistory",
-    "pages/my/myConsumption",
     "pages/publish/publishNotice",
     "pages/rank/rank",
-    "pages/changeTxt/changeTxt"
+    "pages/changeTxt/changeTxt",
+    "pages/recharge/rechHis",
+    "pages/newsDetail/newsDetail",
+    "pages/huiLife/huiLife",
+    "pages/huiLife/merchant",
+    "pages/huiLife/tenants"
   ],
-  "subPackages": [],
+  "subPackages": [
+    {
+      "root": "pagesA",
+      "pages": [
+        "myData/myData",
+        "myData/myIntroduction",
+        "myData/myName",
+        "myData/myGender",
+        "myData/myBirthday",
+        "myData/myWallet",
+        "myData/myHistory",
+        "myData/myCollection",
+        "myData/mySigin",
+        "myData/myConsumption",
+        "myData/invite"
+      ]
+    }
+  ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarBackgroundColor": "#FFFFFF",
@@ -42,21 +55,21 @@
     "list": [
       {
         "pagePath": "pages/Introduction/Introduction",
-        "iconPath": "/static/tabbar/game.png",
-        "selectedIconPath": "/static/tabbar/game_active.png",
-        "text": "大赛"
+        "iconPath": "/static/tabbar/home.png",
+        "selectedIconPath": "/static/tabbar/home_active.png",
+        "text": "主页"
       },
       {
-        "pagePath": "pages/list/list",
-        "iconPath": "/static/tabbar/index.png",
-        "selectedIconPath": "/static/tabbar/index_active.png",
-        "text": "作品"
+        "pagePath": "pages/home/home",
+        "iconPath": "/static/tabbar/wenhua.png",
+        "selectedIconPath": "/static/tabbar/wenhua_active.png",
+        "text": "文化"
       },
       {
-        "pagePath": "pages/publish/publishNotice",
-        "iconPath": "/static/tabbar/add.png",
-        "selectedIconPath": "/static/tabbar/add_active.png",
-        "text": "发布"
+        "pagePath": "pages/huiLife/huiLife",
+        "iconPath": "/static/tabbar/huiLife.png",
+        "selectedIconPath": "/static/tabbar/huiLife_active.png",
+        "text": "惠生活"
       },
       {
         "pagePath": "pages/my/my",
@@ -66,6 +79,15 @@
       }
     ]
   },
+  "preloadRule": {
+    "pages/my/setting": {
+      "network": "all",
+      "packages": [
+        "pagesA"
+      ]
+    }
+  },
+  "plugins": {},
   "permission": {
     "scope.userLocation": {
       "desc": "你的位置信息将用于小程序位置接口的效果展示"

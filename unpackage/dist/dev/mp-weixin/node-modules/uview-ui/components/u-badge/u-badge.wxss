@@ -30,14 +30,6 @@
 /* 边框颜色 */
 /* 图片加载中颜色 */
 /* 行为相关颜色 */
-image.data-v-662d25bf {
-  display: inline-block;
-  will-change: transform;
-}
-view.data-v-662d25bf,
-text.data-v-662d25bf {
-  box-sizing: border-box;
-}
 .u-badge.data-v-662d25bf {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
@@ -51,6 +43,7 @@ text.data-v-662d25bf {
   line-height: 24rpx;
   padding: 4rpx 8rpx;
   border-radius: 100rpx;
+  z-index: 9;
 }
 .u-badge--bg--primary.data-v-662d25bf {
   background-color: #2979ff;
@@ -80,7 +73,7 @@ text.data-v-662d25bf {
           transform-origin: center center;
 }
 .u-info.data-v-662d25bf {
-  background: #909399;
+  background-color: #909399;
   color: #fff;
 }
 

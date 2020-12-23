@@ -3,7 +3,6 @@
 		<scroll-view class="container" style="height: 100%;">
 		  <view class="search-header">
 		    <view class="input-box">
-		      <!-- <image class="icon" src="http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/search2-2fb94833aa.png"></image> -->
 					<u-icon class="icon"  name="search"></u-icon>
 		      <input name="input" class="keyword" focus="true" :value="keyword" 
 					confirm-type="search" @input="inputChange"  @confirm="onKeywordConfirm" 
@@ -14,7 +13,6 @@
 		    <view class="right" @tap="closeSearch">取消</view>
 		  </view>
 		</scroll-view>
-		
 		<!-- 搜索结果渲染列表 -->
 		<view class="list-container" style="padding: 12rpx;padding-top:54px;" >
 			<view id="wf-list" class="list" v-for="(list, listIndex) in viewList" :key="listIndex">
@@ -39,14 +37,12 @@
 							￥
 							<text class="num"> 
 								{{item.price / 100}} 
-								<!-- {{price.floatdiv(item.price,100)}} -->
 							</text>
 						</view>
 						<view class="see_num">
 							{{item.viewsNum}} 人浏览
 						</view>
 					</view>
-					
 					
 					<!-- 用户的 头像以及点赞数 -->
 					<view class="item_foot">
@@ -57,19 +53,17 @@
 								{{ item.userName || userName }}
 							</view>
 						</view>
-						<view class="right" @tap.stop="waterLike"  
-							:data-index="index" :data-listindex="listIndex"
-							>
-								<!-- <view style="margin-right: 10rpx;" >
-									0人浏览
-								</view> -->
-								<u-icon  v-if="!item.liked" name="heart" color="#000000" size="34"></u-icon>
-								<u-icon  v-else name="heart-fill" color="red" size="34"></u-icon>
-							<view style="margin-left: 10rpx;" >
-								<!-- 票数 文章点赞数                     -->
-								{{ item.praseCount }}
+						
+						<view style="display: flex;" >
+							<view style="margin-right: 10rpx;" >
+								<text style="margin-right: 10rpx;" 
+									class="iconfont iconzongtoupiaoshu"
+								></text>
+								{{item.goldNumber}}
 							</view>
 						</view>
+						
+						
 					</view>
 				</view>
 			</view>
@@ -102,7 +96,7 @@
 				goodsList: [],
 				helpKeyword: [],
 				defaultKeyword: {
-					keyword:'输入文章标题'
+					keyword:'输入作品标题'
 				},
 				page: 1,
 				size: 10,
@@ -123,16 +117,15 @@
 		// 用户进行上拉加载
 		onReachBottom:function() {
 			if (this.list.length == 10) {
-				 this.page = this.page + 1
-				 this.searchArticle()
-				 
+				this.page = this.page + 1
+				this.searchArticle()
 			} else {
-				 wx.showToast({
-					 title: '已经到底了!',
-					 icon: 'none',
-					 duration: 2000
-				 });
-				 return false;
+				wx.showToast({
+					title: '已经到底了!',
+					icon: 'none',
+					duration: 2000
+				});
+				return false;
 			}
 		},
 		methods:{
@@ -143,7 +136,6 @@
 					this.handleViewRender(0, 0);
 				}, 0);
 			},
-			
 			handleViewRender(x, y) {
 				const index = this.viewList.reduce((total, current) => total + current.list.length, 0);
 				const query = uni.createSelectorQuery().in(this);
@@ -158,18 +150,14 @@
 					})
 					.exec();
 			},
-			
 			// 用户点击 进行跳转操作
 			jump(item) {
 				console.log('进行跳转 item', item);
 				if (item.videoId) {
 					console.log('跳转到视频界面');
-					
 					uni.navigateTo({
 						url:'/pages/playVideo/playVideo?item=' + encodeURIComponent(JSON.stringify(item))
 					})
-					
-					
 				} 
 				else if (item.price){
 					// 跳转到 二手详情页面
@@ -183,15 +171,12 @@
 					// 跳转到文章页面
 					console.log('跳转到文章详情页');
 					uni.navigateTo({
-						url:`/pages/playVideo/txtDetail?txtId=${item.id}`
-						
+						url:`/pages/production/txtDetail?txtId=${item.id}`
 						// 测试二手 记得修改过来
 						// url:`/pages/playVideo/usedDetail?txtId=8`
 					});
 				} 
-				
 			},
-			
 			// 用户进行搜索文章
 			searchArticle(){
 				this.api._get('article/search',{
@@ -205,18 +190,17 @@
 					}else{
 						this.list = res.data.list
 					}
+					
+					// 当从新init了 瀑布流又重新渲染
 					if (res.data.list.length) {
 						this.init();
-						// this.initType = false
 					}
 				})
 			},
-			
 			// 用户输入内容发生改变
 			inputChange: function(e) {
 			  this.keyword = e.detail.value
-			    this.searchStatus = false
-			
+				this.searchStatus = false
 			  if (e.detail.value) {
 					// 进行搜素
 					this.searchArticle()
@@ -230,7 +214,7 @@
 			// 清除关键字
 			clearKeyword: function() {
 			  this.keyword = ''
-			    this.searchStatus = false
+				this.searchStatus = false
 			},
 			// 用户在输入是 点击虚拟键盘上的完成
 			onKeywordConfirm(event) {

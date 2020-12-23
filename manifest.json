@@ -69,9 +69,12 @@
         "appid" : "wx35ae62ee04cc537b",
         "setting" : {
             "urlCheck" : false,
-            "minified" : false
+            "minified" : false,
+            "postcss" : false,
+            "es6" : true
         },
         "usingComponents" : true,
+        "plugins" : {},
         "permission" : {
             "scope.userLocation" : {
                 "desc" : "你的位置信息将用于小程序位置接口的效果展示"
@@ -89,5 +92,9 @@
     },
     "uniStatistics" : {
         "enable" : false
+    },
+    "h5" : {
+        "title" : "小驴邦",
+        "domain" : ""
     }
 }

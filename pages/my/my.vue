@@ -50,10 +50,10 @@
 							<view class="">粉丝</view>
 						</view>
 						<!-- 获赞与收藏 -->
-						<view class="collection t_c">
+						<!-- <view class="collection t_c">
 							<view class="">{{userInfo.likedNumber || 0}}</view>
 							<view class="">获赞</view>
-						</view>
+						</view> -->
 					</view>
 					<!-- 设置按钮 -->
 					<view @click="goSetting" class="ri iconfont iconicon-test"></view>
@@ -201,7 +201,7 @@
 			sigin(){
 				console.log('进行签到')
 				uni.navigateTo({
-					url:'/pages/my/mySigin'
+					url:'/pagesA/myData/mySigin'
 				})
 			},
 			// 控制签到弹窗的显隐
@@ -392,7 +392,7 @@
 			box-sizing: border-box;
 			padding: 0 40rpx;
 			.le{
-				width: 50%;
+				width: 31%;
 				display: flex;
 				justify-content: space-evenly;
 			}

@@ -1,1 +1,0 @@
-<view class="wallet data-v-7b7fa442"><view class="card data-v-7b7fa442"><view class="tit data-v-7b7fa442">账户余额（票数）</view><view class="money data-v-7b7fa442">{{userInfo.goldNumber}}</view><view data-event-opts="{{[['tap',[['goDetail',['$event']]]]]}}" class="detail data-v-7b7fa442" bindtap="__e">查看明细<text class="iconfont iconfanhui data-v-7b7fa442"></text></view></view></view>

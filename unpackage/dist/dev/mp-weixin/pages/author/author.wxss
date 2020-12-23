@@ -139,7 +139,7 @@
   padding: 0 40rpx;
 }
 .author .box-thr .le {
-  width: 50%;
+  width: 31%;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;

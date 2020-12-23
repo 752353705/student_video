@@ -83,7 +83,6 @@ page{
 .user .item .img.data-v-26f18522 {
   width: 65rpx;
   height: 65rpx;
-  background-color: red;
   border-radius: 50%;
   margin-right: 30rpx;
   overflow: hidden;

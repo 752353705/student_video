@@ -48,7 +48,14 @@
 						<text style="color: #2ca4e1;margin-right: 10rpx;" class="icon iconfont iconshijian"></text>
 						<text>时间</text>
 					</view>
-					<view class="">{{ game_detail.beginTime.split(' ')[0] + ' 至 ' + game_detail.endTime.split(' ')[0] }}</view>
+					<view class="">
+						<text v-if="gameTimeStatue.gameTime(game_detail.beginTime,game_detail.endTime)">
+							{{ game_detail.beginTime.split(' ')[0]  + ' 至 ' + game_detail.endTime.split(' ')[0]  }}
+						</text>
+						<text v-else>
+							待定
+						</text>
+					</view>
 				</view>
 				<!-- 主办方 -->
 				<view class="host boder_btm">
@@ -117,13 +124,21 @@
 			<view style="text-align: center;margin-top: 40rpx;color: white;">—— 暂无参赛人员 ——</view>
 		</view>
 		
-		
 		<!-- 报名按钮 v-if="hasBtn" -->
-		<view class="btn" @click="jumpList" >
+		<view v-if="game_detail.progressStatus == 1" class="btn" @click="jumpList" >
 			立即报名
 		</view>
+		
+		<!-- 当大赛结束之后，切换为 查看大赛结果 -->
+		<view v-if="game_detail.progressStatus == 2" class="btn end" @click="endGame">
+			查看大赛结果
+		</view>
+		
 	</view>
 </template>
+
+<!-- 大赛时间是否为待定 -->
+<wxs module="gameTimeStatue" src="../../wxs/gameTimeStatue.wxs"></wxs>
 
 <script>
 	export default {
@@ -151,6 +166,15 @@
 			this.getGamePlayers(option.subjectId)
 		},
 		methods:{
+			// 大赛结束，查看大赛的结果
+			endGame(){
+				console.log('大赛结束，查看大赛结果')
+				uni.navigateTo({
+					url:`/pages/Introduction/gameResult?subjectId=${this.game_detail.subjectId}`
+				})
+			},
+			
+			
 			// 获取是否显示报名按钮
 			btnStyle(){
 				this.api._get(`parame/config/uploadArticle`,{},(res)=>{
@@ -203,7 +227,7 @@
 				}
 				uni.setStorageSync('gameMsg',JSON.stringify(gameMsg))
 				
-				uni.switchTab({
+				uni.navigateTo({
 					url:'/pages/publish/publishNotice'
 				})
 				
@@ -261,7 +285,7 @@
 			.img{
 				width: 65rpx;
 				height: 65rpx;
-				background-color: red;
+				// background-color: red;
 				border-radius: 50%;
 				margin-right: 30rpx;
 				overflow: hidden;

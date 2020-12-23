@@ -33,13 +33,18 @@
 export default {
 	data() {
 		return {
-			
+			inviteID:''
 		};
+	},
+	onLoad(option) {
+		if(option.inviteID){
+			this.inviteID = option.inviteID
+		}
 	},
 	methods: {
 		// 暂不登录
 		back(){
-			uni.switchTab({
+			uni.navigateTo({
 				url:'/pages/list/list'
 			})
 		},
@@ -71,11 +76,30 @@ export default {
 							uni.setStorageSync('token', res.data.token);
 							uni.setStorageSync('user_phone', res.data.phone);
 							uni.hideLoading()
-							// 请求成功之后跳转到我的界面
+							
+							// 没有手机号则为新用户 ，看是否携带 inviteID
 							if(!res.data.phone){
-								uni.redirectTo({
-									url:'/pages/login/secLogin'
-								})
+								if(_this.inviteID){
+									// 存在 邀请，则加票，然后进行二次登录
+									_this.api._post(
+										`user/increaseGold?userId=${inviteID}&goldNumber=5`,
+										{
+										
+										},
+										(res) => {
+											console.log('邀请进入')
+											uni.redirectTo({
+												url:'/pages/login/secLogin'
+											})
+										}
+									);
+								}else{
+									// 直接进行二次登录
+									uni.redirectTo({
+										url:'/pages/login/secLogin'
+									})
+								}
+								
 							}else {
 								uni.setStorageSync('user_phone', res.data.phone);
 								uni.navigateBack({

@@ -4,6 +4,9 @@
 		<view class="uni-share-title">
 			<text class="uni-share-title-text">{{ title }}</text>
 		</view>
+		<!-- 顶部取消按钮 -->
+			<view class="close"><image src="../../static/cmt_close.png" mode="" @click="close"></image></view>
+		
 		<view class="uni-share-content" style="height: 400px;">
 			<!-- 当没有评论的时候 -->
 			<view v-if="detailMsgList.length === 0" class="user_cmt" style="margin-top: 29px;">
@@ -12,48 +15,59 @@
 			<user-detail-comment
 				v-else
 				style="width: 100%;margin-top: 36rpx;"
-				@reply="reply"
-				@changeMsgList="changeMsgList"
-				@getComment="getComment"
-				@showDetailComment="showDetailComment"
 				:detailMsgList="detailMsgList"
 				:detail_index="detail_index"
 				:type="type"
 				:threereplayname="threereplayname"
+				@showDetailComment="showDetailComment"
+				@getComment="getComment"
+				@reply="reply"
+				@changeMsgList="changeMsgList"
 			/>
 		</view>
 		<!-- 用户的输入评论区 -->
-		<view class="msgBox">
+		<view class="msgBox" :style="{bottom:btm}">
 			<!-- 用户的头像 -->
 			<view class="img_user"><image :src="userImg" mode=""></image></view>
 			<view class="msg" :style=" { height:lineHeight } " >
 				<!-- <image src="/static/signature.png" mode=""></image> -->
 				<text class="iconfont iconxie" style="margin-right: 10rpx;color: #858585;"></text>
 				<textarea
-					:placeholder=" '回复: ' + detailMsgList.userName "
-					maxlength="100"
-					:show-confirm-bar="false"
-					:adjust-position="true"
 					type="text"
+					maxlength="100"
 					cursor-spacing="15"
+					:placeholder=" '回复: ' + detailMsgList.userName "
+					:show-confirm-bar="false"
+					:adjust-position="false"
 					:value="val"
 					:focus="inputfocus"
 					@blur="blur"
 					@input="sendVal"
 					@confirm="send"
 					@linechange="linechange"
+					@keyboardheightchange="keyboardheightchange"
 				></textarea>
 			</view>
+			<!-- 选择表情按钮 -->
+			<view @click="showExpression" class="expression iconfont iconbiaoqing"></view>
 			<!-- 发表评论按钮 -->
 			<view @click="send" :style="send_btn_style ? 'color: #6ac4f9;' : 'color: #858585;'">发送</view>
+			<scroll-view scroll-y="true" enable-flex="true" class="express_body" v-if="express_show">
+				<view class="express_item" v-for="(item, index) in express_list" :key="index">
+					<!-- 相应的表情 -->
+					<view :data-item="item.des" @click="chooseExpress" 
+						class="t-icon" :class="item.icon"
+						>
+					</view>
+				</view>
+			</scroll-view>
 		</view>
-		<!-- 取消按钮 -->
-		<view class="close"><image src="../../static/cmt_close.png" mode="" @click="close"></image></view>
-	</view>
+		</view>
 </template>
 
 <script>
 import userDetailComment from '@/components/user-detail-comment.vue';
+import express from '../../assets/express.js'
 export default {
 	name: 'UniPopupShare',
 	props: {
@@ -93,6 +107,12 @@ export default {
 	inject: ['popup'],
 	data() {
 		return {
+			// 是否显示表情列表
+			express_show: false,
+			// 表情存储
+			express_list: express,
+			
+			btm:'0',
 			// 文本域的行数
 			lineHeight:'66rpx',
 			
@@ -157,6 +177,26 @@ export default {
 
 	},
 	methods: {
+		
+		// 显示表情图案
+		showExpression() {
+			console.log('显示表情');
+			this.express_show = !this.express_show;
+			if(this.express_show){
+				this.btm = 361 + 'rpx';
+			}else{
+				this.btm = 0
+			}
+		},
+		// 选择表情图案
+		chooseExpress(e) {
+			console.log('选择表情,输入框中展示的是表情对应的字符', e);
+			this.val = this.val + '[' + e.currentTarget.dataset.item + ']' ; 
+			this.send_btn_style = true
+		},
+		
+		
+		
 		showDetailComment(index){
 			console.log('index popup',index)
 		
@@ -233,8 +273,26 @@ export default {
 				this.send_btn_style = false;
 			}
 		},
+		// 键盘高度发生变化
+		keyboardheightchange(e){
+			console.log('键盘高度变了e',e.detail.height)
+			if(e.detail.height == 0){
+				this.btm = 0
+				this.express_show = false;
+			}else{
+				this.btm = e.detail.height * 2 + 10 + 'rpx'
+			}
+		},
 		// 输入框失焦
 		blur(){
+			this.btm = 0
+			this.inputfocus = false;
+			// 表情框隐藏
+			// if(this.express_show){
+			// 	this.btm = 361 + 'rpx';
+			// }else{
+			// 	this.btm = 0
+			// }
 			this.inputfocus = false;
 		},
 		// 发送评论  判断是 对视频进行的评论还是评论回复
@@ -394,6 +452,10 @@ export default {
 	bottom: 0;
 	left: 0;
 	color: black;
+	position: absolute;
+	left: 0;
+	z-index: 20;
+	opacity: 1;
 	.img_user {
 		width: 60rpx;
 		height: 60rpx;
@@ -411,7 +473,7 @@ export default {
 		}
 	}
 	.msg {
-		width: 70%;
+		width: 63%;
 		height: 66rpx;
 		box-sizing: border-box;
 		padding-left: 13rpx;
@@ -435,6 +497,31 @@ export default {
 			padding-top: 16rpx;
 			// overflow-x:hidden;
 			// overflow: auto;
+		}
+	}
+	// 表情
+	.expression {
+		margin-right: 10rpx;
+	}
+	// 表情列表
+	.express_body {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 361rpx;
+		background-color: white;
+		display: flex;
+		// flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		flex-wrap: wrap;
+		.express_item {
+			margin-top: 27rpx;
+			margin-left: 65rpx;
+			margin-bottom: 20rpx;
+			width: 50rpx;
+			height: 50rpx;
 		}
 	}
 }

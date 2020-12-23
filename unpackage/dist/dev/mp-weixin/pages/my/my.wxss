@@ -158,7 +158,7 @@ button.data-v-0be17cc6::after {
   padding: 0 40rpx;
 }
 .my .box-thr .le.data-v-0be17cc6 {
-  width: 50%;
+  width: 31%;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;

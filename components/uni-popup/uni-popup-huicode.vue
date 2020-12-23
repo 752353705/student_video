@@ -2,9 +2,9 @@
 		<!-- 送礼物的弹窗 -->
 		<view class="uni-popup-huicode">
 			<!-- 头部样式 -->
-			<view class="bg_img">
+		<!-- 	<view class="bg_img">
 				<image src="/static/hui_head.png" mode=""></image>
-			</view>
+			</view> -->
 			
 			<!-- 标题 -->
 			<view class="uni-huicode-title">

@@ -3,56 +3,34 @@
 		<view class="list-container">
 			<view id="wf-list" class="list" v-for="(list, listIndex) in viewList" :key="listIndex">
 				<!-- 每一个作品 -->
-				<!-- <view class="item" v-for="(item,index) of list.list" :key="index" -->
 				<view class="item" v-for="(item, index) of list.list" :key="item.id" 
 					 threshold="300"
 					:data-index="index" :data-listindex="listIndex"
 					@longpress="longpress" @click="jump(item)">
-					<!-- :data-videoId='item.videoId' -->
-					<!-- 视频封面 -->
+					<!-- 图文封面 -->
 					<u-lazy-load @load="handleViewRender(listIndex, index)" 
 						@error="handleViewRender(listIndex, index)" 
-						:image="item.coverUrl || 'https://ceshigfsc.oss-cn-beijing.aliyuncs.com/33e2ec6b-565e-4f0c-90b6-dd726ccec025.jpg' "></u-lazy-load>
-					<!-- 上传视频的简单的简介 转发量 {{ item.forwardCount }} -->
+						:image="item.coverUrl">
+					</u-lazy-load>
+					<!-- 标题 -->
 					<view class="introduction">
 						{{ item.conversation || item.title }}
-						<!-- 简单的简介简单的简介简单的简介简单的简介简单的简介简单的简介简单的简介 -->
 					</view>
-					<!-- 如果渲染的是 商品的话显示 商品的价格 -->
-					<view class="price" v-if="item.price" >
-						<view>
-							￥
-							<text class="num"> 
-								{{item.price / 100}} 
-								<!-- {{price.floatdiv(item.price,100)}} -->
-							</text>
-						</view>
-						<view class="see_num">
-							{{item.viewsNum}} 人浏览
-						</view>
-					</view>
-					
-					
 					<!-- 用户的 头像以及点赞数 -->
 					<view class="item_foot">
 						<view class="left">
 							<view class="user_img"><image :src="item.avatarUrl || avatarUrl " mode=""></image></view>
 							<view class="msg">
-								<!-- 姓名 *** 如果没有则是来自自己的作品  -->
 								{{ item.userName || userName }}
 							</view>
 						</view>
-						<view class="right" @tap.stop="waterLike"  
-							:data-index="index" :data-listindex="listIndex"
-							>
-								<!-- <view style="margin-right: 10rpx;" >
-									0人浏览
-								</view> -->
-								<u-icon  v-if="!item.liked" name="heart" color="#000000" size="34"></u-icon>
-								<u-icon  v-else name="heart-fill" color="red" size="34"></u-icon>
-							<view style="margin-left: 10rpx;" >
-								<!-- 票数 文章点赞数                     -->
-								{{ item.praseCount }}
+						<view style="display: flex;" >
+							<!-- 获得的票数 -->
+							<view style="margin-right: 10rpx;" >
+								<text style="margin-right: 10rpx;" 
+									class="iconfont iconzongtoupiaoshu"
+								></text>
+								{{item.goldNumber}}
 							</view>
 						</view>
 					</view>
@@ -102,77 +80,7 @@ export default {
 		// console.log('瀑布流组件onready list', this.$props.list);
 	},
 	methods: {
-		// 用户在瀑布流中点击红心进行点赞
-		waterLike(e){
-			// console.log('用户进行点击',e,'kw',this.kw)
-			// 用户进行点击点赞关注
-			// 获取点赞目标处于瀑布流中的位置
-			let item = this.viewList[e.currentTarget.dataset.listindex].list[e.currentTarget.dataset.index]
-			// 改变item 中表示点赞状态的值
-			// 发起请求 增加点赞的 接口
-			this.kw == 'listVideo' 
-				? this.waterVideoLike(item)
-				: this.kw == 'listTxt'
-				? this.waterTxtLike(item)
-				: this.kw == 'listUsed'
-				?	this.waterUsedLike(item)
-				: ''
-		},
-		// 用户在 视频 瀑布流中 进行点赞操作
-		waterVideoLike(item){
-			this.api._post(
-				'vod/likeVideo',
-				{
-					videoId: item.id
-				},
-				function(res) {
-					// console.log('用户进行视频点赞 点亮红心',res)
-					item.liked = !item.liked
-					if(item.liked){
-						// 数量增加
-						item.praseCount ++
-					}else{
-						// 数量减少
-						item.praseCount --
-					}
-				}
-			);
-		},
-		// 用户在 文章 瀑布流中 进行点赞操作
-		waterTxtLike(item){
-			this.api._post(
-				`article/likeArticle/${item.id}`,{},
-				function(res) {
-					console.log('用户进行文章点赞 点亮红心',res)
-					item.liked = !item.liked
-					if(item.liked){
-						// 数量增加
-						item.praseCount ++
-					}else{
-						// 数量减少
-						item.praseCount --
-					}
-				}
-			);
-		},
-		// 用户在 二手 瀑布流中 进行点赞操作
-		waterUsedLike(item){
-			this.api._post(
-				`secondGoods/likeSecondGoods/${item.id}`,{},
-				function(res) {
-					console.log('用户进行二手点赞 点亮红心',res)
-					item.liked = !item.liked
-					if(item.liked){
-						// 数量增加
-						item.praseCount ++
-					}else{
-						// 数量减少
-						item.praseCount --
-					}
-				}
-			);
-		},
-		// 用户进行长按
+		// // 用户进行长按
 		longpress(e) {
 			// console.log('waterfall 用户进行长按 e',e.currentTarget,e.currentTarget.dataset.listindex,e.currentTarget.dataset.index);
 			// 在 我的作品 页面显示 删除按钮 this.viewList  e.currentTarget.dataset.index  
@@ -277,8 +185,6 @@ export default {
 				uni.navigateTo({
 					url:'/pages/playVideo/playVideo?item=' + encodeURIComponent(JSON.stringify(item))
 				})
-				
-				
 			} 
 			else if (item.price){
 				// 跳转到 二手详情页面
@@ -292,7 +198,7 @@ export default {
 				// 跳转到文章页面
 				console.log('跳转到文章详情页');
 				uni.navigateTo({
-					url:`/pages/playVideo/txtDetail?txtId=${item.id}`
+					url:`/pages/production/txtDetail?txtId=${item.id}`
 					
 					// 测试二手 记得修改过来
 					// url:`/pages/playVideo/usedDetail?txtId=8`
@@ -385,8 +291,10 @@ export default {
 				font-size: 24rpx;
 				.left {
 					display: flex;
-					justify-content: space-evenly;
+					justify-content: flex-start;
 					align-items: center;
+					width: 218.5rpx;
+					white-space: nowrap;
 					.user_img {
 						width: 40rpx;
 						height: 40rpx;
@@ -394,13 +302,20 @@ export default {
 						overflow: hidden;
 						margin-right: 10rpx;
 						// iOS端圆角设置失效
-								-webkit-backface-visibility: hidden;
-								-webkit-transform: translate3d(0, 0, 0);
+						-webkit-backface-visibility: hidden;
+						-webkit-transform: translate3d(0, 0, 0);
 						image {
 							width: 100%;
 							height: 100%;
 						}
 					}
+					.msg{
+						// width: 137.48rpx;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+					
 				}
 				.right {
 					display: flex;

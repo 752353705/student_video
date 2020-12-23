@@ -1,0 +1,37 @@
+/**
+ * 聊天 记录的时间
+ * */
+
+function changetime(time){
+	if(!time){
+		// time = new Date()
+		var date = getDate(getDate().getTime())
+		// 月
+		var months = date.getMonth() + 1
+		// 日
+		var day = date.getDate()
+		// 小时
+		var hour = date.getHours()
+		// 分钟
+		var minutes = date.getMinutes()
+
+		return months + '-' + day + ' ' + hour + ':' + minutes
+	}
+	//那一天
+	time1 = time.split(' ')[0].split('-')[1]
+	time2 = time.split(' ')[0].split('-')[2]
+
+	//具体小时时间
+	//因为后端传递 数据时 中间多了个空格
+	time3 = time.split(' ')[1].split(':')[0]
+	time4 = time.split(' ')[1].split(':')[1]
+	// // 当用户 是在 当天发边的评论并且在当天显示
+	// console.log('返回聊天记录时间',time1 + '-' + time2)
+
+	return time1 + '-' + time2 + ' ' +  time3 + ":" + time4
+	// return time
+}
+
+module.exports = {
+	changetime: changetime,
+}

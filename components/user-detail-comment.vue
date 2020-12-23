@@ -5,8 +5,10 @@
 				<view class="comment">
 					<view class="top">
 						<view class="left">
-							<view class="heart-photo"><image :src="detailMsgList.avatarUrl" mode=""></image></view>
-							<view class="user-info">
+							<view class="heart-photo"  >
+								<image @click="goAuthor(detailMsgList.userId)" :src="detailMsgList.avatarUrl" mode=""></image>
+							</view>
+							<view class="user-info" @click="goAuthor(detailMsgList.userId)">
 								<view class="name">{{ detailMsgList.userName }}</view>
 								<view class="date">{{time.changetime(detailMsgList.createTime)}}</view>
 							</view>
@@ -19,7 +21,13 @@
 							<u-icon v-if="detailMsgList.liked" name="thumb-up-fill" class="like" :size="30" ></u-icon>
 						</view>
 					</view>
-					<view class="content">{{ detailMsgList.content }}</view>
+					<view class="content">
+						<!-- {{ detailMsgList.content }} -->
+						<rich-text
+							:nodes="express.text2pic(detailMsgList.content)"
+							>
+						</rich-text>
+					</view>
 				</view>
 				
 				<view class="all-reply">
@@ -28,8 +36,10 @@
 						<view class="comment">
 							<view class="top">
 								<view class="left">
-									<view class="heart-photo"><image :src="item.avatarUrl" mode=""></image></view>
-									<view class="user-info">
+									<view class="heart-photo" @click="goAuthor(item.userId)" >
+										<image :src="item.avatarUrl" mode=""></image>
+									</view>
+									<view class="user-info" @click="goAuthor(item.userId)" >
 										<view class="name">{{ item.userName }}</view>
 										<view class="date">{{ time.changetime(item.createTime) }}</view>
 									</view>
@@ -49,7 +59,15 @@
 							
 							<!-- 三级 评论 @click="reply(detail_index,index)" -->
 							<view class="content" >
-								{{ item.content }}
+								<!-- {{ item.content }} -->
+								<rich-text
+									:nodes="express.text2pic(item.content)"
+									>
+								</rich-text>
+								<!-- <rich-text
+									nodes="<span class='t-icon iconzhutou'/>88你好<span class='t-icon iconmaren'/>999"
+									>
+								</rich-text> -->
 							</view>
 						</view>
 					</view>
@@ -59,42 +77,10 @@
 	</view>
 </template>
 
-<script module="time" lang="wxs">
-// 控制 二级评论 的时间格式
-function changetime(time){
-	if(!time){
-		// time = new Date()
-		var date = getDate(getDate().getTime())
-		// 月
-		var months = date.getMonth() + 1
-		// 日
-		var day = date.getDate()
-		// 小时
-		var hour = date.getHours()
-		// 分钟
-		var minutes = date.getMinutes()
-
-		return months + '-' + day + ' ' + hour + ':' + minutes
-	}
-	//那一天
-	time1 = time.split(' ')[0].split('-')[1]
-	time2 = time.split(' ')[0].split('-')[2]
-
-	//具体小时时间
-	//因为后端传递 数据时 中间多了个空格
-	time3 = time.split(' ')[1].split(':')[0]
-	time4 = time.split(' ')[1].split(':')[1]
-	// // 当用户 是在 当天发边的评论并且在当天显示
-	// console.log('返回聊天记录时间',time1 + '-' + time2)
-
-	return time1 + '-' + time2 + ' ' +  time3 + ":" + time4
-	// return time
-}
-
-module.exports = {
-	changetime: changetime,
-}
-</script>
+<!-- 控制 二级评论 的时间格式 -->
+<wxs module="time" src="../wxs/time.wxs"></wxs>
+<!-- 控制显示 表情图标 -->
+<wxs module="express" src="../wxs/express.wxs"></wxs>
 
 <script>
 export default {
@@ -124,6 +110,15 @@ export default {
 		console.log('user-detail-comment  ==> detailMsgList', this.$props.detailMsgList);
 	},
 	methods: {
+		//跳转到作者页
+		goAuthor(userId){
+			let avatarItem = {
+				userId:userId
+			}
+			uni.navigateTo({
+			   url: "/pages/author/author?item=" + JSON.stringify(avatarItem)
+			});
+		},
 		// 获取下一页评论
 		scrolltolower() {
 			console.log('滚动到底部 detail 再次获取数据');
