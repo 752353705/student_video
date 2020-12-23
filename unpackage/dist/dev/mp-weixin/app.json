@@ -14,14 +14,13 @@
     "pages/my/setting",
     "pages/my/myFocus",
     "pages/my/myFans",
-    "pages/publish/publishNotice",
     "pages/rank/rank",
-    "pages/changeTxt/changeTxt",
     "pages/recharge/rechHis",
-    "pages/newsDetail/newsDetail",
     "pages/huiLife/huiLife",
     "pages/huiLife/merchant",
-    "pages/huiLife/tenants"
+    "pages/huiLife/tenants",
+    "pages/changeTxt/changeTxt",
+    "pages/newsDetail/newsDetail"
   ],
   "subPackages": [
     {

@@ -90,32 +90,15 @@
 			}
 		},
 		{
-			"path": "pages/publish/publishNotice",
-			"style": {
-				"navigationBarTitleText": "发布"
-			}
-		},
-		{
 			"path": "pages/rank/rank",
 			"style": {
 				"navigationBarTitleText": "排行榜"
 			}
 		},
 		{
-			"path": "pages/changeTxt/changeTxt",
-			"style": {
-				"navigationBarTitleText": "文章修改"
-			}
-		},
-		{
 			"path": "pages/recharge/rechHis",
 			"style": {
 				"navigationBarTitleText": "充值记录"
-			}
-		},{
-			"path" : "pages/newsDetail/newsDetail",
-			"style" : {
-				"navigationBarTitleText": ""
 			}
 		},{
 			"path" : "pages/huiLife/huiLife",
@@ -131,6 +114,17 @@
 			"path" : "pages/huiLife/tenants",
 			"style" : {
 				"navigationBarTitleText": "诚邀商户入驻"
+			}
+		},
+		{
+			"path": "pages/changeTxt/changeTxt",
+			"style": {
+				"navigationBarTitleText": "文章修改"
+			}
+		},{
+			"path" : "pages/newsDetail/newsDetail",
+			"style" : {
+				"navigationBarTitleText": ""
 			}
 		}
 		

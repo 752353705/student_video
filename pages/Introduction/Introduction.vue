@@ -202,17 +202,6 @@ export default {
 				url: "/pages/login/login?inviteID=" + option.inviteID
 			})
 		}
-		// let inviteID = 11
-		// uni.showModal({
-		// 	title:'邀请人id——' +  option.inviteID,
-		// 	success(res) {
-		// 		console.log('成功',res)
-		// 	},
-		// 	fail(err) {
-		// 		console.log('失败',err)
-		// 	}
-		// })
-		
 		let _this = this;
 		// 用于显示分享到朋友圈
 		uni.showShareMenu({
@@ -236,10 +225,6 @@ export default {
 			// 分享tabbar页面，直接运用小程序原生菜单中的分享按钮
 			uni.showShareMenu({});
 		}
-		// return {
-		// 	title: '首页分享',
-		// 	path: '/page/list/list'
-		// }
 	},
 	methods: {
 		// 获取浏览次数
@@ -254,7 +239,6 @@ export default {
 				}
 			);
 		},
-		
 		// 判断用户是否进行了签到
 		userSigin(){
 			console.log('list页面')
@@ -278,7 +262,6 @@ export default {
 									})
 								}else if(res.cancel){
 									// 用户点击取消按钮
-									
 								}
 							},
 							fail() {
@@ -365,7 +348,6 @@ export default {
 				})
 				return
 			}
-			
 			// 已结束或者 正在进行中的大赛
 			// 本地缓存点击的本次大赛的信息
 			let gameMsg = {
@@ -390,7 +372,6 @@ export default {
 				});
 				// _this.subjectId= subjectId
 			}
-			console.log('事件完成')
 		},
 		// 点击轮播图跳转到作品列表
 		jumpList(e) {

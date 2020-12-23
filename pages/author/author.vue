@@ -47,12 +47,6 @@
 						<view class="">{{avatarItem.fansNumber  || 0}}</view>
 						<view class="">粉丝</view>
 					</view>
-					<!-- 获赞与收藏 -->
-				<!-- 	<view class="collection t_c">
-						<view class="">{{avatarItem.likedNumber || 0}}</view>
-						<view class="">获赞</view>
-					</view> -->
-					
 				</view>
 			</view>
 		</view>
@@ -64,15 +58,11 @@
 			<swiperTabHead class="height" :flex="false" :tabBars="tabBars" 
 				:tabIndex="tabIndex" @tabtap="tabtap"></swiperTabHead>
 			<!-- 作品展示 -->
-			<!-- <swiper :style="{height:swiper_height}"  :current="tabIndex" @change="tabChange"> -->
-				<!-- <swiper-item style="box-sizing: border-box;padding: 0 10rpx;" v-for="(tab,i) in tabBars" :key="i" > -->
-					<mescroll-item :waterFullHeight="swiper_height" style="padding-top: 0;" 
-						:i="i" :index="tabIndex" :tabs="tabBars"
-						:kw="kw" :uId='avatarItem.userId'
-						></mescroll-item>
-				<!-- </swiper-item> -->
-			<!-- </swiper> -->
-		</view>
+				<mescroll-item :waterFullHeight="swiper_height" style="padding-top: 0;" 
+				:i="i" :index="tabIndex" :tabs="tabBars"
+				:kw="kw" :uId='avatarItem.userId'
+				></mescroll-item>
+				</view>
 	</view>
 </template>
 
@@ -87,12 +77,9 @@
 		mixins: [MescrollMixin], // 使用mixin
 		data() {
 			return {
-				// focusNum:'',
-				// fansNum:'',
 				// 传递过来的用户信息
 				avatarItem:{
 					avatarUrl:'/static/avatarUrl.png',
-					// personalProfile:''
 				},
 				// 用户的头像
 				swiper_height: "", // 需要固定swiper的高度
@@ -109,7 +96,6 @@
 				// 作者的个人作品
 				list:[],
 				focus:false,
-				// userId:'',
 			};
 		},
 		components:{
@@ -122,76 +108,26 @@
 			// 用户跳转过来时的信息
 			this.avatarItem = JSON.parse(option.item) 			
 			let userId = this.avatarItem.userId
-			// this.avatarItem = {uId:100}
-			
-			// 设置导航栏
-			// uni.setNavigationBarTitle({
-			// 	title:this.avatarItem.userName
-			// })
-			
 			// 根据用户 id 发请求获取详细数据
 			this.api._get(`user/otherUserInfo/${this.avatarItem.userId}`,{},(res)=>{
 				console.log('获取其他用户的信息 res',res)
 				this.avatarItem = res.data 	
 				this.avatarItem.userId = userId
 			})
-			
 			// 测试
 			this.swiper_height = uni.getSystemInfoSync().windowHeight -20 + 'px'
-			// console.log('屏幕高度',uni.getSystemInfoSync().windowHeight)
-			
-			// console.log('作者页')
 			// 显示正在加载弹窗
 			uni.showLoading({
 			   title: '加载中'
 			});
-		
-			
 		},
 		onReady() {
 			uni.hideLoading();
 		},
 		onShow() {
-			
-			// 获取用户的粉丝
-				// this.getOtherFansNum()
-			// 获取用户的关注
-				// this.getOtherFocusNum()
-			// 获取用户的赞和收藏  
-
-			
-			
-			
+				
 		},
 		methods:{
-		// 获取用户的粉丝人数
-		// getOtherFocusNum(){
-		// 		// 如果用户进行了登录操作，获取用户的个人信息
-		// 	if(uni.getStorageSync('token')){
-		// 		this.api._get(
-		// 		'follow/otherUserFollowedCount',{
-		// 			userId:this.avatarItem.userId
-		// 		},(res)=>{
-		// 			console.log('获取用户当前的 粉丝数量',res)
-		// 			this.focusNum = res.data 
-		// 		})
-		// 	}
-		// },
-		// 获取当前用户关注数量
-		// getOtherFansNum(){
-		// 		// 如果用户进行了登录操作，获取用户的个人信息
-		// 	if(uni.getStorageSync('token')){
-		// 		this.api._get(
-		// 		'follow/otherUserFansCount',{
-		// 			userId:this.avatarItem.userId
-		// 		},(res)=>{
-		// 			console.log('获取用户当前的 关注人数',res)
-		// 			this.fansNum = res.data  
-		// 		})
-		// 	}
-		// },
-			
-			
 			// 点击聊天图标，跳转到聊天室
 			goChart(){
 				uni.navigateTo({
@@ -231,8 +167,6 @@
 										_this.avatarItem.followed = true;
 									}
 								);
-					
-								// _this.focus = true //用户取消关注
 							} else if (res.cancel) {
 								console.log('用户点击取消');
 							}
@@ -244,9 +178,7 @@
 			//滑动切换导航
 			tabChange(e){
 			  this.tabIndex = e.detail.current
-				// console.log('滑动的 id',this.tabBars[this.tabIndex].id)
 				this.kw = this.tabBars[this.tabIndex].id
-				// console.log('kw',kw)
 			},
 			//接受子组件传过来的值点击切换导航
 			tabtap(index){
