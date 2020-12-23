@@ -1,7 +1,11 @@
 <template>
 	<view>
 		<transition-group name="barrage" class="barrage" :style="{ bottom: bottom + 'rpx', left: left + 'rpx' }">
+			
 			<view class="barrage-item" v-for="(item, index) in barrageList" :key="item.id">
+				<view v-if="index === 0" class="title">
+					刚刚赠送~
+				</view>
 				<image class="barrage-image" :src="item.avatarImage"></image>
 				<view class="barrage-text">
 					<text class="" :style="{ color: color, background: background, opacity: opacity }">{{ item.text }}</text>
@@ -113,6 +117,7 @@ export default {
 
 <style lang="scss">
 .barrage-item {
+	
 	transition: all 1s;
 }
 
@@ -136,16 +141,23 @@ export default {
 
 .barrage {
 	position: fixed;
-	z-index: 30;
+	z-index: 10;
 	.barrage-item {
 		margin-top: 10rpx;
-
+		position: relative;
 		color: #ffffff;
 		padding: 4rpx 10rpx;
 		border-radius: 30rpx;
 		background: #000000;
 		opacity: 0.8;
-
+		.title{
+			position: absolute;
+			left: 0rpx;
+			top: -53rpx;
+			font-weight: bolder;
+			color: white;
+			-webkit-text-stroke: 1rpx #000000;
+		}
 		.barrage-image {
 			display: inline-block;
 			vertical-align: middle;
@@ -167,4 +179,6 @@ export default {
 		}
 	}
 }
+
+
 </style>

@@ -1,0 +1,17 @@
+/**
+ *  显示二级评论 前三条
+ * */
+function sec_cmt(msg) {
+	var sec_cmt = msg.slice(0, 3)
+	
+	// if(msg.length > 3 ){
+	// 	var sec_cmt = msg.slice(0, 3)
+	// }else {
+	// 	var sec_cmt = msg.slice(0, msg.length)
+	// }
+	
+	return sec_cmt
+}
+module.exports = {
+	sec_cmt: sec_cmt,
+}

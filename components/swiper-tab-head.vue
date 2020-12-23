@@ -86,23 +86,26 @@
 	
 	/* 整体的长度 */
 	.uni-tab-bar {
+		box-sizing: border-box;
 		white-space: nowrap;
 		width: 100%;
 		height: 62rpx;
 		background-color: white;
 		box-sizing: border-box;
 		padding-left: 30rpx;
+		padding-right: 30rpx;
 		position: sticky;
 		left: 0;
 		z-index: 10;
-		
 		display: flex;
 		justify-content: space-evenly;
 	}
 	
 	.swiper-tab-list {
+		box-sizing: border-box;
 		display: inline-block;
-		width: 117rpx;
+		padding-left: 20rpx;
+		padding-right: 20rpx;
 		height: 61rpx;
 		line-height: 61rpx;
 		text-align: center;

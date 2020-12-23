@@ -4,33 +4,6 @@ export default {
 		return {};
 	},
 	onLaunch: function() {
-		// 隐藏发布的 tabbar
-		// uni.setTabBarItem({
-		// 	index:2,
-		// 	pagePath: "pages/publish/publishNotice",
-		// 	iconPath: "/static/tabbar/add.png",
-		// 	selectedIconPath: "/static/tabbar/add_active.png",
-		// 	text: "发布"
-		// })
-		
-		// if(true){
-		// 	uni.setTabBarItem({
-		// 		index:2,
-		// 		pagePath: "pages/publish/publishNotice",
-		// 		iconPath: "/static/tabbar/add.png",
-		// 		selectedIconPath: "/static/tabbar/add_active.png",
-		// 		text: "发布"
-		// 	})
-		// }else{
-		// 	uni.setTabBarItem({
-		// 		index:2,
-		// 		pagePath: "",
-		// 		iconPath: "",
-		// 		selectedIconPath: "",
-		// 		text: ""
-		// 	})
-		// }
-		
 		// 小程序强制更新
 		console.log('小程序进行强制更新');
 		const updateManager = uni.getUpdateManager();
@@ -49,6 +22,19 @@ export default {
 				duration: 2000
 			});
 		});
+		
+		// 统计小程序查看的次数
+		this.api._post(
+			'app/views/update',
+			{
+			
+			},
+			(res) => {
+				console.log('更新次数',res)
+			}
+		);
+		
+		
 	},
 	onShow: function() {
 		// console.log('App Show');
@@ -64,6 +50,7 @@ export default {
 // @import 'uview-ui/index.scss';
 // 阿里字体 彩色 图标设置
 @import './assets/svg/iconfont-weapp-icon.css';
+@import './assets/svg/iconfont-weapp-express-icon.css';
 @import './assets/iconfont/iconfont.css';
 
 // 常用样式的文件

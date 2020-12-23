@@ -14,7 +14,7 @@
 				@click="open" :data-id="item.id"
 				>
 				<!-- v-if="index !== 2" -->
-				<view class="list_item" >
+				<view class="list_item" v-if="index !== 2">
 					<view class="left_icon">
 						<!-- 当index为1 时 换为本地图标 -->
 						<image v-if="item.id == 'ticket_num' " 
@@ -28,22 +28,22 @@
 					<view v-if="item.id !== 'ticket_num'" class="iconfont iconfanhui"></view>
 					<text v-else>
 						{{ userInfo.goldNumber || '0' }}
-						<text class="iconfont iconfanhui"></text>
+						<!-- <text class="iconfont iconfanhui"></text> -->
 					</text>
 				</view>
 
 				<!-- 当用户使用ios时，不显示充值 -->
-			<!-- 	<view class="list_item" v-if="!is_IOS && index == 2">
+				<view class="list_item" v-if="!is_IOS && index == 2">
 					<view class="left_icon">
 						<text class="t-icon" :class="item.icon"></text>
 						<text>{{ item.txt }}</text>
 					</view>
-					<view v-if="index !== 1" class="iconfont iconfanhui"></view>
+					<view v-if="item.id !== 'ticket_num'" class="iconfont iconfanhui"></view>
 					<text v-else>
 						{{ userInfo.goldNumber || '0' }}
-						<text class="iconfont iconfanhui"></text>
+						<!-- <text class="iconfont iconfanhui"></text> -->
 					</text>
-				</view> -->
+				</view>
 			</view>
 		</view>
 	</view>
@@ -62,6 +62,7 @@ export default {
 				{ icon: 'iconweibiaoti--', txt: '个人资料', id:'user_msg' },
 				{ icon: 'iconzu', txt: '票数', id:'ticket_num' },
 				// { icon: 'iconIcon', txt: '充值', id:'recharge' },
+				// { icon: 'iconIcon', txt: '我的二维码', id:'qrcode' },
 				{ icon: 'iconwodeshoucang', txt: '我的收藏', id:'collection' },
 				{ icon: 'iconliulanjilu-tianchong', txt: '浏览记录', id:'browse_his' },
 				// { icon: 'iconzuzhichuangjian', txt: '创建大赛', id:'create_game' },
@@ -116,7 +117,7 @@ export default {
 
 		// 进行弹窗的控制
 		open(e) {
-			console.log('e',e.currentTarget.dataset.id)
+			// console.log('e',e.currentTarget.dataset.id)
 			let id = e.currentTarget.dataset.id
 			let _this = this;
 
@@ -127,29 +128,37 @@ export default {
 				});
 				return;
 			}
-
 			if (id === 'user_msg') {
 				// 跳转到资料编辑
 				uni.navigateTo({
-					url: '/pages/myData/myData'
+					url: '/pagesA/myData/myData'
 				});
 				// this.$refs.popup_user.open()
-			} else if (id === 'ticket_num') {
+			} 
+			else if (id === 'ticket_num') {
 				// 用户进入 消费记录
 				uni.navigateTo({
-					url: '/pages/my/myWallet'
+					// url: '/pagesA/myWallet/myWallet'
+					url: '/pagesA/myData/myWallet'
 				});
-			}  else if (id === 'collection') {
+			}  
+			else if (id === 'collection') {
 				// 用户进入我的收藏
 				uni.navigateTo({
-					url: '/pages/my/myCollection'
+					url: '/pagesA/myData/myCollection'
 				});
-			} else if (id === 'browse_his') {
+			} 
+			else if (id === 'browse_his') {
 				// 用户进入浏览记录
 				uni.navigateTo({
-					url: '/pages/my/myHistory'
+					url: '/pagesA/myData/myHistory'
 				});
 			}
+			// else if(id === 'recharge'){
+			// 	uni.navigateTo({
+			// 		url:'/pages/recharge/recharge'
+			// 	})
+			// }
 			else if (id === 'exit') {
 				// 显示退出登录
 				uni.showModal({
@@ -181,10 +190,10 @@ export default {
 					}
 				});
 			}  
-			// else if (id === 6) {
-			// 	// 用户进入 跑腿中
+			// else if (id === 'qrcode') {
+			// 	// 用户进入我的名片
 			// 	uni.navigateTo({
-			// 		url: '/pages/my/myRun'
+			// 		url: '/pages/my/myCode'
 			// 	});
 			// }
 		}

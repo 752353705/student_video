@@ -34,7 +34,7 @@
   box-sizing: border-box;
   padding-left: 20rpx;
   padding-bottom: 20rpx;
-  padding-right: 20rpx;
+  padding-right: 88rpx;
   margin-top: 20rpx;
 }
 .rank .cont.data-v-16e4b086 {
@@ -59,12 +59,20 @@
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
 }
 .rank .cont .item .le .rank.data-v-16e4b086 {
   width: 92rpx;
   height: 74rpx;
   text-align: center;
-  margin-right: 21rpx;
+}
+.rank .cont .item .le .rank .rank_num.data-v-16e4b086 {
+  display: inline-block;
+  width: 48rpx;
+  height: 74rpx;
+  text-align: center;
 }
 .rank .cont .item .le .img.data-v-16e4b086 {
   width: 60rpx;

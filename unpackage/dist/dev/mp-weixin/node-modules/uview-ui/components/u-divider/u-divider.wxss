@@ -30,21 +30,19 @@
 /* 边框颜色 */
 /* 图片加载中颜色 */
 /* 行为相关颜色 */
-image.data-v-239d3faa {
-  display: inline-block;
-  will-change: transform;
-}
-view.data-v-239d3faa,
-text.data-v-239d3faa {
-  box-sizing: border-box;
-}
 .u-divider.data-v-239d3faa {
   width: 100%;
   position: relative;
   text-align: center;
+
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+
   -webkit-box-pack: center;
   -webkit-justify-content: center;
           justify-content: center;
@@ -52,10 +50,7 @@ text.data-v-239d3faa {
   -webkit-align-items: center;
           align-items: center;
   overflow: hidden;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: row;
-          flex-direction: row;
+  flex-direction: row;
 }
 .u-divider-line.data-v-239d3faa {
   border-bottom: 1px solid #e4e7ed;

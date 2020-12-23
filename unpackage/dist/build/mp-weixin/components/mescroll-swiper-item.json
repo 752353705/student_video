@@ -1,8 +1,9 @@
 {
+  "component": true,
   "usingComponents": {
     "mescroll-uni": "/components/mescroll-uni/mescroll-uni",
     "mescroll-empty": "/components/mescroll-uni/components/mescroll-empty",
-    "wfalls-flow": "/components/wfallsflow"
-  },
-  "component": true
+    "wfalls-flow": "/components/wfallsflow",
+    "news-water": "/components/newsWater"
+  }
 }

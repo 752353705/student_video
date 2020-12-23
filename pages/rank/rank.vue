@@ -12,12 +12,12 @@
 						<view v-if="index == 0" class="t-icon iconicon_huangguandiyi"></view>
 						<view v-if="index == 1" class="t-icon icondier"></view>
 						<view v-if="index == 2" class="t-icon icondisanming"></view>
-						<view v-if="index > 2" >{{index+1}}</view>
+						<text class="rank_num" v-if="index > 2" >{{index+1}}</text>
 					</view>
 					<view class="img">
 						<image :src="item.avatarUrl" mode=""></image>
 					</view>
-					<text class="name">{{item.userName}}</text>
+					<text class="name">{{item.userName  }}</text>
 				</view>
 				<view class="ri">
 					{{item.goldNumber}}
@@ -54,7 +54,7 @@
 		box-sizing: border-box;
 		padding-left: 20rpx;
 		padding-bottom: 20rpx;
-		padding-right: 20rpx;
+		padding-right: 88rpx;
 		margin-top: 20rpx;
 		.cont{
 			box-sizing: border-box;
@@ -66,12 +66,23 @@
 				.le{
 					display: flex;
 					align-items: center;
+					justify-content: center;
 					// 排行
 					.rank{
 						width: 92rpx;
 						height: 74rpx;
+						// margin: auto;
 						text-align: center;
-						margin-right: 21rpx;
+						// margin-right: 21rpx;
+						// display: flex;
+						// justify-content: space-between;
+						// align-items: center;
+						.rank_num{
+							display: inline-block;
+							width: 48rpx;
+							height: 74rpx;
+							text-align: center;
+						}
 					}
 					.img{
 						width: 60rpx;

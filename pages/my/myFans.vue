@@ -11,17 +11,19 @@
 					</view>
 					<view class="name">{{item.userName}}</view>
 				</view>
-				<view v-if="item.followed" class="focus focuson" @click.stop="focusOn(index)">
-					已关注
-				</view>
-				<view v-else class="focus " @click.stop="focusOn(index)">
-					关注
+				<view style="width: 180rpx;display: flex;justify-content: center;align-items: center;" >
+					<view v-if="item.followed" class="focus focuson" @click.stop="focusOn(index)">
+						已关注
+					</view>
+					<view v-else class="focus " @click.stop="focusOn(index)">
+						关注
+					</view>
 				</view>
 			</view>
 		</block>
 		<!-- 暂无关注 -->
 		<block v-else>
-			<image class="empty" src="../../static/dingdan.png" mode=""></image>
+			<image class="empty" src="/static/dingdan.png" mode=""></image>
 		</block>
 	</view>
 </template>

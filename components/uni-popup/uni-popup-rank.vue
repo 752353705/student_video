@@ -4,13 +4,13 @@
 			<text class="uni-rank-title-text">{{ title }}</text>
 		</view>
 		
-		<view class="cont">
+		<scroll-view scroll-y="true" enable-flex="true" class="cont">
 			<view v-if="giftRank.length == 0" 
 				style="text-align: center;color: #999999;"
 				>
 				—— 快来抢榜吧 ~ ——
 			</view>
-			<view v-else class="item" v-for="(item,index) in giftRank" :key="index">
+			<view  v-else class="item" v-for="(item,index) in giftRank" :key="index">
 				<view class="le">
 					<view class="rank">
 						<view v-if="index == 0" class="t-icon iconicon_huangguandiyi"></view>
@@ -27,7 +27,7 @@
 					{{item.goldNumber}}
 				</view>
 			</view>
-		</view>
+		</scroll-view>
 		
 	</view>
 </template>
@@ -72,7 +72,7 @@
 	
 	.uni-popup-rank {
 		overflow: auto;
-		height: 353px;
+		height: 706rpx;
 		background-color: white;
 		position: relative;
 		background-color: white;
@@ -89,6 +89,7 @@
 			line-height: 40px;
 			border-radius:20rpx 20rpx 0 0 ;
 			overflow: hidden;
+			z-index: 20;
 			// /* #ifndef APP-NVUE */
 			// display: flex;
 			// /* #endif */
@@ -102,6 +103,7 @@
 			}
 		}
 		.cont{
+			height: 697rpx;
 			box-sizing: border-box;
 			padding-left: 34rpx;
 			padding-right: 34rpx;

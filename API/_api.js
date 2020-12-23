@@ -1,7 +1,7 @@
 // 将所有的 网络请求进行集中处理
 let token = wx.getStorageSync('token') || ''
 // 测试
-// let api_root = 'http://46ac54d2.cpolar.io/wx/'
+// let api_root = 'http://1424d9e2.cpolar.io/wx/'
 let api_root = 'https://xsh.taihangyizhan.com/wx/'
 // 发送 get 请求
 function _get(url, data, success, fail, complete) {
@@ -22,8 +22,7 @@ function _get(url, data, success, fail, complete) {
 		data: data,
 		success: (res) => {
 			//判断返回的状态码
-			if (res.statusCode !== 200 || typeof res.data !== 'object') {
-				if (!msg) {
+			if (res.statusCode !== 200) {
 					uni.showModal({
 						title: '友情提示',
 						content: '网络请求出错',
@@ -32,13 +31,10 @@ function _get(url, data, success, fail, complete) {
 						}
 					})
 					fail && fail();
-				}
 				return false;
 			}
 			// 用户登录态消失
-			if (res.data.errno === 501) {
-				complete()
-				
+			if (res.data.errno === 501 ) {
 				uni.navigateTo({
 					url: "/pages/login/login"
 				})

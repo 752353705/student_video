@@ -5,17 +5,31 @@
 	"pages": [
 		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/Introduction/Introduction",
-			"style": {
-				"navigationStyle": "custom",
-				"navigationBarTextStyle":"white"
+			"path" : "pages/Introduction/Introduction",
+			"style" : {
+				"navigationBarTextStyle": "white",
+				"navigationStyle": "custom"
+			}
+		},{
+			"path" : "pages/home/home",
+			"style" : {
+				// "navigationBarTitleText": "首页"
+				"navigationStyle": "custom"
 			}
 		},
 		{
 			"path": "pages/Introduction/gameDetail",
 			"style": {
-				"navigationBarBackgroundColor":"#0a121b",
-				"navigationBarTextStyle":"white"
+				"navigationBarBackgroundColor": "#0a121b",
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+			"path": "pages/Introduction/gameResult",
+			"style": {
+				"navigationBarTitleText": "大赛结果",
+				"navigationBarBackgroundColor": "#ff8320",
+				"navigationBarTextStyle": "white"
 			}
 		},
 		{
@@ -31,9 +45,8 @@
 			}
 		},
 		{
-			"path": "pages/playVideo/txtDetail",
+			"path": "pages/production/txtDetail",
 			"style": {
-				// "navigationStyle": "custom"
 				"navigationBarTitleText": "作品详情"
 			}
 		},
@@ -42,7 +55,7 @@
 			"style": {
 				"navigationBarTitleText": "微信授权登录"
 			}
-		},{
+		}, {
 			"path": "pages/login/secLogin",
 			"style": {
 				"navigationBarTitleText": "登录"
@@ -60,57 +73,9 @@
 			}
 		},
 		{
-			"path": "pages/myData/myData",
-			"style": {
-				"navigationBarTitleText": "编辑资料"
-			}
-		},
-		{
-			"path": "pages/myData/myIntroduction",
-			"style": {
-				"navigationBarTitleText": "修改个人简介"
-			}
-		},
-		{
-			"path": "pages/myData/myName",
-			"style": {
-				"navigationBarTitleText": "修改名字"
-			}
-		},	
-		{
-			"path": "pages/myData/myGender",
-			"style": {
-				"navigationBarTitleText": "修改性别"
-			}
-		},
-		{
-			"path": "pages/myData/myBirthday",
-			"style": {
-				"navigationBarTitleText": "修改生日"
-			}
-		},
-		{
-			"path": "pages/my/myWallet",
-			"style": {
-				"navigationBarTitleText": "我的钱包"
-			}
-		},
-		{
 			"path": "pages/my/setting",
 			"style": {
 				"navigationBarTitleText": "设置"
-			}
-		},
-		{
-			"path": "pages/my/mySigin",
-			"style": {
-				"navigationBarTitleText": "签到"
-			}
-		},
-		{
-			"path": "pages/my/invite",
-			"style": {
-				"navigationBarTitleText": "邀请有奖"
 			}
 		},
 		{
@@ -118,47 +83,118 @@
 			"style": {
 				"navigationBarTitleText": "关注"
 			}
-		},{
+		}, {
 			"path": "pages/my/myFans",
 			"style": {
 				"navigationBarTitleText": "粉丝"
 			}
 		},
 		{
-			"path": "pages/my/myCollection",
+			"path": "pages/publish/publishNotice",
 			"style": {
-				"navigationBarTitleText": "我的收藏"
-			}
-		},{
-			"path": "pages/my/myHistory",
-			"style": {
-				"navigationBarTitleText": "浏览记录"
-			}
-		},{
-			"path": "pages/my/myConsumption",
-			"style": {
-				"navigationBarTitleText": "金币明细"
+				"navigationBarTitleText": "发布"
 			}
 		},
 		{
-			"path": "pages/publish/publishNotice",
+			"path": "pages/rank/rank",
 			"style": {
-				"navigationBarTitleText": "发布文章"
-			}
-		}, 
-		{
-			"path" : "pages/rank/rank",
-			"style" : {
 				"navigationBarTitleText": "排行榜"
 			}
 		},
 		{
-			"path" : "pages/changeTxt/changeTxt",
-			"style" : {
+			"path": "pages/changeTxt/changeTxt",
+			"style": {
 				"navigationBarTitleText": "文章修改"
+			}
+		},
+		{
+			"path": "pages/recharge/rechHis",
+			"style": {
+				"navigationBarTitleText": "充值记录"
+			}
+		},{
+			"path" : "pages/newsDetail/newsDetail",
+			"style" : {
+				"navigationBarTitleText": ""
 			}
 		}
     ],
+	"subPackages": [{
+		"root": "pagesA", //文件夹名称，  pages文件夹同级新建一个就行
+		"pages": [{
+				"path": "myData/myData",
+				"style": {
+					"navigationBarTitleText": "编辑资料"
+				}
+			},
+			{
+				"path": "myData/myIntroduction",
+				"style": {
+					"navigationBarTitleText": "修改个人简介"
+				}
+			},
+			{
+				"path": "myData/myName",
+				"style": {
+					"navigationBarTitleText": "修改名字"
+				}
+			},
+			{
+				"path": "myData/myGender",
+				"style": {
+					"navigationBarTitleText": "修改性别"
+				}
+			},
+			{
+				"path": "myData/myBirthday",
+				"style": {
+					"navigationBarTitleText": "修改生日"
+				}
+			},
+			{
+				"path": "myData/myWallet",
+				"style": {
+					"navigationBarTitleText": "我的钱包"
+				}
+			},
+			{
+				"path": "myData/myHistory",
+				"style": {
+					"navigationBarTitleText": "浏览记录"
+				}
+			},
+			{
+				"path": "myData/myCollection",
+				"style": {
+					"navigationBarTitleText": "我的收藏"
+				}
+			},
+			{
+				"path": "myData/mySigin",
+				"style": {
+					"navigationBarTitleText": "签到"
+				}
+			},
+			{
+				"path": "myData/myConsumption",
+				"style": {
+					"navigationBarTitleText": "金币明细"
+				}
+			},
+			{
+				"path": "myData/invite",
+				"style": {
+					"navigationBarTitleText": "邀请好友"
+				}
+			}
+		]
+	}],
+	"preloadRule": {
+		"pages/my/setting": {
+			"network": "all",
+			"packages": ["pagesA"]
+		}
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarBackgroundColor": "#FFFFFF",
@@ -166,29 +202,20 @@
 		"backgroundColorTop": "#FFFFFF"
 	},
 	"tabBar": {
-		// "custom":true,
 		"borderStyle": "black",
 		"backgroundColor": "#fdfdfd",
 		"color": "#b8b8b8",
 		"selectedColor": "#ff9933",
-		"list": [
-			{
+		"list": [{
 				"pagePath": "pages/Introduction/Introduction",
-				"iconPath": "/static/tabbar/game.png",
-				"selectedIconPath": "/static/tabbar/game_active.png",
-				"text": "大赛"
-			},
-			{
-				"pagePath": "pages/list/list",
-				"iconPath": "/static/tabbar/index.png",
-				"selectedIconPath": "/static/tabbar/index_active.png",
-				"text": "作品"
-			},
-			{
-				"pagePath": "pages/publish/publishNotice",
-				"iconPath": "/static/tabbar/add.png",
-				"selectedIconPath": "/static/tabbar/add_active.png",
-				"text": "发布"
+				"iconPath": "/static/tabbar/home.png",
+				"selectedIconPath": "/static/tabbar/home_active.png",
+				"text": "主页"
+			},{
+				"pagePath": "pages/home/home",
+				"iconPath": "/static/tabbar/wenhua.png",
+				"selectedIconPath": "/static/tabbar/wenhua_active.png",
+				"text": "文化"
 			},
 			{
 				"pagePath": "pages/my/my",

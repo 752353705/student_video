@@ -4,10 +4,12 @@
 			<view class="comment" 
 				v-for="(item, index) in msgList" :key="item.id"
 				>
-				<view class="left"><image :src="item.avatarUrl" mode="aspectFill"></image></view>
+				<view class="left" >
+					<image @click="goAuthor(item.userId)" :src="item.avatarUrl" mode="aspectFill"></image>
+				</view>
 				<view class="right">
 					<view class="top">
-						<view class="name">{{ item.userName || '用户名' }}</view>
+						<view class="name" @click="goAuthor(item.userId)">{{ item.userName || '用户名' }}</view>
 						<view class="like" :class="{ highlight: item.liked }"
 							@click="seeActive(item.id,index)"
 							>
@@ -17,18 +19,30 @@
 						</view>
 					</view>
 					<view class="content" @click="reply(index,index2)">
-						{{item.content || '用户说的话'}}
+						<!-- [猪头]88你好[闭嘴]999 -->
+						<rich-text
+							class="rich"
+							:nodes="express.text2pic(item.content)"
+							>
+						</rich-text>
 					</view>
 					
 					<block>
 						<view class="reply-box" 
 							v-if="item.replyList.length !== 0"
 							>
+							<!--  -->
 							<view class="item" 
 								v-for="(item2,index2) in comment.sec_cmt(item.replyList) " :key="item2.id"
 								>
 								<view class="username">{{item2.userName || '用户名'}}</view>
-								<view class="text">{{item2.content || '用户说的话'}}</view>
+								<view class="text">
+									<!-- {{item2.content || '用户说的话'}} -->
+									<rich-text
+										:nodes="express.text2pic(item2.content)"
+										>
+									</rich-text>
+								</view>
 							</view>
 							<view class="all-reply" @tap="toAllReply(index)" v-if="item.replyList != undefined">
 								<!-- 共{{ res.allReply }}条回复 -->
@@ -37,8 +51,6 @@
 							</view>
 						</view>
 					</block>
-					
-					
 					<view class="bottom">
 						{{time.changetime(item.createTime) || item.createTime }}
 						<view class="reply" @click="reply(index,index2)">回复</view>
@@ -49,56 +61,14 @@
 	</view>
 </template>
 
-<!-- 二级评论显示个数 -->
-<script module="comment" lang="wxs">
-// 控制 二级评论 的时间格式
-function sec_cmt(msg){
 
-	var sec_cmt = msg.slice(0,3)
-	return sec_cmt
-}
-
-module.exports = {
-	sec_cmt: sec_cmt,
-}
-</script>
-
+<!-- 显示二级评论前三条 -->
+<wxs module="comment" src="../wxs/comment.wxs"></wxs>
 <!-- 控制 二级评论 的时间格式 -->
-<script module="time" lang="wxs">
-function changetime(time){
-	if(!time){
-		// time = new Date()
-		var date = getDate(getDate().getTime())
-		// 月
-		var months = date.getMonth() + 1
-		// 日
-		var day = date.getDate()
-		// 小时
-		var hour = date.getHours()
-		// 分钟
-		var minutes = date.getMinutes()
+<wxs module="time" src="../wxs/time.wxs"></wxs>
+<!-- 控制显示 表情图标 -->
+<wxs module="express" src="../wxs/express.wxs"></wxs>
 
-		return months + '-' + day + ' ' + hour + ':' + minutes
-	}
-	//那一天
-	time1 = time.split(' ')[0].split('-')[1]
-	time2 = time.split(' ')[0].split('-')[2]
-
-	//具体小时时间
-	//因为后端传递 数据时 中间多了个空格
-	time3 = time.split(' ')[1].split(':')[0]
-	time4 = time.split(' ')[1].split(':')[1]
-	// // 当用户 是在 当天发边的评论并且在当天显示
-	// console.log('返回聊天记录时间',time1 + '-' + time2)
-
-	return time1 + '-' + time2 + ' ' +  time3 + ":" + time4
-	// return time
-}
-
-module.exports = {
-	changetime: changetime,
-}
-</script>
 
 <script>
 export default {
@@ -121,9 +91,6 @@ export default {
 		}
 	},
 	created() {
-		// console.log('user-comment  ==> msgList', this.$props.msgList);
-		
-		
 		// 获取当前的时间
 		var time = new Date();
 		// 今天的时间
@@ -135,12 +102,18 @@ export default {
 		var hour = time.getHours();
 		//分钟
 		var minu = time.getMinutes();
-		// console.log('组件中获取当前的时间 month ==> ',month,"date ==》",date)
-
-		// this.nowtime = month + '-' + date + ' ' + hour + ':' + minu
 		this.nowtime = month + '-' + date;
 	},
 	methods: {
+		//跳转到作者页
+		goAuthor(userId){
+			let avatarItem = {
+				userId:userId
+			}
+			uni.navigateTo({
+			   url: "/pages/author/author?item=" + JSON.stringify(avatarItem)
+			});
+		},
 		// 获取下一页评论
 		scrolltolower() {
 			// console.log('滚动到底部uni-popup 再次获取数据');
@@ -283,4 +256,19 @@ export default {
 		}
 	}
 }
+
+
+// 控制表情图案的大小
+// .iconzhutou {
+// 	width: 32px;
+// 	height: 29px;
+// }
+// .iconqie {
+// 	width: 29px;
+// 	height: 28px;
+// }
+// .iconxiaochulei {
+// 	width: 36px;
+// 	height: 30px;
+// }
 </style>

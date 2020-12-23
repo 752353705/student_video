@@ -32,7 +32,7 @@
 /* 行为相关颜色 */
 .uni-popup-rank.data-v-40524136 {
   overflow: auto;
-  height: 353px;
+  height: 706rpx;
   background-color: white;
   position: relative;
   background-color: white;
@@ -50,12 +50,14 @@
   line-height: 40px;
   border-radius: 20rpx 20rpx 0 0;
   overflow: hidden;
+  z-index: 20;
 }
 .uni-popup-rank .uni-rank-title .uni-rank-title-text.data-v-40524136 {
   font-size: 40rpx;
   font-weight: bolder;
 }
 .uni-popup-rank .cont.data-v-40524136 {
+  height: 697rpx;
   box-sizing: border-box;
   padding-left: 34rpx;
   padding-right: 34rpx;

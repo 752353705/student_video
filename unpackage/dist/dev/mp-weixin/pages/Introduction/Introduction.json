@@ -1,5 +1,7 @@
 {
-  "navigationStyle": "custom",
   "navigationBarTextStyle": "white",
-  "usingComponents": {}
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-count-down": "/node-modules/uview-ui/components/u-count-down/u-count-down"
+  }
 }
