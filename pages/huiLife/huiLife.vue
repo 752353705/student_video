@@ -10,27 +10,26 @@
 		<view class="merchant">
 			<view class="merchant_box">
 				<view class="merchant_item"
-					v-for="(item,index) in [1,2,3,4,5,6,7] "
-					:key="index"
-					@click="jumpDetail"
+					v-for="(item,index) in store"
+					:key="item.companyId"
+					@click="jumpDetail(item.companyId)"
 					>
 					<view class="le">
-						<image src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg"
+						<image :src="item.companyLogo"
 						 mode="widthFix">
 						</image>
 					</view>
 					<view class="ri">
 						<view class="head">
-							<text class="type">美食</text>
-							<text class="title">鱼兹娃味</text>
+							<text class="type">{{item.companyType}}</text>
+							<text class="title">{{item.companyName}}</text>
 						</view>
 						<view class="location">
-							<text>复兴中路</text>
-							<text>495m</text>
+							<text>{{item.companyAddress || ''}}</text>
 						</view>
-						<view class="foot">
-							美味牛蛙、清江鱼
-						</view>
+						<!-- <view class="foot">
+							{{item.smartTags[0].text.content || ''}} 
+						</view> -->
 					</view>
 				</view>
 			</view>
@@ -44,6 +43,8 @@
 </template>
 
 <script>
+	// 导入模拟的 商户数据
+	// import store from '@/data/data.js'
 	import QQMapWX from '@/components/qqmap-wx-jssdk.js'
 	// 获取用户的地理位置
 	let qqmapsdk = new QQMapWX({
@@ -53,6 +54,8 @@
 	export default {
 		data() {
 			return {
+				// 商户数据
+				store:'',
 				// 监听页面滚动控制按钮的位置
 				enter_style:false,
 				timeout:false,
@@ -70,6 +73,9 @@
 						console.log('当前位置的纬度：' + res.latitude);
 			    }
 			});
+			// 获取商家列表
+			this.getStoreList()
+			
 		},
 		onReachBottom() {
 			console.log('上拉加载')
@@ -103,10 +109,19 @@
 			
 		},
 		methods:{
+			// 获取商家列表
+			getStoreList(){
+				this.http({
+					url:'company/list',
+				}).then(res => {
+					console.log('获取商家列表',res)
+					this.store = res.data
+				})
+			},
 			// 跳转到商家详情页面
-			jumpDetail(){
+			jumpDetail(companyId){
 				uni.navigateTo({
-					url:'/pages/huiLife/merchant'
+					url:'/pages/huiLife/merchant?companyId=' + companyId
 				})
 			},
 			// 跳转到商家入驻页面
@@ -145,7 +160,7 @@
 				width: 95%;
 				.merchant_item{
 					width: 100%;
-					height: 205rpx;
+					// height: 205rpx;
 					background-color: #ffffff;
 					margin-bottom: 30rpx;
 					box-sizing: border-box;
@@ -182,7 +197,7 @@
 								border-radius: 10rpx;
 							}
 							.title{
-								font-size: 35rpx;
+								font-size: 29rpx;
 								font-weight: bolder;
 							}
 						}

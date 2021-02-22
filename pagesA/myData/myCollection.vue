@@ -113,41 +113,33 @@ export default {
 	methods: {
 		// 请求数据
 		getData() {
-			this.api._get(
-				'collection/list',
-				{
+			this.http({
+				url:'collection/list',
+				data:{
 					pageNum: this.pageNum,
 					pageSize: 10
-				},
-				res => {
-					let val = res.data;
-					// 将这三大类进行 拼接
-					// this.colSumList = val.videoList.concat(val.articleList).concat(val.secondGoodsList);
-					// this.colSumList = val.itemList
-					this.colSumList = this.colSumList.concat(val.itemList)
-					// 判断返回的 数据条数 用来看是否有下一页
-					if (this.colSumList.length == 10) {
-						this.pageNum++;
-						this.nextpage = true
-					}else{
-						this.nextpage = false
-					}
 				}
-			);
+			}).then(res => {
+				let val = res.data;
+				// 将这三大类进行 拼接
+				// this.colSumList = val.videoList.concat(val.articleList).concat(val.secondGoodsList);
+				// this.colSumList = val.itemList
+				this.colSumList = this.colSumList.concat(val.itemList)
+				// 判断返回的 数据条数 用来看是否有下一页
+				if (this.colSumList.length == 10) {
+					this.pageNum++;
+					this.nextpage = true
+				}else{
+					this.nextpage = false
+				}
+			})
 		},
-
-		// 判断用户点击的 具体操作的 那一项
-		// clickOper(e) {
-		// 	if (this.btnShow) return;
-		// },
 
 		// 用户点击进入到详情页面
 		jumpDetail(e) {
 			// 当用户没有点击操作按钮时进行
 			if (this.btnShow) {
 				console.log('e', e);
-				// 用户 点击的 那一项 的 index
-				// this.indexList.push(e.currentTarget.dataset.index);
 				return;
 			}
 
@@ -186,7 +178,10 @@ export default {
 		
 		// 用户点击进行删除  ,
 		del() {
-			this.api._del(`collection?ids=${this.operList.join(',')}`, {}, res => {
+			this.http({
+				url:`collection?ids=${this.operList.join(',')}`,
+				method:'DELETE'
+			}).then(res => {
 				for(let i=0;i<this.operList.length;i++){
 					this.colSumList.forEach((item,index) => {
 						console.log('item',item)
@@ -197,9 +192,8 @@ export default {
 					});
 				}
 				this.operList = [];
-			});
+			})
 		},
-		
 		// 清空按钮
 		clear() {
 			let _this = this
@@ -207,12 +201,14 @@ export default {
 				title:'确定清空记录?',
 				success(res) {
 					if (res.confirm) {
-						_this.api._del(`collection/all`, {}, delres => {
-							console.log('清空', delres.data);
-							// 将列表中的数据进行清空
+						this.http({
+							url:`collection/all`,
+							data:{},
+							method:'DELETE'
+						}).then(res => {
 							_this.colSumList = [];
 							_this.operList = [];
-						});
+						})
 					} else if (res.cancel) {
 						console.log('用户点击取消');
 					}

@@ -77,6 +77,11 @@
 			"style": {
 				"navigationBarTitleText": "设置"
 			}
+		},{
+			"path": "pages/publish/publishNotice",
+			"style": {
+				"navigationBarTitleText": "发布"
+			}
 		},
 		{
 			"path": "pages/my/myFocus",
@@ -126,8 +131,42 @@
 			"style" : {
 				"navigationBarTitleText": ""
 			}
+		},{
+			"path" : "pages/downForm/downForm",
+			"style" : {
+				"navigationBarTitleText": ""
+			}
+		},{
+			"path" : "pages/huiLife/order",
+			"style" : {
+				"navigationBarTitleText": "我的订单"
+			}
+		},{
+			"path" : "pages/huiLife/pay",
+			"style" : {
+				"navigationBarTitleText": "支付订单"
+			}
+		},{
+			"path" : "pages/huiLife/goodsDetail",
+			"style" : {
+				"navigationStyle":"custom"
+			}
+		},{
+			"path" : "pages/huiLife/recreation",
+			"style" : {
+				"navigationBarTitleText": ""
+			}
+		},{
+			"path" : "pages/huiLife/recreationDetail",
+			"style" : {
+				"navigationBarTitleText": "时光真人密室逃脱"
+			}
+		},{
+			"path" : "pages/questionBank/questionBank",
+			"style" : {
+				"navigationBarTitleText": ""
+			}
 		}
-		
     ],
 	"subPackages": [{
 		"root": "pagesA", //文件夹名称，  pages文件夹同级新建一个就行
@@ -141,6 +180,11 @@
 				"path": "myData/myIntroduction",
 				"style": {
 					"navigationBarTitleText": "修改个人简介"
+				}
+			},{
+				"path": "myData/agreement",
+				"style": {
+					"navigationBarTitleText": " '小驴邦'用户服务协议 "
 				}
 			},
 			{
@@ -226,12 +270,13 @@
 				"iconPath": "/static/tabbar/wenhua.png",
 				"selectedIconPath": "/static/tabbar/wenhua_active.png",
 				"text": "文化"
-			},{
-				"pagePath": "pages/huiLife/huiLife",
-				"iconPath": "/static/tabbar/huiLife.png",
-				"selectedIconPath": "/static/tabbar/huiLife_active.png",
-				"text": "惠生活"
 			},
+			// {
+			// 	"pagePath": "pages/huiLife/huiLife",
+			// 	"iconPath": "/static/tabbar/huiLife.png",
+			// 	"selectedIconPath": "/static/tabbar/huiLife_active.png",
+			// 	"text": "惠生活"
+			// },
 			{
 				"pagePath": "pages/my/my",
 				"iconPath": "static/tabbar/my.png",
@@ -239,5 +284,30 @@
 				"text": "我的"
 			}
 		]
+	},
+	"condition":{
+		"current": 0 ,
+		"list":[{
+			"name": "惠生活", //模式名称
+			"path": "pages/huiLife/huiLife"//启动页面，必选
+		},{
+			"name": "我的订单", //模式名称
+			"path": "pages/huiLife/order"//启动页面，必选
+		},{
+			"name": "支付订单", //模式名称
+			"path": "pages/huiLife/pay"//启动页面，必选
+		},{
+			"name": "商品详情", //模式名称
+			"path": "pages/huiLife/goodsDetail"//启动页面，必选
+		},{
+			"name": "娱乐", //模式名称
+			"path": "pages/huiLife/recreation"//启动页面，必选
+		},{
+			"name": "娱乐详情", //模式名称
+			"path": "pages/huiLife/recreationDetail"//启动页面，必选
+		},{
+			"name": "做题页面", //模式名称
+			"path": "pages/questionBank/questionBank"//启动页面，必选
+		}]
 	}
 }

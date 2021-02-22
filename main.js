@@ -14,9 +14,12 @@ Vue.component('mescroll-uni', MescrollUni)
 import uniPopup from './components/uni-popup/uni-popup.vue'
 Vue.component('uniPopup',uniPopup)
 
-// 将网络请求集中进行处理
-import {api} from './API/_api.js'
-Vue.prototype.api = api
+
+// 重写的 http 请求
+import {http} from './API/http.js'
+Vue.prototype.http = http
+
+
 
 Vue.config.productionTip = false
 App.mpType = 'app'

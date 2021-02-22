@@ -114,27 +114,22 @@
 					url:`/pages/Introduction/flashTime?subjectId=${this.subjectId}`
 				})
 			},
-			
 			// 跳转到大赛作品列表
 			goList(){
 				uni.navigateTo({
-					url: `/pages/list/list`
+					url: `/pages/list/list?tab_act=2`
 				});
 			},
-			
 			// 获取当前排名信息
 			getRankList(subjectId){
-				let _this = this 
-				this.api._get(`subject/ranking?subjectId=${subjectId}`, {}, function(res) {
-					console.log('获取排名类型',res)
-					_this.rank = res
-					_this.rank_other = res.slice(3)
-				});
+				this.http({
+					url:`subject/ranking?subjectId=${subjectId}`,
+					data:{},
+				}).then(res => {
+					this.rank = res
+					this.rank_other = res.slice(3)
+				})
 			},
-			// 获取轮播信息
-			getBanner(){
-				
-			}
 		}
 	}
 </script>

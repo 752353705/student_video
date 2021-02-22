@@ -1,72 +1,56 @@
 <template>
 	<view class="container">
 		<view class="wechatapp login">
-			<view class="app-img">
-				<image src="/static/logo.png"></image>
-			</view>
+			<view class="app-img"><image src="/static/logo.png"></image></view>
 			<view class="app-title">帮小驴儿</view>
 		</view>
-			<button class="btn login_wei" openType="getPhoneNumber"
-				lang="zh_CN" 
-				@getphonenumber="getPhone"
-			>
-				微信登录
-			</button>
-			<button class="btn no_login"
-				lang="zh_CN" 
-				@click="back"
-			>
-				暂不登录
-			</button>
+		<button class="btn login_wei" openType="getPhoneNumber" lang="zh_CN" @getphonenumber="getPhone">微信登录</button>
+		<button class="btn no_login" lang="zh_CN" @click="back">暂不登录</button>
 	</view>
 </template>
 
 <script>
 export default {
 	data() {
-		return {
-			
-		};
+		return {};
 	},
 	methods: {
 		// 暂不登录
-		back(){
+		back() {
 			uni.switchTab({
-				url:'/pages/list/list'
-			})
+				url: '/pages/list/list'
+			});
 		},
 		// 获取手机号
 		getPhone(e) {
-			console.log('获取用户的手机号',e)
-			let _this = this 
+			console.log('获取用户的手机号', e);
+			let _this = this;
 			uni.showLoading({
 				title: '登录中..',
 				mask: true
-			})
+			});
 			// console.log('登录e',_this.userInfo)
-			  if (e.detail.encryptedData){
-					// 发起请求然后 跳转到 首页
-					_this.api._post('auth/loginByPhone',{
-						encryptedData:e.detail.encryptedData,
-						iv:e.detail.iv
-					},function(res){
-						uni.hideLoading();
-						console.log('获取信息成功',res)
-						 // 将手机号进行本地存储
-						uni.setStorageSync('user_phone', res.data.phone);
-						// 然后进行跳转
-						uni.navigateBack({
-							delta:1
-						})
-					})
-				}
-		},
-	},
-	
-	onLoad: function () {
-	 
-	 }
-
+			if (e.detail.encryptedData) {
+				// 发起请求然后 跳转到 首页
+				this.http({
+					url: 'auth/loginByPhone',
+					method: 'POST',
+					data: {
+						encryptedData: e.detail.encryptedData,
+						iv: e.detail.iv
+					}
+				}).then(res => {
+					uni.hideLoading();
+					// 将手机号进行本地存储
+					uni.setStorageSync('user_phone', res.data.phone);
+					// 然后进行跳转
+					uni.navigateBack({
+						delta: 1
+					});
+				});
+			}
+		}
+	}
 };
 </script>
 
@@ -82,7 +66,7 @@ export default {
 			height: 195rpx;
 			border-radius: 20rpx;
 			margin: auto;
-			image{
+			image {
 				width: 100%;
 				height: 100%;
 			}
@@ -153,7 +137,7 @@ export default {
 .btn.login::after {
 	display: none;
 }
-button{
-	background-color:none;
+button {
+	background-color: none;
 }
 </style>

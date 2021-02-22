@@ -5,11 +5,11 @@
 		</view>
 		<view class="uni-share-content">
 			<view class="uni-share-content-box">
-					<button type="default" open-type="share" plain="false" class="uni-share-content-item" 
-					>
-						<image class="uni-share-image" src="https://img-cdn-qiniu.dcloud.net.cn/uni-ui/grid-2.png" mode="aspectFill"></image>
-						<text class="uni-share-text">微信</text>
-					</button>
+				<button type="default" open-type="share" plain="false" class="uni-share-content-item" 
+				>
+					<image class="uni-share-image" src="/static/wei.png" mode="aspectFill"></image>
+					<text class="uni-share-text">微信</text>
+				</button>
 			</view>
 		</view>
 		<view class="uni-share-button-box"><button class="uni-share-button" @click="close">取消</button></view>

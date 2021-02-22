@@ -37,7 +37,7 @@
 					</view>
 					<view class="ri">
 						<view class="ri_l">
-							<view class="host">{{game_detail.subjectAddress}}</view>
+							<view class="ri_l_host">{{game_detail.subjectAddress}}</view>
 						</view>
 						<view class="iconfont iconfanhui"></view>
 					</view>
@@ -48,9 +48,9 @@
 						<text style="color: #2ca4e1;margin-right: 10rpx;" class="icon iconfont iconshijian"></text>
 						<text>时间</text>
 					</view>
-					<view class="">
+					<view  class="">
 						<text v-if="gameTimeStatue.gameTime(game_detail.beginTime,game_detail.endTime)">
-							{{ game_detail.beginTime.split(' ')[0]  + ' 至 ' + game_detail.endTime.split(' ')[0]  }}
+							{{ (game_detail.beginTime || '' ).split(' ')[0]  + ' 至 ' + (game_detail.endTime || '' ).split(' ')[0]  }}
 						</text>
 						<text v-else>
 							待定
@@ -63,9 +63,12 @@
 						<text style="color: #2ca4e1;margin-right: 10rpx;" class="icon iconfont iconlouceng"></text>
 						<text>主办方</text>
 					</view>
-					<view style="word-break: break-all;">
-						<view class="">{{game_detail.subjectSponsorName.split(' ')[0]}}</view>
-						<view class="">{{game_detail.subjectSponsorName.split(' ')[1]}}</view>
+					<view style="word-break: break-all;" >
+						<view style="text-align: left;" v-for="(item,index) in t2.cutStr(game_detail.subjectSponsorName,' ')"
+							:key="index"
+							>
+							{{item}}
+						</view>
 					</view>
 				</view>
 			</view>
@@ -124,22 +127,33 @@
 			<view style="text-align: center;margin-top: 40rpx;color: white;">—— 暂无参赛人员 ——</view>
 		</view>
 		
-		<!-- 报名按钮 v-if="hasBtn" -->
-		<view v-if="game_detail.progressStatus == 1" class="btn" @click="jumpList" >
+		<!-- 报名按钮 进行中 一般的大赛 -->
+		<view v-if="game_detail.progressStatus == 1 && !subjectTypeNameStatue" class="btn" @click="jumpList" >
 			立即报名
+		</view>
+		
+		<!-- 快速答题 进行中 答题大赛 true 表示答题大赛 -->
+		<view v-if="subjectTypeNameStatue" class="btn" @click="jumpQuestionList" >
+			立即答题参赛
 		</view>
 		
 		<!-- 当大赛结束之后，切换为 查看大赛结果 -->
 		<view v-if="game_detail.progressStatus == 2" class="btn end" @click="endGame">
 			查看大赛结果
 		</view>
-		
 	</view>
 </template>
-
+<!-- 切割大赛的时间 -->
+<script lang="wxs" module="t2">
+	function cutStr(str,cut,) {
+		return (str || '' ).split(cut)
+	}
+	module.exports = {
+		cutStr: cutStr,
+	}
+</script>
 <!-- 大赛时间是否为待定 -->
 <wxs module="gameTimeStatue" src="../../wxs/gameTimeStatue.wxs"></wxs>
-
 <script>
 	export default {
 		data(){
@@ -151,21 +165,34 @@
 				game_user:[],
 				// 展示一部分大赛参赛人员
 				game_user_part:[],
-				
 				tab_msg:['详情','参赛选手'],
 				hasBtn:false,
+				subjectTypeNameStatue:false
 			}
 		},
 		onLoad(option) {
+			this.subjectTypeName = option.subjectTypeName
+			if(option.subjectTypeName == '答题'){
+				// 储存答题大赛的id
+				this.questionId = option.subjectId
+				this.subjectTypeNameStatue = true
+			}else{
+				this.subjectTypeNameStatue = false
+			}
 			// 获取是否显示立即报名按钮
 			this.btnStyle()
-			
 			// 获取大赛的详情
 			this.getGameDetail(option.subjectId)
 			// 获取大赛的参赛人员
 			this.getGamePlayers(option.subjectId)
 		},
 		methods:{
+			// 查看的是答题类型的大赛，点击进行答题
+			jumpQuestionList(){
+				uni.navigateTo({
+					url:`/pages/questionBank/questionBank?subjectId=${this.questionId }`
+				})
+			},
 			// 大赛结束，查看大赛的结果
 			endGame(){
 				console.log('大赛结束，查看大赛结果')
@@ -173,12 +200,12 @@
 					url:`/pages/Introduction/gameResult?subjectId=${this.game_detail.subjectId}`
 				})
 			},
-			
-			
 			// 获取是否显示报名按钮
 			btnStyle(){
-				this.api._get(`parame/config/uploadArticle`,{},(res)=>{
-					console.log('res 报名按钮',res)
+				this.http({
+					url:`parame/config/uploadArticle`,
+					data:{}
+				}).then(res => {
 					if(res.data.parameStatus == 1){
 						this.hasBtn = true
 					}else{
@@ -186,21 +213,24 @@
 					}
 				})
 			},
-			
 			// 获取大赛详情
 			getGameDetail(subjectId){
-				this.api._get(`subject/${subjectId}`,{},(res) => {
-					// console.log('获取大赛详情',res)
+				this.http({
+					url:`subject/${subjectId}`,
+					data:{}
+				}).then(res => {
 					this.game_detail = res.data
 					uni.setNavigationBarTitle({
 						title:this.game_detail.subjectTitle
 					})
 				})
 			},
-			
 			// 获取参赛人员
 			getGamePlayers(subjectId){
-				this.api._get(`subject/players/${subjectId}`,{},(res) => {
+				this.http({
+					url:`subject/players/${subjectId}`,
+					data:{}
+				}).then(res => {
 					// 参加大赛的全部人员
 					this.game_user = res.data
 					// 当参赛人数大于 4 的时候 进行截取显示一部分
@@ -226,15 +256,9 @@
 					introduction:this.game_detail.introduction,
 				}
 				uni.setStorageSync('gameMsg',JSON.stringify(gameMsg))
-				
 				uni.navigateTo({
 					url:'/pages/publish/publishNotice'
 				})
-				
-				// uni.navigateTo({
-				// 	url:'/pages/publish/publishNotice'
-				// })
-				
 			},
 		}
 	}
@@ -376,7 +400,7 @@
 					align-items: center;
 					width: 80%;
 					.ri_l{
-						.host{
+						.ri_l_host{
 							font-size: 31rpx;
 							font-weight: bold;
 						}
@@ -396,6 +420,9 @@
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
+				.le{
+					width: 200rpx;
+				}
 			}
 		}
 		// 参赛选手

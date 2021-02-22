@@ -87,9 +87,10 @@
 			getUsInfo(){
 				if(uni.getStorageSync('token')){
 					// 如果用户进行了登录操作，获取用户的个人信息
-					this.api._get(
-					'user/info',{},(res)=>{
-						console.log('获取用户当前的 H币',res)
+					this.http({
+						url:'user/info',
+						data:{}
+					}).then(res => {
 						this.userInfo = res.data
 					})
 				}

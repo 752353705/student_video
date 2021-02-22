@@ -71,11 +71,17 @@ image {
   font-size: 24rpx;
   margin-bottom: 40rpx;
 }
-.news .body .news_img {
-  margin-bottom: 40rpx;
-}
 .news .body .news_conent {
   margin-top: 40rpx;
+}
+.news .body .news_conent .news_img {
+  margin-bottom: 40rpx;
+}
+.news .body .news_conent .img_box {
+  width: 666rpx;
+}
+.news .body .news_conent .img_box image {
+  width: 100%;
 }
 .news .share {
   margin-top: 40rpx;

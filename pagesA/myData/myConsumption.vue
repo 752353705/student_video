@@ -104,10 +104,13 @@
 			
 			// 获取 记录 的接口
 			getHgold(){
-				this.api._get('hgold/get/list',{
-					 pageNum:this.g_pageNum,
-					 pageSize:10,
-				},(res)=>{
+				this.http({
+					url:'hgold/get/list',
+					data:{
+						pageNum:this.g_pageNum,
+						pageSize:10,
+					}
+				}).then(res => {
 					this.hisList = this.hisList.concat(res.data.list)
 					// 判断返回的 数据条数 用来看是否有下一页
 					if (res.data.list == 10) {
@@ -122,12 +125,14 @@
 			//消费记录的接口
 			delHgold(){
 				// 请求消费记录的接口
-				
 				// 目前是充值接口 需要改
-				this.api._get('hgold/lose/list',{
-					 pageNum:this.d_pageNum,
-					 pageSize:10,
-				},(res)=>{
+				this.http({
+					url:'hgold/lose/list',
+					data:{
+						pageNum:this.d_pageNum,
+						pageSize:10,
+					}
+				}).then(res => {
 					this.hisList = this.hisList.concat(res.list)
 					// 判断返回的 数据条数 用来看是否有下一页
 					if (res.list.length == 10) {
@@ -137,7 +142,6 @@
 						this.nextpage = false
 					}
 				})
-				
 			},
 		}
 	}

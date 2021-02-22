@@ -60,7 +60,8 @@
 			<!-- 作品展示 -->
 				<mescroll-item :waterFullHeight="swiper_height" style="padding-top: 0;" 
 				:i="i" :index="tabIndex" :tabs="tabBars"
-				:kw="kw" :uId='avatarItem.userId'
+				:kw="kw" 
+				:listData="listData" v-on:getData="getOtherTxt"
 				></mescroll-item>
 				</view>
 	</view>
@@ -77,6 +78,9 @@
 		mixins: [MescrollMixin], // 使用mixin
 		data() {
 			return {
+				// 用户作品信息
+				listData:[],
+				
 				// 传递过来的用户信息
 				avatarItem:{
 					avatarUrl:'/static/avatarUrl.png',
@@ -109,7 +113,10 @@
 			this.avatarItem = JSON.parse(option.item) 			
 			let userId = this.avatarItem.userId
 			// 根据用户 id 发请求获取详细数据
-			this.api._get(`user/otherUserInfo/${this.avatarItem.userId}`,{},(res)=>{
+			this.http({
+				url:`user/otherUserInfo/${this.avatarItem.userId}`,
+				data:{}
+			}).then(res => {
 				console.log('获取其他用户的信息 res',res)
 				this.avatarItem = res.data 	
 				this.avatarItem.userId = userId
@@ -124,14 +131,21 @@
 		onReady() {
 			uni.hideLoading();
 		},
-		onShow() {
-				
-		},
 		methods:{
-			// 点击聊天图标，跳转到聊天室
-			goChart(){
-				uni.navigateTo({
-					url:`/pages/chart/chartRoom?uname=${'小红'}`
+			// 请求 其他作者的 图文
+			getOtherTxt(msg,callback) {
+				this.http({
+					url:'article/otherUser',
+					data:{
+						userId: this.avatarItem.userId,
+						pageNum: msg.pageNum,
+						pageSize: '10'
+					}
+				}).then(res => {
+					this.listData = this.listData.concat(res.data.list);
+					callback(res.data.list.length);
+				}).catch( error => {
+					callback(1);
 				})
 			},
 			// 判断当前用户是否对其进行了关注
@@ -140,16 +154,7 @@
 				console.log('关注')
 				if(!this.focus){
 					//未关注 进行关注
-					this.api._post(
-						'follow',
-						{
-							followedId: _this.avatarItem.userId //被关注的 作者id
-						},
-						function(res) {
-							// console.log('进行关注成功',res);
-							_this.avatarItem.followed = !_this.avatarItem.followed
-						}
-					);
+					this.focusApi()
 				}else{
 					// 已关注，再次点击表示是否取消关注
 					uni.showModal({
@@ -157,22 +162,25 @@
 						success: function(res) {
 							if (res.confirm) {
 								// console.log('用户点击确定');
-								_this.api._post(
-									'follow',
-									{
-										followedId: _this.avatarItem.userId //被关注的 作者id
-									},
-									function(res) {
-										console.log('进行关注成功', res);
-										_this.avatarItem.followed = true;
-									}
-								);
+								_this.focusApi()
 							} else if (res.cancel) {
 								console.log('用户点击取消');
 							}
 						}
 					});
 				}
+			},
+			// 进行关注的 接口
+			focusApi(){
+				this.http({
+					url:'follow',
+					method:'POST',
+					data:{
+						followedId: this.avatarItem.userId //被关注的 作者id
+					}
+				}).then(res => {
+					this.avatarItem.followed = !this.avatarItem.followed
+				})
 			},
 			// 切换作品以及关注
 			//滑动切换导航

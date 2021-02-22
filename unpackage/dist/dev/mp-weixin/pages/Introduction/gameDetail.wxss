@@ -183,7 +183,7 @@ page{
           align-items: center;
   width: 80%;
 }
-.game_detail .game_detail .location .ri .ri_l .host.data-v-26f18522 {
+.game_detail .game_detail .location .ri .ri_l .ri_l_host.data-v-26f18522 {
   font-size: 31rpx;
   font-weight: bold;
 }
@@ -212,6 +212,9 @@ page{
   -webkit-box-align: center;
   -webkit-align-items: center;
           align-items: center;
+}
+.game_detail .game_detail .host .le.data-v-26f18522 {
+  width: 200rpx;
 }
 .game_detail .game_player.data-v-26f18522 {
   width: 92%;

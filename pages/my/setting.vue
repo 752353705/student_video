@@ -55,7 +55,6 @@ export default {
 		return {
 			// 控制IOS端 充值礼物方面禁止，不显示相应界面
 			is_IOS: false,
-
 			userInfo: '',
 			user_phone: '',
 			useList: [
@@ -65,6 +64,7 @@ export default {
 				// { icon: 'iconIcon', txt: '我的二维码', id:'qrcode' },
 				{ icon: 'iconwodeshoucang', txt: '我的收藏', id:'collection' },
 				{ icon: 'iconliulanjilu-tianchong', txt: '浏览记录', id:'browse_his' },
+				// { icon: 'iconzu1', txt: '用户协议', id:'agreement' },
 				// { icon: 'iconzuzhichuangjian', txt: '创建大赛', id:'create_game' },
 				{ icon: 'icontuichudenglu', txt: '退出登录', id:'exit' }
 				// {icon:"iconpaotuibeifen",txt:'跑腿', id:'run'},
@@ -95,10 +95,9 @@ export default {
 					break;
 			}
 		},
-
 		// 跳转到注册页
 		jump() {
-			console.log('跳转页面');
+			// console.log('跳转页面');
 			uni.navigateTo({
 				url: '/pages/login/login'
 			});
@@ -106,15 +105,13 @@ export default {
 		// 获取用户的个人资料
 		getUsInfo() {
 			if (uni.getStorageSync('token')) {
-				// 如果用户进行了登录操作，获取用户的个人资料
-				this.api._get('user/info', {}, res => {
-					console.log('获取用户当前的 H币', res);
+				this.http({
+					url:'user/info'
+				}).then(res => {
 					this.userInfo = res.data;
-					// this.userInfo = res.data
-				});
+				})
 			}
 		},
-
 		// 进行弹窗的控制
 		open(e) {
 			// console.log('e',e.currentTarget.dataset.id)
@@ -148,6 +145,13 @@ export default {
 					url: '/pagesA/myData/myCollection'
 				});
 			} 
+			else if (id === 'agreement') {
+				console.log('跳转')
+				// 用户进入 用户协议
+				uni.navigateTo({
+					url: '/pagesA/myData/agreement'
+				});
+			} 
 			else if (id === 'browse_his') {
 				// 用户进入浏览记录
 				uni.navigateTo({
@@ -166,21 +170,20 @@ export default {
 					content: '确定退出吗',
 					success: function(res) {
 						if (res.confirm) {
-							// 发起 退出请求
-							_this.api._post('auth/logout', {}, function(res) {
+							_this.http({
+								url:'auth/logout',
+								method:'POST'
+							}).then(res => {
 								// 如果返回成功，清除本地缓存，并跳转到首页
-								// uni.clearStorageSync()
 								_this.userInfo.userName = '';
-								// _this.userInfo = []
 								_this.userInfo.avatarUrl = '/static/avatarUrl.png';
 								// 显示的绑定手机号也进行切换
 								_this.user_phone = '';
-
 								uni.removeStorageSync('user_name');
 								uni.removeStorageSync('user_img');
 								uni.removeStorageSync('token');
 								uni.removeStorageSync('user_phone');
-							});
+							})
 						} else if (res.cancel) {
 							// 不进行操作弹出框取消即可
 						}

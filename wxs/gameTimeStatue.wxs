@@ -1,13 +1,11 @@
 function gameTime(t1,t2) {
-		// var sec_cmt = msg.slice(0, 3)
-		// return sec_cmt
-		
-		if(t2.split(' ')[0].split('-')[0] - t1.split(' ')[0].split('-')[0] < 1){
+		// console.log('t1 =>',t1,'t2 =>',t2)
+		// 当大赛的 结束时间 与 开始时间 相差 1年，则表明大赛 时间待定
+		if((t2 || '' ).split(' ')[0].split('-')[0] - (t1 || '' ).split(' ')[0].split('-')[0] < 1){
 			return true
 		}else {
 			return false
 		}
-		
 	}
 	module.exports = {
 		gameTime: gameTime,

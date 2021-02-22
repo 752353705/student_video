@@ -79,31 +79,29 @@ export default {
 	methods: {
 		// 获取我的关注列表
 		getMyFans(){
-			this.api._get(
-				'follow/follows',
-				{
+			this.http({
+				url:'follow/follows',
+				data:{
 					pageNum: 1,
 					pageSize: 10
-				},
-				(res) => {
-					this.list = res.data.list;
 				}
-			);
+			}).then(res => {
+				this.list = res.data.list;
+			})
 		},
 		
 		// 获取其他人的关注
 		getOtherFans(){
-			this.api._get(
-				'follow/otherUserfollows',
-				{
+			this.http({
+				url:'follow/otherUserfollows',
+				data:{
 					userId:this.userId,
 					pageNum: 1,
 					pageSize: 10
-				},
-				(res) => {
-					this.list = res.data.list;
 				}
-			);
+			}).then(res => {
+				this.list = res.data.list;
+			})
 		},
 		
 		// 点击用户头像跳转到发布者的详情页
@@ -123,40 +121,24 @@ export default {
 			let _this = this;
 			if (!this.list[index].followed) {
 				// 原先未关注 ，现在进行关注操作
-				this.api._post(
-					'follow',
-					{
-						followedId: _this.list[index].userId //被关注的 作者id
-					},
-					function(res) {
-						_this.list[index].followed = !_this.list[index].followed;
-					}
-				);
+				this.focusApi()
 			} else {
 				// 用户已经进行了关注，此时再进行点击表示用户是否要取消关注
-				// uni.showModal({
-					// content: '取消关注',
-					// success: function(res) {
-					// 	if (res.confirm) {
-							// console.log('用户点击确定');
-							_this.api._post(
-								'follow',
-								{
-									followedId: _this.list[index].followedId //被关注的 作者id
-								},
-								function(res) {
-									// console.log('进行关注成功', res);
-									_this.list[index].followed = !_this.list[index].followed
-								}
-							);
-						// } else if (res.cancel) {
-						// 	// console.log('用户点击取消');
-						// }
-					// }
-				// });
+				this.focusApi()
 			}
-		}
+		},
 		
+		focusApi(){
+			this.http({
+				url:'follow',
+				method:'POST',
+				data:{
+					followedId: this.list[index].userId //被关注的 作者id
+				}
+			}).then(res => {
+				this.list[index].followed = !this.list[index].followed;
+			})
+		}
 	}
 };
 </script>

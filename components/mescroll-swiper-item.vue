@@ -16,7 +16,7 @@
 		@up="upCallback"
 	>
 		<!-- 渲染 大赛图文作品 瀑布流 -->
-		<block v-if="kw == 'listTxt'">
+		<block v-if="kw == 'listTxt' || kw == 'myTxt'">
 			<block v-if="listData.length === 0"></block>
 			<block v-else>
 				<wfalls-flow
@@ -45,16 +45,11 @@
 				></wfalls-flow>
 			</block>
 		</block>
-		<!-- 渲染保定作品 -->
+		<!-- 渲染保定 农大作品 -->
 		<block v-if="kw == 'baoding' || kw == 'nongda'">
 			<mescroll-empty @emptyclick="emptyClick" v-if="listData.length == 0" :option="emptyOption"></mescroll-empty>
-			<block v-else><news-water :gameList="listData"></news-water></block>
+			<block v-else><news-water :newsList="listData"></news-water></block>
 		</block>
-		<!-- 渲染农大作品 -->
-		<!-- <block v-if="">
-			<mescroll-empty @emptyclick="emptyClick" v-if="listData.length == 0" :option="emptyOption"></mescroll-empty>
-			<block v-else><news-water :gameList="listData"></news-water></block>
-		</block> -->
 	</mescroll-uni>
 </template>
 
@@ -75,10 +70,10 @@ export default {
 		MescrollEmpty,
 		wfallsFlow,
 		newsWater,
-		// newsWaterNong
 	},
 	data() {
 		return {
+			item_data: [], //列表数据
 			// 下拉
 			downOption: {
 				// use:false,
@@ -90,15 +85,14 @@ export default {
 			// 上拉
 			upOption: {
 				auto: false, // 不自动加载
-				noMoreSize: 4 //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+				noMoreSize: 4 ,//如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+				offset: 200
 			},
-			// 列表数据
-			listData: []
 		};
 	},
 	props: {
-		uId: {
-			type: String
+		listData: {
+			type: Array
 		},
 		// 定义高度
 		waterFullHeight: {
@@ -131,7 +125,7 @@ export default {
 		}
 	},
 	mounted() {
-		console.log('kw', this.kw);
+		// console.log('kw', this.kw);
 	},
 	computed: {
 		// 将空页面的布局 对 data中 的数据进行赋值
@@ -140,6 +134,10 @@ export default {
 		}
 	},
 	methods: {
+		// 控制用户操作弹窗的显隐
+		showUseroperation(btntop, btnleft) {
+			this.$emit('showUseroperation', btntop, btnleft);
+		},
 		// 触发瀑布流中删除的方法
 		swiperDelArticle(txtid) {
 			// 删除当前 listData中 相同id 的文章
@@ -150,10 +148,8 @@ export default {
 				}
 			});
 		},
-
 		// 控制页面数据进行主动刷新
 		refash() {
-			console.log('组件更新');
 			this.mescroll.resetUpScroll(false);
 		},
 		// 用于关闭弹窗
@@ -162,199 +158,25 @@ export default {
 		},
 		/*下拉刷新的回调 */
 		downCallback(page) {
-			console.log('进行下拉操作', this.kw);
+			// console.log('下拉刷新')
 			this.mescroll.resetUpScroll();
 		},
 		/*上拉加载的回调: 其中page.num:当前页 从1开始, page.size:每页数据条数,默认10 */
 		upCallback(page) {
-			console.log('上拉操作');
-			if (page.num == 1) {
-				this.goods = [];
-			}
+			// console.log('上拉加载')
 			//联网加载数据  判断用户当前所在的 tabber 名，分别进行不同的网络请求
 			setTimeout(() => {
-				console.log('进行上拉操作', this.kw, page.num);
-
-				// // 请求图文作品列表
-				if (this.$props.kw == 'listTxt') {
-					this.getListTxt(page.num);
-				}
-				// 请求当前大赛
-				else if (this.$props.kw == 'listGame') {
-					this.getGame(page.num);
-				}
-				// 请求我的图文作品
-				else if (this.$props.kw == 'myTxt') {
-					this.getMyTxt(page.num);
-				}
-				// 请求他人的图文作品
-				else if (this.$props.kw == 'otherTxt') {
-					this.getOtherTxt(page.num);
-				}
-				// 请求保定文化信息
-				else if (this.$props.kw == 'baoding') {
-					this.getNewsBao(page.num);
-				}
-				// 请求农大文化信息
-				else if (this.$props.kw == 'nongda') {
-					this.getNewsNong(page.num);
-				} else {
-					this.noData();
-				}
+					this.$emit(
+						'getData',
+						{
+							pageNum : page.num,
+						},
+						(res) => {
+							// console.log('mescroll-item 上拉listData',this.listData)
+							this.mescroll.endSuccess(res);
+						})
 			}, 0);
 		},
-		// 如果传递过的kw 不符合
-		noData() {
-			this.mescroll.endSuccess(1);
-		},
-		// 请求保定文化列表
-		getNewsBao(pageNum) {
-			this.api._get(
-				`news/list?newsType=${this.$props.kw}`,
-				{
-					pageNum: pageNum,
-					pageSize: 10
-				},
-				res => {
-					console.log('新闻信息', res);
-					this.listData = res.data;
-					this.mescroll.endSuccess(1);
-				},
-				// (res) => {
-				// 	console.log('请求首页的文章 成功', res.data, pageNum);
-				// 	if (pageNum > 1) {
-				// 		this.listData = this.listData.concat(res.data);
-				// 	} else {
-				// 		this.listData = res.data;
-				// 	}
-				// 	// console.log('请求首页的文章 this.listData', this.listData);
-				// 	this.mescroll.endSuccess(res.data.length);
-				// },
-				() => {
-					console.log('请求首页的数据 失败');
-					this.mescroll.endSuccess(1);
-				}
-			);
-		},
-		// 请求农大文化列表
-		getNewsNong(pageNum) {
-			this.api._get(
-				`news/list?newsType=${this.$props.kw}`,
-				{
-					pageNum: pageNum,
-					pageSize: 10
-				},
-				res => {
-					console.log('新闻信息', res);
-					this.listData = res.data;
-					this.mescroll.endSuccess(1);
-				},
-				// (res) => {
-				// 	console.log('请求首页的文章 成功', res.data, pageNum);
-				// 	if (pageNum > 1) {
-				// 		this.listData = this.listData.concat(res.data);
-				// 	} else {
-				// 		this.listData = res.data;
-				// 	}
-				// 	// console.log('请求首页的文章 this.listData', this.listData);
-				// 	this.mescroll.endSuccess(res.data.length);
-				// },
-				() => {
-					console.log('请求首页的数据 失败');
-					this.mescroll.endSuccess(1);
-				}
-			);
-		},
-
-		//请求当前正在进行的大赛列表
-		getGame(pageNum) {
-			// 请求大赛 类型的数据
-			this.api._get(
-				'subject/onGoing',
-				{
-					subjectTypeId: '',
-					pageNum: pageNum,
-					pageSize: 10
-				},
-				res => {
-					this.listData = res.data.list;
-					this.mescroll.endSuccess(res.data.list.length);
-				}
-			);
-		},
-
-		// 请求 图文作品 数据
-		getListTxt(pageNum) {
-			console.log('文章 subjectId', this.subjectId);
-			this.api._get(
-				'article/list',
-				{
-					pageNum: pageNum,
-					pageSize: '10',
-					subjectId: this.subjectId
-				},
-				res => {
-					console.log('请求首页的文章 成功', res.data, pageNum);
-					if (pageNum > 1) {
-						this.listData = this.listData.concat(res.data.list);
-					} else {
-						this.listData = res.data.list;
-					}
-					console.log('请求首页的文章 this.listData', this.listData);
-					this.mescroll.endSuccess(res.data.list.length);
-				},
-				() => {
-					console.log('请求首页的数据 失败');
-					this.mescroll.endSuccess(1);
-				}
-			);
-		},
-		// 请求 我的图文数据
-		getMyTxt(pageNum) {
-			this.api._get(
-				'article/user',
-				{
-					pageNum: pageNum,
-					pageSize: '10'
-				},
-				res => {
-					console.log('请求我的文章 成功', res.data);
-					if (pageNum > 1) {
-						this.listData = this.listData.concat(res.data.list);
-					} else {
-						this.listData = res.data.list;
-					}
-					this.mescroll.endSuccess(res.data.list.length);
-					// 如果进行网络请求出错，则 取消当前 正在加载的 提示
-				},
-				() => {
-					console.log('请求首页的数据 失败');
-					this.mescroll.endSuccess(1);
-				}
-			);
-		},
-		// 请求 其他作者的 图文
-		getOtherTxt(pageNum) {
-			this.api._get(
-				'article/otherUser',
-				{
-					userId: this.$props.uId,
-					pageNum: pageNum,
-					pageSize: '10'
-				},
-				res => {
-					console.log('请求其他人的图文 成功', res.data);
-					this.listData = this.listData.concat(res.data.list);
-					this.mescroll.endSuccess(res.data.list.length);
-					// 如果进行网络请求出错，则 取消当前 正在加载的 提示
-				},
-				() => {
-					console.log('请求首页的数据 失败');
-					this.mescroll.endSuccess(1);
-				}
-			);
-		},
-
 		//点击空布局按钮的回调
 		emptyClick() {
 			// 重新进行网络请求

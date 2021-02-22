@@ -70,8 +70,10 @@ export default {
 		 * 请求礼物数据
 		 * */
 		getGift(){
-			this.api._get('gift',{},res => {
-				// 将返回的数据信息进行赋值 
+			this.http({
+				url:'gift'
+			}).then(res => {
+				// 将返回的数据信息进行赋值
 				console.log('礼物信息',res)
 				// 将礼物进行处理
 				let len = res.data.length

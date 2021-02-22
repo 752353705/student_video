@@ -42,7 +42,14 @@
 						<!-- 作品简介 -->
 						<view class="txt">{{ item.conversation || item.content || item.goodsDescribe }}</view>
 						<!-- 作品的 图片 -->
-						<view class="detail_img"><image v-for="(Img_item, Img_index) in img.changeImg(item.images)" :key="index" :src="Img_item" mode=""></image></view>
+						<view class="detail_img">
+							<view class="detail_img_box">
+								<image v-for="(Img_item, Img_index) in img.changeImg(item.images)"
+									:key="index" :src="Img_item" 
+									mode="widthFix">
+								</image>
+							</view>
+						</view>
 						<!-- 底部的分享  评论  点赞 -->
 						<view class="foot">
 							<view class="f_item">
@@ -119,19 +126,17 @@ export default {
 	methods: {
 		// 请求记录数据
 		getData() {
-			this.api._get(
-				'history/list',
-				{
+			this.http({
+				url:'history/list',
+				data:{
 					pageNum: this.pageNum,
 					pageSize: 10
-				},
-				res => {
-					
+				}
+			}).then(res => {
 					// 将这三大类进行 拼接
 					// this.colSumList = val.videoList.concat(val.articleList).concat(val.secondGoodsList);
 					this.colSumList = this.colSumList.concat(res.data.itemList)
 					// this.colSumList.concat(val.itemList)
-					
 					// 判断返回的 数据条数 用来看是否有下一页
 					if (res.data.itemList.length == 10) {
 						this.pageNum++;
@@ -139,15 +144,8 @@ export default {
 					}else{
 						this.nextpage = false
 					}
-				}
-			);
+				})
 		},
-		
-		// // 判断用户点击的 具体操作的 那一项
-		// clickOper(e) {
-		// 	if (this.btnShow) return;
-		// },
-
 		// 用户点击进入到详情页面
 		jumpDetail(e) {
 			// 当用户没有点击操作按钮时进行
@@ -194,7 +192,10 @@ export default {
 		
 		// 用户点击进行删除  ,
 		del() {
-			this.api._del(`history?ids=${this.operList}`, {}, res => {
+			this.http({
+				url:`history?ids=${this.operList}`,
+				method:'DELETE'
+			}).then(res => {
 				// 针对用户点击的那一项，将数组中的进行去除
 				for(let i=0;i<this.operList.length;i++){
 					this.colSumList.forEach((item,index) => {
@@ -206,7 +207,7 @@ export default {
 					});
 				}
 				this.operList = [];
-			});
+			})
 		},
 		
 		// 清空按钮
@@ -216,11 +217,14 @@ export default {
 				title:'确定清空记录?',
 				success(res) {
 					if (res.confirm) {
-						_this.api._del(`history/all`, {}, res => {
+						_this.http({
+							url:`history/all`,
+							method:'DELETE'
+						}).then(res => {
 							// 将列表中的数据进行清空
 							_this.colSumList = [];
 							_this.operList = [];
-						});
+						})
 					} else if (res.cancel) {
 						console.log('用户点击取消');
 					}
@@ -250,7 +254,8 @@ export default {
 		position: fixed;
 		top: 21rpx;
 		right: 51rpx;
-		// background-color: #eae4e4;
+		background-color: #eae4e4;
+		z-index: 30;
 		width: 100%;
 		width: 102rpx;
 		line-height: 26px;
@@ -342,11 +347,15 @@ export default {
 				justify-content: flex-start;
 				align-items: center;
 				margin-bottom: 24rpx;
-				image {
-					width: 104px;
-					height: 104px;
-					margin-right: 21rpx;
+				.detail_img_box{
+					width: 289rpx;
+					image {
+						width: 100%;
+						// height: 104px;
+						margin-right: 21rpx;
+					}
 				}
+			
 			}
 			// 底部的 分享评论
 			.foot {

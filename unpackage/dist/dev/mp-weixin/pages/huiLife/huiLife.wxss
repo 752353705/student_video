@@ -54,7 +54,6 @@ page{
 }
 .life .merchant .merchant_box .merchant_item {
   width: 100%;
-  height: 205rpx;
   background-color: #ffffff;
   margin-bottom: 30rpx;
   box-sizing: border-box;
@@ -93,7 +92,7 @@ page{
   border-radius: 10rpx;
 }
 .life .merchant .merchant_box .merchant_item .ri .head .title {
-  font-size: 35rpx;
+  font-size: 29rpx;
   font-weight: bolder;
 }
 .life .merchant .merchant_box .merchant_item .ri .location {

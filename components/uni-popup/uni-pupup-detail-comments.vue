@@ -225,43 +225,28 @@ export default {
 		getComment() {
 			this.$emit('getComment');
 		},
-
-		/**
-		 * 控制mescroll 进行操作
-		 * */
-		/*下拉刷新的回调*/
-		// downCallback() {
-		// 	// console.log('下拉刷新')
-		// 	this.mescroll.resetUpScroll();
-		// },
-		// /*上拉加载的回调*/
-		// upCallback(page) {
-		// 	console.log('上拉')
-		// },
 		// 获取视频界面的 评论
 		getVideoCmt(pageNum) {
-			let _this = this;
-			this.api._get(
-				'comment/getComments',
-				{
+			this.http({
+				url:'comment/getComments',
+				data:{
 					pageNum: pageNum,
 					pageSize: 10,
 					videoId: _this.videoId
-				},
-				function(res) {
-					console.log('请求评论 上拉加载 ===》 res', res.data.list);
-					// 修改默认的页数
-					// _this.pageNum = res.data.nextPage
-					// 参数一：当前页获取的数据量
-					_this.mescroll.endSuccess(res.data.list.length);
-
-					// console.log('_this.msgList ===》',_this.msgList,"res.data.list ==>",res.data.list)
-					// 进行数组之间的拼接 如果请求回的内容相同 ，则不进行拼接
-					if (JSON.stringify(_this.msgList) == JSON.stringify(res.data.list)) return false;
-					_this.msgList = _this.msgList.concat(res.data.list);
-					// console.log('请求下一页拼接后的数组 _this.msgList ===》',_this.msgList)
 				}
-			);
+			}).then(res => {
+				console.log('请求评论 上拉加载 ===》 res', res.data.list);
+				// 修改默认的页数
+				// _this.pageNum = res.data.nextPage
+				// 参数一：当前页获取的数据量
+				this.mescroll.endSuccess(res.data.list.length);
+				
+				// console.log('this.msgList ===》',this.msgList,"res.data.list ==>",res.data.list)
+				// 进行数组之间的拼接 如果请求回的内容相同 ，则不进行拼接
+				if (JSON.stringify(this.msgList) == JSON.stringify(res.data.list)) return false;
+				this.msgList = this.msgList.concat(res.data.list);
+				// console.log('请求下一页拼接后的数组 this.msgList ===》',this.msgList)
+			})
 		},
 		// 将评论推入列表中
 		sendVal(e) {
@@ -287,12 +272,6 @@ export default {
 		blur(){
 			this.btm = 0
 			this.inputfocus = false;
-			// 表情框隐藏
-			// if(this.express_show){
-			// 	this.btm = 361 + 'rpx';
-			// }else{
-			// 	this.btm = 0
-			// }
 			this.inputfocus = false;
 		},
 		// 发送评论  判断是 对视频进行的评论还是评论回复
@@ -306,38 +285,37 @@ export default {
 		},
 		//给文章 发送评论
 		sendTxtCmt() {
-			let _this = this;
-				// 进行评论的回复
-				this.api._post(
-					'article/comment/addReply',
-					{
-						commentId: _this.commentId, //评论中的ID
-						content: _this.val
-					},
-					function(res) {
-						// console.log('进行文章评论回复 res==>', res);
-						_this.sendStyle = true;
-						// 对评论列表进行修改，
-						_this.$emit('changeComment', {
-							val: _this.val,
-							index: _this.replayIndex,
-							replayVal: _this.replayVal,
-							commentId: res.data
-						});
-						// _this.$emit('changeComment',_this.val,_this.replayIndex);
-						// console.log('评论的回复 msgList ==》', _this.msgList);
-						_this.val = '';
-						_this.replayVal = '留下你的精彩评论吧';
-					})
+			// 进行评论的回复
+			this.http({
+				url:'article/comment/addReply',
+				method:'POST',
+				data:{
+					commentId: this.commentId, //评论中的ID
+					content: this.val
+				}
+			}).then(res => {
+				// console.log('进行文章评论回复 res==>', res);
+				this.sendStyle = true;
+				// 对评论列表进行修改，
+				this.$emit('changeComment', {
+					val: this.val,
+					index: this.replayIndex,
+					replayVal: this.replayVal,
+					commentId: res.data
+				});
+				// this.$emit('changeComment',this.val,this.replayIndex);
+				// console.log('评论的回复 msgList ==》', this.msgList);
+				this.val = '';
+				this.replayVal = '留下你的精彩评论吧';
+			})
 			},
 	
 		// 进行评论的回复
 		reply(index, index2) {
-			
-			console.log('父级中 reply')
+			// console.log('父级中 reply')
 			// 首先要确定是 给那个类型的进行二级评论
 			this.type == 'video' ? this.replyVideoCmt(this.detail_index, index2) : this.type == 'txt' ? this.replyTxtCmt(this.detail_index, index2) : this.type == 'used' ? this.replyUsedCmt(this.detail_index, index2) : '';
-			console.log('父级中 reply')
+			// console.log('父级中 reply')
 		},
 		// 给 文章页面 的评论进行回复
 		replyTxtCmt(index, index2) {
@@ -345,28 +323,22 @@ export default {
 			if (index2 == undefined) {
 				// console.log('对视频评论进行回复')
 				// 对视频评论进行回复
-
 				// 修改输入框中的值
 				this.replayVal = '回复 @' + this.detailMsgList.userName;
 				this.commentId = this.detailMsgList.id;
 				this.sendStyle = false;
-
 				// 修改评论的序号
 				this.replayIndex = index;
-
 				// 拉起输入框，进行聚焦
 				this.inputfocus = true;
 			} else {
 				// 对 二级评论机型回复
-				console.log('进行二级回复', this.detailMsgList.replyList[index2]);
+				// console.log('进行二级回复', this.detailMsgList.replyList[index2]);
 				this.replayVal = '回复 @' + this.detailMsgList.replyList[index2].userName; //用于显示进行二级回复的用户名
 				// this.replayVal = '回复 @' + "旭东"  //用于显示进行二级回复的用户名
-
 				this.commentId = this.detailMsgList.id;
 				this.sendStyle = false;
-
 				this.replayIndex = index;
-
 				this.inputfocus = true;
 			}
 		},

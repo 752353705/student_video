@@ -138,34 +138,38 @@ export default {
 		},
 		// 对视频 页面的 评论进行点赞
 		seeVideoActive(id,index){
-			let _this = this
-			this.api._post("comment/likeComment",{
-				"commentId":id
-			},function(res){
+			this.http({
+				url:"comment/likeComment",
+				method:'POST',
+				data:{
+					"commentId":id
+				}
+			}).then(res => {
 				console.log('进行评论点赞')
 				// 对列表中显示的数据进行修改 应当调用父级的方法对其进行修改
-				_this.$emit('changeMsgList',index)
+				this.$emit('changeMsgList',index)
 			})
 		},
 		// 对 文章 的 评论 进行点赞
 		seeTxtActive(id,index){
-			let _this = this
-			this.api._post(`article/comment/liked/${id}`,{},function(res){
-				console.log('进行评论点赞')
+			this.http({
+				url:`article/comment/liked/${id}`,
+				method:'POST'
+			}).then(res => {
 				// 对列表中显示的数据进行修改 应当调用父级的方法对其进行修改
-				_this.$emit('changeMsgList',index)
+				this.$emit('changeMsgList',index)
 			})
 		},
 		// 对 二手 进行点赞
 		seeUsedActive(id,index){
-			let _this = this
-			this.api._post(`secondGoods/comment/liked/${id}`,{},function(res){
-				console.log('进行二手评论点赞')
+			this.http({
+				url:`secondGoods/comment/liked/${id}`,
+				method:'POST'
+			}).then(res => {
 				// 对列表中显示的数据进行修改 应当调用父级的方法对其进行修改
-				_this.$emit('changeMsgList',index)
+				this.$emit('changeMsgList',index)
 			})
 		},
-		
 		// 进行二级评论
 		reply(index,index2){
 			// console.log('user-comment 进行 评论回复',index,index2)
@@ -190,33 +194,36 @@ export default {
 			},
 			// 用户 对当前 视频 页面的 回复评论进行点赞
 			replayVideoSec(index,index2){
-				let _this = this
-				this.api._post("comment/likeCommentReply",{
-					"commentReplyId":_this.detailMsgList.replyList[index2].id
-				},function(res){
-					console.log('对评论回复 进行 点赞')
+				this.http({
+					url:"comment/likeCommentReply",
+					method:'POST',
+					data:{
+						"commentReplyId":this.detailMsgList.replyList[index2].id
+					}
+				}).then(res => {
+					// console.log('对评论回复 进行 点赞')
 					// 请求成功后修改列表数据
-					_this.$emit('changeMsgList',index,index2)
+					this.$emit('changeMsgList',index,index2)
 				})
 			},
 			// 用户 对当前 文章 页面的 回复评论进行点赞
 			replayTxtSec(index,index2){
-				let _this = this
-				this.api._post(`article/comment/likedReply/${_this.detailMsgList.replyList[index2].id}`,
-				{},function(res){
-					console.log('对文章评论回复 进行 点赞')
+				this.http({
+					url:`article/comment/likedReply/${this.detailMsgList.replyList[index2].id}`,
+					method:'POST'
+				}).then(res => {
 					// 请求成功后修改列表数据
-					_this.$emit('changeMsgList',index,index2)
+					this.$emit('changeMsgList',index,index2)
 				})
 			},
 			// 用户 对当前 二手 页面的 回复评论进行点赞
 			replayUsedSec(index,index2){
-				let _this = this
-				this.api._post(`secondGoods/comment/likedReply/${_this.$props.msgList[index].replyList[index2].id}`,
-				{},function(res){
-					console.log('对二手评论回复 进行 点赞')
+				this.http({
+					url:`secondGoods/comment/likedReply/${this.$props.msgList[index].replyList[index2].id}`,
+					method:'POST'
+				}).then(res => {
 					// 请求成功后修改列表数据
-					_this.$emit('changeMsgList',index,index2)
+					this.$emit('changeMsgList',index,index2)
 				})
 			},
 		}

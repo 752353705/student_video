@@ -4,24 +4,18 @@
 		<!-- 主体展示 内容  -->
 		<view class="main_body">
 			<view class="item"
-				v-for="(item,index) in gameList "
+				v-for="(item,index) in list_data "
 				:key="index"
 				@click="goNewsDetail(item.id)"
 				>
 					<!-- 文章宣传图 -->
 					<view class="top_img">
-						<image :src="item.image" mode="widthFix"></image>
+						<image :src="item.image" mode="widthFix" @load="showImg(index)"></image>
+						<!-- 文字 -->
+						<view v-show="item.imgState" class="txt ellipsis_2">
+							{{item.title || ''}}
+						</view>
 					</view>
-				<view class="btm">
-					<!-- 左 文章标题 -->
-					<view class="item_le_title ellipsis_2">
-						{{item.title || ''}}
-					</view>
-					<!-- 文章来源 -->
-					<!-- <view class="from">{{item.createBy}}</view> -->
-					<!-- 右 文章小图 -->
-					<image v-if="item.smallImage" class="item_le_img" :src="item.smallImage" mode="widthFix"></image>
-				</view>
 			</view>
 		</view>
 	</view>
@@ -31,17 +25,31 @@
 <script>
 	export default {
 		props:{
-			gameList:{
+			newsList:{
 				type:Array,
 				default:[]
 			}
 		},
 		data() {
 			return {
-				
+				list_data:[]
 			};
 		},
+		mounted() {
+			this.list_data = [...this.newsList]
+		},
+		watch:{
+			newsList:{
+				handler(newValue, oldValue){
+					this.list_data = [...newValue]
+				}
+			}
+		},
 		methods:{
+			// 让图片和文字同时显示
+			showImg(index){
+				this.list_data[index].imgState = true
+			},
 			// 跳转到 新闻详情中
 			goNewsDetail(id){
 				uni.navigateTo({
@@ -61,19 +69,30 @@
 <style lang="scss">
 .propaganda{
 	box-sizing: border-box;
-	padding:0rpx 22rpx ;
+	padding:200rpx 22rpx ;
 	padding-top: 0rpx;
 	.main{
 		border-radius: 8rpx;
 		box-sizing: border-box;
-		// padding:24rpx 28rpx ;
-		// background-color: #FFFFFF;
 		.main_body{
 			.item{
-				background-color: #FFFFFF;
+				// background-color: #FFFFFF;
 				margin: 24rpx 0rpx;
-				border-bottom: 1rpx solid #E3E3E3;
+				// border-bottom: 1rpx solid #E3E3E3;
 				.top_img{
+					position: relative;
+					.txt{
+						font-weight: bold;
+						position: absolute;
+						bottom: 17rpx;
+						left: 0rpx;
+						color: white;
+						padding-left: 24rpx;
+						padding-right: 24rpx;
+						// 黑色描边
+						-webkit-text-stroke: 1rpx black;
+						
+					}
 					image{
 						width: 100%;
 						height: 100%;

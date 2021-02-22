@@ -20,8 +20,6 @@
 			>
 				暂不登录
 			</button>
-			
-			
 			<view class="rule">
 				<!-- 登录代表您已同意 -->
 				<!-- <text style="color: #f83f20;">小驴帮儿用户协议、隐私协议</text> -->
@@ -48,7 +46,6 @@ export default {
 				url:'/pages/list/list'
 			})
 		},
-		
 		// 微信登录
 		login(e) {
 			console.log('登录e 个人信息',e.detail.userInfo)
@@ -59,54 +56,13 @@ export default {
 				uni.showLoading({
 					title:'正在授权...'
 				})
-				
 				uni.login({
 					provider: 'weixin',
 					success: loginRes => {
 						// 获取用户的  code
 						console.log('loginRes',loginRes)
 						// 进行post请求
-						_this.api._post("auth/login",{
-							"code":loginRes.code,
-							"user":e.detail.userInfo,
-						},function(res){
-							console.log('login 微信登录 发送post请求',res);
-							uni.setStorageSync('user_name', res.data.userName);
-							uni.setStorageSync('user_img', res.data.avatarUrl);
-							uni.setStorageSync('token', res.data.token);
-							uni.setStorageSync('user_phone', res.data.phone);
-							uni.hideLoading()
-							
-							// 没有手机号则为新用户 ，看是否携带 inviteID
-							if(!res.data.phone){
-								if(_this.inviteID){
-									// 存在 邀请，则加票，然后进行二次登录
-									_this.api._post(
-										`user/increaseGold?userId=${inviteID}&goldNumber=5`,
-										{
-										
-										},
-										(res) => {
-											console.log('邀请进入')
-											uni.redirectTo({
-												url:'/pages/login/secLogin'
-											})
-										}
-									);
-								}else{
-									// 直接进行二次登录
-									uni.redirectTo({
-										url:'/pages/login/secLogin'
-									})
-								}
-								
-							}else {
-								uni.setStorageSync('user_phone', res.data.phone);
-								uni.navigateBack({
-									delta:1
-								})
-							}
-						})
+						_this.authLogin(loginRes,e)
 					},
 					fail: () => {
 						uni.showToast({ title: '获取信息失败', icon: 'none' });
@@ -115,12 +71,54 @@ export default {
 				});
 			}
 		},
+		// 用户登录
+		authLogin(loginRes,e){
+			this.http({
+				url:"auth/login",
+				method:'POST',
+				data:{
+					"code":loginRes.code,
+					"user":e.detail.userInfo,
+				}
+			}).then(res => {
+				console.log('login 微信登录 发送post请求',res);
+				uni.setStorageSync('user_name', res.data.userName);
+				uni.setStorageSync('user_img', res.data.avatarUrl);
+				uni.setStorageSync('token', res.data.token);
+				uni.setStorageSync('user_phone', res.data.phone);
+				uni.hideLoading()
+				// 没有手机号则为新用户 ，看是否携带 inviteID
+				if(!res.data.phone){
+					if(this.inviteID){
+						// 存在 邀请，则加票，然后进行二次登录
+						this.invitationApi()
+					}else{
+						// 直接进行二次登录
+						uni.redirectTo({
+							url:'/pages/login/secLogin'
+						})
+					}
+				}else {
+					uni.setStorageSync('user_phone', res.data.phone);
+					uni.navigateBack({
+						delta:1
+					})
+				}
+			})
+		},
+		// 邀请加票的接口
+		invitationApi(){
+			this.http({
+				url:`user/increaseGold?userId=${this.inviteID}&goldNumber=5`,
+				method:'POST'
+			}).then(res => {
+				console.log('邀请进入')
+				uni.redirectTo({
+					url:'/pages/login/secLogin'
+				})
+			})
+		}
 	},
-	
-	onLoad: function () {
-	 
-	 }
-
 };
 </script>
 

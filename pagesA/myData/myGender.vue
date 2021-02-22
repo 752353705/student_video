@@ -34,10 +34,14 @@
 		methods:{
 			// 用户进行提交
 			submit(){
-				console.log('提交')
-				this.api._put('user',{
-					gender:this.type[this.act - 1].id
-				},(res)=>{
+				// console.log('提交')
+				this.http({
+					url:'user',
+					method:'PUT',
+					data:{
+						gender:this.type[this.act - 1].id
+					}
+				}).then(res => {
 					uni.navigateBack({
 						delta:1
 					})

@@ -1,7 +1,9 @@
 <template>
 	<view class="content" v-if="isShow" @click.stop="isShow=false">
 		<canvas @click.stop="" :style="{ width: canvasW + 'px', height: canvasH + 'px' }" canvas-id="my-canvas"></canvas>
-		<view v-if="canvasW" class="save-btn" @click.stop="saveImage">保存图片</view>
+		<view v-if="canvasW" class="save-btn" @click.stop="saveImage">
+			保存图片并发布
+		</view>
 	</view>
 </template>
 
@@ -11,7 +13,7 @@
 			headerImg:{
 				type: String,
 				// default: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3544005106,2960177055&fm=26&gp=0.jpg' //默认的图片
-				default: 'https://i.loli.net/2020/12/14/JpySaTvWUHXnN4e.jpg' //默认的图片
+				default: '' //默认的图片
 			},
 			title:{
 				type: String,

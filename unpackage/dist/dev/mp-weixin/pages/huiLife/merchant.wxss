@@ -72,7 +72,12 @@ page{
   background-color: #FFFFFF;
 }
 .merchant .merchant_msg_box .merchant_msg_msg .head .title.data-v-467f20d8 {
-  font-size: 50rpx;
+  display: inline-block;
+  font-size: 32rpx;
+  width: 380rpx;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .merchant .merchant_msg_box .merchant_msg_msg .head .time.data-v-467f20d8 {
   margin-top: 50rpx;

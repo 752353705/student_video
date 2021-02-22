@@ -9,23 +9,21 @@
 				{{newsInfo.createTime || ''}}
 			</view>
 			<!-- 新闻图 -->
-			<view class="news_img">
+			<!-- <view class="news_img">
 				<image :src="newsInfo.image" mode="widthFix"></image>
-			</view>
+			</view> -->
 			<!-- 新闻内容 -->
 			<view class="news_conent">
+				<view class="news_img">
+					<image :src="newsInfo.image" mode="widthFix"></image>
+				</view>
 				<rich-text :nodes="newsInfo.content"></rich-text>
 			</view>
 		</view>
 		<!-- 转发 -->
 		<view class="share panel-end item-center">
-			<!-- <view class="le text-center">
-				不喜欢
-			</view> -->
 			<view class="ri panel-between item-center">
-				<button hover-class="none" open-type="share" 
-					
-					>
+				<button hover-class="none" open-type="share" >
 					<view class="img_box">
 						<image src="/static/weixin.png" mode=""></image>
 					</view>
@@ -35,34 +33,6 @@
 				</view>
 			</view>
 		</view>
-		<!-- 广告图 -->
-		<!-- <view class="ad_img">
-			广告
-		</view> -->
-		<!-- 相关推荐 -->
-<!-- 		<view class="recommended box_size">
-			<view class="head panel-center item-center">
-				<view class="line"></view>
-				<view class="tit">相关推荐</view>
-				<view class="line"></view>
-			</view>
-			<view class="cont">
-				<view class="item panel-between item_start"
-					v-for="(item,index) in [1,2,3] "
-					:key="index"
-					>
-					<view class="item_le">
-						<view class="item_le_title ">
-							不忘初心，践行担当 七一主题红细胞赋能活动
-						</view>
-						<view class="from">中国新闻网</view>
-					</view>
-					<view class="item_ri">
-					</view>
-				</view>
-			</view>
-		</view> -->
-		
 		<!-- 转发朋友圈操作提示 -->
 		<view class="operation" v-if="operation_style">
 			点击转发到朋友圈
@@ -79,7 +49,6 @@
 		<!-- 浏览进度环 -->
 		<circle v-if="percent !== limit" class="circle" :limit="limit" :percent="percent"></circle>
 		
-		
 	</view>
 </template>
 
@@ -94,6 +63,7 @@
 	export default {
 		data() {
 			return {
+				
 				newsInfo:'',
 				// 显示遮罩层，然后点击后消失
 				operation_style:false,
@@ -113,6 +83,7 @@
 			uniPopupMessage,
 		},
 		onLoad(options) {
+			
 			console.log('新闻详情页 options',options)
 			// 请求新闻详情
 			this.getNewDetail(options.newsId)
@@ -122,12 +93,10 @@
 				menus: ['shareAppMessage', 'shareTimeline']
 			});
 			// 获取当前用户的个人信息
-			this.getUsInfo()
+			
 		},
-		onHide() {
-			// 当用户退出页面之后，清除定时器
-			clearInterval(cirTime);
-			console.log('页面隐藏')
+		onShow() {
+			this.getUsInfo()
 		},
 		onUnload() {
 			console.log('页面卸载')
@@ -159,14 +128,16 @@
 		methods:{
 			// 获取用户的个人信息
 			getUsInfo(){
-				if(uni.getStorageSync('token')){
+				// if(uni.getStorageSync('token')){
 					// 如果用户进行了登录操作，获取用户的个人信息
-					this.api._get(
-					'user/info',{},(res)=>{
+					this.http({
+						url:'user/info',
+						data:{},
+					}).then(res => {
 						console.log('获取用户当前的 H币',res)
 						this.userInfo = res.data
 					})
-				}
+				// }
 			},
 			// 用户浏览作品，倒计时奖励
 			seeTxtAward() {
@@ -179,50 +150,35 @@
 						this.msg = '恭喜浏览作品获得1票';
 						this.$refs.popup.open();
 						// 请求分享的接口增加票数
-						this.api._post(
-							`user/increaseGold?userId=${this.userInfo.userId}&goldNumber=1`,
-							{
-							
-							},
-							(res) => {
-								console.log('浏览成功，加票')
-								
-							}
-						);
-						
-						setTimeout(() => {
-							this.$refs.popup.close();
-						}, 1500);
+						this.http({
+							url:`user/increaseGold?userId=${this.userInfo.userId}&goldNumber=1`,
+							method:'POST',
+							data:{}
+						}).then(res => {
+							console.log('浏览成功，加票')
+						})
 						clearInterval(cirTime);
 					}
 				}, 1000);
 			},
 			
 			// 显示转发到朋友圈的操作提示
-			showOperation(){
-				console.log('显示转发朋友圈提示')
-			},
 			changeMask(){
 				this.operation_style = !this.operation_style
 			},
 			// 请求新闻详情
 			getNewDetail(newsId){
-				this.api._get(
-					`news/find/${newsId}`,
-					{
-						
-					},
-					(res) => {
-						console.log('新闻详情',res)
-						this.newsInfo = res.data
-					}
-				);
+				this.http({
+					url:`news/find/${newsId}`,
+				}).then(res => {
+					console.log('新闻详情',res)
+					this.newsInfo = res.data
+				})
 			},
 			// 分享到朋友圈
 			shareCircle(){
 				this.operation_style = !this.operation_style
 			},
-			
 		}
 	}
 </script>
@@ -268,11 +224,18 @@
 				font-size: 24rpx;
 				margin-bottom: 40rpx;
 			}
-			.news_img{
-				margin-bottom: 40rpx;
-			}
+			
 			.news_conent{
 				margin-top: 40rpx;
+				.news_img{
+					margin-bottom: 40rpx;
+				}
+				.img_box{
+					width: 666rpx;
+					image{
+						width: 100%;
+					}
+				}
 			}
 		}
 		.share{
@@ -299,9 +262,7 @@
 			margin-bottom: 42rpx;
 			margin-top: 42rpx;
 		}
-		.ad_img{
-			
-		}
+		
 		.recommended{
 			background-color: #FFFFFF;
 			height: 844rpx;

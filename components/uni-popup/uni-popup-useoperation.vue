@@ -3,14 +3,8 @@
 		<!-- 个人资料 -->
 		<view  class="uni-popup-message-text "  :style="{left:operleft,top:opertop}" >
 			<view class="item" v-for="(item,index) in oper" :key="index"  @click="operchoose(index)">
-				<!-- 左侧图标 -->
-				<!-- <view class="left">
-					<image :src=item.src mode=""></image>
-				</view> -->
-				<!-- 右侧内容 -->
 				<view class="right">
 					<view class="tit">{{item.tit}}</view>
-					<!-- <view class="des">{{item.des}}</view> -->
 				</view>
 			</view>
 		</view>
@@ -43,8 +37,6 @@
 			operType:{
 				type:String
 			},
-			
-			
 			// 控制弹窗的位置
 			opertop:{
 				type:String,
@@ -92,92 +84,38 @@
 					{src:'/static/shield.png',tit:'删除',des:'不喜欢'},
 					// {src:'/static/report.png',tit:'举报',des:'内容令人不适，搬运抄袭'}
 				],
-				
-				video_src:'',
-				uploader:'',
-				videos: [],
-				showCir:false,//进度环是否显示
-				percent:0,//上传进度环的显示
 			}
 		},
 		created() {
 			this.popup.childrenMsg = this
 		},
-		onReady() {
-			
-		},
 		methods: {
 			// 用户点击弹窗进行操作
 			operchoose(index){
 				let _this = this
-				console.log('this.txtid',this.txtid,_this.operType,index)
+				// console.log('this.txtid',this.txtid,_this.operType,index)
 				if(index == 0){
 					// 用户进行修改操作
 					// 跳转到 写文章的界面  将点击的 文章的信息传递过去
-					if(_this.operType == 'myTxt'){
-						console.log('跳转文章')
-						// 当前的类型 为文章
-						uni.navigateTo({
-							// url:`/pages/publish/publishNotice?txtid=${this.txtid}`
-							url:`/pages/changeTxt/changeTxt?txtid=${this.txtid}`
-						})
-					}else if (_this.operType == 'myUsed'){
-						// 当前类型为 二手
-						uni.navigateTo({
-							url:`/pages/publish/publishUsed?usedid=${this.txtid}`
-						})
-					}else if (_this.operType == 'myVideo'){
-						// 当前类型为 二手
-						uni.navigateTo({
-							url:`/pages/publish/publishVideo?usedid=${this.txtid}`
-						})
-					}
-					
-					
-				}else if(index == 1) {
-					// let delMsg = JSON.parse(this.item)
-					// 用户进行删除操作
-					// console.log('用户进行 删除 delMsg',JSON.parse(this.item))
-					if(_this.operType == 'myTxt'){
-							console.log('用户进行删除成功')
-						this.api._del(`article/${_this.txtid}`,{},function(res){
-							_this.$emit('closeUseroperation');
-							
-							uni.showToast({
-								icon:'none',
-								title: '删除成功',
-							})
-							uni.hideLoading()
-							// 然后删除当前列表中的作品
-							_this.$emit('myDelArticle');
-						})
-					}else if(_this.operType == 'myUsed'){
-						this.api._del(`secondGoods/${_this.txtid}`,{},function(res){
-							console.log('用户进行删除成功',res)
-							_this.$emit('closeUseroperation');
-							uni.showToast({
-								icon:'none',
-								title:'删除成功'
-							})
-						})
-					}else if(_this.operType == 'myVideo'){
-						console.log('删除 我的视频')
-						this.api._del(`vod/delete/${_this.txtid}`,{},function(res){
-							console.log('用户进行删除成功',res)
-							_this.$emit('closeUseroperation');
-							uni.showToast({
-								icon:'none',
-								title:'删除成功'
-							})
-						})
-					}
-					
+					uni.navigateTo({
+						url:`/pages/changeTxt/changeTxt?txtid=${this.txtid}`
+					})
 				}
-				
+				else if(index == 1) {
+					this.http({
+						url:`article/${_this.txtid}`,
+						method:'DELETE'
+					}).then(res => {
+						this.$emit('closeUseroperation');
+						uni.showToast({
+							icon:'none',
+							title: '删除成功',
+						})
+						// 然后删除当前列表中的作品
+						_this.$emit('myDelArticle');
+					})
+				}
 			},
-			
-			
-			
 			// 控制弹窗
 			open() {
 				if (this.duration === 0) return
@@ -188,10 +126,6 @@
 			},
 			close() {
 				clearTimeout(this.popuptimer)
-			},
-			//提交个人资料
-			submitUserMsg(e){
-				console.log('个人资料e',e.detail.value)
 			},
 		}
 	}

@@ -41,10 +41,13 @@
 			},
 			// 用户进行提交
 			submit(){
-				console.log('提交')
-				this.api._put('user',{
-					personalProfile:this.value
-				},(res)=>{
+				this.http({
+					url:'user',
+					method:'PUT',
+					data:{
+						personalProfile:this.value
+					}
+				}).then(res => {
 					uni.navigateBack({
 						delta:1
 					})

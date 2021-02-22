@@ -17,33 +17,19 @@
 		<view class="list-container" style="padding: 12rpx;padding-top:54px;" >
 			<view id="wf-list" class="list" v-for="(list, listIndex) in viewList" :key="listIndex">
 				<!-- 每一个作品 -->
-				<!-- <view class="item" v-for="(item,index) of list.list" :key="index" -->
 				<view class="item" v-for="(item, index) of list.list" :key="item.id" 
 					:data-index="index" :data-listindex="listIndex"
 					@longpress="longpress" @click="jump(item)">
-					<!-- :data-videoId='item.videoId' -->
-					<!-- 视频封面 -->
+					<!-- 作品封面 -->
 					<u-lazy-load @load="handleViewRender(listIndex, index)" 
 						@error="handleViewRender(listIndex, index)" 
-						:image="item.coverUrl || 'https://ceshigfsc.oss-cn-beijing.aliyuncs.com/33e2ec6b-565e-4f0c-90b6-dd726ccec025.jpg' "></u-lazy-load>
-					<!-- 上传视频的简单的简介 转发量 {{ item.forwardCount }} -->
+						:image="item.coverUrl || 'https://ceshigfsc.oss-cn-beijing.aliyuncs.com/33e2ec6b-565e-4f0c-90b6-dd726ccec025.jpg' "
+						>
+					</u-lazy-load>
+					<!-- 作品标题 -->
 					<view class="introduction">
 						{{ item.conversation || item.title }}
-						<!-- 简单的简介简单的简介简单的简介简单的简介简单的简介简单的简介简单的简介 -->
 					</view>
-					<!-- 如果渲染的是 商品的话显示 商品的价格 -->
-					<view class="price" v-if="item.price" >
-						<view>
-							￥
-							<text class="num"> 
-								{{item.price / 100}} 
-							</text>
-						</view>
-						<view class="see_num">
-							{{item.viewsNum}} 人浏览
-						</view>
-					</view>
-					
 					<!-- 用户的 头像以及点赞数 -->
 					<view class="item_foot">
 						<view class="left">
@@ -53,7 +39,6 @@
 								{{ item.userName || userName }}
 							</view>
 						</view>
-						
 						<view style="display: flex;" >
 							<view style="margin-right: 10rpx;" >
 								<text style="margin-right: 10rpx;" 
@@ -62,32 +47,23 @@
 								{{item.goldNumber}}
 							</view>
 						</view>
-						
-						
 					</view>
 				</view>
 			</view>
 		</view>
-		
 		<view style="text-align: center;color: #999999;"  v-if="list.length == 0">
 			—— 暂无更多 ——
 		</view>
-		
 	</view>
 </template>
 
 <script>
-	// import MescrollItem from "@/components/mescroll-swiper-item.vue";
-	// import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
-	// import MescrollEmpty from '@/components/mescroll-uni/components/mescroll-empty.vue';
-	// import wfallsFlow from '@/components/wfallsflow.vue';
 	export default {
 		data() {
 			return {
 				list:[],
 				viewList: [{ list: [] }, { list: [] }],
 				initType:true,
-				
 				kw:"search",
 				// 用户输入的关键字
 				keyword: '',
@@ -102,14 +78,7 @@
 				size: 10,
 			};
 		},
-		components:{
-			// MescrollEmpty,
-			// MescrollItem,
-			// wfallsFlow,
-			// swiperTabHead,
-		},
 		mounted() {
-			// console.log('瀑布流组件进行挂载 list', this.list);
 			if (this.list.length) {
 				this.init();
 			}
@@ -145,67 +114,59 @@
 					.boundingClientRect(data => {
 						if(this.list.length == this.viewList[0].list.length + this.viewList[1].list.length) return
 						listFlag = data[0].bottom - data[1].bottom <= 0 ? 0 : 1;
-						console.log('瀑布 this.list[index]',this.list[index])
 						this.viewList[listFlag].list.push(this.list[index]);
 					})
 					.exec();
 			},
 			// 用户点击 进行跳转操作
 			jump(item) {
-				console.log('进行跳转 item', item);
-				if (item.videoId) {
-					console.log('跳转到视频界面');
-					uni.navigateTo({
-						url:'/pages/playVideo/playVideo?item=' + encodeURIComponent(JSON.stringify(item))
-					})
-				} 
-				else if (item.price){
-					// 跳转到 二手详情页面
-					console.log('跳转到二手详情页');
-					uni.navigateTo({
-						// 测试二手 
-						url:`/pages/playVideo/usedDetail?usedId=${item.id}`
-					});
-				}
-				else if (item.title) {
-					// 跳转到文章页面
-					console.log('跳转到文章详情页');
-					uni.navigateTo({
-						url:`/pages/production/txtDetail?txtId=${item.id}`
-						// 测试二手 记得修改过来
-						// url:`/pages/playVideo/usedDetail?txtId=8`
-					});
-				} 
+				// console.log('进行跳转 item', item);
+				uni.navigateTo({
+					url:`/pages/production/txtDetail?txtId=${item.id}`
+				});
 			},
 			// 用户进行搜索文章
 			searchArticle(){
-				this.api._get('article/search',{
-					pageNum:this.page,
-					pageSize:10,
-					title:this.keyword
-				},(res)=>{
-					console.log('进行搜索',res)
-					if(this.page !== 1){
-						this.list = this.list.concat(res.data.list) 
-					}else{
-						this.list = res.data.list
+				this.http({
+					url: 'article/search',
+					data: {
+						pageNum: this.page,
+						pageSize: 10,
+						title: this.keyword
 					}
-					
-					// 当从新init了 瀑布流又重新渲染
-					if (res.data.list.length) {
+				}).then(res => {
+					// console.log('进行搜索',res)
+					if(this.page !== 1){
+						// console.log('上拉加载')
+						this.list = this.list.concat(res.data.list) 
+						this.handleViewRender()
+					}else{
+						// console.log('下拉刷新')
+						this.list = res.data.list
 						this.init();
 					}
 				})
 			},
 			// 用户输入内容发生改变
 			inputChange: function(e) {
-			  this.keyword = e.detail.value
-				this.searchStatus = false
-			  if (e.detail.value) {
+				// 剔除用户输入空格
+				if(!e.detail.value || !e.detail.value.trim()){
+					console.log('输入内容为空')
+					return;
+				}
+				// 对比前后两个关键字是否一致
+				if(e.detail.value == this.keyword){
+					// 关键词一致
+					this.searchStatus = false
+				}else{
+					// 关键词发生变化
+					this.page = 1
+					this.keyword = e.detail.value
+					this.searchStatus = true
 					// 进行搜素
 					this.searchArticle()
-			    // this.getHelpKeyword();
-			  }
+				}
+				
 			},
 			//事件处理函数
 			closeSearch: function() {

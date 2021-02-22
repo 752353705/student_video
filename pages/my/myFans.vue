@@ -88,80 +88,59 @@
 			
 			// 获取我的粉丝列表
 			getMyFans(){
-				this.api._get(
-					'follow/fans',
-					{
+				this.http({
+					url:'follow/fans',
+					data:{
 						pageNum: this.pageNum,
 						pageSize: 10
-					},
-					(res) => {
-						// console.log('获取我的粉丝列表 res ===>', res);
-						this.list = this.list.concat(res.data.list);
-						if (this.colSumList.length == 10) {
-							this.pageNum++;
-							this.nextpage = true
-						}else{
-							this.nextpage = false
-						}
 					}
-				);
+				}).then(res => {
+					this.list = this.list.concat(res.data.list);
+					if (this.colSumList.length == 10) {
+						this.pageNum++;
+						this.nextpage = true
+					}else{
+						this.nextpage = false
+					}
+				})
 			},
 			
 			// 获取其他人的粉丝
 			getOtherFans(){
-				this.api._get(
-					'follow/otherUserfans',
-					{
+				this.http({
+					url:'follow/otherUserfans',
+					data:{
 						userId:this.userId,
 						pageNum: this.pageNum,
 						pageSize: 10
-					},
-					(res) => {
-						// console.log('获取其他人的粉丝列表 res ===>', res);
-						this.list = res.data.list;
 					}
-				);
+				}).then(res => {
+					this.list = res.data.list;
+				})
 			},
 			
 			focusOn(index){
 				let _this = this
 				if(!this.list[index].followed){
 					// 用户未关注
-					this.api._post(
-						'follow',
-						{
-							followedId: _this.list[index].userId //被关注的 作者id
-						},
-						function(res) {
-							// console.log('进行关注成功',res);
-							_this.list[index].followed = !_this.list[index].followed;
-						}
-					);
+					this.focusApi()
 				}else{
 					// 用户已经进行了关注，此时再进行点击表示用户是否要取消关注
-					// uni.showModal({
-						// content: '确认不在关注',
-						// success: function(res) {
-						// 	if (res.confirm) {
-								// console.log('用户点击确定');
-								_this.api._post(
-									'follow',
-									{
-										followedId: _this.list[index].userId //被关注的 作者id
-									},
-									function(res) {
-										// console.log('进行关注成功', res);
-										_this.list[index].followed = !_this.list[index].followed;
-									}
-								);
-							// } else if (res.cancel) {
-							// 	console.log('用户点击取消');
-							// }
-						// }
-					// });
+					this.focusApi()
 				}
 			},
 			
+			focusApi(){
+				this.http({
+					url:'follow',
+					method:'POST',
+					data:{
+						followedId: this.list[index].userId //被关注的 作者id
+					}
+				}).then(res => {
+					this.list[index].followed = !this.list[index].followed;
+				})
+			}
 		}
 	}
 </script>

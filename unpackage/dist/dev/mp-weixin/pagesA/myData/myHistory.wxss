@@ -48,6 +48,8 @@
   position: fixed;
   top: 21rpx;
   right: 51rpx;
+  background-color: #eae4e4;
+  z-index: 30;
   width: 100%;
   width: 102rpx;
   line-height: 26px;
@@ -149,9 +151,11 @@
           align-items: center;
   margin-bottom: 24rpx;
 }
-.myColl .box .item .detail_img image.data-v-433b6123 {
-  width: 104px;
-  height: 104px;
+.myColl .box .item .detail_img .detail_img_box.data-v-433b6123 {
+  width: 289rpx;
+}
+.myColl .box .item .detail_img .detail_img_box image.data-v-433b6123 {
+  width: 100%;
   margin-right: 21rpx;
 }
 .myColl .box .item .foot.data-v-433b6123 {

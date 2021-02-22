@@ -76,10 +76,13 @@
 		methods:{
 			// 获取 记录 的接口
 			getHgold(){
-				this.api._get('user/rechargeList',{
-					 pageNum:this.pageNum,
-					 pageSize:10,
-				},(res)=>{
+				this.http({
+					url:'user/rechargeList',
+					data:{
+						pageNum:this.pageNum,
+						pageSize:10,
+					}
+				}).then(res => {
 					console.log('获取充值记录的接口')
 					this.hisList = this.hisList.concat(res.data.list)
 					// 判断返回的 数据条数 用来看是否有下一页

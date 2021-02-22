@@ -1,48 +1,54 @@
 <template>
 	<view class="listPage">
-		<!-- 搜索框 -->
-		<view class="searchBox height">
-			<view class="serach text-center item-center panel-center " @click="goSearch">
-				<u-icon size="40" name="search"></u-icon>
-				<span>搜索</span>
+		<view class="head">
+			<!-- 返回按钮 -->
+			<image @click="back" src="/static/back.png" mode=""></image>
+			<!-- 搜索框 -->
+			<view class="searchBox height">
+				<view class="serach text-center item-center panel-center " @click="goSearch">
+					<u-icon size="40" name="search"></u-icon>
+					<span>搜索</span>
+				</view>
 			</view>
 		</view>
-		
 		<!-- 赛事 类型说明 height -->
 		<view class="game_type height panel-between item-center box-boder  ma-b20"
-			v-if="game_type_state"
+			v-if="game_type_state" @click="goGameDetail"
 			>
 			<view class="le panel-start item-center" style="width: 80%;">
-				<view class="img_box" @click="goGameDetail" >
+				<view class="img_box"  >
 					<image class="img" :src="gameMsg.logo" mode="scaleToFill"></image>
 				</view>
-				<view class="body  panel-center" @click="goGameDetail">
+				<view class="body  panel-center">
 					<view class="name">{{gameMsg.subjectTitle}}</view>
 					<view class="desc ma-t20 fo-20">{{gameMsg.introduction}}</view>
 				</view>
 			</view>
-			<view class="btn fo-20 box-boder" @click="goGameDetail">
+			<view class="btn fo-20 box-boder">
 				详情
 			</view>
 		</view>
-		
-		<!-- 喇叭通知 -->
-		<u-notice-bar class="height notice"
-			  mode="horizontal" 
-			:is-circular="true" :list="notice"
+		<view style="padding: 0rpx 10rpx 0;box-sizing: border-box;">
+			<!-- 作品 -->
+			<mescroll-item  ref="mescroll"
+				:kw="kw"
+				:waterFullHeight="mescroll_height" 
+				:listData="listData" v-on:getData="getListTxt"
 			>
-		</u-notice-bar>
-		<!-- 作品 -->
-		<mescroll-item ref="mescroll"
-			:kw="kw" :subjectId="gameMsg.subjectId" 
-			:waterFullHeight="mescroll_height" 
-		>
-		</mescroll-item>
-		
-		<!-- 快捷报名按钮 -->
-		<view class="add" @click="jumpPublish">
-			<image src="/static/apply.png" mode="widthFix"></image>
+			</mescroll-item>
 		</view>
+		<!-- 快捷报名按钮 game_statue 用来判断是否为 最美学子大赛
+				还要增加判断条件，将答题大赛与其他大赛区分开
+				-->
+		<block v-if="game_statue">
+			<view v-if="game_type" style="right: 7rpx;" class="add"  @click="jumpQuestion">
+				<image src="/static/answer.png" mode="widthFix"></image>
+			</view>
+			<view v-else class="add"  @click="jumpPublish">
+				<image src="/static/apply.png" mode="widthFix"></image>
+			</view>
+		</block>
+	
 	</view>
 </template>
 
@@ -51,10 +57,16 @@
 	import MescrollItem from "@/components/mescroll-swiper-item.vue";
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import MescrollEmpty from '@/components/mescroll-uni/components/mescroll-empty.vue';
+	
 	export default {
 		mixins: [MescrollMixin], // 使用mixin
 		data() {
 			return {
+				// 当前大赛的 subjectid
+				subjectId:'',
+				
+				// 列表数据
+				listData: [],
 				// 判断是否有赛事展示
 				game_type_state:false,
 				// 请求数据的关键词
@@ -71,6 +83,12 @@
 				tabIndex:0,// 选中的
 				// 用户当前浏览的 赛事id logo
 				gameMsg:'',
+				// 判断 大赛的状态 是否还在进行中，否则隐藏上传按钮
+				game_statue:true,
+				// 将 答题大赛 与 一般大赛区分开
+				// true 表示大赛为 答题类型
+				game_type:true,
+				subjectTypeName:''
 			}
 		},
 		components:{
@@ -79,6 +97,29 @@
 		},
 		onLoad(option) {
 			let _this = this
+			
+			console.log('option',option)
+			// 将 subjectId 进行赋值
+			this.subjectId = option.subjectId
+			this.subjectTypeName = option.subjectTypeName
+			
+			// 根据 options 传递过来的参数，判断是否显示
+			// 上传作品图标
+			if(option.tab_act == 1){
+				this.game_statue = true
+			}else if(option.tab_act == 2){
+				this.game_statue = false
+			}
+			// 区分大赛 是 答题大赛 还是 一般大赛
+			if(option.subjectTypeName == '答题'){
+				this.game_type = true
+			}else{
+				this.game_type = false
+			}
+			
+			
+			
+			
 			// 用于显示分享到朋友圈
 			uni.showShareMenu({
 				withShareTicket: true,
@@ -116,6 +157,11 @@
 				this.gameMsg = now_gameMsg
 				this.$refs.mescroll.refash();
 			}
+			// 当该大赛是 最美学子的时候，隐藏 上传作品按钮
+			// 判断是 一般大赛还是 答题大赛
+			if(this.gameMsg.subjectId == 16){
+				this.game_statue = false
+			}
 		},
 		onShareAppMessage(res) {
 			if (res.from === 'button') {
@@ -127,13 +173,46 @@
 			}
 		},
 		methods: {
+			// 跳转到 答题页面
+			jumpQuestion(){
+				uni.navigateTo({
+					url:`/pages/questionBank/questionBank?subjectId=${this.subjectId || this.gameMsg.subjectId }`
+				})
+			},
+			// back，返回主页面
+			back(){
+				uni.switchTab({
+					url:'/pages/Introduction/Introduction'
+				})
+			},
+			// 请求获取 列表内容
+			getListTxt(msg,callback) {
+				this.http({
+					url:'article/list',
+					data:{
+						pageNum: msg.pageNum,
+						pageSize: '10',
+						subjectId: this.gameMsg.subjectId
+					}
+				}).then(res => {
+					// console.log('list 获取第'+ msg.pageNum + '页数据',res.data.list)
+					if (msg.pageNum > 1) {
+						this.listData = this.listData.concat(res.data.list);
+					} else {
+						this.listData = res.data.list
+					}
+					callback(res.data.list.length)
+				}).catch(() => {
+					callback(1)
+				})
+			},
 			// 跳转到搜索页面
 			goSearch(){
 				uni.navigateTo({
 					url:"/pages/find/find"
 				})
 			},
-			
+			// 跳转到上传作品页面
 			jumpPublish(){
 				uni.navigateTo({
 					url:'/pages/publish/publishNotice'
@@ -141,7 +220,9 @@
 			},
 			// 通过分享进入的改页面，判断获取哪类大赛作品
 			byCacheGame(){
-				this.api._get('subject/indexSubject',{},(res) => {
+				this.http({
+					url:'subject/indexSubject'
+				}).then(res => {
 					let gameMsg = {
 						subjectId:res.data.subjectId,
 						logo:res.data.logoUrl,
@@ -160,28 +241,27 @@
 			},
 			// 获取对应大赛的作品
 			getData(pageNum){
-				this.api._get(
-					'article/list',
-					{
+				this.http({
+					url:'article/list',
+					data:{
 						pageNum: pageNum,
 						pageSize: '10',
 						subjectId: this.gameMsg.subjectId
-					},
-					(res) => {
-						if (pageNum > 1) {
-							this.listData = this.listData.concat(res.data.list);
-						} else {
-							this.listData = res.data.list;
-							// _this.mescroll.endSuccess(res.data.list.length);
-						}
 					}
-				);
+				}).then(res => {
+					if (pageNum > 1) {
+						this.listData = this.listData.concat(res.data.list);
+					} else {
+						this.listData = res.data.list;
+						// _this.mescroll.endSuccess(res.data.list.length);
+					}
+				})
 			},
 			// 用户点击比赛跳转到大赛详情界面
 			goGameDetail(){
 				console.log('跳转大赛')
 				uni.navigateTo({
-					url:`/pages/Introduction/gameDetail?subjectId=${this.gameMsg.subjectId}`
+					url:`/pages/Introduction/gameDetail?subjectId=${this.gameMsg.subjectId}&subjectTypeName=${this.subjectTypeName}`
 				})
 			},
 			// 用户查看大赛详情
@@ -197,34 +277,33 @@
 <style  scoped lang="scss">
 	.listPage{
 		background-color: #f5f6fa;
-		box-sizing: border-box;
-		padding: 0rpx 10rpx 0;
-		// 滚动的小喇叭
-		// .notice{
-		// 	position: fixed;
-		// 	top:0;
-		// 	top:144rpx;
-		// 	width: 100%;
-		// 	height: 40px;
-		// 	z-index: 90;
-		// 	box-sizing: border-box;
-		// 	padding-right: 20rpx;
-		// }
-		.searchBox{
+		.head{
 			width: 100%;
 			height: 77rpx;
-			background-color: white;
-			padding: 50rpx 0 20rpx 0;
+			padding: 50rpx 0 20rpx 10rpx;
 			position: sticky;
 			z-index: 10;
 			top: 0;
 			left: 0;
-			.serach{
-				background-color: #f5f5f5;
-				border-radius: 33rpx;
-				width: 69%;
+			background-color: white;
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			image{
+				margin-right: 10rpx;
+				width: 60rpx;
+				height: 53rpx;
+			}
+			.searchBox{
+				width: 100%;
 				height: 100%;
-				color: #453a74;
+				.serach{
+					background-color: #f5f5f5;
+					border-radius: 33rpx;
+					width: 69%;
+					height: 100%;
+					color: #453a74;
+				}
 			}
 		}
 		// 赛事分类

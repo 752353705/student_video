@@ -29,21 +29,23 @@
 			<view class="msg" :style="{ height: lineHeight }">
 				<!-- <image src="/static/signature.png" mode=""></image> -->
 				<text class="iconfont iconxie" style="margin-right: 10rpx;color: #858585;"></text>
-				<textarea
-					maxlength="100"
-					cursor-spacing="15"
-					type="text"
-					:adjust-position="false"
-					:placeholder="replayVal"
-					:show-confirm-bar="false"
-					:value="val"
-					:focus="inputfocus"
-					@blur="blur"
-					@input="sendVal"
-					@confirm="send"
-					@linechange="linechange"
-					@keyboardheightchange="keyboardheightchange"
-				></textarea>
+				<!--  -->
+					<textarea
+						:style="val ? '' : 'color: #ababab;'"
+						maxlength="100"
+						cursor-spacing="15"
+						type="text"
+						:adjust-position="false"
+						:placeholder="replayVal"
+						:show-confirm-bar="false"
+						:value="val"
+						:focus="inputfocus"
+						@blur="blur"
+						@input="sendVal"
+						@confirm="send"
+						@linechange="linechange"
+						@keyboardheightchange="keyboardheightchange"
+					></textarea>
 			</view>
 			<!-- 选择表情按钮 -->
 			<view @click="showExpression" class="expression iconfont iconbiaoqing"></view>
@@ -205,7 +207,7 @@ export default {
 		},
 		// 将评论推入列表中
 		sendVal(e) {
-			console.log('输入操作', e);
+			// console.log('输入操作', e);
 			this.val = e.detail.value;
 			if (this.val !== '' && this.val.trim()) {
 				// 评论中不为空或都是 空格
@@ -254,57 +256,56 @@ export default {
 		},
 		//给文章 发送评论
 		sendTxtCmt() {
-			let _this = this;
 			if (this.sendStyle) {
 				//对当前文章进行评论
-				this.api._post(
-					'article/comment',
-					{
-						articleId: _this.txtId, //文章ID
-						content: _this.val
-					},
-					function(res) {
-						console.log('发表文章评论成功 res==>', res);
-						// 隐藏当前的 评论的空布局
-
-						// 发表言论成功后，修改评论数据
-						_this.$emit('changeComment', {
-							val: _this.val,
-							commentId: res.data
-						});
-
-						_this.val = '';
-						_this.replayVal = '写评论...';
-						_this.sendStyle = true;
-						_this.send_btn_style = false;
-						// 添加了言论之后，修改当前的 评论数量
-						_this.$emit('changeCommentsNum');
+				this.http({
+					url:'article/comment',
+					method:'POST',
+					data:{
+						articleId: this.txtId, //文章ID
+						content: this.val
 					}
-				);
+				}).then(res => {
+					// console.log('发表文章评论成功 res==>', res);
+					// 隐藏当前的 评论的空布局
+					// 发表言论成功后，修改评论数据
+					this.$emit('changeComment', {
+						val: this.val,
+						commentId: res.data
+					});
+					this.val = '';
+					this.replayVal = '写评论...';
+					this.sendStyle = true;
+					this.send_btn_style = false;
+					// 添加了言论之后，修改当前的 评论数量
+					this.$emit('changeCommentsNum');
+				})
 			} else {
 				// 进行评论的回复
-				this.api._post(
-					'article/comment/addReply',
-					{
-						commentId: _this.commentId, //评论中的ID
-						content: _this.val
-					},
-					function(res) {
-						// console.log('进行文章评论回复 res==>', res);
-						_this.sendStyle = true;
-						// 对评论列表进行修改，
-						_this.$emit('changeComment', {
-							val: _this.val,
-							index: _this.replayIndex,
-							replayVal: _this.replayVal,
-							commentId: res.data
-						});
-						// _this.$emit('changeComment',_this.val,_this.replayIndex);
-						// console.log('评论的回复 msgList ==》', _this.msgList);
-						_this.val = '';
-						_this.replayVal = '写评论...';
+				this.http({
+					url:'article/comment/addReply',
+					method:'POST',
+					data:{
+						commentId: this.commentId, //评论中的ID
+						content: this.val
 					}
-				);
+				}).then(res => {
+					// console.log('进行文章评论回复 res==>', res);
+					this.sendStyle = true;
+					// 对评论列表进行修改，
+					this.$emit('changeComment', {
+						val: this.val,
+						index: this.replayIndex,
+						replayVal: this.replayVal,
+						commentId: res.data
+					});
+					// this.$emit('changeComment',this.val,this.replayIndex);
+					// console.log('评论的回复 msgList ==》', this.msgList);
+					this.val = '';
+					this.replayVal = '写评论...';
+				})
+				
+				
 			}
 		},
 		// 进行评论的回复
@@ -319,28 +320,22 @@ export default {
 			if (index2 == undefined) {
 				// console.log('对视频评论进行回复')
 				// 对视频评论进行回复
-
 				// 修改输入框中的值
 				this.replayVal = '回复 @' + this.msgList[index].userName;
 				this.commentId = this.msgList[index].id;
 				this.sendStyle = false;
-
 				// 修改评论的序号
 				this.replayIndex = index;
-
 				// 拉起输入框，进行聚焦
 				this.inputfocus = true;
 			} else {
 				// 对 二级评论机型回复
-				console.log('进行二级回复', this.msgList[index].replyList[index2]);
+				// console.log('进行二级回复', this.msgList[index].replyList[index2]);
 				this.replayVal = '回复 @' + this.msgList[index].replyList[index2].userName; //用于显示进行二级回复的用户名
 				// this.replayVal = '回复 @' + "旭东"  //用于显示进行二级回复的用户名
-
 				this.commentId = this.msgList[index].id;
 				this.sendStyle = false;
-
 				this.replayIndex = index;
-
 				this.inputfocus = true;
 			}
 		},
@@ -466,7 +461,7 @@ export default {
 		textarea {
 			width: 84%;
 			height: 100%;
-			padding-top: 16rpx;
+			padding-top: 22rpx;
 		}
 	}
 	// 表情

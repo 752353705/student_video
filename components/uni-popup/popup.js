@@ -13,6 +13,8 @@ const config = {
 	dialog:'center',
 	// 分享
 	share:'bottom',
+	// 我的页面进行删除修改操作
+	operation:'operation'
 }
 
 export default {

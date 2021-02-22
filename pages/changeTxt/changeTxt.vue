@@ -1,13 +1,12 @@
 <template>
 	<view class="pused">
-		
 		<view class="uni-popup-message-text">
 			<view class="img_box">
 				<!-- 展示选中的图片  -->
 				<view class="cont_box">
 					<view @tap.stop="detailImg" style="background-color: black;" class="content" v-for="(item, index) in images" :key="index">
 						<image :src="item.url" mode="aspectFit"></image>
-						<image class="img" @tap.stop="clear(num,index)" src="../../static/close_video.png" mode=""></image>
+						<image class="img" @tap.stop="clear(num, index)" src="../../static/close_video.png" mode=""></image>
 					</view>
 					<view v-if="!(images.length == nowCount)" class="content" @tap.stop="getImg">
 						<!-- 十字图案 -->
@@ -16,39 +15,32 @@
 				</view>
 			</view>
 			<view v-if="!btn_statue" class="btn" @tap.stop="pushImg">发布</view>
-			<view v-else class="btn" style="background-color: #BBBBBB;" >发布中...</view>
+			<view v-else class="btn" style="background-color: #BBBBBB;">发布中...</view>
 		</view>
 		<!-- 文章标题 -->
-		<input class="input" type="text" @input="titInput" name="title" 
-			:value="title" placeholder="添加标题会有更多赞哦" 
-		/>
+		<input class="input" type="text" @input="titInput" name="title" :value="title" placeholder="添加标题会有更多赞哦" />
 		<!-- 用户填写的内容 -->
-		<textarea :show-confirm-bar="false" name="area" 
-			:value="areaVal" class="txt_area" @input="areaInput" 
-			placeholder="说说此刻心情" :maxlength="-1" />
-		
-		<!-- 滚动选择赛事的类型 -->
-		<!-- <picker @change="bindPickerChange" :value="value" :range="game_type" range-key="subjectTitle"> -->
-			<!-- 文章话题 -->
-			<view class="topic" :class="oldItem.subjectName ? 'act' : '' ">
-				<view class="le">
-					<view class="tag">#</view>
-					{{oldItem.subjectName || '参与话题'}}
-				</view>
-				<!-- <view class="iconfont iconfanhui"></view> -->
+		<textarea :show-confirm-bar="false" name="area" :value="areaVal" class="txt_area" @input="areaInput" placeholder="说说此刻心情" :maxlength="-1" />
+		<!-- 文章话题 -->
+		<view class="topic" :class="oldItem.subjectName ? 'act' : ''">
+			<view class="le">
+				<view class="tag">#</view>
+				{{ oldItem.subjectName || '参与话题' }}
 			</view>
-		<!-- </picker> -->
+		</view>
 	</view>
 </template>
 
 <script>
+	// 网站的基本信息，用于上传图片使用
+	import siteInfo from '@/siteinfo.js'
 export default {
 	data() {
 		return {
 			// 赛事类型
-			game_type:'',
+			game_type: '',
 			// 用户选择的文章的封面图
-			TImg:'',
+			TImg: '',
 			// 判断用户是否是要进行修改操作
 			change: false,
 			// 用户点击要进行修改的图片
@@ -84,46 +76,25 @@ export default {
 			// 发起请求获取文章内容
 			this.getTxtDetail(option.txtid);
 		}
-		// 获取发布文章的 话题
-		// this.api._get('subject/onGoing',{
-		// 	subjectTypeId:'',
-		// 	pageNum:1,
-		// 	pageSize:10
-		// },(res) =>{
-		// 	console.log('请求大赛类型',res)
-		// 	this.game_type = res.data.list
-		// })
-		
-		
 	},
-	onHide() {},
-	onReady() {},
 	methods: {
-		// 筛选大赛类型
-		// bindPickerChange(e) {
-		// 	console.log('picker发送选择改变，携带值为', e)
-		// 	this.value = e.detail.value
-		// 	this.topic = this.game_type[e.detail.value].subjectTitle
-		// 	this.subjectId = this.game_type[e.detail.value].subjectId
-		// },
-	
 		// 用户要进行信息修改，根据文章ID获取文章的详细信息
 		getTxtDetail(txtid) {
-			let _this = this;
-			this.api._get(`article/${txtid}`, {}, function(res) {
+			this.http({
+				url: `article/${txtid}`,
+				data: {}
+			}).then(res => {
 				console.log('获取文章的详情', res);
-				
-				_this.TImg = res.data.coverUrl
-				_this.oldItem = res.data;
+				this.TImg = res.data.coverUrl;
+				this.oldItem = res.data;
 				// 将传递过来的信息 赋值给 当前页面的信息
-				_this.title = res.data.title;
-				_this.areaVal = res.data.content;
-				// _this.images =
+				this.title = res.data.title;
+				this.areaVal = res.data.content;
 				res.data.images.split(',').forEach((item, index) => {
-					_this.images.push({ url: item });
+					this.images.push({ url: item });
 				});
 				// 储存用户老的 网络图片
-				_this.oldImgArr = res.data.images.split(',');
+				this.oldImgArr = res.data.images.split(',');
 			});
 		},
 		// 用户进行文章的编写
@@ -147,86 +118,68 @@ export default {
 				return;
 			}
 			// 开始了上传 改变按钮的状态
-			this.btn_statue = true
-			
-			
-			// return new Promise((res,rej) => {
-				// 在进行上传的时候 要保证 imgArr 为 空
-				// 防止 用户在已经上传了 之后 又进行修改 然后重新上传
-				// this.imgArr = [].concat(this.oldImgArr);
-				this.num = 0;
-				// console.log('上传图片');
-				let _this = this;
-				
-				uni.showLoading({
-					title:'正在发布..'
-				})
-				
-				// 改变 当前 所选图片结构
-				this.images.forEach(item => {
-					if(item.url.substr(0,4) !== 'http'){
-						// console.log('上传图片的url',item.url,item.url.substr(0,4))
-						// return true;
-						console.log('本地图片',item.url.substr(0,4))
-						//是本地图片进行 上传 
-						this.uploadImg(item)
-					}else{
-						// 属于网络图片，不用进行上传
-						console.log('网络图片',item.url)
-						_this.imgArr.push(item.url);
-					}
-					
-					if (_this.num == _this.images.length || _this.imgArr.length == _this.images.length) {
-						// _this.chooseImg = false
-						console.log('所有图片上传完毕');
-						
-						_this.pushAll();
-					}
-					
-				});
+			this.btn_statue = true;
+			// 在进行上传的时候 要保证 imgArr 为 空
+			// 防止 用户在已经上传了 之后 又进行修改 然后重新上传
+			// this.imgArr = [].concat(this.oldImgArr);
+			this.num = 0;
+			// console.log('上传图片');
+			let _this = this;
+
+			uni.showLoading({
+				title: '正在发布..'
+			});
+
+			// 改变 当前 所选图片结构
+			this.images.forEach(item => {
+				if (item.url.substr(0, 4) !== 'http') {
+					// console.log('上传图片的url',item.url,item.url.substr(0,4))
+					// return true;
+					console.log('本地图片', item.url.substr(0, 4));
+					//是本地图片进行 上传
+					this.uploadImg(item);
+				} else {
+					// 属于网络图片，不用进行上传
+					console.log('网络图片', item.url);
+					_this.imgArr.push(item.url);
+				}
+
+				if (_this.num == _this.images.length || _this.imgArr.length == _this.images.length) {
+					// _this.chooseImg = false
+					console.log('所有图片上传完毕');
+
+					_this.pushAll();
+				}
+			});
 		},
-		
+
 		// 本地图片上传
-		uploadImg(item){
+		uploadImg(item) {
 			// 进行循环上传
 			uni.uploadFile({
-				url: _this.api.api_root + 'picture/upload', //仅为示例，非真实的接口地址
+				url: siteInfo.siteroot + 'picture/upload', //仅为示例，非真实的接口地址
 				filePath: item.url,
 				name: 'file',
 				header: { 'Content-Type': 'multipart/form-data' },
 				success: res => {
 					if (res.statusCode == 200) {
-						console.log('文件上传成功', res);
-						// console.log('上传成功',JSON.parse(res.data).data);
-						// if( !_this.chooseImg){
-						console.log('向imgArr 添加图片');
+						// console.log('文件上传成功', res);
+						// console.log('向imgArr 添加图片');
 						// 如果 用户 选择了 新的图片，则进行添加
 						_this.imgArr.push(JSON.parse(res.data).data);
-						// }
 						_this.num++;
-			
-						
-						// if (_this.num == _this.images.length || _this.imgArr.length == _this.images.length) {
-						// 	// _this.chooseImg = false
-						// 	console.log('所有图片上传完毕');
-									
-						// 	_this.pushAll();
-						// }
-						
 					} else {
 						console.log('res ==》', res);
 					}
 				},
 				fail: res => {
-					console.log('失败',res)
+					console.log('失败', res);
 				}
 			});
-			
 		},
-		
+
 		// 进行整体上传
 		pushAll() {
-			let _this = this;
 			// this.pushImg().
 			// 判断 用户是否进行了完整的 填写
 			if (this.images.length == 0 && this.title.length == 0 && this.areaVal.length == 0) {
@@ -235,46 +188,43 @@ export default {
 					icon: 'none'
 				});
 				return;
-			} 
-				console.log('用户完成 修改操作 进行重新提交');
-
-				this.api._put(
-					'article',
-					{
-						id: _this.oldItem.id,
-						coverUrl: _this.imgArr[0], //封面图
-						content: _this.areaVal, //内容
-						title: _this.title, //标题
-						images: _this.imgArr.join(',') //图片
-					},
-					function(res) {
-						console.log(res);
-						uni.switchTab({
-							url:`/pages/my/my`
-						})
-						_this.areaVal = ''
-						_this.count = 0
-						_this.title = ''
-						_this.topic = ''
-						_this.images = []
-						_this.imgArr = []
-						// 上传成功
-						_this.btn_statue = false
-					}
-				);
-			// }
+			}
+			console.log('用户完成 修改操作 进行重新提交');
+			this.http({
+				url: 'article',
+				method: 'PUT',
+				data: {
+					id: this.oldItem.id,
+					coverUrl: this.imgArr[0], //封面图
+					content: this.areaVal, //内容
+					title: this.title, //标题
+					images: this.imgArr.join(',') //图片
+				}
+			}).then(res => {
+				uni.switchTab({
+					url: `/pages/my/my`
+				});
+				this.areaVal = '';
+				this.count = 0;
+				this.title = '';
+				this.topic = '';
+				this.images = [];
+				this.imgArr = [];
+				// 上传成功
+				this.btn_statue = false;
+			});
 		},
-		
+
 		// 点击查看所选图片详情
 		detailImg(num) {
 			console.log('预览图片');
 			let imgarr = [];
 
 			// 改变 当前 相册数组结构
-			if(num == 1){
+			if (num == 1) {
 				// 代表用户查看封面详情
 				imgarr.push(this.TImg);
-			}else{
+			} else {
 				this.images.forEach(item => {
 					imgarr.push(item.url);
 				});
@@ -286,20 +236,17 @@ export default {
 				loop: true
 			});
 		},
-		
+
 		// 删除作品图片
-		clear(num,index) {
-			
-			if(num ==1 ){
+		clear(num, index) {
+			if (num == 1) {
 				// 用户删除 封面图
-				this.TImg = ''
-			}else{
+				this.TImg = '';
+			} else {
 				// 用户修改上传的文章内容
-				console.log('删除当前作品');
+				// console.log('删除当前作品');
 				this.$emit('clear');
-				
-				console.log('当前作品列表 ==》', this.images);
-				
+				// console.log('当前作品列表 ==》', this.images);
 				// 操作数组删除选定的一项
 				this.images.splice(index, 1);
 				this.imgArr.splice(index, 1);
@@ -308,12 +255,8 @@ export default {
 				this.num = this.num - 1;
 				// 修改当前 可以进行选择的图片
 				this.count = this.images.length;
-				console.log('删除操作之后的作品列表 ==》', this.images);
-						
+				// console.log('删除操作之后的作品列表 ==》', this.images);
 			}
-			
-			
-			
 		},
 
 		// 获取本地拍摄的作品
@@ -331,7 +274,6 @@ export default {
 					that.chooseImg = true;
 					var length = res.tempFilePaths.length; // 获取本次选择图片的数量
 					that.count += length;
-
 					// 判断所选图片 每张不能超过 1 M
 					console.log('选择的图片', res);
 					res.tempFiles.forEach((item, index) => {
@@ -342,7 +284,6 @@ export default {
 							});
 						}
 					});
-
 					// 将选择的 图片本地地址进行存储
 					res.tempFilePaths.forEach(item => {
 						that.images = that.images.concat({ url: item });
@@ -373,13 +314,13 @@ export default {
 		margin-top: 20rpx;
 	}
 	// 当前文章话题
-	.topic{
+	.topic {
 		margin-top: 20rpx;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		.le{
-			.tag{
+		.le {
+			.tag {
 				display: inline-block;
 				width: 32rpx;
 				text-align: center;
@@ -391,16 +332,16 @@ export default {
 			}
 		}
 		// 当用户选择好了话题之后
-		&.act{
-			.le{
+		&.act {
+			.le {
 				color: #5994e2;
-				.tag{
+				.tag {
 					background-color: #5994e2;
 				}
 			}
 		}
 	}
-	
+
 	// 上传图片的描述
 	.txt_area {
 		width: 100%;
@@ -414,7 +355,7 @@ export default {
 		border-top: 1rpx solid #f2f2f2;
 		border-bottom: 1rpx solid #f2f2f2;
 	}
-	
+
 	// 文章内容
 	.uni-popup-message-text {
 		width: 100%;
@@ -425,8 +366,7 @@ export default {
 		flex-direction: column;
 		align-items: flex-start;
 		overflow: hidden;
-		
-		
+
 		// 封面
 		.tit {
 			margin-top: 10px;
@@ -446,7 +386,6 @@ export default {
 			justify-content: center;
 			align-items: center;
 			border-radius: 23rpx;
-			
 		}
 		.cover_content {
 			margin-top: 20rpx;
@@ -467,7 +406,7 @@ export default {
 				width: 100%;
 				height: 100%;
 			}
-		
+
 			.img {
 				position: absolute;
 				width: 40rpx;
@@ -476,8 +415,7 @@ export default {
 				right: -16rpx;
 			}
 		}
-		
-		
+
 		// 二手图片显示
 		.img_box {
 			width: 100%;

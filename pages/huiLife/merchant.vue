@@ -1,6 +1,6 @@
 <template>
 	<view class="merchant">
-		<!-- 当前商家的背景图 -->
+		<!-- 当前商家的背景图 :src="store[index].frontImg" -->
 		<view class="bg">
 			<image 
 				src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg"
@@ -13,18 +13,18 @@
 			<view class="merchant_msg_msg">
 				<!-- 商家名称，营业时间等 -->
 				<view class="head">
-					<text class="title">鱼兹娃味</text>
+					<text class="title">{{store_msg.companyName}}</text>
 					<view class="time">
 						<text class="icon iconfont iconshijian"></text>
 						<text>营业时间：11:00~15:00、17:00~22:00</text>
 					</view>
 					<view class="location">
 						<text class="icon iconfont icondidian"></text>
-						<text>复兴中路仁达园南门西侧底商</text>
+						<text>{{store_msg.companyAddress}}</text>
 					</view>
 					<!-- 当前店铺的商标 -->
 					<view class="logo">
-						<image src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg" 
+						<image :src="store[index].frontImg" 
 							mode="widthFix">
 						</image>
 					</view>
@@ -44,6 +44,7 @@
 					<view class="li_item" 
 						v-for="(item,index) in [1,2,3] "
 						:key="index"
+						@click="jumpGoodsDetail"
 						>
 						<view class="le">
 							<image src="https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2319343996,1107396922&fm=26&gp=0.jpg" 
@@ -127,10 +128,25 @@
 </template>
 
 <script>
+	// 导入模拟的 商户数据
+	import store from '@/data/data.js'
 	import uniPopupHuicode from '@/components/uni-popup/uni-popup-huicode.vue';
 	export default {
 		data() {
 			return {
+				// 商家 id
+				companyId:'',
+				// 当前商家信息列表
+				store_msg:[],
+				// 当前商家 商品列表
+				goodsList:[],
+				
+				
+				
+				
+				
+				// 商户数据
+				store:store.store[0].data.poiList.poiInfos,
 				// 当前店铺的照片
 				photoList:[
 					'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2668268226,1765897385&fm=26&gp=0.jpg',
@@ -142,14 +158,44 @@
 				hasCode:false,
 				// 优惠码地址
 				codesrc:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2852594709,2202399704&fm=26&gp=0.jpg',
-				
-				
 			}
 		},
 		components:{
 			uniPopupHuicode
 		},
+		onLoad(options) {
+			this.companyId = options.companyId
+			this.getGoodsList()
+			this.getStoreMsg()
+		},
 		methods:{
+			// 根据商家id 获取其相应的商品
+			getGoodsList(){
+				this.http({
+					url:'product/list',
+					data:{
+						companyId:7
+					}
+				}).then(res => {
+					console.log('获取相应商家的商品 res',res)
+					
+				})
+			},
+			// 根据商家id 获取其详细信息
+			getStoreMsg(){
+				this.http({
+					url:'company/8'
+				}).then(res => {
+					console.log('商家详情',res)
+					this.store_msg = res.data
+				})
+			},
+			// 跳转到商品详情页
+			jumpGoodsDetail(){
+				uni.navigateTo({
+					url:'/pages/huiLife/goodsDetail'
+				})
+			},
 			// 预览商户相册图片
 			previewImage(e){
 				console.log('图片预览',e.currentTarget.dataset.num)
@@ -184,7 +230,7 @@
 			// 用户点击进行拨打电话
 			callPhone(){
 				uni.makePhoneCall({
-				    phoneNumber: '15930245253' 
+				   phoneNumber: '15930245253' 
 				});
 			},
 		}
@@ -238,7 +284,12 @@
 					padding-bottom: 38rpx;
 					background-color: #FFFFFF;
 					.title{
-						font-size: 50rpx;
+						display: inline-block;
+						font-size: 32rpx;
+						width: 380rpx;
+						white-space: nowrap;
+						text-overflow: ellipsis;
+						overflow: hidden;
 					}
 					.time{
 						margin-top: 50rpx;

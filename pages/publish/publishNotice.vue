@@ -8,8 +8,6 @@
 						<image :src="item.url" mode="aspectFit"></image>
 						<image class="img" @tap.stop="clear(num, index)" src="../../static/close_video.png" mode=""></image>
 					</view>
-					<!-- 选择片或视频 -->
-					<!-- <view v-if="!(images.length == nowCount)" class="content" @tap.stop="chooseVideoImage"> -->
 					<!-- 选择图片 -->
 					<view v-if="!(images.length == nowCount)" class="content" @tap.stop="chooseImages">
 						<!-- 十字图案 -->
@@ -17,19 +15,18 @@
 					</view>
 				</view>
 			</view>
-			
-			<!-- 视频 图文选择发布 -->
-			<!-- <view v-if="!btn_statue" class="btn" @tap.stop="publish">发布</view> -->
 			<!-- 只发布图文 -->
 			<view v-if="!btn_statue" class="btn" @tap.stop="pushImg">发布</view>
 			<!-- 只发布视频 -->
-			<!-- <view v-if="!btn_statue" class="btn" @tap.stop="startUpload">发布</view> -->
 			<view v-else class="btn" style="background-color: #BBBBBB;">发布中...</view>
-			
-			
 		</view>
 		<!-- 文章标题 -->
-		<input class="input" type="text" @input="titInput" name="title" :value="title" placeholder="添加标题会有更多赞哦" />
+		<input class="input" type="text" @input="titInput" name="title" 
+			:value="title" placeholder="添加标题会有更多赞哦" 
+			maxlength="6"
+			/>
+			<!-- maxlength="10" -->
+			
 		<!-- 用户填写的内容 -->
 		<textarea :show-confirm-bar="false" name="area" :value="areaVal" class="txt_area" @input="areaInput" placeholder="说说此刻心情" :maxlength="-1" />
 		<!-- 滚动选择赛事的类型 -->
@@ -47,12 +44,11 @@
 </template>
 
 <script>
-// const VodUploader = require('../../components/vod-wx-sdk-v2.js');
+	// 网站的基本信息，用于上传图片使用
+	import siteInfo from '@/siteinfo.js'
 export default {
 	data() {
 		return {
-			// 0 上传图片  1 上传视频
-			publish_type: '',
 			// 用户选择的话题
 			topic: '',
 			// 选择的大赛类型
@@ -75,57 +71,30 @@ export default {
 			btn_statue: false, //上传按钮是否显示
 			title: '', //文章的标题
 			areaVal: '', //文本域内的文字
-			// 腾讯sdk 上传的文件
-			videoFile: null,
 			// 文件的上传进度
 			progress: 0,
-			cameraList: [
-				{
-					value: 'back',
-					name: '后置摄像头',
-					checked: 'true'
-				},
-				{
-					value: 'front',
-					name: '前置摄像头'
-				}
-			]
 		};
 	},
 	onLoad(option) {
-		console.log('上传文章的界面  option', option);
+		// console.log('上传文章的界面  option', option);
 		// 获取发布文章的 话题
-		this.api._get(
-			'subject/onGoing',
-			{
+		this.http({
+			url:'subject/onGoing',
+			data:	{
 				subjectTypeId: '',
 				pageNum: 1,
 				pageSize: 10
-			},
-			res => {
-				console.log('请求大赛类型', res);
-				this.game_type = res.data.list;
 			}
-		);
+		}).then(res => {
+			this.game_type = res.data.list;
+		})
 	},
 	onShow() {
-		console.log('页面显示');
 		this.btn_statue = false;
 		this.topic = JSON.parse(uni.getStorageSync('gameMsg')).subjectTitle;
 		this.subjectId = JSON.parse(uni.getStorageSync('gameMsg')).subjectId;
 	},
 	methods: {
-		// 定义获取腾讯视频的上传签名的函数
-		getSignature: function(callback) {
-			let _this = this;
-			_this.api._get('cloud/vod/getUploadSignature', {}, function(res) {
-				if (res.errno == 0) {
-					callback(res.data);
-				} else {
-					return '获取签名失败';
-				}
-			});
-		},
 		// 筛选大赛类型
 		bindPickerChange(e) {
 			console.log('picker发送选择改变，携带值为', e);
@@ -143,15 +112,9 @@ export default {
 		},
 		// 点击上传按钮进行上传操作
 		publish() {
-			if (this.publish_type == 0) {
-				// 上传图片
-				this.pushImg();
-			} else if (this.publish_type == 1) {
-				// 上传视频
-				this.startUpload();
-			}
+			// 上传图文
+			this.pushImg();
 		},
-
 		// 进行图片的上传
 		pushImg() {
 			// 在进行上传的时候 要保证 imgArr 为 空
@@ -177,12 +140,14 @@ export default {
 				// 因为 微信小程序中只能单文件上传
 				// 进行循环上传
 				uni.uploadFile({
-					url: _this.api.api_root + 'picture/upload', //仅为示例，非真实的接口地址
+					url: siteInfo.siteroot + 'picture/upload', //仅为示例，非真实的接口地址
+					// url: 'https://xsh.taihangyizhan.com/wx/' + 'picture/upload', //仅为示例，非真实的接口地址
 					filePath: item.url,
 					name: 'file',
 					header: { 'Content-Type': 'multipart/form-data' },
 					success: res => {
 						if (res.statusCode == 200) {
+							console.log('res',res)
 							let data = JSON.parse(res.data);
 							// 当图片信息敏感的时候
 							if (data.errno == 500) {
@@ -198,6 +163,7 @@ export default {
 							_this.imgArr.push(JSON.parse(res.data).data);
 							_this.num++;
 							if (_this.num == _this.images.length || _this.imgArr.length == _this.images.length) {
+								// console.log('调用 pushAll 方法')
 								_this.pushAll();
 							}
 						} else {
@@ -214,52 +180,50 @@ export default {
 		},
 		// 进行整体上传
 		pushAll() {
-			let _this = this;
 			// 用户进行上传操作
-			this.api._post(
-				'article',
-				{
-					coverUrl: _this.TImg || _this.imgArr[0], //封面图
-					content: _this.areaVal, //内容
-					title: _this.title, //标题
-					images: _this.imgArr.join(','), //图片
-					subjectId: _this.subjectId
-				},
-				function(res) {
-					console.log(res);
-					uni.hideLoading();
-					// 提示上传结果
-					uni.showToast({
-						title: '发布' + res.errmsg,
-						icon: 'none',
-						success() {
-							// 跳转到 我的界面
-							uni.switchTab({
-								url: '/pages/my/my'
-							});
-						}
-					});
-					// 清空当前的数据
-					_this.areaVal = '';
-					_this.count = 0;
-					_this.title = '';
-					_this.topic = '';
-					_this.images = [];
-					_this.imgArr = [];
-					// 上传成功
-					_this.btn_statue = false;
-				},
-				function(res) {
-					console.log(res);
-					uni.hideLoading();
-					_this.btn_statue = false;
-					// 提示上传结果
-					uni.showToast({
-						title: '发布失败',
-						icon: 'none'
-					});
+			this.http({
+				url:'article',
+				method:'POST',
+				data:{
+					coverUrl: this.TImg || this.imgArr[0], //封面图
+					content: this.areaVal, //内容
+					title: this.title, //标题
+					images: this.imgArr.join(','), //图片
+					subjectId: this.subjectId
 				}
-			);
+			}).then(res => {
+				console.log(res);
+				uni.hideLoading();
+				// 提示上传结果
+				uni.showToast({
+					title: '发布' + res.errmsg,
+					icon: 'none',
+					success() {
+						// 跳转到 我的界面
+						uni.switchTab({
+							url: '/pages/my/my'
+						});
+					}
+				});
+				// 清空当前的数据
+				this.areaVal = '';
+				this.count = 0;
+				this.title = '';
+				this.topic = '';
+				this.images = [];
+				this.imgArr = [];
+				// 上传成功
+				this.btn_statue = false;
+			}).catch(error => {
+				console.log(res);
+				uni.hideLoading();
+				this.btn_statue = false;
+				// 提示上传结果
+				uni.showToast({
+					title: '发布失败',
+					icon: 'none'
+				});
+			})
 		},
 		// 点击查看所选图片详情
 		detailImg(num) {
@@ -299,26 +263,6 @@ export default {
 				this.count = this.images.length;
 			}
 		},
-		// 获取本地的图片 或 视频
-		chooseVideoImage() {
-			// console.log('调用接口获取本地图片');
-			// 调用内部接口获取拍摄的视频
-			//成功获取本地视频的地址之后，显示视频的第一帧
-			// var count = that.count; // 最多可以选择的图片张数
-			uni.showActionSheet({
-				title: '选择上传类型',
-				itemList: ['图片', '视频'],
-				success: res => {
-					console.log(res);
-					this.publish_type = res.tapIndex;
-					if (res.tapIndex == 0) {
-						this.chooseImages();
-					} else {
-						this.chooseVideo();
-					}
-				}
-			});
-		},
 		// 上传图片
 		chooseImages() {
 			var that = this;
@@ -333,8 +277,9 @@ export default {
 					console.log('选择的图片', res);
 					res.tempFiles.forEach((item, index) => {
 						if (item.size > 1024 * 1024) {
+							let num = index + 1
 							uni.showToast({
-								title: '第' + index + '张图片大小超过1m,请重新选择',
+								title: '第' + num + '张图片大小超过1m,请重新选择',
 								icon: 'none'
 							});
 						}
@@ -346,66 +291,6 @@ export default {
 				}
 			});
 		},
-		// 上传视频
-		chooseVideo() {
-			let _this = this;
-			uni.chooseVideo({
-				maxDuration: 60,
-				count: 1,
-				// camera: this.cameraList[this.cameraIndex].value,
-				camera: _this.cameraList[0].value,
-				sourceType: ['album'],
-				success: responent => {
-					// 云点播播放 视频文件参数
-					_this.videoFile = responent;
-					// 显示的封面
-					_this.images = _this.images.concat({ url: _this.videoFile.thumbTempFilePath });
-				}
-			});
-		},
-		// sdk 上传
-		startUpload() {
-			let _this = this;
-			_this.btn_statue = true;
-
-			// 上传视频到腾讯云
-			const uploader = VodUploader.start({
-				// 必填，把 wx.chooseVideo 回调的参数(file)传进来
-				mediaFile: _this.videoFile,
-				// 必填，获取签名的函数
-				getSignature: _this.getSignature,
-				// 选填，视频名称，强烈推荐填写(如果不填，则默认为“来自小程序”)
-				mediaName: _this.title,
-				// 选填，视频封面，把 wx.chooseImage 回调的参数(file)传进来
-				coverFile: '',
-				// 上传错误回调，处理异常
-				error: function(result) {
-					console.log('error');
-					console.log(result);
-					wx.showModal({
-						title: '请重新选择视频',
-						content: '视频长度为俩分钟',
-						showCancel: false
-					});
-					_this.btn_statue = false;
-				},
-				// 上传中回调，获取上传进度等信息
-				progress: function(result) {
-					console.log('progress');
-					console.log(result);
-				},
-				// 上传完成回调，获取上传后的视频 URL 等信息
-				finish: function(result) {
-					console.log('finish');
-					console.log(result);
-					wx.showModal({
-						title: '上传成功',
-						content: 'fileId:' + result.fileId + '\nvideoName:' + result.videoName,
-						showCancel: false
-					});
-				}
-			});
-		}
 	}
 };
 </script>

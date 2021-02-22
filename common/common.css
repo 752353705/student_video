@@ -1,0 +1,266 @@
+
+
+page{
+	height: 100%;
+	font-family: PingFangSC-Regular, PingFang SC;
+	font-size: 28rpx;
+}
+
+/* 页面背景主色 */
+.page_bg_F5F4F9{
+	background-color: #F5F4F9;
+}
+
+/* 常用颜色 */
+.c_276A39{
+	color: #276A39;
+}
+.c_FF3B30{
+	color: #FF3B30;
+}
+.c_6D7278{
+	color: #6D7278;
+}
+.c_666666{
+	color: #666666;
+}
+.c_E93637{
+	color: #E93637;
+}
+.c_29A04C{
+	color: #29A04C;
+}
+.c_999999{
+	color: #999999;
+}
+.c_B1B9BE{
+	color: #B1B9BE;
+}
+.c_328949{
+	color: #328949;
+}
+
+
+/* 兼容苹果端 圆角问题 */
+.ios_cri{
+	border-radius: 50%;
+	overflow: hidden;
+	-webkit-backface-visibility: hidden;
+	-webkit-transform: translate3d(0, 0, 0);
+}
+.c{
+	background-color: red;
+}
+
+/*文字位置*/
+/* 居中 */
+.text_center{
+  text-align: center;
+}
+/* 向右 */
+.text_right{
+  text-align: right;
+}
+.text_left{
+  text-align: left;
+}
+
+/* 外边距范围 */
+/* 上 */
+.ma_t3{
+	margin-top: 6rpx;
+}
+.ma_t4{
+	margin-top: 8rpx;
+}
+.ma_t5{
+	margin-top: 10rpx;
+}
+.ma_t6{
+	margin-top: 12rpx;
+}
+.ma_t7{
+	margin-top: 14rpx;
+}
+.ma_t8{
+	margin-top: 16rpx;
+}
+.ma_t9{
+	margin-top: 18rpx;
+}
+.ma_t10{
+	margin-top: 20rpx;
+}
+.ma_t11{
+	margin-top: 22rpx;
+}
+.ma_t12{
+	margin-top: 24rpx;
+}
+.ma_t14{
+	margin-top: 24rpx;
+}
+.ma_t15{
+	margin-top: 30rpx;
+}
+.ma_t16{
+	margin-top: 32rpx;
+}
+
+/* 右 */
+.ma_r13{
+	margin-right: 26rpx;
+}
+.ma_r18{
+	margin-right: 36rpx;
+}
+.ma_r36{
+	margin-right: 72rpx;
+}
+
+/* 下 */
+.ma_b4{
+	margin-bottom: 8rpx;
+}
+.ma_b10{
+	margin-bottom: 20rpx;
+}
+.ma_b13{
+	margin-bottom: 26rpx;
+}
+.ma_b19{
+	margin-bottom: 38rpx;
+}
+
+/* 左 */
+.ma_l2{
+	margin-left: 4rpx;
+}
+.ma_l3{
+	margin-left: 6rpx;
+}
+.ma_l4{
+	margin-left: 8rpx;
+}
+.ma_l8{
+	margin-left: 16rpx;
+}
+.ma_l9{
+	margin-left: 18rpx;
+}
+.ma_l13{
+	margin-left: 26rpx;
+}
+.ma_l20{
+	margin-left: 40rpx;
+}
+.ma_l21{
+	margin-left: 42rpx;
+}
+/* 字体大小 */
+.f_7{
+	font-size: 14rpx;
+}
+.f_8{
+	font-size: 16rpx;
+}
+.f_9{
+	font-size: 18rpx;
+}
+.f_10{
+	font-size: 20rpx;
+}
+.f_11{
+	font-size: 22rpx;
+}
+.f_12{
+	font-size: 24rpx;
+}
+.f_13{
+	font-size: 26rpx;
+}
+.f_14{
+	font-size: 28rpx;
+}
+.f_16{
+	font-size: 32rpx;
+}
+.f_15{
+	font-size: 30rpx;
+}
+.f_17{
+	font-size: 34rpx;
+}
+.f_18{
+	font-size: 36rpx;
+}
+.f_19{
+	font-size: 38rpx;
+}
+.f_20{
+	font-size: 40rpx;
+}
+.f_21{
+	font-size: 42rpx;
+}
+.f_24{
+	font-size: 48rpx;
+}
+
+/* 字体加粗 */
+.f_w_bold{
+	font-weight: bold;
+}
+
+
+/* 弹性盒 */
+.dis_flex_center{
+	display: flex;
+	justify-content: center;
+}
+.dis_flex_start{
+	display: flex;
+	justify-content: flex-start;
+}
+.dis_flex_between{
+	display: flex;
+	justify-content: space-between;
+}
+.dis_flex_end{
+	display: flex;
+	justify-content: flex-end;
+}
+.dis_flex_evenly{
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.item_center{
+	align-items: center;
+}
+.item_start{
+	align-items: flex-start;
+}
+
+/* 多行文字省略 */
+.ellipsis_2{
+	overflow:hidden; 
+	text-overflow:ellipsis;
+	display:-webkit-box;
+	/* autoprefixer: off */
+	-webkit-box-orient:vertical;
+	/* autoprefixer: on */
+	-webkit-line-clamp:2; 
+}
+
+/* 标准盒模型 */
+.box_size{
+	box-sizing: border-box;
+}
+
+/* 边框弧度 */
+.border_5{
+	border-radius: 10rpx;
+}
+
+

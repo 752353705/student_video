@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "优选商家",
+  "usingComponents": {
+    "uni-popup": "/components/uni-popup/uni-popup",
+    "uni-popup-huicode": "/components/uni-popup/uni-popup-huicode"
+  }
+}

@@ -2,7 +2,7 @@
   "navigationBarTextStyle": "white",
   "navigationStyle": "custom",
   "usingComponents": {
-    "u-count-down": "/node-modules/uview-ui/components/u-count-down/u-count-down",
-    "uni-popup-sigin": "/components/uni-popup/uni-popup-sigin"
+    "u-notice-bar": "/node-modules/uview-ui/components/u-notice-bar/u-notice-bar",
+    "u-count-down": "/node-modules/uview-ui/components/u-count-down/u-count-down"
   }
 }

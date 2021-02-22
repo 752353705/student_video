@@ -1,34 +1,72 @@
 {
-  "description": "项目配置文件。",
-  "packOptions": {
-    "ignore": []
-  },
-  "setting": {
-    "urlCheck": false,
-    "minified": false,
-    "postcss": false,
-    "es6": true
-  },
-  "compileType": "miniprogram",
-  "libVersion": "",
-  "appid": "wx35ae62ee04cc537b",
-  "projectname": "student_video",
-  "condition": {
-    "search": {
-      "current": -1,
-      "list": []
-    },
-    "conversation": {
-      "current": -1,
-      "list": []
-    },
-    "game": {
-      "current": -1,
-      "list": []
-    },
-    "miniprogram": {
-      "current": -1,
-      "list": []
-    }
-  }
+	"description": "项目配置文件。",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": false,
+		"minified": false,
+		"postcss": false,
+		"es6": true
+	},
+	"compileType": "miniprogram",
+	"libVersion": "",
+	"appid": "wx35ae62ee04cc537b",
+	"projectname": "student_video",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"current": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": 0,
+			"list": [
+				{
+					"name": "惠生活",
+					"id": 0,
+					"pathName": "pages/huiLife/huiLife"
+				},
+				{
+					"name": "我的订单",
+					"id": 1,
+					"pathName": "pages/huiLife/order"
+				},
+				{
+					"name": "支付订单",
+					"id": 2,
+					"pathName": "pages/huiLife/pay"
+				},
+				{
+					"name": "商品详情",
+					"id": 3,
+					"pathName": "pages/huiLife/goodsDetail"
+				},
+				{
+					"name": "娱乐",
+					"id": 4,
+					"pathName": "pages/huiLife/recreation"
+				},
+				{
+					"name": "娱乐详情",
+					"id": 5,
+					"pathName": "pages/huiLife/recreationDetail"
+				},
+				{
+					"name": "做题页面",
+					"id": 6,
+					"pathName": "pages/questionBank/questionBank"
+				}
+			]
+		}
+	}
 }

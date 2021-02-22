@@ -211,7 +211,15 @@
 					'justifyContent': 'center',
 					'alignItems': 'center'
 				}
+			},
+			/**
+			 * 操作弹窗，不进行弹出处理
+			 * 防止调用的时候报错
+			 * */
+			operation(){
+				
 			}
+		
 		}
 	}
 </script>

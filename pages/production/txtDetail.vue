@@ -84,7 +84,7 @@
 
 			<!-- 投票按钮  
 				当该作品参加的大赛截止之后不显示投票选项 -->
-			<view class="sendTicket" v-if="game_statue == 1" :id="!scroll_style ? 'animat' : ''" :class="scroll_style ? 'sendTicket_scroll' : ''" @click="sendGift(index)">
+			<view class="sendTicket" v-if="game_statue == 1 && !game_is_state " :id="!scroll_style ? 'animat' : ''" :class="scroll_style ? 'sendTicket_scroll' : ''" @click="sendGift(index)">
 				<image src="../../static/sendTitcket.png" mode=""></image>
 			</view>
 
@@ -112,7 +112,6 @@
 		</view>
 		<!-- 弹出公众号 二维码 -->
 		<qrcode-poster ref="poster" title="海报标题" :headerImg="code" subTitle="海报副标题" price="10" @close="close(index)"></qrcode-poster>
-
 		<!-- 送礼物弹出框 -->
 		<uni-popup ref="popupGifts" type="share"><uni-popup-gifts title="投票" @rankPopup="rankPopup" @recharge="recharge" @select="selectgift"></uni-popup-gifts></uni-popup>
 		<!-- 评论弹出框 -->
@@ -129,7 +128,6 @@
 				:txtId="txtId"
 			></uni-popup-comments>
 		</uni-popup>
-
 		<!-- 评论详情 弹出框 -->
 		<uni-popup ref="popupDetailComments" type="share">
 			<uni-popup-detail-comments
@@ -186,7 +184,7 @@ export default {
 
 			// 票数不够，弹框进行关注公众号充值
 			// 公众号二维码
-			code: 'https://i.loli.net/2020/12/14/QFs4AmIiw3Hyequ.jpg',
+			code: 'https://ceshigfsc.oss-cn-beijing.aliyuncs.com/c2f34846-f2f0-4fe6-a921-3d810625490e.jpg',
 			// 参加的大赛 当前进行状态
 			// 1 进行中  0 未开始 2 已结束
 			game_statue: 1,
@@ -233,7 +231,11 @@ export default {
 			detail_index: '',
 			
 			// 当前用户的个人信息
-			userInfo:''
+			userInfo:'',
+			
+			// 区分是否是 最美学子大赛
+			game_is_state:false
+			
 		};
 	},
 	components: {
@@ -263,28 +265,27 @@ export default {
 		// 获取当前用户的使用环境
 		// this.getPhoneType()
 		
-		// 获取当前用户的个人信息
-		this.getUsInfo()
+		// 显示 海报图
+		// this.$refs.poster.showCanvas(this.code);
+		
 		
 	},
 	onShow() {
-		this.api._post(
-			'history',
-			{
-				itemId: this.txtId,
-				itemType: 'A'
-			},
-			function(res) {}
-		);
+		// 获取当前用户的个人信息
+		this.getUsInfo()
+		// 进行浏览历史的记录
+		this.recordHistory()
+		// 获取排行
 		this.getRank();
+		
 	},
 	onHide() {
 		// 当用户退出页面之后，清除定时器
 		clearInterval(cirTime);
-		console.log('页面隐藏')
+		// console.log('页面隐藏')
 	},
 	onUnload() {
-		console.log('页面卸载')
+		// console.log('页面卸载')
 		clearInterval(cirTime);
 	},
 	// 触发页面的转发事件
@@ -295,11 +296,12 @@ export default {
 			console.log('按钮进行的转发', res);
 		}
 		// 调用 转发请求 记录用户转发了多少次
-		this.api._post(`article/forward/${_this.txtId}`, {}, function(res) {
-			// console.log('文章id 用户进行转发成功', res);
-
-			_this.txtItem.forwardCount++;
-		});
+		this.http({
+			url:`article/forward/${_this.txtId}`,
+			data:{}
+		}).then(res => {
+			this.txtItem.forwardCount++;
+		})
 
 		return {
 			title: this.txtItem.title,
@@ -352,18 +354,26 @@ export default {
 		}
 	},
 	methods: {
+		// 进行浏览历史的记录
+		recordHistory(){
+			this.http({
+				url:'history',
+				method:'POST',
+				data:{
+					itemId: this.txtId,
+					itemType: 'A'
+				},
+			})
+		},
 		// 获取用户的个人信息
 		getUsInfo(){
-			if(uni.getStorageSync('token')){
-				// 如果用户进行了登录操作，获取用户的个人信息
-				this.api._get(
-				'user/info',{},(res)=>{
-					console.log('获取用户当前的 H币',res)
-					this.userInfo = res.data
-				})
-			}
+			// 如果用户进行了登录操作，获取用户的个人信息
+			this.http({
+				url:'user/info'
+			}).then(res => {
+				this.userInfo = res.data
+			})
 		},
-		
 		// 用户浏览作品，倒计时奖励
 		seeTxtAward() {
 			cirTime = setInterval(() => {
@@ -371,58 +381,52 @@ export default {
 				if (this.percent !== this.limit) {
 					this.percent++;
 				} else {
-					// 弹出，提示框
-					this.msg = '恭喜浏览作品获得1票';
-					this.$refs.popup.open();
-					// 请求分享的接口增加票数
-					this.api._post(
-						`user/increaseGold?userId=${this.userInfo.userId}&goldNumber=1`,
-						{
-						
-						},
-						(res) => {
-							console.log('浏览成功，加票')
-							
-						}
-					);
-					
-					setTimeout(() => {
-						this.$refs.popup.close();
-					}, 1500);
-					clearInterval(cirTime);
+					this.http({
+						url:`user/increaseGold?userId=${this.userInfo.userId}&goldNumber=1`,
+						method:'POST'
+					}).then(res => {
+						// 请求成功
+						// 弹出，提示框
+						// 请求分享的接口增加票数
+						this.msg = '恭喜浏览作品获得1票';
+						this.$refs.popup.open();
+						// console.log('浏览成功，加票')
+						clearInterval(cirTime);
+					})
 				}
 			}, 1000);
 		},
-
 		// 根据该作品参加大赛的id 判断大赛的进程
 		// 然后决定是否显示  送礼物
 		subjectStatue(subjectId) {
-			this.api._get(`subject/${subjectId}`, {}, res => {
+			this.http({
+				url:`subject/${subjectId}`
+			}).then(res => {
 				this.game_statue = res.data.progressStatus;
-				console.log('获取大赛详情', res);
-			});
+			})
 		},
 		// 显示评论详情弹窗
 		showDetailComment(index) {
-			let _this = this;
 			this.detail_index = index;
 			// Object.assign(_this.detailMsgList,_this.msgList[index],{})
-			_this.detailMsgList = _this.msgList[index];
+			this.detailMsgList = this.msgList[index];
 			this.$refs.popupDetailComments.open();
 		},
 		// 获取当前作品的排名状况
 		getRank() {
-			this.api._get(`article/ranking/${this.txtId}`, {}, res => {
-				console.log('获取当前作品排行', res);
+			this.http({
+				url:`article/ranking/${this.txtId}`
+			}).then(res => {
 				this.rank = res.data;
-			});
+			})
 		},
 		// 获取用户刷礼物的记录
 		getUserGift(articleId) {
-			this.api._get(`gift/article/user/gift/${articleId}`, {}, res => {
-				console.log(' 获取刷礼物 res', res);
+			this.http({
+				url:`gift/article/user/gift/${articleId}`
+			}).then(res => {
 				this.giftRank = res.data;
-			});
+			})
 		},
 		// 用户点击大赛类型跳转到 该大赛详情
 		goGameDetail() {
@@ -439,9 +443,11 @@ export default {
 		},
 		// 获取礼物弹幕信息
 		getGift(articleId) {
-			this.api._get(`gift/article/gift/${articleId}`, {}, res => {
+			this.http({
+				url:`gift/article/gift/${articleId}`
+			}).then(res => {
 				this.list = res.data;
-			});
+			})
 		},
 		// 控制弹窗显隐
 		showSinBar() {
@@ -465,18 +471,16 @@ export default {
 		},
 		// 获取用户的粉丝的头像
 		getOtherFans() {
-			this.api._get(
-				'follow/otherUserfans',
-				{
+			this.http({
+				url:'follow/otherUserfans',
+				data:{
 					userId: this.txtItem.userId,
 					pageNum: this.pageNum,
 					pageSize: 10
-				},
-				res => {
-					console.log('获取其他人的粉丝列表 res ===>', res);
-					this.fanlist = res.data.list;
 				}
-			);
+			}).then(res => {
+				this.fanlist = res.data.list;
+			})
 		},
 		// 点击粉丝团 跳转到 粉丝列表
 		gofansLis() {
@@ -486,26 +490,25 @@ export default {
 		},
 		// 对图文进行收藏操作
 		collection() {
-			let _this = this;
-			this.api._post(
-				'collection',
-				{
+			this.http({
+				url:'collection',
+				method:'POST',
+				data:{
 					itemId: this.txtItem.id, //被关注的 作者id
 					itemType: 'A' //被关注的 作者id
-				},
-				function(res) {
-					_this.txtItem.collectionStatus = !_this.txtItem.collectionStatus;
-					console.log('进行收藏', res);
-					if (_this.txtItem.collectionStatus) {
-						console.log('进行收藏');
-						_this.msg = '收藏成功';
-						_this.$refs.popup.open();
-					} else {
-						_this.msg = '取消收藏';
-						_this.$refs.popup.open();
-					}
 				}
-			);
+			}).then(res => {
+				this.txtItem.collectionStatus = !this.txtItem.collectionStatus;
+				// console.log('进行收藏', res);
+				if (this.txtItem.collectionStatus) {
+					// console.log('进行收藏');
+					this.msg = '收藏成功';
+					this.$refs.popup.open();
+				} else {
+					this.msg = '取消收藏';
+					this.$refs.popup.open();
+				}
+			})
 		},
 		// 用户长按图片，将图片进行下载
 		downImg(imgsrc) {
@@ -578,26 +581,35 @@ export default {
 		},
 		// 获取 文章的详情
 		getTxtDetail(id) {
-			let _this = this;
-			this.api._get(`article/${id}`, {}, function(res) {
+			this.http({
+				url:`article/${id}`
+			}).then(res => {
 				console.log('获取文章的详情', res);
-				_this.txtItem = res.data;
-				_this.imgArr = res.data.images.split(',');
-
+				
+				this.txtItem = res.data;
+				this.imgArr = res.data.images.split(',');
 				// 获取粉丝团
-				_this.getOtherFans();
+				this.getOtherFans();
 				// 获取大赛进行转态
-				_this.subjectStatue(_this.txtItem.subjectId);
-			});
+				this.subjectStatue(this.txtItem.subjectId);
+				// 判断大赛是否是 最美学子大赛
+				console.log('this.txtItem.subjectId', this.txtItem.subjectId);
+				if(this.txtItem.subjectId == 16){
+					this.game_is_state = true
+				}
+				
+				
+			})
 		},
 		// 获取用户的H币
 		getHgold() {
-			let _this = this;
 			// 请求H币个数
-			this.api._get('user/gold', {}, function(res) {
-				_this.money = res.data.goldNumber;
-				_this.$refs.popupRecharge.open();
-			});
+			this.http({
+				url:'user/gold'
+			}).then(res => {
+				this.money = res.data.goldNumber;
+				this.$refs.popupRecharge.open();
+			})
 		},
 		// 当海报图生成之后，关闭分享弹窗
 		close(index) {
@@ -620,34 +632,16 @@ export default {
 		},
 		// 判断用户是否进行关注
 		focusOn() {
-			let _this = this;
-			if (!this.txtItem.followed) {
-				// 用户未关注
-				// 原先未关注 ，现在进行关注操作
-				this.api._post(
-					'follow',
-					{
-						followedId: _this.txtItem.userId //被关注的 作者id
-					},
-					function(res) {
-						// console.log('进行关注成功',res);
-						_this.txtItem.followed = !_this.txtItem.followed;
-						_this.getOtherFans();
-					}
-				);
-			} else {
-				_this.api._post(
-					'follow',
-					{
-						followedId: _this.txtItem.userId //被关注的 作者id
-					},
-					function(res) {
-						// console.log('进行取消关注成功', res);
-						_this.txtItem.followed = !_this.txtItem.followed;
-						_this.getOtherFans();
-					}
-				);
-			}
+			this.http({
+				url:'follow',
+				method:'POST',
+				data:{
+					followedId: this.txtItem.userId //被关注的 作者id
+				}
+			}).then(res => {
+				this.txtItem.followed = !this.txtItem.followed;
+				this.getOtherFans();
+			})
 		},
 		// 控制送礼物的弹窗
 		sendGift() {
@@ -663,54 +657,59 @@ export default {
 				success: function(res) {
 					if (res.confirm) {
 						// 用户点击确定之后，进行赠送礼物
-						_this.api._post(
-							'gift/article',
-							{
-								articleId: _this.txtItem.id,
-								giftId: e.item.giftId
-							},
-							function(res) {
-								if (res.data.errno === 507) {
-									// 票数不足然后弹出关注公众号，进行充值
-									_this.$refs.poster.showCanvas('https://oss.zhangyubk.com/cmqrcode.jpg');
-									// 关闭礼物弹窗
-									_this.$refs.popupGifts.close();
-								} else {
-									wx.hideLoading();
-									setTimeout(function() {
-										uni.showToast(
-											{
-												icon: 'none',
-												duration: 2000,
-												title: `投票成功`,
-												success() {
-													// wx.hideLoading()
-													setTimeout(function() {
-														_this.getRank();
-														// 重新弹出 谁谁送礼物的 弹框
-														_this.sinBar = true;
-														// console.log('头像',uni.getStorageSync('user_img'))
-														_this.list = [
-															{
-																avatarImage: uni.getStorageSync('user_img'),
-																giftImage: e.item.giftImage,
-																goldNumber: e.item.goldNumber
-															}
-														];
-													}, 2000);
-												}
-											},
-											500
-										);
-									});
-								}
-							}
-						);
+						_this.userSendGift(e,_this.txtItem.id,e.item.giftId)
 					} else if (res.cancel) {
 						console.log('用户点击取消');
 					}
 				}
 			});
+		},
+		// 赠送礼物接口
+		userSendGift(e,articleId,giftId){
+			let _this = this 
+			this.http({
+				url:'gift/article',
+				method:'POST',
+				data:{
+					articleId: articleId,
+					giftId: giftId
+				}
+			}).then(res => {
+				if (res.data.errno === 507) {
+					// 票数不足然后弹出关注公众号，进行充值
+					this.$refs.poster.showCanvas(this.code);
+					// 关闭礼物弹窗
+					this.$refs.popupGifts.close();
+				} else {
+					wx.hideLoading();
+					setTimeout(function() {
+						uni.showToast(
+							{
+								icon: 'none',
+								duration: 2000,
+								title: `投票成功`,
+								success() {
+									// wx.hideLoading()
+									setTimeout(function() {
+										_this.getRank();
+										// 重新弹出 谁谁送礼物的 弹框
+										_this.sinBar = true;
+										// console.log('头像',uni.getStorageSync('user_img'))
+										_this.list = [
+											{
+												avatarImage: uni.getStorageSync('user_img'),
+												giftImage: e.item.giftImage,
+												goldNumber: e.item.goldNumber
+											}
+										];
+									}, 3000);
+								}
+							},
+							500
+						);
+					});
+				}
+			})
 		},
 		// 获取评论
 		getComment() {
@@ -721,35 +720,34 @@ export default {
 				return;
 			} else {
 				// 发起请求 ，请求评论数据
-				this.api._get(
-					'article/comment/list',
-					{
+				this.http({
+					url:'article/comment/list',
+					data:{
 						pageNum: this.pageNum,
 						pageSize: 10,
 						articleId: this.txtId
-					},
-					function(res) {
-						console.log('请求文章评论 ===》 res', res.data.list);
-						// 修改默认的页数
-						// 参数一：当前页获取的数据量
-						// _this.mescroll.endSuccess(res.data.list.length);
-
-						// console.log('_this.msgList ===》',_this.msgList,"res.data.list ==>",res.data.list)
-						// 进行数组之间的拼接 如果请求回的内容相同 ，则不进行拼接
-						if (JSON.stringify(_this.msgList) == JSON.stringify(res.data.list) && res.data.list.length !== 0) return false;
-						_this.msgList = _this.msgList.concat(res.data.list);
-
-						if (res.data.list.length == 10) {
-							console.log('请求');
-							_this.pageNum++;
-							// 判断是否进行请求
-							_this.commentState = true;
-						} else {
-							console.log('不请求');
-							_this.commentState = false;
-						}
 					}
-				);
+				}).then(res => {
+					console.log('请求文章评论 ===》 res', res.data.list);
+					// 修改默认的页数
+					// 参数一：当前页获取的数据量
+					// _this.mescroll.endSuccess(res.data.list.length);
+					
+					// console.log('_this.msgList ===》',_this.msgList,"res.data.list ==>",res.data.list)
+					// 进行数组之间的拼接 如果请求回的内容相同 ，则不进行拼接
+					if (JSON.stringify(_this.msgList) == JSON.stringify(res.data.list) && res.data.list.length !== 0) return false;
+					_this.msgList = _this.msgList.concat(res.data.list);
+					
+					if (res.data.list.length == 10) {
+						console.log('请求');
+						_this.pageNum++;
+						// 判断是否进行请求
+						_this.commentState = true;
+					} else {
+						console.log('不请求');
+						_this.commentState = false;
+					}
+				})
 			}
 		},
 		// 点击发送评论 更新 评论信息

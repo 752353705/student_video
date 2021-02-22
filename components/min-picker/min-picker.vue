@@ -69,6 +69,8 @@
 		},
 		methods: {
 			bindChange: function(e) {
+				// console.log('改变',e)
+				
 				this.getDaysInOneMonth(this.years[e.target.value[0]], this.months[e.target.value[1]])
 				this.flag = true
 				const val = e.detail.value
@@ -139,6 +141,14 @@
 					b: this.month,
 					c: this.day
 				})
+				
+				// console.log('min-picker中的sure',{
+				// 	a: this.year,
+				// 	b: this.month,
+				// 	c: this.day
+				// })
+				
+				
 			}
 		}
 	}

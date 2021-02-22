@@ -29,12 +29,16 @@
 			},
 			// 用户进行提交
 			submit(){
-				this.api._put('user',{
-					userName:this.value
-				},(res)=>{
-					uni.navigateBack({
-						delta:1
-					})
+				this.http({
+					url:'user',
+					method:'PUT',
+					data:{
+						userName:this.value
+					}
+				}).then(() => {
+						uni.navigateBack({
+							delta:1
+						})
 				})
 			}
 		}

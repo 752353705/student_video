@@ -36,9 +36,6 @@
 }
 .u-lazy-item.data-v-f135ec92 {
   width: 100%;
-  -webkit-transform: transition3d(0, 0, 0);
-          transform: transition3d(0, 0, 0);
-  will-change: transform;
   display: block;
 }
 

@@ -137,31 +137,36 @@ export default {
 		},
 		// 对视频 页面的 评论进行点赞
 		seeVideoActive(id,index){
-			let _this = this
-			this.api._post("comment/likeComment",{
-				"commentId":id
-			},function(res){
-				console.log('进行评论点赞')
+			this.http({
+				url:"comment/likeComment",
+				method:'POST',
+				data:{
+					"commentId":id
+				}
+			}).then(res => {
 				// 对列表中显示的数据进行修改 应当调用父级的方法对其进行修改
-				_this.$emit('changeMsgList',index)
+				this.$emit('changeMsgList',index)
 			})
 		},
 		// 对 文章 的 评论 进行点赞
 		seeTxtActive(id,index){
-			let _this = this
-			this.api._post(`article/comment/liked/${id}`,{},function(res){
-				console.log('进行评论点赞')
+			this.http({
+				url:`article/comment/liked/${id}`,
+				method:'POST',
+			}).then(res => {
 				// 对列表中显示的数据进行修改 应当调用父级的方法对其进行修改
-				_this.$emit('changeMsgList',index)
+				this.$emit('changeMsgList',index)
 			})
 		},
 		// 对 二手 进行点赞
 		seeUsedActive(id,index){
-			let _this = this
-			this.api._post(`secondGoods/comment/liked/${id}`,{},function(res){
+			this.https({
+				url:`secondGoods/comment/liked/${id}`,
+				method:'POST'
+			}).then(res => {
 				console.log('进行二手评论点赞')
 				// 对列表中显示的数据进行修改 应当调用父级的方法对其进行修改
-				_this.$emit('changeMsgList',index)
+				this.$emit('changeMsgList',index)
 			})
 		},
 		

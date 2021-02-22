@@ -8,7 +8,16 @@
 	-webkit-transform: translate3d(0, 0, 0);
 }
 
-
+/* 两行隐藏 */
+.ellipsis_2{
+	overflow:hidden; 
+	text-overflow:ellipsis;
+	display:-webkit-box;
+	/* autoprefixer: off */
+	-webkit-box-orient:vertical;
+	/* autoprefixer: on */
+	-webkit-line-clamp:2; 
+}
 
 
 /*下划线*/

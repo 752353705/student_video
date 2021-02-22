@@ -58,7 +58,10 @@
 		methods:{
 			// 获取用户刷礼物的记录
 			getUserGift(articleId){
-				this.api._get(`gift/article/user/gift/${articleId}`,{},(res)=>{
+				this.http({
+					url:`gift/article/user/gift/${articleId}`,
+					data:{}
+				}).then(res => {
 					console.log('获取刷礼物 res',res)
 					this.giftRank = res.data
 				})

@@ -22,19 +22,6 @@ export default {
 				duration: 2000
 			});
 		});
-		
-		// 统计小程序查看的次数
-		this.api._post(
-			'app/views/update',
-			{
-			
-			},
-			(res) => {
-				console.log('更新次数',res)
-			}
-		);
-		
-		
 	},
 	onShow: function() {
 		// console.log('App Show');
@@ -55,6 +42,8 @@ export default {
 
 // 常用样式的文件
 @import './common.css';
+/* 引入公共样式 */
+@import './common/common.css';
 
 /*每个页面公共css */
 .html,

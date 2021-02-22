@@ -1,0 +1,159 @@
+
+page {
+	background: #F5F5F9;
+}
+
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+image {
+  width: 100%;
+  height: 100%;
+}
+.mall {
+  padding-bottom: 60rpx;
+}
+.mall .head_box {
+  background-color: #ffffff;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0rpx;
+  z-index: 10;
+}
+.mall .head_box .classification {
+  background-color: #ffffff;
+  width: 100%;
+  padding-bottom: 12rpx;
+}
+.mall .head_box .classification .classification_item {
+  color: #6d7278;
+  box-sizing: border-box;
+  position: relative;
+  border-left: 1rpx solid #e7ecf1;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  padding: 0rpx 20rpx;
+  width: 150rpx;
+}
+.mall .head_box .classification .classification_item.act {
+  color: #358d4d;
+}
+.mall .head_box .classification .classification_item .fri_img {
+  width: 4rpx;
+  height: 28rpx;
+}
+.mall .head_box .classification .classification_item .btm_border {
+  width: 78rpx;
+  height: 5rpx;
+  background-color: #358d4d;
+  margin-top: 8rpx;
+  position: absolute;
+  bottom: -11rpx;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+.mall .head_box .classification .classification_item:nth-child(1) {
+  border-right: 1rpx solid #e7ecf1;
+  padding-right: 20rpx;
+}
+.mall .head_box .classification .classification_item:nth-child(1) .fri_img {
+  margin-left: 20rpx;
+}
+.mall .head_box .classification .classification_item:nth-child(1) .btm_border {
+  width: 28rpx;
+}
+.mall .head_box .classification .classification_item:nth-child(2) {
+  border: none;
+}
+.mall .main {
+  padding: 0rpx 20rpx 0rpx;
+}
+.mall .main .item {
+  margin-top: 14rpx;
+  border-radius: 10rpx;
+  background-color: #FFFFFF;
+  padding: 24rpx 14rpx 14rpx 22rpx;
+}
+.mall .main .item .item_head .item_head_le {
+  width: 174rpx;
+  height: 174rpx;
+  background-color: #F1F8FF;
+  border-radius: 4rpx;
+  margin-right: 26rpx;
+}
+.mall .main .item .item_head .item_head_ri {
+  width: 488rpx;
+}
+.mall .main .item .item_head .item_head_ri .item_head_ri_head .item_head_ri_head_ri {
+  color: #2DA450;
+}
+.mall .main .item .item_head .item_head_ri .goods_des .describe {
+  font-weight: 400;
+}
+.mall .main .item .item_head .item_head_ri .price {
+  font-weight: 400;
+}
+.mall .main .item .item_head .item_head_ri .wuliu {
+  margin-top: 42rpx;
+}
+.mall .main .item .item_head .item_head_ri .wuliu .wuliu_li {
+  width: 134rpx;
+  line-height: 40rpx;
+  border-radius: 22rpx;
+  border: 2rpx solid #3CAA5D;
+  color: #000000;
+}
+.mall .main .item .item_head .item_head_ri .wuliu .wuliu_ri {
+  width: 134rpx;
+  line-height: 40rpx;
+  border-radius: 22rpx;
+  border: 2rpx solid #3CAA5D;
+  color: #3CAA5D;
+  margin-left: 20rpx;
+}
+.mall .no_order {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 224rpx;
+  white-space: 224rpx;
+}
+.mall .no_order image {
+  width: 182rpx;
+  height: 172rpx;
+}
+

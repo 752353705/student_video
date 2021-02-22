@@ -37,7 +37,7 @@ page{
 /* 行为相关颜色 */
 .propaganda {
   box-sizing: border-box;
-  padding: 0rpx 22rpx;
+  padding: 200rpx 22rpx;
   padding-top: 0rpx;
 }
 .propaganda .main {
@@ -45,9 +45,20 @@ page{
   box-sizing: border-box;
 }
 .propaganda .main .main_body .item {
-  background-color: #FFFFFF;
   margin: 24rpx 0rpx;
-  border-bottom: 1rpx solid #E3E3E3;
+}
+.propaganda .main .main_body .item .top_img {
+  position: relative;
+}
+.propaganda .main .main_body .item .top_img .txt {
+  font-weight: bold;
+  position: absolute;
+  bottom: 17rpx;
+  left: 0rpx;
+  color: white;
+  padding-left: 24rpx;
+  padding-right: 24rpx;
+  -webkit-text-stroke: 1rpx black;
 }
 .propaganda .main .main_body .item .top_img image {
   width: 100%;

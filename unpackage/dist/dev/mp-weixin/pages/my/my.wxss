@@ -175,10 +175,6 @@ button.data-v-0be17cc6::after {
   width: 32px;
   height: 32px;
 }
-.iconxinxiduanxinxiaoxitixingyoujiansixinyouxiang.data-v-0be17cc6 {
-  font-size: 33px;
-  margin-left: 25px;
-}
 .iconicon-test.data-v-0be17cc6 {
   font-size: 20px;
 }
